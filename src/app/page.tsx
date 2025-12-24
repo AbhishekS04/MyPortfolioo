@@ -35,7 +35,7 @@ export default function Home() {
           <div className="col-span-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group h-[500px] lg:h-full">
             {/* Top Left Location Tag */}
             <div className="absolute top-8 left-8 z-20">
-              <LocationTag city="New York" country="USA" timezone="EST" />
+              <LocationTag city="Kolkata " country="India" timezone="IST" />
             </div>
 
             <div className="z-10 h-full flex items-center">

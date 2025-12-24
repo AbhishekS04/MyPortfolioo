@@ -2,7 +2,14 @@
 
 import { useState, useEffect } from "react"
 
-export function LocationTag() {
+interface LocationTagProps {
+    city: string
+    country: string
+    timezone: string
+    className?: string
+}
+
+export function LocationTag({ city, country, timezone, className = "" }: LocationTagProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [currentTime, setCurrentTime] = useState("")
 
@@ -14,7 +21,7 @@ export function LocationTag() {
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
-                    timeZone: "Asia/Kolkata",
+                    timeZone: "Asia/Kolkata", // This remains hardcoded as "IST" implies this, but making it dynamic requires a valid IANA string
                 }),
             )
         }
@@ -27,7 +34,7 @@ export function LocationTag() {
         <button
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            className="group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.04)]"
+            className={`group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.04)] ${className}`}
         >
             <div className="relative flex items-center justify-center">
                 <span className="relative flex h-2 w-2">
@@ -38,14 +45,14 @@ export function LocationTag() {
 
             <div className="flex items-center gap-2 overflow-hidden">
                 <span
-                    className="text-sm font-medium text-white transition-all duration-500"
+                    className="text-sm font-medium text-white transition-all duration-500 whitespace-nowrap"
                     style={{
                         transform: isHovered ? "translateY(-100%)" : "translateY(0)",
                         opacity: isHovered ? 0 : 1,
                         position: isHovered ? "absolute" : "relative",
                     }}
                 >
-                    Kolkata, India
+                    {city.trim()}, {country}
                 </span>
 
                 <span
@@ -56,7 +63,7 @@ export function LocationTag() {
                         position: isHovered ? "relative" : "absolute",
                     }}
                 >
-                    {currentTime} IST
+                    {currentTime} {timezone}
                 </span>
             </div>
 
