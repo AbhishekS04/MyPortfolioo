@@ -2,13 +2,7 @@
 
 import { useState, useEffect } from "react"
 
-interface LocationTagProps {
-    city?: string
-    country?: string
-    timezone?: string
-}
-
-export function LocationTag({ city = "Kolkata", country = "India", timezone = "IST" }: LocationTagProps) {
+export function LocationTag() {
     const [isHovered, setIsHovered] = useState(false)
     const [currentTime, setCurrentTime] = useState("")
 
@@ -20,6 +14,7 @@ export function LocationTag({ city = "Kolkata", country = "India", timezone = "I
                     hour: "2-digit",
                     minute: "2-digit",
                     hour12: false,
+                    timeZone: "Asia/Kolkata",
                 }),
             )
         }
@@ -34,7 +29,6 @@ export function LocationTag({ city = "Kolkata", country = "India", timezone = "I
             onMouseLeave={() => setIsHovered(false)}
             className="group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.04)]"
         >
-            {/* Live pulse indicator */}
             <div className="relative flex items-center justify-center">
                 <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
@@ -42,7 +36,6 @@ export function LocationTag({ city = "Kolkata", country = "India", timezone = "I
                 </span>
             </div>
 
-            {/* Location text */}
             <div className="flex items-center gap-2 overflow-hidden">
                 <span
                     className="text-sm font-medium text-white transition-all duration-500"
@@ -52,7 +45,7 @@ export function LocationTag({ city = "Kolkata", country = "India", timezone = "I
                         position: isHovered ? "absolute" : "relative",
                     }}
                 >
-                    {city}, {country}
+                    Kolkata, India
                 </span>
 
                 <span
@@ -63,11 +56,10 @@ export function LocationTag({ city = "Kolkata", country = "India", timezone = "I
                         position: isHovered ? "relative" : "absolute",
                     }}
                 >
-                    {currentTime} {timezone}
+                    {currentTime} IST
                 </span>
             </div>
 
-            {/* Arrow indicator */}
             <svg
                 className="h-3 w-3 text-white/50 transition-all duration-300"
                 style={{
