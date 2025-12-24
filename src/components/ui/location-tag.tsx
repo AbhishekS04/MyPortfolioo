@@ -8,7 +8,7 @@ interface LocationTagProps {
     timezone?: string
 }
 
-export function LocationTag({ city = "San Francisco", country = "USA", timezone = "PST" }: LocationTagProps) {
+export function LocationTag({ city = "Kolkata", country = "India", timezone = "IST" }: LocationTagProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [currentTime, setCurrentTime] = useState("")
 
