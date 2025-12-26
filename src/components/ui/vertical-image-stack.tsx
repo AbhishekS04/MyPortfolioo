@@ -1,39 +1,56 @@
 "use client"
 
-import { useState, useCallback, useEffect, useRef } from "react"
-import { motion, type PanInfo } from "framer-motion"
+import { useEffect, useState, useRef, useCallback } from "react"
+import { motion, PanInfo } from "framer-motion"
 import Image from "next/image"
-import { ChevronUp, ChevronDown } from "lucide-react"
+import { supabase } from "@/lib/supabase"
 
-const images = [
-    {
-        id: 1,
-        src: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop",
-        alt: "Black sneaker with red sole",
-    },
-    {
-        id: 2,
-        src: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=1000&auto=format&fit=crop",
-        alt: "White minimalist sneaker",
-    },
-    {
-        id: 3,
-        src: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop",
-        alt: "Red athletic sneaker",
-    },
-    {
-        id: 4,
-        src: "https://images.unsplash.com/photo-1525966222134-fcfa99183646?q=80&w=1000&auto=format&fit=crop",
-        alt: "Urban walking shoe",
-    },
-    {
-        id: 5,
-        src: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop",
-        alt: "Green limited edition",
-    },
-]
+interface GalleryItem {
+    id: number;
+    src: string;
+    alt: string;
+}
 
 export function VerticalImageStack() {
+    const [images, setImages] = useState<GalleryItem[]>([]);
+
+    // Fallback static images to prevent empty state initially
+    const FALLBACK_IMAGES = [
+        {
+            id: 1,
+            src: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop",
+            alt: "Black sneaker with red sole",
+        },
+        {
+            id: 2,
+            src: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=1000&auto=format&fit=crop",
+            alt: "White minimalist sneaker",
+        },
+    ];
+
+    useEffect(() => {
+        const fetchGallery = async () => {
+            const { data } = await supabase
+                .from("gallery_images")
+                .select("*")
+                .order("display_order", { ascending: true });
+
+            if (data && data.length > 0) {
+                setImages(data.map((item, i) => ({
+                    id: i + 1,
+                    src: item.image_url,
+                    alt: item.alt_text || "Gallery Image"
+                })));
+            } else {
+                setImages(FALLBACK_IMAGES);
+            }
+        };
+        fetchGallery();
+    }, []);
+
+    // Ensure we always have an array
+    const displayImages = images.length > 0 ? images : FALLBACK_IMAGES;
+
     const [currentIndex, setCurrentIndex] = useState(0)
     const lastNavigationTime = useRef(0)
     const navigationCooldown = 400 // ms between navigations
@@ -45,11 +62,11 @@ export function VerticalImageStack() {
 
         setCurrentIndex((prev) => {
             if (newDirection > 0) {
-                return prev === images.length - 1 ? 0 : prev + 1
+                return prev === displayImages.length - 1 ? 0 : prev + 1
             }
-            return prev === 0 ? images.length - 1 : prev - 1
+            return prev === 0 ? displayImages.length - 1 : prev - 1
         })
-    }, [])
+    }, [displayImages.length])
 
     const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
         const threshold = 50
@@ -89,7 +106,7 @@ export function VerticalImageStack() {
     }, [handleWheel])
 
     const getCardStyle = (index: number) => {
-        const total = images.length
+        const total = displayImages.length
         let diff = index - currentIndex
         if (diff > total / 2) diff -= total
         if (diff < -total / 2) diff += total
@@ -110,7 +127,7 @@ export function VerticalImageStack() {
     }
 
     const isVisible = (index: number) => {
-        const total = images.length
+        const total = displayImages.length
         let diff = index - currentIndex
         if (diff > total / 2) diff -= total
         if (diff < -total / 2) diff += total
@@ -126,7 +143,7 @@ export function VerticalImageStack() {
 
             {/* Card Stack */}
             <div className="relative flex h-[400px] sm:h-[500px] w-full max-w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
-                {images.map((image, index) => {
+                {displayImages.map((image, index) => {
                     if (!isVisible(index)) return null
                     const style = getCardStyle(index)
                     const isCurrent = index === currentIndex
@@ -187,7 +204,7 @@ export function VerticalImageStack() {
 
             {/* Navigation dots */}
             <div className="absolute right-8 top-1/2 flex -translate-y-1/2 flex-col gap-2 z-20">
-                {images.map((_, index) => (
+                {displayImages.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => {
@@ -195,16 +212,12 @@ export function VerticalImageStack() {
                                 setCurrentIndex(index)
                             }
                         }}
-                        className={`h-2 w-2 rounded-full transition-all duration-300 ${index === currentIndex ? "h-6 bg-white" : "bg-white/30 hover:bg-white/50"
+                        className={`transition-all duration-300 rounded-full ${index === currentIndex ? "h-6 w-2 bg-white" : "h-2 w-2 bg-white/30 hover:bg-white/50"
                             }`}
                         aria-label={`Go to image ${index + 1}`}
                     />
                 ))}
             </div>
-
-
-
-
         </div>
     )
 }

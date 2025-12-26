@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { FEATURED_PROJECTS, Project } from "@/lib/data";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 function ProjectCard({ project }: { project: Project }) {
     return (
@@ -52,6 +54,64 @@ function ProjectCard({ project }: { project: Project }) {
 }
 
 export function FeaturedProjects() {
+    const [projects, setProjects] = useState<Project[]>(FEATURED_PROJECTS);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchProjects() {
+            try {
+                const { data, error } = await supabase
+                    .from('projects')
+                    .select('*')
+                    .eq('featured', true)
+                    .order('display_order', { ascending: true });
+
+                if (error) {
+                    console.error('Error fetching projects:', error);
+                    // Fallback to static data on error
+                    setProjects(FEATURED_PROJECTS);
+                } else if (data && data.length > 0) {
+                    // Map DB keys to frontend Project interface
+                    const mappedProjects: Project[] = data.map((item: any) => ({
+                        id: item.id,
+                        title: item.title,
+                        description: item.description,
+                        techStack: item.tech_stack || [],
+                        image: item.image_url,
+                        link: item.project_url,
+                    }));
+                    setProjects(mappedProjects);
+                } else {
+                    // no data found, fallback
+                    setProjects(FEATURED_PROJECTS);
+                }
+            } catch (err) {
+                console.error("Unexpected error fetching projects", err);
+                setProjects(FEATURED_PROJECTS);
+            } finally {
+                setIsLoading(false);
+            }
+        }
+
+        fetchProjects();
+    }, []);
+
+    // While loading, we could show skeletons, but for now we'll just show nothing or the previous state
+    // Since we fallback to static data, we can just render whatever is in `projects`
+
+    // Safety check: if projects is empty (e.g. initial render before effect), render nothing or skeletons.
+    // However, if we initialize with empty array, user sees nothing briefly.
+    // Let's initialize with empty and wait for fetch.
+
+    if (isLoading) {
+        // Optional: Add a subtle loading state or just return null to avoid layout shift
+        // But for a portfolio, immediate static content is often better.
+        // Given "Premium" requirement, a skeleton or smooth fade in is best.
+        // reusing the motion.div below handles the fade in.
+    }
+
+    const projectsToDisplay = projects.length > 0 ? projects : FEATURED_PROJECTS;
+
     return (
         <section id="featured-projects" className="py-20">
 
@@ -70,7 +130,7 @@ export function FeaturedProjects() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {FEATURED_PROJECTS.map((project, index) => (
+                {projects.map((project, index) => (
                     <motion.div
                         key={project.id}
                         initial={{ opacity: 0, y: 20 }}

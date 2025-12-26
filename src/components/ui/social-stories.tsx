@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, X, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { supabase } from "@/lib/supabase"
 
 export type SocialPlatform = "linkedin" | "instagram"
 
@@ -19,41 +20,12 @@ export interface Story {
     caption?: string
 }
 
-const STORIES: Story[] = [
-    {
-        id: "1",
-        platform: "linkedin",
-        mediaUrl: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1974&auto=format&fit=crop",
-        linkUrl: "https://www.linkedin.com/",
-        duration: 5,
-        date: "2h ago",
-        caption: "Excited to share my latest project! #webdev"
-    },
-    {
-        id: "2",
-        platform: "instagram",
-        mediaUrl: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?q=80&w=1974&auto=format&fit=crop",
-        linkUrl: "https://www.instagram.com/",
-        duration: 5,
-        date: "5h ago",
-        caption: "Behind the scenes 📸"
-    },
-    {
-        id: "3",
-        platform: "instagram",
-        mediaUrl: "https://images.unsplash.com/photo-1516251193000-18e65848006b?q=80&w=2670&auto=format&fit=crop",
-        linkUrl: "https://www.instagram.com/",
-        duration: 5,
-        date: "1d ago",
-        caption: "Coding late night 🌙"
-    }
-]
-
 export function SocialStories() {
+    const [stories, setStories] = useState<Story[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
     const [isPaused, setIsPaused] = useState(false)
-    const [isImageLoaded, setIsImageLoaded] = useState(false) // Wait for image to load
+    const [isImageLoaded, setIsImageLoaded] = useState(false)
     const [mounted, setMounted] = useState(false)
 
     // Store the start time of the current slice of progress
@@ -65,29 +37,50 @@ export function SocialStories() {
 
     useEffect(() => {
         setMounted(true)
+        fetchStories()
     }, [])
 
-    const currentStory = STORIES[currentIndex]
+    const fetchStories = async () => {
+        const { data } = await supabase
+            .from("social_stories")
+            .select("*")
+            .order("display_order", { ascending: true })
+
+        if (data) {
+            setStories(data.map(s => ({
+                id: s.id,
+                platform: s.platform as SocialPlatform,
+                mediaUrl: s.media_url,
+                linkUrl: s.link_url,
+                caption: s.caption,
+                duration: 5
+            })))
+        }
+    }
+
+    const currentStory = stories[currentIndex]
+
     // Default duration 5s if not specified
-    const duration = (currentStory.duration || 5) * 1000
+    // Safe access using optional chaining because currentStory might be undefined initially
+    const duration = (currentStory?.duration || 5) * 1000
 
     const goToNext = useCallback(() => {
-        if (currentIndex < STORIES.length - 1) {
+        if (currentIndex < stories.length - 1) {
             setCurrentIndex(prev => prev + 1)
         } else {
             setCurrentIndex(0)
             setIsOpen(false)
         }
         progressRef.current = 0
-        setIsImageLoaded(false) // Reset loading state for next story
-    }, [currentIndex])
+        setIsImageLoaded(false)
+    }, [currentIndex, stories.length])
 
     const goToPrev = useCallback(() => {
         if (currentIndex > 0) {
             setCurrentIndex(prev => prev - 1)
         }
         progressRef.current = 0
-        setIsImageLoaded(false) // Reset loading state
+        setIsImageLoaded(false)
     }, [currentIndex])
 
     useEffect(() => {
@@ -97,15 +90,15 @@ export function SocialStories() {
     }, [currentIndex])
 
     useEffect(() => {
-        if (!isOpen) return
+        if (!isOpen || !currentStory) return
 
         let animationFrameId: number
 
         const animate = () => {
-            // Only progress if not paused AND image is fully loaded
             if (!isPaused && isImageLoaded) {
                 const now = Date.now()
-                const delta = now - lastTimeRef.current
+                // Limit delta to prevent huge jumps if tab was inactive
+                const delta = Math.min(now - lastTimeRef.current, 100)
                 lastTimeRef.current = now
 
                 progressRef.current += delta
@@ -130,7 +123,7 @@ export function SocialStories() {
         return () => {
             cancelAnimationFrame(animationFrameId)
         }
-    }, [isPaused, duration, goToNext, isOpen, currentIndex, isImageLoaded])
+    }, [isPaused, duration, goToNext, isOpen, currentIndex, isImageLoaded, currentStory])
 
     const handleTap = (e: React.MouseEvent<HTMLDivElement>) => {
         if ((e.target as HTMLElement).closest('button')) {
@@ -148,8 +141,14 @@ export function SocialStories() {
     }
 
     const toggleOpen = () => {
-        setIsOpen(!isOpen)
+        if (stories.length > 0) {
+            setIsOpen(!isOpen)
+        }
     }
+
+    if (!mounted) return null
+    if (stories.length === 0) return null
+    if (!currentStory) return null
 
     return (
         <>
@@ -178,7 +177,7 @@ export function SocialStories() {
             </div>
 
             {/* Portal for Expanded View */}
-            {mounted && createPortal(
+            {createPortal(
                 <AnimatePresence>
                     {isOpen && (
                         <div className="fixed inset-0 z-[100] flex items-center justify-center">
@@ -247,7 +246,7 @@ export function SocialStories() {
                                     <div className="absolute inset-0 z-10 flex flex-col p-5">
                                         {/* Progress Bars */}
                                         <div className="flex gap-1.5 mb-4">
-                                            {STORIES.map((story, idx) => (
+                                            {stories.map((story, idx) => (
                                                 <div key={story.id} className="h-0.5 flex-1 bg-white/30 rounded-full overflow-hidden backdrop-blur-sm">
                                                     <div
                                                         ref={idx === currentIndex ? activeProgressBarRef : null}

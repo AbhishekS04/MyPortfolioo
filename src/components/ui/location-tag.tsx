@@ -1,34 +1,54 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import { supabase } from "@/lib/supabase"
 
 interface LocationTagProps {
-    city: string
-    country: string
-    timezone: string
     className?: string
 }
 
-export function LocationTag({ city, country, timezone, className = "" }: LocationTagProps) {
+export function LocationTag({ className = "" }: LocationTagProps) {
     const [isHovered, setIsHovered] = useState(false)
     const [currentTime, setCurrentTime] = useState("")
+    const [location, setLocation] = useState({ city: "Kolkata", country: "India", timezone: "Asia/Kolkata" })
+
+    useEffect(() => {
+        // Fetch location data
+        const fetchLocation = async () => {
+            const { data } = await supabase.from("profile").select("location_city, location_country, location_timezone").single();
+            if (data) {
+                setLocation({
+                    city: data.location_city || "Kolkata",
+                    country: data.location_country || "India",
+                    timezone: data.location_timezone || "Asia/Kolkata"
+                });
+            }
+        };
+        fetchLocation();
+    }, []);
 
     useEffect(() => {
         const updateTime = () => {
-            const now = new Date()
-            setCurrentTime(
-                now.toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                    timeZone: "Asia/Kolkata", // This remains hardcoded as "IST" implies this, but making it dynamic requires a valid IANA string
-                }),
-            )
+            try {
+                const now = new Date()
+                setCurrentTime(
+                    now.toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                        timeZone: location.timezone,
+                    }),
+                )
+            } catch (e) {
+                // Fallback for invalid timezone
+                setCurrentTime("00:00")
+            }
         }
         updateTime()
         const interval = setInterval(updateTime, 1000)
         return () => clearInterval(interval)
-    }, [])
+    }, [location.timezone])
 
     return (
         <button
@@ -45,41 +65,35 @@ export function LocationTag({ city, country, timezone, className = "" }: Locatio
 
             <div className="flex items-center gap-2 overflow-hidden">
                 <span
-                    className="text-sm font-medium text-white transition-all duration-500 whitespace-nowrap"
-                    style={{
-                        transform: isHovered ? "translateY(-100%)" : "translateY(0)",
-                        opacity: isHovered ? 0 : 1,
-                        position: isHovered ? "absolute" : "relative",
-                    }}
+                    className="relative flex h-4 items-center overflow-hidden"
                 >
-                    {city.trim()}, {country}
-                </span>
-
-                <span
-                    className="text-sm font-medium text-white transition-all duration-500"
-                    style={{
-                        transform: isHovered ? "translateY(0)" : "translateY(100%)",
-                        opacity: isHovered ? 1 : 0,
-                        position: isHovered ? "relative" : "absolute",
-                    }}
-                >
-                    {currentTime} {timezone}
+                    <AnimatePresence mode="wait">
+                        {!isHovered ? (
+                            <motion.span
+                                key="location"
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -20, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="whitespace-nowrap text-xs font-medium text-white/90"
+                            >
+                                {location.city}, {location.country}
+                            </motion.span>
+                        ) : (
+                            <motion.span
+                                key="time"
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                exit={{ y: -20, opacity: 0 }}
+                                transition={{ duration: 0.3, ease: "easeOut" }}
+                                className="whitespace-nowrap text-xs font-medium text-white/90"
+                            >
+                                {currentTime} <span className="text-white/40">{new Date().toLocaleTimeString('en-us', { timeZoneName: 'short', timeZone: location.timezone }).split(' ')[2]}</span>
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
                 </span>
             </div>
-
-            <svg
-                className="h-3 w-3 text-white/50 transition-all duration-300"
-                style={{
-                    transform: isHovered ? "translateX(2px) rotate(-45deg)" : "translateX(0) rotate(0)",
-                    opacity: isHovered ? 1 : 0.5,
-                }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-            >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-            </svg>
         </button>
     )
 }

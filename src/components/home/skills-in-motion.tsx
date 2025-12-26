@@ -2,8 +2,47 @@
 
 import { motion } from "framer-motion";
 import { SKILLS, WHY_I_BUILD } from "@/lib/data";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export function SkillsInMotion() {
+    const [skills, setSkills] = useState<string[]>(SKILLS);
+    const [profile, setProfile] = useState(WHY_I_BUILD);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                // Fetch Skills
+                const { data: skillsData } = await supabase
+                    .from('skills')
+                    .select('name')
+                    .order('display_order', { ascending: true });
+
+                if (skillsData && skillsData.length > 0) {
+                    setSkills(skillsData.map((s: any) => s.name));
+                }
+
+                // Fetch Profile
+                const { data: profileData } = await supabase
+                    .from('profile')
+                    .select('bio_primary, bio_secondary')
+                    .limit(1)
+                    .single();
+
+                if (profileData) {
+                    setProfile({
+                        primary: profileData.bio_primary,
+                        secondary: profileData.bio_secondary || "",
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching skills/profile:", error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
     return (
         <section id="skills-in-motion" className="py-20">
             <div className="flex items-center justify-between mb-12 px-2">
@@ -26,7 +65,7 @@ export function SkillsInMotion() {
                     <div>
                         <h3 className="text-xl font-medium text-white mb-6">Skills in Motion</h3>
                         <ul className="space-y-3">
-                            {SKILLS.map((skill, index) => (
+                            {skills.map((skill, index) => (
                                 <li key={index} className="text-base md:text-lg text-white/60 font-light border-l border-white/10 pl-4 hover:border-white/50 hover:text-white/90 transition-all duration-300">
                                     {skill}
                                 </li>
@@ -56,10 +95,10 @@ export function SkillsInMotion() {
                         <h3 className="text-2xl font-medium text-white mb-8">Why I Build</h3>
 
                         <p className="text-xl md:text-3xl font-medium text-white leading-tight mb-6">
-                            "{WHY_I_BUILD.primary}"
+                            "{profile.primary}"
                         </p>
                         <p className="text-base md:text-lg text-white/50 leading-relaxed max-w-md">
-                            {WHY_I_BUILD.secondary}
+                            {profile.secondary}
                         </p>
                     </div>
                 </motion.div>

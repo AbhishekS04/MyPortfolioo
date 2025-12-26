@@ -1,20 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-    SiCplusplus,
-    SiHtml5,
-    SiCss3,
-    SiJavascript,
-    SiTypescript,
-    SiReact,
-    SiNextdotjs,
-    SiBootstrap
-} from "react-icons/si";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { SiCplusplus, SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiBootstrap, SiTailwindcss, SiNodedotjs, SiPython, SiRust, SiGo, SiMongodb, SiPostgresql, SiSupabase, SiFigma, SiDocker, SiGit } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 
-// Key-Component Mapping
-const ICONS = {
+const ICONS: Record<string, React.ReactNode> = {
     "cpp": <SiCplusplus className="w-full h-full" />,
     "java": <FaJava className="w-full h-full" />,
     "html": <SiHtml5 className="w-full h-full" />,
@@ -24,28 +16,52 @@ const ICONS = {
     "react": <SiReact className="w-full h-full" />,
     "next": <SiNextdotjs className="w-full h-full" />,
     "bootstrap": <SiBootstrap className="w-full h-full" />,
+    "tailwind": <SiTailwindcss className="w-full h-full" />,
+    "node": <SiNodedotjs className="w-full h-full" />,
+    "python": <SiPython className="w-full h-full" />,
+    "rust": <SiRust className="w-full h-full" />,
+    "go": <SiGo className="w-full h-full" />,
+    "mongodb": <SiMongodb className="w-full h-full" />,
+    "postgresql": <SiPostgresql className="w-full h-full" />,
+    "supabase": <SiSupabase className="w-full h-full" />,
+    "figma": <SiFigma className="w-full h-full" />,
+    "docker": <SiDocker className="w-full h-full" />,
+    "git": <SiGit className="w-full h-full" />,
 };
 
-const LOGO_KEYS = Object.keys(ICONS) as (keyof typeof ICONS)[];
+const FALLBACK_KEYS = ["react", "next", "ts", "js", "html", "css"];
 
 export function TechIdentityCard() {
+    const [keys, setKeys] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const { data } = await supabase
+                .from("tech_stack")
+                .select("icon_key")
+                .order("display_order", { ascending: true });
+
+            if (data && data.length > 0) {
+                setKeys(data.map(item => item.icon_key).filter(k => ICONS[k]));
+            } else {
+                setKeys(FALLBACK_KEYS);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const displayKeys = keys.length > 0 ? keys : FALLBACK_KEYS;
+
     return (
         <div className="w-full h-40 bg-[#111111] border border-white/5 rounded-[32px] overflow-hidden relative flex flex-col justify-between p-6 group">
-            {/* Header with Status Dot */}
-            <div className="flex items-center gap-3 z-20">
-                <div className="relative flex items-center justify-center w-2 h-2">
-                    <div className="absolute w-full h-full bg-emerald-500 rounded-full animate-ping opacity-75" />
-                    <div className="relative w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+            <div className="z-10 flex flex-col h-full justify-between">
+                <div className="flex items-center gap-3">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-medium uppercase tracking-widest text-white/40">Tech Stack</span>
                 </div>
-                <span className="text-xs font-medium uppercase tracking-widest text-white/40">Tech Stack</span>
             </div>
 
-            {/* Gradient Masks for fade out effect - Adjusted for content area */}
-            <div className="absolute left-0 bottom-0 top-16 w-16 bg-gradient-to-r from-[#111111] to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 bottom-0 top-16 w-16 bg-gradient-to-l from-[#111111] to-transparent z-10 pointer-events-none" />
-
-            {/* Scrolling Container */}
-            <div className="flex overflow-hidden w-full opacity-60 group-hover:opacity-100 transition-opacity duration-700 mt-2">
+            <div className="flex overflow-hidden w-full opacity-60 group-hover:opacity-100 transition-opacity duration-700 mt-2 absolute bottom-6 left-0 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
                 <motion.div
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
@@ -53,15 +69,17 @@ export function TechIdentityCard() {
                         ease: "linear",
                         repeat: Infinity,
                     }}
-                    className="flex gap-12 md:gap-16 flex-shrink-0 items-center"
+                    className="flex gap-12 md:gap-16 flex-shrink-0 items-center px-6"
                 >
-                    {[...LOGO_KEYS, ...LOGO_KEYS].map((key, index) => (
+                    {[...displayKeys, ...displayKeys].map((key, index) => (
                         <div key={`${key}-${index}`} className="w-8 h-8 flex-shrink-0 text-white/40 hover:text-white transition-colors duration-500">
                             {ICONS[key]}
                         </div>
                     ))}
                 </motion.div>
             </div>
+
+            <div className="absolute inset-0 bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         </div>
     );
 }

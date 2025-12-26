@@ -66,7 +66,7 @@ export default function Home() {
               <div className="flex-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group min-h-[350px]">
                 {/* Top Left Location Tag */}
                 <div className="absolute top-8 left-8 z-20">
-                  <LocationTag city="Kolkata " country="India" timezone="IST" />
+                  <LocationTag className="absolute left-6 top-6 z-20 hidden md:flex" />
                 </div>
 
                 <div className="z-10 h-full flex items-center">
