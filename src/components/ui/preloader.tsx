@@ -25,6 +25,13 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
+        // Check session storage
+        const hasSeen = sessionStorage.getItem("hasSeenGreeting");
+        if (hasSeen) {
+            onComplete();
+            return;
+        }
+
         if (currentIndex >= greetings.length) return;
 
         // Duration for each word
@@ -33,7 +40,10 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
                 const next = prev + 1;
                 // If we reached the end, trigger completion after a delay
                 if (next === greetings.length) {
-                    setTimeout(onComplete, 200);
+                    setTimeout(() => {
+                        sessionStorage.setItem("hasSeenGreeting", "true");
+                        onComplete();
+                    }, 200);
                 }
                 return next;
             });

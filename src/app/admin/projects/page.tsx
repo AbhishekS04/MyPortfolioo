@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+
+type ProjectStatus = 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
 
 interface Project {
     id: string;
@@ -15,6 +17,10 @@ interface Project {
     project_url: string;
     featured: boolean;
     display_order: number;
+    // New Fields
+    status: ProjectStatus;
+    is_currently_working: boolean;
+    progress_percentage?: number;
 }
 
 export default function AdminProjects() {
@@ -43,7 +49,7 @@ export default function AdminProjects() {
     const handleEdit = (project: Project) => {
         setEditingId(project.id);
         setFormData(project);
-        setTechInput(project.tech_stack.join(", "));
+        setTechInput(project.tech_stack?.join(", ") || "");
     };
 
     const handleCreate = () => {
@@ -55,6 +61,9 @@ export default function AdminProjects() {
             project_url: "",
             featured: false,
             display_order: projects.length + 1,
+            status: 'Not Started',
+            is_currently_working: false,
+            progress_percentage: 0
         });
         setTechInput("");
     };
@@ -68,6 +77,11 @@ export default function AdminProjects() {
         };
 
         setLoading(true);
+
+        // Logic: If 'is_currently_working' is true, we must set it to false for ALL other projects first
+        if (payload.is_currently_working) {
+            await supabase.from("projects").update({ is_currently_working: false }).neq("id", "00000000-0000-0000-0000-000000000000"); // Update all
+        }
 
         if (editingId === "new") {
             await supabase.from("projects").insert([payload]);
@@ -114,7 +128,7 @@ export default function AdminProjects() {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             key={project.id}
-                            className="bg-[#111] border border-white/5 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6 group hover:bg-[#161616] transition-colors"
+                            className={`bg-[#111] border rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6 group hover:bg-[#161616] transition-colors ${project.is_currently_working ? 'border-emerald-500/30' : 'border-white/5'}`}
                         >
                             {/* Image Preview */}
                             <div className="w-full md:w-32 h-32 md:h-20 rounded-lg bg-black/50 relative overflow-hidden flex-shrink-0 border border-white/5">
@@ -125,15 +139,24 @@ export default function AdminProjects() {
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-3 mb-1">
                                     <h3 className="text-lg font-medium text-white truncate">{project.title}</h3>
-                                    {project.featured && (
-                                        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium uppercase tracking-wider border border-emerald-500/20">Featured</span>
+                                    {project.is_currently_working && (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-medium uppercase tracking-wider border border-emerald-500/20">
+                                            <Activity className="w-3 h-3" /> Working Now
+                                        </span>
                                     )}
+                                    {project.featured && !project.is_currently_working && (
+                                        <span className="px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-medium uppercase tracking-wider border border-blue-500/20">Featured</span>
+                                    )}
+                                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider border ${project.status === 'Completed' ? 'bg-white/10 text-white/60 border-white/10' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}>
+                                        {project.status} {project.progress_percentage ? `(${project.progress_percentage}%)` : ''}
+                                    </span>
                                 </div>
                                 <p className="text-white/40 text-sm truncate">{project.description}</p>
                                 <div className="flex flex-wrap gap-2 mt-3">
-                                    {project.tech_stack.map(t => (
+                                    {project.tech_stack?.slice(0, 4).map(t => (
                                         <span key={t} className="text-[10px] px-2 py-1 rounded bg-white/5 text-white/40 border border-white/5">{t}</span>
                                     ))}
+                                    {(project.tech_stack?.length || 0) > 4 && <span className="text-[10px] text-white/20">+{project.tech_stack!.length - 4}</span>}
                                 </div>
                             </div>
 
@@ -223,6 +246,50 @@ export default function AdminProjects() {
                                     />
                                 </div>
 
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Status</label>
+                                        <select
+                                            value={formData.status || 'Not Started'}
+                                            onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectStatus })}
+                                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
+                                        >
+                                            <option value="Not Started">Not Started</option>
+                                            <option value="In Progress">In Progress</option>
+                                            <option value="Near Completion">Near Completion</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex items-center gap-2">
+                                            <LinkIcon className="w-3 h-3" /> Project Link
+                                        </label>
+                                        <input
+                                            value={formData.project_url}
+                                            onChange={(e) => setFormData({ ...formData, project_url: e.target.value })}
+                                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
+                                            placeholder="/works/project-name or https://..."
+                                        />
+                                    </div>
+                                </div>
+
+                                {formData.is_currently_working && (
+                                    <div className="space-y-2">
+                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex justify-between">
+                                            <span>Manual Progress Override: {formData.progress_percentage ?? 0}%</span>
+                                            <span className="text-white/20">0 = Use Status Default</span>
+                                        </label>
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max="100"
+                                            value={formData.progress_percentage ?? 0}
+                                            onChange={(e) => setFormData({ ...formData, progress_percentage: parseInt(e.target.value) })}
+                                            className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+                                        />
+                                    </div>
+                                )}
+
                                 <div className="space-y-2">
                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex items-center gap-2">
                                         <ImageIcon className="w-3 h-3" /> Image URL (Cloud only)
@@ -235,27 +302,27 @@ export default function AdminProjects() {
                                     />
                                 </div>
 
-                                <div className="space-y-2">
-                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex items-center gap-2">
-                                        <LinkIcon className="w-3 h-3" /> Project Link
-                                    </label>
-                                    <input
-                                        value={formData.project_url}
-                                        onChange={(e) => setFormData({ ...formData, project_url: e.target.value })}
-                                        className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
-                                        placeholder="/works/project-name or https://..."
-                                    />
-                                </div>
-
-                                <div className="flex items-center gap-3 pt-2">
+                                <div className="flex flex-col gap-3 pt-2">
                                     <button
-                                        onClick={() => setFormData({ ...formData, featured: !formData.featured })}
-                                        className={`px-4 py-2 rounded-full border transition-all text-sm font-medium ${formData.featured
+                                        onClick={() => setFormData({ ...formData, is_currently_working: !formData.is_currently_working })}
+                                        className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.is_currently_working
                                             ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-400"
                                             : "bg-white/5 border-white/10 text-white/40 hover:text-white"
                                             }`}
                                     >
-                                        {formData.featured ? "Featured Project" : "Mark as Featured"}
+                                        <Activity className="w-4 h-4" />
+                                        {formData.is_currently_working ? "Status: Currently Working on This" : "Set as 'Currently Working'"}
+                                    </button>
+
+                                    <button
+                                        onClick={() => setFormData({ ...formData, featured: !formData.featured })}
+                                        className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.featured
+                                            ? "bg-blue-500/10 border-blue-500/50 text-blue-400"
+                                            : "bg-white/5 border-white/10 text-white/40 hover:text-white"
+                                            }`}
+                                    >
+                                        <CheckCircle className="w-4 h-4" />
+                                        {formData.featured ? "Status: Featured in All Projects" : "Mark as Featured"}
                                     </button>
                                 </div>
 

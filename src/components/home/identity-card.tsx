@@ -21,8 +21,8 @@ export function IdentityCard() {
             <div className="absolute inset-0 flex flex-col justify-end p-8">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <h2 className="text-3xl font-bold text-white mb-2 leading-tight">Abhishek Singh</h2>
                     <p className="text-white/60 text-lg font-medium">
