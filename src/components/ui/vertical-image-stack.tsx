@@ -53,7 +53,7 @@ export function VerticalImageStack() {
 
     const [currentIndex, setCurrentIndex] = useState(0)
     const lastNavigationTime = useRef(0)
-    const navigationCooldown = 400 // ms between navigations
+    const navigationCooldown = 400 // Adjusted cooldown
 
     const navigate = useCallback((newDirection: number) => {
         const now = Date.now()
@@ -69,17 +69,23 @@ export function VerticalImageStack() {
     }, [displayImages.length])
 
     const handleDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-        const threshold = 50
-        if (info.offset.y < -threshold) {
+        const threshold = 60 // Significant pull required
+        const velocityThreshold = 100 // High velocity sweep
+
+        // Swipe triggers on distance OR high velocity
+        if (info.offset.y < -threshold || info.velocity.y < -velocityThreshold) {
             navigate(1)
-        } else if (info.offset.y > threshold) {
+        } else if (info.offset.y > threshold || info.velocity.y > velocityThreshold) {
             navigate(-1)
         }
     }
 
     const handleWheel = useCallback(
         (e: WheelEvent) => {
-            if (Math.abs(e.deltaY) > 30) {
+            e.stopPropagation();
+            // Debounce wheel slightly less or differently? 
+            // Actually just relying on cooldown is enough.
+            if (Math.abs(e.deltaY) > 40) { // Higher threshold for stability
                 if (e.deltaY > 0) {
                     navigate(1)
                 } else {
@@ -112,17 +118,17 @@ export function VerticalImageStack() {
         if (diff < -total / 2) diff += total
 
         if (diff === 0) {
-            return { y: 0, scale: 0.9, opacity: 1, zIndex: 5, rotateX: 0 }
+            return { y: 0, scale: 1, opacity: 1, zIndex: 5, rotateX: 0, filter: "brightness(1)" }
         } else if (diff === -1) {
-            return { y: -150, scale: 0.8, opacity: 0.6, zIndex: 4, rotateX: 10 }
+            return { y: -140, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: 5, filter: "brightness(0.5)" }
         } else if (diff === -2) {
-            return { y: -260, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: 20 }
+            return { y: -240, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: 10, filter: "brightness(0.3)" }
         } else if (diff === 1) {
-            return { y: 150, scale: 0.8, opacity: 0.6, zIndex: 4, rotateX: -10 }
+            return { y: 140, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: -5, filter: "brightness(0.5)" }
         } else if (diff === 2) {
-            return { y: 260, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: -20 }
+            return { y: 240, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: -10, filter: "brightness(0.3)" }
         } else {
-            return { y: diff > 0 ? 400 : -400, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -30 : 30 }
+            return { y: diff > 0 ? 350 : -350, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -20 : 20, filter: "brightness(0)" }
         }
     }
 
@@ -135,51 +141,56 @@ export function VerticalImageStack() {
     }
 
     return (
-        <div ref={containerRef} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#111111] rounded-[32px] border border-white/5 touch-none">
+        <div ref={containerRef} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#111111] rounded-[32px] border border-white/5 touch-none select-none">
             {/* Subtle ambient glow */}
             <div className="pointer-events-none absolute inset-0">
-                <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
+                <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl opacity-50" />
             </div>
 
             {/* Card Stack */}
-            <div className="relative flex h-[400px] sm:h-[500px] w-full max-w-[320px] items-center justify-center" style={{ perspective: "1200px" }}>
+            <div className="relative flex h-[400px] sm:h-[500px] w-full max-w-[320px] items-center justify-center py-10" style={{ perspective: "1000px" }}>
                 {displayImages.map((image, index) => {
                     if (!isVisible(index)) return null
                     const style = getCardStyle(index)
                     const isCurrent = index === currentIndex
 
+                    // Priority load current, previous, and next images for smoothness
+                    const shouldPrioritize = Math.abs(index - currentIndex) <= 1 || (currentIndex === 0 && index === displayImages.length - 1) || (currentIndex === displayImages.length - 1 && index === 0);
+
                     return (
                         <motion.div
                             key={image.id}
-                            className="absolute cursor-grab active:cursor-grabbing"
+                            className="absolute cursor-grab active:cursor-grabbing w-full flex justify-center"
                             animate={{
                                 y: style.y,
                                 scale: style.scale,
                                 opacity: style.opacity,
                                 rotateX: style.rotateX,
                                 zIndex: style.zIndex,
+                                filter: style.filter
                             }}
                             transition={{
                                 type: "spring",
-                                stiffness: 260,
-                                damping: 25,
-                                mass: 1,
+                                stiffness: 120,    // Slower, smoother settle
+                                damping: 20,       // Less bouncy, more controlled
+                                mass: 1.2,         // "Heavier" feel
                             }}
                             drag={isCurrent ? "y" : false}
                             dragConstraints={{ top: 0, bottom: 0 }}
-                            dragElastic={0.2}
+                            dragElastic={0.25} // Resistance for "pulling weight" feel
                             onDragEnd={handleDragEnd}
                             style={{
                                 transformStyle: "preserve-3d",
                                 zIndex: style.zIndex,
+                                willChange: "transform, opacity, filter"
                             }}
                         >
                             <div
                                 className="relative h-[420px] w-[280px] overflow-hidden rounded-3xl bg-[#1a1a1a] ring-1 ring-white/10"
                                 style={{
                                     boxShadow: isCurrent
-                                        ? "0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05)"
-                                        : "0 10px 30px -10px rgba(0,0,0,0.3)",
+                                        ? "0 30px 60px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)"
+                                        : "0 10px 20px -10px rgba(0,0,0,0.5)",
                                 }}
                             >
                                 {/* Card inner glow */}
@@ -191,7 +202,9 @@ export function VerticalImageStack() {
                                     fill
                                     className="object-cover w-full h-full"
                                     draggable={false}
-                                    priority={isCurrent}
+                                    priority={shouldPrioritize}
+                                    sizes="300px"
+                                    quality={90}
                                 />
 
                                 {/* Bottom gradient overlay */}
@@ -202,17 +215,16 @@ export function VerticalImageStack() {
                 })}
             </div>
 
-            {/* Navigation dots */}
-            <div className="absolute right-8 top-1/2 flex -translate-y-1/2 flex-col gap-2 z-20">
+            {/* Navigation dots - Optimized */}
+            <div className="absolute right-6 top-1/2 flex -translate-y-1/2 flex-col gap-2 z-20">
                 {displayImages.map((_, index) => (
                     <button
                         key={index}
                         onClick={() => {
-                            if (index !== currentIndex) {
-                                setCurrentIndex(index)
-                            }
+                            // Allow instant jump
+                            setCurrentIndex(index)
                         }}
-                        className={`transition-all duration-300 rounded-full ${index === currentIndex ? "h-6 w-2 bg-white" : "h-2 w-2 bg-white/30 hover:bg-white/50"
+                        className={`transition-all duration-300 rounded-full ${index === currentIndex ? "h-8 w-1.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]" : "h-1.5 w-1.5 bg-white/20 hover:bg-white/50"
                             }`}
                         aria-label={`Go to image ${index + 1}`}
                     />
