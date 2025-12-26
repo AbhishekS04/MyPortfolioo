@@ -2,34 +2,32 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
+import { Signature } from "@/components/ui/signature";
 
 export function ContactSection() {
     return (
-        <section id="contact" className="py-32 md:py-48 relative">
-            <div className="max-w-xl mx-auto text-center">
+        <section id="contact" className="py-32 relative overflow-hidden">
+            {/* Subtle Signature */}
+            <Signature />
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.6 }}
+            <div className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto px-4 relative z-10">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-white mb-6">
+                    Let's build something <span className="text-white/40">extraordinary.</span>
+                </h2>
+
+                <p className="text-white/60 text-lg md:text-xl mb-10 max-w-lg">
+                    Currently available for select projects. Let's discuss your vision.
+                </p>
+
+                <Link
+                    href="mailto:hello@example.com"
+                    className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all hover:scale-105 active:scale-95"
                 >
-                    <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">
-                        Let’s Build Something Together
-                    </h2>
-                    <p className="text-lg text-white/50 mb-10">
-                        Open to collaborations, internships, and interesting ideas.
-                    </p>
-
-                    <Link href="/contact" className="inline-block group">
-                        <div className="flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-medium text-lg hover:scale-105 active:scale-95 transition-all duration-300">
-                            <span>Contact Me</span>
-                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        </div>
-                    </Link>
-                </motion.div>
-
+                    <Mail className="w-5 h-5" />
+                    <span>Start a Project</span>
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Link>
             </div>
         </section>
     );
