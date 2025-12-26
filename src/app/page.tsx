@@ -11,6 +11,8 @@ import { ContactSection } from "@/components/home/contact-section";
 import { TechIdentityCard } from "@/components/home/tech-identity-card";
 import { FocusCard } from "@/components/home/focus-card";
 
+import { ArrowUpRight } from "lucide-react";
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -72,6 +74,17 @@ export default function Home() {
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-white/90">
                       <span className="font-bold text-white">Antigravity</span> is building <span className="underline decoration-1 underline-offset-4 decoration-white/30">the future</span> of digital experiences.
                     </h1>
+
+                    {/* Resume Button */}
+                    <a
+                      href="/resume.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 mt-8 px-5 py-2.5 border border-white/10 rounded-full text-sm font-medium text-white/50 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all group/resume"
+                    >
+                      <span>View Resume</span>
+                      <ArrowUpRight className="w-4 h-4 opacity-50 group-hover/resume:translate-x-0.5 group-hover/resume:-translate-y-0.5 transition-transform" />
+                    </a>
                   </div>
                 </div>
 
