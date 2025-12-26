@@ -14,18 +14,26 @@ import { FocusCard } from "@/components/home/focus-card";
 import { ArrowUpRight } from "lucide-react";
 import { BentoGallery } from "@/components/home/bento-gallery";
 
-export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
+let hasShownPreloader = false;
 
-  // Preloader Logic: Always show on load/refresh
+export default function Home() {
+  const [isLoading, setIsLoading] = useState(!hasShownPreloader);
+
+  // Preloader Logic: Show only on initial load/refresh, not on navigation
   useEffect(() => {
-    setIsLoading(true);
-    document.body.style.overflow = "hidden";
-    window.scrollTo(0, 0); // Ensure top start
+    if (!hasShownPreloader) {
+      setIsLoading(true);
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    } else {
+      setIsLoading(false);
+      document.body.style.overflow = "";
+    }
   }, []);
 
   const handlePreloaderComplete = () => {
     setIsLoading(false);
+    hasShownPreloader = true;
     // Restore scroll and force top
     document.body.style.overflow = "";
     window.scrollTo(0, 0);
@@ -49,7 +57,7 @@ export default function Home() {
 
       {/* Main Content - Animate In */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
+        initial={isLoading ? { opacity: 0, scale: 0.98 } : { opacity: 1, scale: 1 }}
         animate={{ opacity: isLoading ? 0 : 1, scale: isLoading ? 0.98 : 1 }}
         transition={{ duration: 1, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
         className="relative z-0"

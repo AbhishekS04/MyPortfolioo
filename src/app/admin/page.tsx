@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { RatingStatsCard } from "@/components/admin/rating-stats-card";
 
 function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
     return (
@@ -133,6 +134,11 @@ export default function AdminDashboard() {
                     description="System-wide configurations and toggles."
                     delay={0.6}
                 />
+            </div>
+
+            {/* Rating Stats Section */}
+            <div className="mt-6">
+                <RatingStatsCard />
             </div>
 
             {/* Status Bar */}
