@@ -59,7 +59,7 @@ const LOGO_KEYS = Object.keys(ICONS) as Array<keyof typeof ICONS>;
 
 export function TechIdentityCard() {
     return (
-        <div className="w-full h-24 bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden relative flex items-center justify-center group">
+        <div className="w-full h-32 bg-[#111111] border border-white/5 rounded-[32px] overflow-hidden relative flex items-center justify-center group">
             {/* Gradient Masks for fade out effect */}
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#111111] to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#111111] to-transparent z-10 pointer-events-none" />
@@ -69,7 +69,7 @@ export function TechIdentityCard() {
                 <motion.div
                     animate={{ x: ["0%", "-50%"] }}
                     transition={{
-                        duration: 40, // Very slow
+                        duration: 30, // Slightly faster than 40 since path is shorter? or allow slow.
                         ease: "linear",
                         repeat: Infinity,
                     }}

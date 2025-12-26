@@ -25,24 +25,22 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        // 900ms per greeting transition logic
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => {
-                const nextIndex = prevIndex + 1;
+        if (currentIndex >= greetings.length) return;
 
-                if (nextIndex >= greetings.length) {
-                    clearInterval(interval);
-                    // Wait a beat on the final greeting before triggering completion
-                    setTimeout(onComplete, 1000);
-                    return prevIndex;
+        // Duration for each word
+        const timeout = setTimeout(() => {
+            setCurrentIndex((prev) => {
+                const next = prev + 1;
+                // If we reached the end, trigger completion after a delay
+                if (next === greetings.length) {
+                    setTimeout(onComplete, 200);
                 }
-
-                return nextIndex;
+                return next;
             });
         }, 900); // 900ms duration per word
 
-        return () => clearInterval(interval);
-    }, [onComplete]);
+        return () => clearTimeout(timeout);
+    }, [currentIndex, onComplete]);
 
     // Initial enter for the first word (index 0)
     // We want a stagger or just clean enter? Use AnimatePresence mode="wait"
@@ -57,7 +55,11 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-            transition: { duration: 0.5, ease: [0.25, 1, 0.5, 1] as const } // Custom cubic bezier for "Apple" feel
+            transition: {
+                duration: 0.5,
+                ease: [0.25, 1, 0.5, 1] as const,
+                // delay removed
+            }
         },
         exit: {
             opacity: 0,
@@ -71,25 +73,24 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black cursor-none">
             <div className="relative flex items-center justify-center">
                 <AnimatePresence mode="wait">
-                    <motion.div
-                        key={currentIndex}
-                        variants={textVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="flex items-center gap-4 text-white"
-                    >
-                        {/* Dot Indicator */}
+                    {greetings[currentIndex] && (
                         <motion.div
-                            className="h-2.5 w-2.5 rounded-full bg-white"
-                            layoutId="dot" // Keeps dot stable if we wanted, but here it moves with text container
-                        />
+                            key={currentIndex}
+                            variants={textVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
+                            className="flex items-center gap-4 text-white"
+                        >
+                            {/* Dot Indicator REMOVED */}
 
-                        {/* Text */}
-                        <span className="text-4xl md:text-6xl font-medium tracking-tight font-sans">
-                            {greetings[currentIndex].text}
-                        </span>
-                    </motion.div>
+
+                            {/* Text */}
+                            <span className="text-4xl md:text-6xl font-medium tracking-tight font-sans">
+                                {greetings[currentIndex].text}
+                            </span>
+                        </motion.div>
+                    )}
                 </AnimatePresence>
             </div>
         </div>

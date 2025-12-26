@@ -9,24 +9,23 @@ import { Preloader } from "@/components/ui/preloader"; // Verified path
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { ContactSection } from "@/components/home/contact-section";
 import { TechIdentityCard } from "@/components/home/tech-identity-card";
+import { FocusCard } from "@/components/home/focus-card";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
-  // User requested "Whenever I reload I will get the greetings", so we skipped sessionStorage check
-  // If we wanted single-session:
-  /*
+  // Preloader Logic: Always show on load/refresh
   useEffect(() => {
-    const hasSeenIntro = sessionStorage.getItem("intro_seen");
-    if (hasSeenIntro) {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    document.body.style.overflow = "hidden";
+    window.scrollTo(0, 0); // Ensure top start
   }, []);
-  */
 
   const handlePreloaderComplete = () => {
     setIsLoading(false);
-    // sessionStorage.setItem("intro_seen", "true"); // Optional: disable needed for "every reload"
+    // Restore scroll and force top
+    document.body.style.overflow = "";
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -56,11 +55,13 @@ export default function Home() {
 
         <div className="pt-28 pb-10 px-4 md:px-8 max-w-[1600px] mx-auto">
           {/* --- Hero Grid --- */}
-          <div className="flex flex-col gap-6">
-            {/* Row 1: Intro + Works Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[500px] lg:h-[600px]">
-              {/* --- Col 1: Left Column (About - Tall) --- */}
-              <div className="col-span-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group h-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-auto lg:h-[750px]">
+
+            {/* --- Col 1: Left Stack (Intro + Tech/Focus Bento) --- */}
+            <div className="flex flex-col gap-6 h-full">
+
+              {/* Intro Card */}
+              <div className="flex-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group min-h-[350px]">
                 {/* Top Left Location Tag */}
                 <div className="absolute top-8 left-8 z-20">
                   <LocationTag city="Kolkata " country="India" timezone="IST" />
@@ -78,14 +79,19 @@ export default function Home() {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
               </div>
 
-              {/* --- Col 2: Right Column (Vertical Image Stack) --- */}
-              <div className="col-span-1 h-full border border-white/5 rounded-[32px] overflow-hidden bg-[#111111] relative shadow-2xl">
-                <VerticalImageStack />
+              {/* Bento Row: Tech Identity + Focus */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-shrink-0">
+                <TechIdentityCard />
+                <FocusCard />
               </div>
+
             </div>
 
-            {/* Row 2: Tech Identity Card (Icons only) */}
-            <TechIdentityCard />
+            {/* --- Col 2: Right Column (Vertical Image Stack) --- */}
+            <div className="col-span-1 h-[500px] lg:h-full border border-white/5 rounded-[32px] overflow-hidden bg-[#111111] relative shadow-2xl">
+              <VerticalImageStack />
+            </div>
+
           </div>
 
           {/* --- New Sections --- */}
