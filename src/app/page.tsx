@@ -64,7 +64,7 @@ export default function Home() {
       >
         <NavBar />
 
-        <div className="pt-28 pb-10 px-4 md:px-8 max-w-[1600px] mx-auto">
+        <div className="pt-16 md:pt-20 lg:pt-14 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] flex flex-col justify-center">
           {/* --- Hero Grid --- */}
           {/* --- New Bento Gallery Layout --- */}
           <BentoGallery />

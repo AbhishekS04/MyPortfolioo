@@ -1,15 +1,52 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 import { SocialIcons } from "@/components/ui/social-icons";
 import { NavBar } from "@/components/ui/navbar";
 import { CopyCode } from "@/components/ui/copy-code-button";
 import { RatingInteraction } from "@/components/ui/emoji-rating";
 
 export default function ContactPage() {
+    const [content, setContent] = useState({
+        heading: "Let’s build something meaningful.",
+        email: "callm@example.com",
+        availability_status: "Available",
+        is_available: true,
+        availability_items: ["Internships", "Freelance", "Consulting"],
+        social_links: {
+            github: "https://github.com",
+            x: "https://x.com",
+            linkedin: "https://linkedin.com",
+            dribbble: "https://dribbble.com"
+        }
+    });
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            const { data } = await supabase.from("profile").select("contact_heading, email, availability_status, is_available, availability_items, social_links").single();
+            if (data) {
+                setContent({
+                    heading: data.contact_heading || "Let’s build something meaningful.",
+                    email: data.email || "callm@example.com",
+                    availability_status: data.availability_status || "Available",
+                    is_available: data.is_available !== false, // Default true
+                    availability_items: data.availability_items || ["Internships", "Freelance", "Consulting"],
+                    social_links: {
+                        github: data.social_links?.github || "https://github.com",
+                        x: data.social_links?.x || "https://x.com",
+                        linkedin: data.social_links?.linkedin || "https://linkedin.com",
+                        dribbble: data.social_links?.dribbble || "https://dribbble.com"
+                    }
+                });
+            }
+        };
+        fetchContent();
+    }, []);
+
     // Email for the copy functionality
-    const email = "callm@example.com";
+    const email = content.email;
 
     // Force re-render key for development consistency
     const devKey = process.env.NODE_ENV === "development" ? "contact-page-v1" : undefined;
@@ -28,8 +65,9 @@ export default function ContactPage() {
                         transition={{ duration: 0.8, ease: "easeOut" }}
                     >
                         <h1 className="text-4xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white mb-6 leading-[1.05]">
-                            Let’s build something <br />
-                            <span className="text-white/40">meaningful.</span>
+                            {content.heading.split(' ').map((word, i, arr) => (
+                                i === arr.length - 1 ? <span key={i} className="text-white/40">{word}</span> : <span key={i}>{word} </span>
+                            ))}
                         </h1>
                     </motion.div>
 
@@ -42,18 +80,12 @@ export default function ContactPage() {
                     >
                         <p>Currently accepting opportunities for:</p>
                         <ul className="flex flex-wrap justify-center gap-4 text-white/80">
-                            <li className="flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-emerald-500/80" />
-                                Internships
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-emerald-500/80" />
-                                Freelance
-                            </li>
-                            <li className="flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-emerald-500/80" />
-                                Consulting
-                            </li>
+                            {content.availability_items.map((item, index) => (
+                                <li key={index} className="flex items-center gap-2">
+                                    <span className={`w-1 h-1 rounded-full ${content.is_available ? 'bg-emerald-500/80' : 'bg-red-500/80'}`} />
+                                    {item}
+                                </li>
+                            ))}
                         </ul>
                     </motion.div>
                 </header>
@@ -69,7 +101,7 @@ export default function ContactPage() {
                     <div className="flex flex-col md:flex-row items-center gap-6 p-4 md:p-6 rounded-[32px] bg-white/[0.02] border border-white/5 backdrop-blur-sm mx-auto md:mx-0 w-fit">
                         {/* Socials */}
                         <div className="flex-shrink-0">
-                            <SocialIcons />
+                            <SocialIcons links={content.social_links} />
                         </div>
 
                         {/* Divider for Desktop */}
@@ -113,12 +145,20 @@ export default function ContactPage() {
 
                         <div className="flex items-center gap-3">
                             <span className="text-xs font-mono text-white/30 uppercase tracking-widest">Status</span>
-                            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-950/20 border border-emerald-500/10">
+                            <div className={`flex items-center gap-2 px-2.5 py-1 rounded-full border ${content.is_available
+                                    ? 'bg-emerald-950/20 border-emerald-500/10'
+                                    : 'bg-red-950/20 border-red-500/10'
+                                }`}>
                                 <span className="relative flex h-1.5 w-1.5">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                    <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${content.is_available ? 'bg-emerald-400' : 'bg-red-400'
+                                        }`}></span>
+                                    <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${content.is_available ? 'bg-emerald-500' : 'bg-red-500'
+                                        }`}></span>
                                 </span>
-                                <span className="text-[10px] font-medium text-emerald-400/80 uppercase tracking-wide">Available</span>
+                                <span className={`text-[10px] font-medium uppercase tracking-wide ${content.is_available ? 'text-emerald-400/80' : 'text-red-400/80'
+                                    }`}>
+                                    {content.availability_status}
+                                </span>
                             </div>
                         </div>
                     </div>

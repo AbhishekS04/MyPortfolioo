@@ -128,11 +128,18 @@ export default function AdminDashboard() {
                     delay={0.5}
                 />
                 <AdminCard
+                    href="/admin/contact"
+                    icon={Zap}
+                    label="Contact Page"
+                    description="Update heading, availability status, and contact emails."
+                    delay={0.6}
+                />
+                <AdminCard
                     href="/admin/settings"
                     icon={Settings}
                     label="Global Settings"
                     description="System-wide configurations and toggles."
-                    delay={0.6}
+                    delay={0.7}
                 />
             </div>
 
