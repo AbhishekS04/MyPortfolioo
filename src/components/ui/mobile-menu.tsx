@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
 import { SocialStories } from "@/components/ui/social-stories";
 import { X } from "lucide-react";
@@ -10,7 +10,7 @@ interface MobileMenuProps {
     onClose: () => void;
 }
 
-const menuVariants = {
+const menuVariants: Variants = {
     closed: {
         y: "100%",
         transition: {
@@ -29,7 +29,7 @@ const menuVariants = {
     }
 };
 
-const linkVariants = {
+const linkVariants: Variants = {
     closed: { opacity: 0, y: 20 },
     open: (i: number) => ({
         opacity: 1,
