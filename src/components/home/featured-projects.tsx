@@ -78,7 +78,7 @@ export function FeaturedProjects() {
                         description: item.description,
                         techStack: item.tech_stack || [],
                         image: item.image_url,
-                        link: item.project_url,
+                        link: `/works/${item.slug}`,
                     }));
                     setProjects(mappedProjects);
                 } else {
