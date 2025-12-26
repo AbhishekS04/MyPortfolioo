@@ -263,12 +263,12 @@ export function SocialStories() {
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2.5">
                                                 <div className="w-8 h-8 rounded-full border border-white/20 overflow-hidden relative">
-                                                    <Image src={"https://github.com/shadcn.png"} alt="User" fill className="object-cover" />
+                                                    <Image src={"https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"} alt="Abhishek Singh" fill className="object-cover" />
                                                 </div>
                                                 <div className="flex flex-col">
-                                                    <span className="text-white font-semibold text-xs leading-none">Antigravity</span>
+                                                    <span className="text-white font-semibold text-xs leading-none">Abhishek Singh</span>
                                                     <span className="text-white/60 text-[10px] leading-none mt-0.5">
-                                                        {currentStory.platform === 'linkedin' ? 'via LinkedIn' : 'via Instagram'}
+                                                        {currentStory.platform === 'linkedin' ? 'via LinkedIn' : 'via Instagram' }
                                                     </span>
                                                 </div>
                                             </div>
