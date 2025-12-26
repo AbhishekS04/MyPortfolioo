@@ -1,85 +1,46 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import { SiCplusplus, SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiBootstrap, SiTailwindcss, SiNodedotjs, SiPython, SiRust, SiGo, SiMongodb, SiPostgresql, SiSupabase, SiFigma, SiDocker, SiGit } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiSupabase, SiFigma, SiGithub, SiNodedotjs } from "react-icons/si";
 
-const ICONS: Record<string, React.ReactNode> = {
-    "cpp": <SiCplusplus className="w-full h-full" />,
-    "java": <FaJava className="w-full h-full" />,
-    "html": <SiHtml5 className="w-full h-full" />,
-    "css": <SiCss3 className="w-full h-full" />,
-    "js": <SiJavascript className="w-full h-full" />,
-    "ts": <SiTypescript className="w-full h-full" />,
-    "react": <SiReact className="w-full h-full" />,
-    "next": <SiNextdotjs className="w-full h-full" />,
-    "bootstrap": <SiBootstrap className="w-full h-full" />,
-    "tailwind": <SiTailwindcss className="w-full h-full" />,
-    "node": <SiNodedotjs className="w-full h-full" />,
-    "python": <SiPython className="w-full h-full" />,
-    "rust": <SiRust className="w-full h-full" />,
-    "go": <SiGo className="w-full h-full" />,
-    "mongodb": <SiMongodb className="w-full h-full" />,
-    "postgresql": <SiPostgresql className="w-full h-full" />,
-    "supabase": <SiSupabase className="w-full h-full" />,
-    "figma": <SiFigma className="w-full h-full" />,
-    "docker": <SiDocker className="w-full h-full" />,
-    "git": <SiGit className="w-full h-full" />,
-};
-
-const FALLBACK_KEYS = ["react", "next", "ts", "js", "html", "css"];
+const ICONS = [
+    { Icon: SiReact, color: "text-[#61DAFB]" },
+    { Icon: SiNextdotjs, color: "text-white" },
+    { Icon: SiTypescript, color: "text-[#3178C6]" },
+    { Icon: SiTailwindcss, color: "text-[#06B6D4]" },
+    { Icon: SiSupabase, color: "text-[#3ECF8E]" },
+    { Icon: SiFigma, color: "text-[#F24E1E]" },
+    { Icon: SiNodedotjs, color: "text-[#339933]" },
+    { Icon: SiGithub, color: "text-white" },
+];
 
 export function TechIdentityCard() {
-    const [keys, setKeys] = useState<string[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const { data } = await supabase
-                .from("tech_stack")
-                .select("icon_key")
-                .order("display_order", { ascending: true });
-
-            if (data && data.length > 0) {
-                setKeys(data.map(item => item.icon_key).filter(k => ICONS[k]));
-            } else {
-                setKeys(FALLBACK_KEYS);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const displayKeys = keys.length > 0 ? keys : FALLBACK_KEYS;
-
     return (
-        <div className="w-full h-40 bg-[#111111] border border-white/5 rounded-[32px] overflow-hidden relative flex flex-col justify-between p-6 group">
-            <div className="z-10 flex flex-col h-full justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-xs font-medium uppercase tracking-widest text-white/40">Tech Stack</span>
-                </div>
-            </div>
+        <div className="w-full h-full bg-[#1A1A1A] border border-white/5 rounded-[32px] md:rounded-full flex items-center relative overflow-hidden shadow-2xl ring-1 ring-white/5">
+            {/* Fade Gradient Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#1A1A1A] to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#1A1A1A] to-transparent z-10" />
 
-            <div className="flex overflow-hidden w-full opacity-60 group-hover:opacity-100 transition-opacity duration-700 mt-2 absolute bottom-6 left-0 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
+            {/* Sliding Track - Infinite Loop Left -> Right */}
+            <div className="flex items-center w-full">
                 <motion.div
-                    animate={{ x: ["0%", "-50%"] }}
+                    className="flex items-center gap-12 md:gap-16 pr-12 md:pr-16"
+                    initial={{ x: "-50%" }}
+                    animate={{ x: "0%" }}
                     transition={{
-                        duration: 30,
-                        ease: "linear",
                         repeat: Infinity,
+                        duration: 30, // Adjusted speed for react-icons
+                        ease: "linear",
                     }}
-                    className="flex gap-12 md:gap-16 flex-shrink-0 items-center px-6"
                 >
-                    {[...displayKeys, ...displayKeys].map((key, index) => (
-                        <div key={`${key}-${index}`} className="w-8 h-8 flex-shrink-0 text-white/40 hover:text-white transition-colors duration-500">
-                            {ICONS[key]}
+                    {/* Repeat items enough times to fill and loop seamlessly */}
+                    {[...ICONS, ...ICONS, ...ICONS, ...ICONS].map((item, i) => (
+                        <div key={i} className={`min-w-[32px] md:min-w-[40px] flex justify-center opacity-50 hover:opacity-100 transition-opacity duration-300 ${item.color}`}>
+                            <item.Icon className="w-8 h-8 md:w-10 md:h-10" />
                         </div>
                     ))}
                 </motion.div>
             </div>
-
-            <div className="absolute inset-0 bg-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         </div>
     );
 }
