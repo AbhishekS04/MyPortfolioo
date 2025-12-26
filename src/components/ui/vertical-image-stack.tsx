@@ -112,17 +112,17 @@ export function VerticalImageStack() {
         if (diff < -total / 2) diff += total
 
         if (diff === 0) {
-            return { y: 0, scale: 1, opacity: 1, zIndex: 5, rotateX: 0 }
+            return { y: 0, scale: 0.85, opacity: 1, zIndex: 5, rotateX: 0 }
         } else if (diff === -1) {
-            return { y: -160, scale: 0.82, opacity: 0.6, zIndex: 4, rotateX: 8 }
+            return { y: -140, scale: 0.75, opacity: 0.6, zIndex: 4, rotateX: 10 }
         } else if (diff === -2) {
-            return { y: -280, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: 15 }
+            return { y: -240, scale: 0.65, opacity: 0.3, zIndex: 3, rotateX: 20 }
         } else if (diff === 1) {
-            return { y: 160, scale: 0.82, opacity: 0.6, zIndex: 4, rotateX: -8 }
+            return { y: 140, scale: 0.75, opacity: 0.6, zIndex: 4, rotateX: -10 }
         } else if (diff === 2) {
-            return { y: 280, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: -15 }
+            return { y: 240, scale: 0.65, opacity: 0.3, zIndex: 3, rotateX: -20 }
         } else {
-            return { y: diff > 0 ? 400 : -400, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -20 : 20 }
+            return { y: diff > 0 ? 350 : -350, scale: 0.5, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -30 : 30 }
         }
     }
 
@@ -138,7 +138,7 @@ export function VerticalImageStack() {
         <div ref={containerRef} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#111111] rounded-[32px] border border-white/5 touch-none">
             {/* Subtle ambient glow */}
             <div className="pointer-events-none absolute inset-0">
-                <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
+                <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl" />
             </div>
 
             {/* Card Stack */}

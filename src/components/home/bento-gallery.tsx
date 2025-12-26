@@ -13,52 +13,49 @@ import { ArrowUpRight } from "lucide-react"
 
 export function BentoGallery() {
     return (
-        <section className="w-full max-w-[1400px] mx-auto px-4 md:px-6 py-12 md:py-24">
+        <section className="w-full max-w-[1400px] mx-auto px-4 md:px-6 pb-12 pt-4 md:py-24">
 
             {/* 3 Column Grid for Laptop/Desktop - Standard Stack on Mobile */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {/* --- Column 1 (Left) --- */}
-                {/* Reference: Chef (Tall) + Typography (Short) */}
-                <div className="flex flex-col gap-6">
-                    {/* Identity Card - TALL */}
-                    <div className="h-[450px] md:h-auto md:flex-[2] md:min-h-[500px]">
+                {/* --- Column 1 Wrapper --- */}
+                {/* Mobile: Flattened (contents) | Desktop: Column Flex */}
+                <div className="contents md:flex md:flex-col md:gap-6">
+                    {/* Identity Card - TALL - Order 1 */}
+                    <div className="order-1 md:order-none h-[450px] md:h-auto md:flex-[2] md:min-h-[500px]">
                         <IdentityCard />
                     </div>
 
-                    {/* Philosophy/Typography - SHORT */}
-                    <div className="h-[180px] md:h-[200px]">
+                    {/* Philosophy/Typography - SHORT - Order 4 (Under Core Stack) */}
+                    <div className="order-4 md:order-none h-[180px] md:h-[200px]">
                         <PhilosophyCard />
                     </div>
                 </div>
 
-                {/* --- Column 2 (Center) --- */}
-                {/* Reference: Icons (Short) + Phone (Tall) */}
-                <div className="flex flex-col gap-6">
-                    {/* Tech Stack - COMPACT PILL STRIP */}
-                    {/* Compact on mobile, larger on desktop */}
-                    <div className="h-[80px] md:h-[120px]">
+                {/* --- Column 2 Wrapper --- */}
+                <div className="contents md:flex md:flex-col md:gap-6">
+                    {/* Tech Stack - COMPACT PILL STRIP - Order 5 (Under Typography) */}
+                    <div className="order-5 md:order-none h-[80px] md:h-[120px]">
                         <TechIdentityCard />
                     </div>
 
-                    {/* Gallery/Phone - TALLER */}
-                    <div className="h-[400px] md:h-auto md:flex-[2] md:min-h-[620px] bg-[#111] rounded-[32px] border border-white/5 overflow-hidden relative shadow-2xl">
+                    {/* Gallery/Phone - TALLER - Order 2 (Under Identity) */}
+                    <div className="order-2 md:order-none h-[400px] md:h-auto md:flex-[2] md:min-h-[620px] bg-[#111] rounded-[32px] border border-white/5 overflow-hidden relative shadow-2xl">
                         <div className="absolute inset-0">
                             <VerticalImageStack />
                         </div>
                     </div>
                 </div>
 
-                {/* --- Column 3 (Right) --- */}
-                {/* Reference: Users (Short) + Review (Short) + Food (Short) */}
-                <div className="flex flex-col gap-6">
-                    {/* Core Stack - INCREASED HEIGHT (Primary) */}
-                    <div className="min-h-[220px] md:h-[290px]">
+                {/* --- Column 3 Wrapper --- */}
+                <div className="contents md:flex md:flex-col md:gap-6">
+                    {/* Core Stack - INCREASED HEIGHT - Order 3 (Under Gallery) */}
+                    <div className="order-3 md:order-none min-h-[220px] md:h-[290px]">
                         <FocusCard />
                     </div>
 
-                    {/* Location/Orange Slot - REDUCED HEIGHT (Secondary) */}
-                    <div className="h-[140px] md:h-[160px] bg-[#FF4D00] rounded-[32px] p-6 relative overflow-hidden group">
+                    {/* Location/Orange Slot - Order 6 */}
+                    <div className="order-6 md:order-none h-[140px] md:h-[160px] bg-[#FF4D00] rounded-[32px] p-6 relative overflow-hidden group">
                         <div className="absolute top-6 right-6 p-2 rounded-full bg-black/10 text-black/60 group-hover:bg-white group-hover:text-black transition-colors">
                             <ArrowUpRight className="w-5 h-5" />
                         </div>
@@ -77,8 +74,8 @@ export function BentoGallery() {
                         </div>
                     </div>
 
-                    {/* Craft/Food - SHORT */}
-                    <div className="h-[180px] md:flex-1 md:min-h-[180px]">
+                    {/* Craft/Food - Order 7 */}
+                    <div className="order-7 md:order-none h-[180px] md:flex-1 md:min-h-[180px]">
                         <CraftCard />
                     </div>
                 </div>
