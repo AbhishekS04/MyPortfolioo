@@ -112,17 +112,17 @@ export function VerticalImageStack() {
         if (diff < -total / 2) diff += total
 
         if (diff === 0) {
-            return { y: 0, scale: 0.85, opacity: 1, zIndex: 5, rotateX: 0 }
+            return { y: 0, scale: 0.9, opacity: 1, zIndex: 5, rotateX: 0 }
         } else if (diff === -1) {
-            return { y: -140, scale: 0.75, opacity: 0.6, zIndex: 4, rotateX: 10 }
+            return { y: -150, scale: 0.8, opacity: 0.6, zIndex: 4, rotateX: 10 }
         } else if (diff === -2) {
-            return { y: -240, scale: 0.65, opacity: 0.3, zIndex: 3, rotateX: 20 }
+            return { y: -260, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: 20 }
         } else if (diff === 1) {
-            return { y: 140, scale: 0.75, opacity: 0.6, zIndex: 4, rotateX: -10 }
+            return { y: 150, scale: 0.8, opacity: 0.6, zIndex: 4, rotateX: -10 }
         } else if (diff === 2) {
-            return { y: 240, scale: 0.65, opacity: 0.3, zIndex: 3, rotateX: -20 }
+            return { y: 260, scale: 0.7, opacity: 0.3, zIndex: 3, rotateX: -20 }
         } else {
-            return { y: diff > 0 ? 350 : -350, scale: 0.5, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -30 : 30 }
+            return { y: diff > 0 ? 400 : -400, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -30 : 30 }
         }
     }
 
@@ -161,8 +161,8 @@ export function VerticalImageStack() {
                             }}
                             transition={{
                                 type: "spring",
-                                stiffness: 300,
-                                damping: 30,
+                                stiffness: 260,
+                                damping: 25,
                                 mass: 1,
                             }}
                             drag={isCurrent ? "y" : false}

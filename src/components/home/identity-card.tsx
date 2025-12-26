@@ -30,7 +30,11 @@ export function IdentityCard() {
                     </p>
 
                     <div className="mt-6 flex items-center gap-3">
-                        <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium text-white/80">
+                        <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium text-white/80 flex items-center gap-2">
+                            <div className="relative flex items-center justify-center">
+                                <div className="absolute w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
+                                <div className="relative w-1.5 h-1.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.8)]" />
+                            </div>
                             Available for hire
                         </div>
                         <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium text-white/80">

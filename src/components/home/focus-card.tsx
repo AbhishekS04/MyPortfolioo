@@ -34,8 +34,8 @@ export function FocusCard() {
             </div>
 
             {/* Subtle corner decoration */}
-            <div className="absolute top-6 right-6 opacity-10">
-                <SiReact className="w-24 h-24 rotate-12" />
+            <div className="absolute top-6 right-6 opacity-10 pointer-events-none">
+                <SiReact className="w-24 h-24 rotate-12 transition-transform duration-700 ease-in-out group-hover:animate-[spin_10s_linear_infinite]" />
             </div>
         </div>
     );
