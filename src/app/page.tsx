@@ -6,6 +6,9 @@ import { LocationTag } from "@/components/ui/location-tag";
 import { VerticalImageStack } from "@/components/ui/vertical-image-stack";
 import { NavBar } from "@/components/ui/navbar";
 import { Preloader } from "@/components/ui/preloader"; // Verified path
+import { FeaturedProjects } from "@/components/home/featured-projects";
+import { ContactSection } from "@/components/home/contact-section";
+import { TechIdentityCard } from "@/components/home/tech-identity-card";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -52,32 +55,44 @@ export default function Home() {
         <NavBar />
 
         <div className="pt-28 pb-10 px-4 md:px-8 max-w-[1600px] mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
-
-            {/* --- Col 1: Left Column (About - Tall) --- */}
-            <div className="col-span-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group h-[500px] lg:h-full">
-              {/* Top Left Location Tag */}
-              <div className="absolute top-8 left-8 z-20">
-                <LocationTag city="Kolkata " country="India" timezone="IST" />
-              </div>
-
-              <div className="z-10 h-full flex items-center">
-                <div>
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-white/90">
-                    <span className="font-bold text-white">Antigravity</span> is building <span className="underline decoration-1 underline-offset-4 decoration-white/30">the future</span> of digital experiences.
-                  </h1>
+          {/* --- Hero Grid --- */}
+          <div className="flex flex-col gap-6">
+            {/* Row 1: Intro + Works Preview */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[500px] lg:h-[600px]">
+              {/* --- Col 1: Left Column (About - Tall) --- */}
+              <div className="col-span-1 bg-[#111111] rounded-[32px] p-10 flex flex-col justify-between border border-white/5 relative overflow-hidden group h-full">
+                {/* Top Left Location Tag */}
+                <div className="absolute top-8 left-8 z-20">
+                  <LocationTag city="Kolkata " country="India" timezone="IST" />
                 </div>
+
+                <div className="z-10 h-full flex items-center">
+                  <div>
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium leading-tight text-white/90">
+                      <span className="font-bold text-white">Antigravity</span> is building <span className="underline decoration-1 underline-offset-4 decoration-white/30">the future</span> of digital experiences.
+                    </h1>
+                  </div>
+                </div>
+
+                {/* Background Glow */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
               </div>
 
-              {/* Background Glow */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+              {/* --- Col 2: Right Column (Vertical Image Stack) --- */}
+              <div className="col-span-1 h-full border border-white/5 rounded-[32px] overflow-hidden bg-[#111111] relative shadow-2xl">
+                <VerticalImageStack />
+              </div>
             </div>
 
-            {/* --- Col 2: Right Column (Vertical Image Stack) --- */}
-            <div className="col-span-1 h-[500px] lg:h-full border border-white/5 rounded-[32px] overflow-hidden bg-[#111111] relative shadow-2xl">
-              <VerticalImageStack />
-            </div>
+            {/* Row 2: Tech Identity Card (Icons only) */}
+            <TechIdentityCard />
+          </div>
 
+          {/* --- New Sections --- */}
+          <div className="mt-32 space-y-32">
+            <FeaturedProjects />
+            {/* Thinking + Skills section removed */}
+            <ContactSection />
           </div>
         </div>
       </motion.div>
