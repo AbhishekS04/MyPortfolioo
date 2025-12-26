@@ -5,15 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-interface Project {
-    id: string;
-    title: string;
-    description: string;
-    tech_stack: string[];
-    image_url: string;
-    project_url: string;
-    status: 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
-}
+import { Project } from "@/types/project";
 
 interface StatusConfigItem {
     width: string;

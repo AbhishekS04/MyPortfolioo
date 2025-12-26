@@ -4,16 +4,7 @@ import { motion } from "framer-motion";
 import { CurrentlyWorkingCard } from "@/components/works/currently-working-card";
 import { ProjectGrid } from "@/components/works/project-grid";
 
-interface Project {
-    id: string;
-    title: string;
-    description: string;
-    tech_stack: string[];
-    image_url: string;
-    project_url: string;
-    status: 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
-    is_currently_working: boolean;
-}
+import { Project } from "@/types/project";
 
 export function WorksClient({ projects }: { projects: Project[] }) {
     const currentlyWorking = projects.find(p => p.is_currently_working);

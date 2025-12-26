@@ -5,15 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
-interface Project {
-    id: string;
-    title: string;
-    description: string;
-    tech_stack: string[];
-    image_url: string;
-    project_url: string;
-    status: string;
-}
+import { Project } from "@/types/project";
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
     if (!projects.length) return null;
@@ -35,7 +27,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <Link href={project.project_url} className="group block h-full">
+                            <Link href={`/works/${project.slug || '#'}`} className="group block h-full">
                                 <div className="h-full bg-[#111] border border-white/5 rounded-[32px] overflow-hidden flex flex-col group-hover:border-white/10 hover:shadow-2xl hover:shadow-white/5 transition-all duration-300">
 
                                     {/* Image */}
