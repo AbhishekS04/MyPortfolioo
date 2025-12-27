@@ -111,24 +111,38 @@ export function VerticalImageStack() {
         return () => container.removeEventListener("wheel", onWheel)
     }, [handleWheel])
 
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 640)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
     const getCardStyle = (index: number) => {
         const total = displayImages.length
         let diff = index - currentIndex
         if (diff > total / 2) diff -= total
         if (diff < -total / 2) diff += total
 
+        // Responsive offsets
+        const yBase = isMobile ? 85 : 140
+        const ySecond = isMobile ? 150 : 240
+        const yHidden = isMobile ? 220 : 350
+
         if (diff === 0) {
             return { y: 0, scale: 1, opacity: 1, zIndex: 5, rotateX: 0, filter: "brightness(1)" }
         } else if (diff === -1) {
-            return { y: -140, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: 5, filter: "brightness(0.5)" }
+            return { y: -yBase, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: 5, filter: "brightness(0.5)" }
         } else if (diff === -2) {
-            return { y: -240, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: 10, filter: "brightness(0.3)" }
+            return { y: -ySecond, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: 10, filter: "brightness(0.3)" }
         } else if (diff === 1) {
-            return { y: 140, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: -5, filter: "brightness(0.5)" }
+            return { y: yBase, scale: 0.85, opacity: 0.4, zIndex: 4, rotateX: -5, filter: "brightness(0.5)" }
         } else if (diff === 2) {
-            return { y: 240, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: -10, filter: "brightness(0.3)" }
+            return { y: ySecond, scale: 0.75, opacity: 0.2, zIndex: 3, rotateX: -10, filter: "brightness(0.3)" }
         } else {
-            return { y: diff > 0 ? 350 : -350, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -20 : 20, filter: "brightness(0)" }
+            return { y: diff > 0 ? yHidden : -yHidden, scale: 0.6, opacity: 0, zIndex: 0, rotateX: diff > 0 ? -20 : 20, filter: "brightness(0)" }
         }
     }
 
@@ -141,14 +155,14 @@ export function VerticalImageStack() {
     }
 
     return (
-        <div ref={containerRef} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#111111] rounded-[32px] border border-white/5 touch-none select-none">
+        <div ref={containerRef} className="relative flex h-full w-full items-center justify-center overflow-hidden bg-[#111111] rounded-[32px] border border-white/5 select-none pointer-events-none sm:pointer-events-auto sm:touch-none">
             {/* Subtle ambient glow */}
             <div className="pointer-events-none absolute inset-0">
                 <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.02] blur-3xl opacity-50" />
             </div>
 
             {/* Card Stack */}
-            <div className="relative flex h-[400px] sm:h-[500px] w-full max-w-[320px] items-center justify-center py-10" style={{ perspective: "1000px" }}>
+            <div className="relative flex h-[320px] sm:h-[500px] w-full max-w-[320px] items-center justify-center py-10" style={{ perspective: "1000px" }}>
                 {displayImages.map((image, index) => {
                     if (!isVisible(index)) return null
                     const style = getCardStyle(index)
@@ -160,7 +174,7 @@ export function VerticalImageStack() {
                     return (
                         <motion.div
                             key={image.id}
-                            className="absolute cursor-grab active:cursor-grabbing w-full flex justify-center"
+                            className="absolute cursor-grab active:cursor-grabbing w-full flex justify-center pointer-events-auto"
                             animate={{
                                 y: style.y,
                                 scale: style.scale,
@@ -186,7 +200,7 @@ export function VerticalImageStack() {
                             }}
                         >
                             <div
-                                className="relative h-[420px] w-[280px] overflow-hidden rounded-3xl bg-[#1a1a1a] ring-1 ring-white/10"
+                                className="relative h-[260px] w-[180px] sm:h-[420px] sm:w-[280px] overflow-hidden rounded-3xl bg-[#1a1a1a] ring-1 ring-white/10"
                                 style={{
                                     boxShadow: isCurrent
                                         ? "0 30px 60px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)"
