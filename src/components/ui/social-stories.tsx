@@ -268,7 +268,7 @@ export function SocialStories() {
                                                 <div className="flex flex-col">
                                                     <span className="text-white font-semibold text-xs leading-none">Abhishek Singh</span>
                                                     <span className="text-white/60 text-[10px] leading-none mt-0.5">
-                                                        {currentStory.platform === 'linkedin' ? 'via LinkedIn' : 'via Instagram' }
+                                                        {currentStory.platform === 'linkedin' ? 'via LinkedIn' : 'via Instagram'}
                                                     </span>
                                                 </div>
                                             </div>
@@ -279,6 +279,7 @@ export function SocialStories() {
                                                     e.stopPropagation()
                                                     setIsOpen(false)
                                                 }}
+                                                aria-label="Close Story"
                                                 className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
                                             >
                                                 <X className="w-4 h-4" />
@@ -297,6 +298,7 @@ export function SocialStories() {
                                                 href={currentStory.linkUrl}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
+                                                aria-label="Visit Story Link"
                                                 className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-full bg-white text-black hover:scale-110 active:scale-95 transition-all shadow-lg group/btn"
                                                 onClick={(e) => e.stopPropagation()}
                                             >

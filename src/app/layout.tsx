@@ -32,8 +32,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${outfit.variable} ${hendrigo.variable} ${sacramento.variable}`}>
+    <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#0a0a0a' }}>
+      <body className={`${outfit.variable} ${hendrigo.variable} ${sacramento.variable}`} style={{ backgroundColor: '#0a0a0a', color: '#ededed' }}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Abhishek Singh",
+              "url": "https://portfolio-test-devaura.vercel.app",
+              "jobTitle": "Senior Frontend Engineer",
+              "sameAs": [
+                "https://github.com/AbhishekS04",
+                "https://linkedin.com/in/AbhishekS04",
+                "https://twitter.com/AbhishekS04"
+              ]
+            })
+          }}
+        />
         <SmoothScroll>
           <PreloaderWrapper>
             {children}

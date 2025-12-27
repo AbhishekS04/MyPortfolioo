@@ -51,6 +51,7 @@ export function NavBar() {
                     {/* Mobile: Menu Trigger */}
                     <button
                         onClick={() => setIsMenuOpen(true)}
+                        aria-label="Open Mobile Menu"
                         className="md:hidden w-10 h-10 flex items-center justify-center text-white/80 border border-white/10 rounded-full hover:bg-white/5 transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
