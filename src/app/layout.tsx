@@ -23,7 +23,6 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://portfolio-test-devaura.vercel.app", // User should update this
     siteName: "Abhishek Singh Portfolio",
-   
   },
 };
 

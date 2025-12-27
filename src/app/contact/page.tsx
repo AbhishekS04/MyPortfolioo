@@ -19,7 +19,9 @@ export default function ContactPage() {
             github: "https://github.com",
             x: "https://x.com",
             linkedin: "https://linkedin.com",
-            dribbble: "https://dribbble.com"
+            dribbble: "https://dribbble.com",
+            instagram: "https://instagram.com",
+            
         }
     });
 
@@ -37,7 +39,8 @@ export default function ContactPage() {
                         github: data.social_links?.github || "https://github.com",
                         x: data.social_links?.x || "https://x.com",
                         linkedin: data.social_links?.linkedin || "https://linkedin.com",
-                        dribbble: data.social_links?.dribbble || "https://dribbble.com"
+                        dribbble: data.social_links?.dribbble || "https://dribbble.com",
+                        instagram: data.social_links?.instagram || "https://instagram.com"
                     }
                 });
             }
