@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase";
 import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
 
 type ProjectStatus = 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
 type ProjectType = 'Personal' | 'Client';
@@ -298,7 +299,13 @@ export default function AdminProjects() {
                                             </div>
 
                                             <div className="space-y-2">
-                                                <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Short Summary (Hero Description)</label>
+                                                <div className="flex items-center justify-between">
+                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Short Summary (Hero Description)</label>
+                                                    <AiTextOptimizer
+                                                        currentText={formData.description || ""}
+                                                        onOptimized={(val: string) => setFormData({ ...formData, description: val })}
+                                                    />
+                                                </div>
                                                 <textarea
                                                     value={formData.description || ""}
                                                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -402,7 +409,13 @@ export default function AdminProjects() {
                                     {activeTab === 'content' && (
                                         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                                             <div className="space-y-2">
-                                                <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Overview</label>
+                                                <div className="flex items-center justify-between">
+                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Overview</label>
+                                                    <AiTextOptimizer
+                                                        currentText={formData.overview || ""}
+                                                        onOptimized={(val: string) => setFormData({ ...formData, overview: val })}
+                                                    />
+                                                </div>
                                                 <textarea
                                                     value={formData.overview || ""}
                                                     onChange={(e) => setFormData({ ...formData, overview: e.target.value })}
@@ -413,7 +426,13 @@ export default function AdminProjects() {
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Problem</label>
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Problem</label>
+                                                        <AiTextOptimizer
+                                                            currentText={formData.problem_statement || ""}
+                                                            onOptimized={(val: string) => setFormData({ ...formData, problem_statement: val })}
+                                                        />
+                                                    </div>
                                                     <textarea
                                                         value={formData.problem_statement || ""}
                                                         onChange={(e) => setFormData({ ...formData, problem_statement: e.target.value })}
@@ -423,7 +442,13 @@ export default function AdminProjects() {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Approach / Solution</label>
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Approach / Solution</label>
+                                                        <AiTextOptimizer
+                                                            currentText={formData.approach || ""}
+                                                            onOptimized={(val: string) => setFormData({ ...formData, approach: val })}
+                                                        />
+                                                    </div>
                                                     <textarea
                                                         value={formData.approach || ""}
                                                         onChange={(e) => setFormData({ ...formData, approach: e.target.value })}
@@ -445,7 +470,13 @@ export default function AdminProjects() {
                                             </div>
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Challenges</label>
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Challenges</label>
+                                                        <AiTextOptimizer
+                                                            currentText={formData.challenges || ""}
+                                                            onOptimized={(val: string) => setFormData({ ...formData, challenges: val })}
+                                                        />
+                                                    </div>
                                                     <textarea
                                                         value={formData.challenges || ""}
                                                         onChange={(e) => setFormData({ ...formData, challenges: e.target.value })}
@@ -454,7 +485,13 @@ export default function AdminProjects() {
                                                     />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Outcome / Results</label>
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Outcome / Results</label>
+                                                        <AiTextOptimizer
+                                                            currentText={formData.outcome || ""}
+                                                            onOptimized={(val: string) => setFormData({ ...formData, outcome: val })}
+                                                        />
+                                                    </div>
                                                     <textarea
                                                         value={formData.outcome || ""}
                                                         onChange={(e) => setFormData({ ...formData, outcome: e.target.value })}

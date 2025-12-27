@@ -25,19 +25,20 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        if (currentIndex >= greetings.length) return;
+        // Handle the loop
+        if (currentIndex === greetings.length - 1) {
+            // Last one: Wait a bit longer, then trigger complete. 
+            // We do NOT increment here, so the text remains visible until the parent unmounts the whole component.
+            const timeout = setTimeout(() => {
+                onComplete();
+            }, 1500);
+            return () => clearTimeout(timeout);
+        }
 
-        // Duration for each word
+        // For intermediate words, cycle faster
         const timeout = setTimeout(() => {
-            setCurrentIndex((prev) => {
-                const next = prev + 1;
-                // If we reached the end, trigger completion after a delay
-                if (next === greetings.length) {
-                    setTimeout(onComplete, 200);
-                }
-                return next;
-            });
-        }, 900); // 900ms duration per word
+            setCurrentIndex((prev) => prev + 1);
+        }, 800); // 800ms to ensure animations (0.3+0.4=0.7s) complete without skipping
 
         return () => clearTimeout(timeout);
     }, [currentIndex, onComplete]);
@@ -56,16 +57,15 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.5,
+                duration: 0.4,
                 ease: [0.25, 1, 0.5, 1] as const,
-                // delay removed
             }
         },
         exit: {
             opacity: 0,
             y: -20,
             filter: "blur(6px)",
-            transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] as const }
+            transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] as const }
         },
     };
 

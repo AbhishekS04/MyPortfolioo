@@ -169,7 +169,7 @@ export function SocialStories() {
                             <div className="absolute inset-0 rounded-full border-[2px] border-[#FFD700]/80 group-hover:border-[#FFD700] transition-colors shadow-[0_0_10px_rgba(255,215,0,0.2)]" />
 
                             <div className="absolute inset-[3px] rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                <Image src={"https://github.com/shadcn.png"} alt="User" fill className="object-cover" />
+                                <Image src={"https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"} alt="Abhishek Singh" fill className="object-cover" />
                             </div>
                         </motion.div>
                     )}

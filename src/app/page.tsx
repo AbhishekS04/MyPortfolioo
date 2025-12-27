@@ -2,16 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { LocationTag } from "@/components/ui/location-tag";
-import { VerticalImageStack } from "@/components/ui/vertical-image-stack";
 import { NavBar } from "@/components/ui/navbar";
-import { Preloader } from "@/components/ui/preloader"; // Verified path
+import { Preloader } from "@/components/ui/preloader";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { ContactSection } from "@/components/home/contact-section";
-import { TechIdentityCard } from "@/components/home/tech-identity-card";
-import { FocusCard } from "@/components/home/focus-card";
-
-import { ArrowUpRight } from "lucide-react";
 import { BentoGallery } from "@/components/home/bento-gallery";
 
 let hasShownPreloader = false;
@@ -47,7 +41,7 @@ export default function Home() {
           <motion.div
             key="preloader"
             exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
             className="fixed inset-0 z-[100] bg-black"
           >
             <Preloader onComplete={handlePreloaderComplete} />
@@ -59,7 +53,7 @@ export default function Home() {
       <motion.div
         initial={isLoading ? { opacity: 0, scale: 0.98 } : { opacity: 1, scale: 1 }}
         animate={{ opacity: isLoading ? 0 : 1, scale: isLoading ? 0.98 : 1 }}
-        transition={{ duration: 1, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
+        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
         className="relative z-0"
       >
         <NavBar />
