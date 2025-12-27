@@ -174,7 +174,7 @@ export function VerticalImageStack() {
                     return (
                         <motion.div
                             key={image.id}
-                            className="absolute cursor-grab active:cursor-grabbing w-full flex justify-center pointer-events-auto"
+                            className="absolute cursor-grab active:cursor-grabbing w-[180px] sm:w-full flex justify-center pointer-events-auto"
                             animate={{
                                 y: style.y,
                                 scale: style.scale,
