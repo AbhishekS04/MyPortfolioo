@@ -48,7 +48,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
     const config = statusConfig[project.status] || statusConfig['Not Started'];
 
     return (
-        <div className="w-full flex justify-center mb-24">
+        <div className="w-full flex justify-center">
             <div className="w-full max-w-[1200px]">
                 <div className="flex items-center gap-3 mb-6 pl-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -56,7 +56,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                 </div>
 
                 <Link href={project.project_url} className="block group">
-                    <div className="relative w-full bg-[#111] rounded-[40px] border border-white/5 overflow-hidden flex flex-col md:flex-row hover:border-white/10 transition-colors duration-500 min-h-[400px]">
+                    <div className="relative w-full bg-[#111] rounded-[32px] border border-white/5 overflow-hidden flex flex-col md:flex-row hover:border-white/10 transition-colors duration-500 min-h-[400px]">
 
                         {/* LEFT: Image Preview */}
                         <div className="w-full md:w-[55%] h-[300px] md:h-auto relative bg-black/50 overflow-hidden">

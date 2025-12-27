@@ -11,7 +11,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
     if (!projects.length) return null;
 
     return (
-        <div className="w-full flex justify-center pb-24">
+        <div className="w-full flex justify-center">
             <div className="w-full max-w-[1200px]">
                 <div className="flex items-center gap-3 mb-8">
                     <span className="text-xs font-bold uppercase tracking-widest text-white/40">All Projects</span>

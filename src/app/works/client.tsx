@@ -11,12 +11,12 @@ export function WorksClient({ projects }: { projects: Project[] }) {
     const otherProjects = projects.filter(p => !p.is_currently_working);
 
     return (
-        <main className="min-h-screen pt-32 px-4 md:px-6">
+        <main className="min-h-screen bg-[#050505] pt-32 px-6 md:px-12 pb-20 selection:bg-emerald-500/30 selection:text-emerald-50">
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="w-full max-w-[1400px] mx-auto"
+                className="w-full max-w-[1280px] mx-auto space-y-24"
             >
                 {/* 1. Currently Working Section */}
                 {currentlyWorking && (
