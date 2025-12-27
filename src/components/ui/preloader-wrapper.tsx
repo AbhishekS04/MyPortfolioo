@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
-// import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Preloader } from "./preloader";
 
@@ -15,14 +15,17 @@ interface PreloaderContextType {
 const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
 
 export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
-    // const pathname = usePathname(); // Removed as per preloader logic change
+    const pathname = usePathname();
     const [isVisible, setIsVisible] = useState(false);
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
         // Show on initial load if it hasn't been shown yet in this session
-        if (!globalHasShownPreloader) {
+        // AND we are not on an admin page
+        const isAdmin = pathname?.startsWith("/admin");
+
+        if (!globalHasShownPreloader && !isAdmin) {
             setIsVisible(true);
             document.body.style.overflow = "hidden";
         }
