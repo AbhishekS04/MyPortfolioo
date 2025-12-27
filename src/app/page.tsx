@@ -1,72 +1,34 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { NavBar } from "@/components/ui/navbar";
-import { Preloader } from "@/components/ui/preloader";
-import { FeaturedProjects } from "@/components/home/featured-projects";
-import { ContactSection } from "@/components/home/contact-section";
 import { BentoGallery } from "@/components/home/bento-gallery";
+import dynamic from "next/dynamic";
 
-let hasShownPreloader = false;
+// Code Split / Lazy Load below-the-fold content
+const FeaturedProjects = dynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects), {
+  loading: () => <div className="h-96 w-full animate-pulse bg-white/5 rounded-3xl" />
+});
+const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection));
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(!hasShownPreloader);
-
-  // Preloader Logic: Show only on initial load/refresh, not on navigation
-  useEffect(() => {
-    if (!hasShownPreloader) {
-      setIsLoading(true);
-      document.body.style.overflow = "hidden";
-      window.scrollTo(0, 0);
-    } else {
-      setIsLoading(false);
-      document.body.style.overflow = "";
-    }
-  }, []);
-
-  const handlePreloaderComplete = () => {
-    setIsLoading(false);
-    hasShownPreloader = true;
-    // Restore scroll and force top
-    document.body.style.overflow = "";
-    window.scrollTo(0, 0);
-  };
-
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
-      {/* Preloader Overlay */}
-      <AnimatePresence mode="wait">
-        {isLoading && (
-          <motion.div
-            key="preloader"
-            exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-            transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-[100] bg-black"
-          >
-            <Preloader onComplete={handlePreloaderComplete} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main Content - Animate In */}
       <motion.div
-        initial={isLoading ? { opacity: 0, scale: 0.98 } : { opacity: 1, scale: 1 }}
-        animate={{ opacity: isLoading ? 0 : 1, scale: isLoading ? 0.98 : 1 }}
-        transition={{ duration: 1.5, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
         className="relative z-0"
       >
         <NavBar />
 
         <div className="pt-16 md:pt-20 lg:pt-14 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] flex flex-col justify-center">
-          {/* --- Hero Grid --- */}
-          {/* --- New Bento Gallery Layout --- */}
+          {/* --- Hero Grid (Eager Load) --- */}
           <BentoGallery />
 
-          {/* --- New Sections --- */}
+          {/* --- Lazy Loaded Sections --- */}
           <div className="mt-32 space-y-32">
             <FeaturedProjects />
-            {/* Thinking + Skills section removed */}
             <ContactSection />
           </div>
         </div>

@@ -12,8 +12,19 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Experimental Grid Portfolio",
+  title: {
+    default: "Abhishek Singh | Portfolio",
+    template: "%s | Abhishek Singh",
+  },
+  description: "Senior Frontend Engineer & UI System Designer specializing in performant, aesthetic, and scalable web applications.",
+  keywords: ["Frontend Engineer", "UI Designer", "React", "Next.js", "Portfolio", "Web Development"],
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://portfolio-test-devaura.vercel.app", // User should update this
+    siteName: "Abhishek Singh Portfolio",
+   
+  },
 };
 
 export default function RootLayout({

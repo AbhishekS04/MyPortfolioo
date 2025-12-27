@@ -14,19 +14,7 @@ interface GalleryItem {
 export function VerticalImageStack() {
     const [images, setImages] = useState<GalleryItem[]>([]);
 
-    // Fallback static images to prevent empty state initially
-    const FALLBACK_IMAGES = [
-        {
-            id: 1,
-            src: "https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1000&auto=format&fit=crop",
-            alt: "Black sneaker with red sole",
-        },
-        {
-            id: 2,
-            src: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?q=80&w=1000&auto=format&fit=crop",
-            alt: "White minimalist sneaker",
-        },
-    ];
+    // Remove dummy data. If no images, we will handle in render.
 
     useEffect(() => {
         const fetchGallery = async () => {
@@ -41,15 +29,13 @@ export function VerticalImageStack() {
                     src: item.image_url,
                     alt: item.alt_text || "Gallery Image"
                 })));
-            } else {
-                setImages(FALLBACK_IMAGES);
             }
         };
         fetchGallery();
     }, []);
 
-    // Ensure we always have an array
-    const displayImages = images.length > 0 ? images : FALLBACK_IMAGES;
+    // Ensure we handles empty case in UI
+    const displayImages = images;
 
     const [currentIndex, setCurrentIndex] = useState(0)
     const lastNavigationTime = useRef(0)
@@ -163,6 +149,11 @@ export function VerticalImageStack() {
 
             {/* Card Stack */}
             <div className="relative flex h-[320px] sm:h-[500px] w-full max-w-[320px] items-center justify-center py-10" style={{ perspective: "1000px" }}>
+                {displayImages.length === 0 && (
+                    <div className="absolute flex flex-col items-center justify-center z-10 text-white/20">
+                        <span className="text-sm tracking-widest uppercase">No Gallery Items</span>
+                    </div>
+                )}
                 {displayImages.map((image, index) => {
                     if (!isVisible(index)) return null
                     const style = getCardStyle(index)
