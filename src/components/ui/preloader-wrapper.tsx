@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext } from "react";
-import { usePathname } from "next/navigation";
+// import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Preloader } from "./preloader";
 
@@ -15,18 +15,18 @@ interface PreloaderContextType {
 const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
 
 export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname();
+    // const pathname = usePathname(); // Removed as per preloader logic change
     const [isVisible, setIsVisible] = useState(false);
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         setIsClient(true);
-        // Only show if we are on the home page AND it hasn't been shown yet
-        if (pathname === "/" && !globalHasShownPreloader) {
+        // Show on initial load if it hasn't been shown yet in this session
+        if (!globalHasShownPreloader) {
             setIsVisible(true);
             document.body.style.overflow = "hidden";
         }
-    }, [pathname]);
+    }, []);
 
     const handleComplete = () => {
         setIsVisible(false);
