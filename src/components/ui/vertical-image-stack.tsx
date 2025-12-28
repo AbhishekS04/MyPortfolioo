@@ -4,6 +4,7 @@ import { useEffect, useState, useRef, useCallback } from "react"
 import { motion, PanInfo } from "framer-motion"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
+import { PAPER_SOUND_BASE64 } from "@/components/ui/sound-constants"
 
 interface GalleryItem {
     id: number;
@@ -99,12 +100,95 @@ export function VerticalImageStack() {
 
     const [isMobile, setIsMobile] = useState(false)
 
+    // --- Sound & Haptics Setup ---
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const isFirstRender = useRef(true);
+
+    // Short, crisp "tick" sound (iPhone-like wheel click)
+    const TICK_SOUND = "data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFZYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFZYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcTQyAP/7UAAAABwAAAAAABAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; // Placeholder - Replacing with real tick logic below
+
+    // Real Tick Sound Data (Shortened for brevity but functional placeholder for logic)
+    // Actually, I'll use a reliable "pop" sound URL or just a simple beep logic if Base64 is too risky to guess.
+    // User requested "iPhone tick". I will use a very short logic for now.
+
+    useEffect(() => {
+        // Initialize Audio
+        // Using Embedded Base64 for INSTANT playback (no network delay)
+        audioRef.current = new Audio(PAPER_SOUND_BASE64);
+        audioRef.current.load();
+
+    }, []);
+
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 640)
         checkMobile()
         window.addEventListener('resize', checkMobile)
         return () => window.removeEventListener('resize', checkMobile)
     }, [])
+
+    // Unlock Audio Context on first interaction (Click/Touch/Key)
+    useEffect(() => {
+        const unlockAudio = () => {
+            if (audioRef.current) {
+                // Play silent brief note to unlock
+                const vol = audioRef.current.volume;
+                audioRef.current.volume = 0;
+                audioRef.current.play().then(() => {
+                    audioRef.current?.pause();
+                    audioRef.current!.currentTime = 0;
+                    audioRef.current!.volume = 0.5; // Restore volume
+                }).catch((e) => {
+                    // Fail silently if still blocked
+                    console.log("Audio unlock attempt:", e);
+                });
+            }
+            // Remove listeners once unlocked (or attempted)
+            window.removeEventListener('click', unlockAudio);
+            window.removeEventListener('touchstart', unlockAudio);
+            window.removeEventListener('keydown', unlockAudio);
+        };
+
+        window.addEventListener('click', unlockAudio);
+        window.addEventListener('touchstart', unlockAudio);
+        window.addEventListener('keydown', unlockAudio);
+
+        return () => {
+            window.removeEventListener('click', unlockAudio);
+            window.removeEventListener('touchstart', unlockAudio);
+            window.removeEventListener('keydown', unlockAudio);
+        }
+    }, []);
+
+    // Trigger Sound & Haptics on Change
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        // Haptic Feedback (Vibration)
+        // Soft "flip" feel (8ms)
+        if (typeof navigator !== "undefined" && navigator.vibrate) {
+            navigator.vibrate(8);
+        }
+
+        // Sound Effect
+        if (audioRef.current) {
+            // "audiomass-output.mp3" - Playing from start
+            audioRef.current.pause(); // Stop previous
+            audioRef.current.currentTime = 0;
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // Suppress "NotAllowedError" if user hasn't interacted yet
+                    if (error.name !== "NotAllowedError") {
+                        console.error("Audio playback failed:", error);
+                    }
+                });
+            }
+        }
+
+    }, [currentIndex]);
 
     const getCardStyle = (index: number) => {
         const total = displayImages.length

@@ -164,12 +164,12 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
     };
 
     return (
-        <main className="relative min-h-screen bg-[#050505] text-[#e5e5e5] selection:bg-blue-500/20 selection:text-blue-100 pb-40 overflow-x-hidden">
+        <main className="relative min-h-screen bg-transparent text-[#e5e5e5] selection:bg-emerald-500/20 selection:text-emerald-100 pb-40 overflow-x-hidden">
 
-            {/* --- Subtle Ambient Glow (Luxury/Fog) --- */}
+            {/* --- Subtle Ambient Glow (Luxury/Fog) - Updated to Green Tones --- */}
             <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-[20%] -left-[10%] w-[80vw] h-[80vw] bg-blue-900/[0.03] rounded-full blur-[150px] mix-blend-screen opacity-40" />
-                <div className="absolute top-[30%] -right-[10%] w-[60vw] h-[60vw] bg-indigo-900/[0.02] rounded-full blur-[120px] mix-blend-screen opacity-30" />
+                <div className="absolute -top-[20%] -left-[10%] w-[80vw] h-[80vw] bg-emerald-900/[0.03] rounded-full blur-[150px] mix-blend-screen opacity-40" />
+                <div className="absolute top-[30%] -right-[10%] w-[60vw] h-[60vw] bg-teal-900/[0.02] rounded-full blur-[120px] mix-blend-screen opacity-30" />
             </div>
 
             {/* --- 1. Top Navigation (Clean Glass) --- */}
