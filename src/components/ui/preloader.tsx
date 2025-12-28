@@ -31,14 +31,16 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             // We do NOT increment here, so the text remains visible until the parent unmounts the whole component.
             const timeout = setTimeout(() => {
                 onComplete();
-            }, 1500);
+            }, 800); // Matches the rhythm of other words (800ms)
             return () => clearTimeout(timeout);
         }
 
         // For intermediate words, cycle faster
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
-        }, 800); // 800ms to ensure animations (0.3+0.4=0.7s) complete without skipping
+        }, 800);
+
+        return () => clearTimeout(timeout);
 
         return () => clearTimeout(timeout);
     }, [currentIndex, onComplete]);
@@ -70,7 +72,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black cursor-none">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050805] cursor-none">
             <div className="relative flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     {greetings[currentIndex] && (

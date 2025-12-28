@@ -64,6 +64,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         initial="closed"
                         animate="open"
                         exit="closed"
+                        drag="y"
+                        dragConstraints={{ top: 0 }}
+                        dragElastic={0.2}
+                        onDragEnd={(_, info) => {
+                            if (info.offset.y > 100 || info.velocity.y > 500) {
+                                onClose();
+                            }
+                        }}
                         className="fixed bottom-0 left-0 right-0 bg-[#111111] border-t border-white/10 rounded-t-[32px] p-8 z-[100] pb-12"
                     >
                         {/* Close Indicator */}

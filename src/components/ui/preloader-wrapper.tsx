@@ -16,20 +16,23 @@ const PreloaderContext = createContext<PreloaderContextType | undefined>(undefin
 
 export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
-    const [isVisible, setIsVisible] = useState(false);
-    const [isClient, setIsClient] = useState(false);
+
+    // Initialize state based on session to prevent flash.
+    // Default to TRUE if not in admin and not shown yet.
+    const [isVisible, setIsVisible] = useState(() => {
+        if (typeof window !== 'undefined' && globalHasShownPreloader) return false;
+        if (pathname?.startsWith("/admin")) return false;
+        return true;
+    });
 
     useEffect(() => {
-        setIsClient(true);
-        // Show on initial load if it hasn't been shown yet in this session
-        // AND we are not on an admin page
-        const isAdmin = pathname?.startsWith("/admin");
-
-        if (!globalHasShownPreloader && !isAdmin) {
-            setIsVisible(true);
+        // Handle overflow lock
+        if (isVisible) {
             document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
         }
-    }, []);
+    }, [isVisible]);
 
     const handleComplete = () => {
         setIsVisible(false);
@@ -37,26 +40,28 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
         document.body.style.overflow = "";
     };
 
-    // Prevent hydration mismatch by only rendering client-side logic after mount
-    if (!isClient) {
-        return <>{children}</>;
-    }
-
     return (
-        <PreloaderContext.Provider value={{ hasShown: globalHasShownPreloader }}>
-            <AnimatePresence mode="wait">
+        <PreloaderContext.Provider value={{ hasShown: !isVisible }}>
+            <AnimatePresence>
                 {isVisible && (
                     <motion.div
                         key="global-preloader"
-                        exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
-                        transition={{ duration: 0.8, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[100] bg-black"
+                        initial={{ opacity: 1, filter: "blur(0px)" }}
+                        exit={{ opacity: 0, scale: 1.05, filter: "blur(20px)" }}
+                        transition={{ duration: 0.7, ease: "easeInOut" }}
+                        className="fixed inset-0 z-[9999] bg-[#050805]"
                     >
                         <Preloader onComplete={handleComplete} />
                     </motion.div>
                 )}
             </AnimatePresence>
-            {children}
+
+            {/* 
+               Children mount immediately when isVisible becomes false.
+               Since we removed mode="wait", they mount WHILE the curtain slides up.
+               This creates the perfect "reveal" effect.
+            */}
+            {!isVisible && <>{children}</>}
         </PreloaderContext.Provider>
     );
 }
