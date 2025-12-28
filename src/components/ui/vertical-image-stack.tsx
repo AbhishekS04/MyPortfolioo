@@ -170,7 +170,7 @@ export function VerticalImageStack() {
         // Haptic Feedback (Vibration)
         // Soft "flip" feel (8ms)
         if (typeof navigator !== "undefined" && navigator.vibrate) {
-            navigator.vibrate(8);
+            navigator.vibrate(15);
         }
 
         // Sound Effect
