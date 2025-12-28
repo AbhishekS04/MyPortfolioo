@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence, Variants } from "framer-motion";
-import { ArrowLeft, ArrowUpRight, Github } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Github, Play, Pause, Volume2, VolumeX } from "lucide-react";
 import ProjectContributors from "@/components/ui/project-contributors";
 
 interface Contributor {
@@ -15,8 +15,111 @@ interface Contributor {
 }
 
 interface ProjectDetailsViewProps {
-    project: any; // Using any for flexibility with Supabase types, but structure is known
+    project: any;
     contributors?: Contributor[];
+}
+
+function CustomVideoPlayer({ videoUrl, posterUrl }: { videoUrl: string, posterUrl: string }) {
+    const videoRef = useRef<HTMLVideoElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isMuted, setIsMuted] = useState(false); // Default unmuted since it's user initiated? Or default muted? Let's default unmuted but handle autoplay policies if needed. Actually, for manual play, unmuted is fine.
+    const [progress, setProgress] = useState(0);
+    const [isHovered, setIsHovered] = useState(false);
+
+    const togglePlay = () => {
+        if (!videoRef.current) return;
+        if (isPlaying) {
+            videoRef.current.pause();
+        } else {
+            videoRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const toggleMute = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!videoRef.current) return;
+        videoRef.current.muted = !isMuted;
+        setIsMuted(!isMuted);
+    };
+
+    const handleTimeUpdate = () => {
+        if (videoRef.current) {
+            const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+            setProgress(progress);
+        }
+    };
+
+    const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        if (!videoRef.current) return;
+        const progressBar = e.currentTarget;
+        const rect = progressBar.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const clickedValue = (x / rect.width) * videoRef.current.duration;
+        videoRef.current.currentTime = clickedValue;
+    };
+
+    // Auto-hide controls when playing and not hovered
+    const showControls = !isPlaying || isHovered;
+
+    return (
+        <div
+            className="relative w-full h-full group cursor-pointer"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={togglePlay}
+        >
+            <video
+                ref={videoRef}
+                src={videoUrl}
+                poster={posterUrl}
+                className="w-full h-full object-cover"
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={() => setIsPlaying(false)}
+                playsInline
+            />
+
+            {/* Overlay Gradient for contrast */}
+            <div className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`} />
+
+            {/* Center Play Button (Only show when paused or hovered? User said minimal. Usually big play button hides when playing) */}
+            <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${!isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}>
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110">
+                    <Play className="w-6 h-6 md:w-8 md:h-8 text-white fill-white translate-x-0.5" />
+                </div>
+            </div>
+
+            {/* Bottom Controls Bar */}
+            <div className={`absolute bottom-0 inset-x-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-all duration-300 ${showControls ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 pointer-events-none'}`}>
+                <div className="flex items-center gap-4">
+
+                    {/* Tiny Play/Pause for bottom bar */}
+                    <button onClick={(e) => { e.stopPropagation(); togglePlay(); }} className="text-white/80 hover:text-white transition-colors">
+                        {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
+                    </button>
+
+                    {/* Progress Bar */}
+                    <div
+                        className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-1.5 transition-all"
+                        onClick={handleSeek}
+                    >
+                        <div
+                            className="h-full bg-blue-400/80 rounded-full relative"
+                            style={{ width: `${progress}%` }}
+                        >
+                            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-200 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] opacity-0 group-hover:opacity-100" />
+                        </div>
+                    </div>
+
+                    {/* Mute Toggle */}
+                    <button onClick={toggleMute} className="text-white/80 hover:text-white transition-colors">
+                        {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export function ProjectDetailsView({ project, contributors }: ProjectDetailsViewProps) {
@@ -147,12 +250,7 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                     <div className="relative w-full overflow-hidden rounded-3xl bg-[#0a0a0a] shadow-2xl ring-1 ring-white/10">
                         {project.media_mode === 'video_first' && project.video_url ? (
                             <div className="relative w-full aspect-video">
-                                <video
-                                    src={project.video_url}
-                                    controls
-                                    className="absolute inset-0 w-full h-full object-contain"
-                                    poster={project.image_url}
-                                />
+                                <CustomVideoPlayer videoUrl={project.video_url} posterUrl={project.image_url} />
                             </div>
                         ) : (
                             <div className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]">
