@@ -138,7 +138,8 @@ export function VerticalImageStack() {
                     audioRef.current!.currentTime = 0;
                     audioRef.current!.volume = 0.5; // Restore volume
                 }).catch((e) => {
-                    // Fail silently if still blocked
+                    // Fail silently but RESTORE VOLUME so future plays work
+                    if (audioRef.current) audioRef.current.volume = 0.5;
                     console.log("Audio unlock attempt:", e);
                 });
             }
@@ -176,6 +177,7 @@ export function VerticalImageStack() {
         if (audioRef.current) {
             // "audiomass-output.mp3" - Playing from start
             audioRef.current.pause(); // Stop previous
+            audioRef.current.volume = 0.5; // FORCE VOLUME RESTORE
             audioRef.current.currentTime = 0;
             const playPromise = audioRef.current.play();
             if (playPromise !== undefined) {
