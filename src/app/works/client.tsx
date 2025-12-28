@@ -26,9 +26,9 @@ export function WorksClient({ projects }: { projects: Project[] }) {
                 )}
 
                 {/* 2. All Projects Section */}
-                {otherProjects.length > 0 && (
+                {projects.length > 0 && (
                     <section>
-                        <ProjectGrid projects={otherProjects} />
+                        <ProjectGrid projects={projects} />
                     </section>
                 )}
 
