@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
+import { ContributorsManager } from "@/components/admin/contributors-manager";
 
 type ProjectStatus = 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
 type ProjectType = 'Personal' | 'Client';
@@ -50,7 +51,7 @@ export default function AdminProjects() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [activeTab, setActiveTab] = useState<'essentials' | 'media' | 'content' | 'settings'>('essentials');
+    const [activeTab, setActiveTab] = useState<'essentials' | 'media' | 'content' | 'settings' | 'contributors'>('essentials');
 
     // Form State
     const [formData, setFormData] = useState<Partial<Project>>({});
@@ -257,6 +258,7 @@ export default function AdminProjects() {
                                     { id: 'essentials', label: 'Essentials', icon: Layout },
                                     { id: 'media', label: 'Media & Gallery', icon: ImageIcon },
                                     { id: 'content', label: 'Case Study', icon: FileText },
+                                    { id: 'contributors', label: 'Contributors', icon: Users },
                                     { id: 'settings', label: 'Settings', icon: Settings },
                                 ].map(tab => (
                                     <button
@@ -501,6 +503,11 @@ export default function AdminProjects() {
                                                 </div>
                                             </div>
                                         </div>
+                                    )}
+
+                                    {/* --- CONTRIBUTORS TAB --- */}
+                                    {activeTab === 'contributors' && (
+                                        <ContributorsManager projectId={editingId!} />
                                     )}
 
                                     {/* --- SETTINGS TAB --- */}

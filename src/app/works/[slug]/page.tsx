@@ -2,7 +2,8 @@ import { createClient } from "@/utils/supabase/server";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, Github, ArrowUpRight, AlignLeft, Layers, Cpu, Globe } from "lucide-react";
+import { ArrowLeft, Github, ArrowUpRight, AlignLeft, Layers, Cpu, Globe, Users } from "lucide-react";
+import ProjectContributors from "@/components/ui/project-contributors";
 import { Metadata } from "next";
 
 export const revalidate = 0; // Dynamic rendering
@@ -41,6 +42,12 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
     if (!project) {
         notFound();
     }
+
+    const { data: contributors } = await (await createClient())
+        .from("project_contributors")
+        .select("*")
+        .eq("project_id", project.id)
+        .order("created_at", { ascending: true });
 
     // Helper for rendering line breaks properly
     const TextBlock = ({ text }: { text: string }) => {
@@ -214,6 +221,25 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
                                             </li>
                                         ))}
                                     </ul>
+                                </div>
+                            )}
+
+                            {/* Contributors Card */}
+                            {contributors && contributors.length > 0 && (
+                                <div className="rounded-[28px] bg-[#111] border border-white/10 p-8 shadow-xl">
+                                    <div className="flex items-center gap-3 text-sm font-bold text-white uppercase tracking-widest mb-6 pb-6 border-b border-white/5">
+                                        <Users className="w-4 h-4 text-emerald-500" />
+                                        <span>Contributors</span>
+                                    </div>
+                                    <ProjectContributors
+                                        contributors={contributors.map((c: any) => ({
+                                            name: c.name,
+                                            avatar_url: c.avatar_url,
+                                            role: c.role,
+                                            social_url: c.social_url,
+                                            fallback: c.name.substring(0, 2).toUpperCase()
+                                        }))}
+                                    />
                                 </div>
                             )}
 
