@@ -42,7 +42,7 @@ const linkVariants: Variants = {
     })
 };
 
-const LINKS = ["Home", "Works", "Contact"];
+const LINKS = ["Home", "Works", "About"];
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     return (

@@ -7,9 +7,25 @@ import { hendrigo } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { MobileMenu } from "./mobile-menu"
+import { usePathname, useRouter } from "next/navigation"
 
 export function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogoClick = (e: React.MouseEvent) => {
+        if (pathname === "/") {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        } else {
+            // For other pages, we let the Link handle it normally or do a manual push
+            router.push("/");
+        }
+    };
 
     return (
         <>
@@ -18,7 +34,11 @@ export function NavBar() {
             >
                 {/* Left: Signature Logo - Direct Font Class Usage */}
                 <div className="flex-shrink-0">
-                    <Link href="/" className="group block">
+                    <Link
+                        href="/"
+                        onClick={handleLogoClick}
+                        className="group block"
+                    >
                         <span className={cn(
                             hendrigo.className,
                             "text-3xl md:text-4xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
@@ -30,7 +50,7 @@ export function NavBar() {
 
                 {/* Center: Nav Links - HIDDEN on Mobile, Visible on Desktop */}
                 <div className="hidden md:flex items-center gap-1.5 md:gap-2 md:absolute md:left-1/2 md:-translate-x-1/2">
-                    {["Home", "Works", "Contact"].map((item) => (
+                    {["Home", "Works", "About"].map((item) => (
                         <Link
                             key={item}
                             href={item === "Home" ? "/" : `/${item.toLowerCase()}`}

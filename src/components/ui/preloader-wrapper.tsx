@@ -42,14 +42,19 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
 
     return (
         <PreloaderContext.Provider value={{ hasShown: !isVisible }}>
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
                 {isVisible && (
                     <motion.div
                         key="global-preloader"
-                        initial={{ opacity: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, scale: 1.05, filter: "blur(20px)" }}
-                        transition={{ duration: 0.7, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[9999] bg-[#050805]"
+                        initial={{ y: 0 }}
+                        exit={{
+                            y: "-100%",
+                            transition: {
+                                duration: 0.8,
+                                ease: [0.76, 0, 0.24, 1] // Custom ease for organic shutter feel
+                            }
+                        }}
+                        className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
                     >
                         <Preloader onComplete={handleComplete} />
                     </motion.div>
@@ -57,11 +62,13 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
             </AnimatePresence>
 
             {/* 
-               Children mount immediately when isVisible becomes false.
-               Since we removed mode="wait", they mount WHILE the curtain slides up.
-               This creates the perfect "reveal" effect.
+               Render children immediately but keep them behind the preloader.
+               This allows the browser to start loading homepage assets, images, 
+               and components while the preloader is still active.
             */}
-            {!isVisible && <>{children}</>}
+            <div className={isVisible ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>
+                {children}
+            </div>
         </PreloaderContext.Provider>
     );
 }
