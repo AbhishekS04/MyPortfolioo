@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import Link from "next/link"
 import { motion } from "framer-motion"
 
 export function IdentityCard() {
@@ -31,7 +32,7 @@ export function IdentityCard() {
                         Frontend Engineer & <br /> Ui System Designer.
                     </p>
 
-                    <div className="mt-6 flex items-center gap-3">
+                    <div className="mt-6 flex items-center gap-3 flex-wrap">
                         <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium text-white/80 flex items-center gap-2">
                             <div className="relative flex items-center justify-center">
                                 <div className="absolute w-2 h-2 bg-green-500 rounded-full animate-ping opacity-75" />
@@ -39,9 +40,15 @@ export function IdentityCard() {
                             </div>
                             Available for hire
                         </div>
-                        <div className="px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-medium text-white/80">
-                            Remote
-                        </div>
+                        <Link href="/about">
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                                className="px-5 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-xs font-semibold text-white/90 cursor-pointer transition-colors hover:bg-white/10 hover:border-white/20"
+                            >
+                                About Me
+                            </motion.div>
+                        </Link>
                     </div>
                 </motion.div>
             </div>
