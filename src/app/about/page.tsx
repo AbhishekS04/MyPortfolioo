@@ -1,12 +1,11 @@
 import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 import { NavBar } from "@/components/ui/navbar";
 import { AboutClient } from "@/components/about/about-client";
 
 export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
-    const supabase = createClient(cookies());
+    const supabase = await createClient();
 
     // Fetch all data in parallel
     const [genRes, expRes, eduRes, skiRes, intRes] = await Promise.all([
