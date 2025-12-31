@@ -40,7 +40,7 @@ export function RatingInteraction({ className }: RatingInteractionProps) {
     if (submitted) {
         return (
             <div className={cn("flex flex-col items-center gap-4 py-8 animate-in fade-in zoom-in duration-500", className)}>
-                <div className="text-4xl">🎉</div>
+                <div className="w-16 h-16 mb-2"><img src="https://emojicdn.elk.sh/🎉?style=apple" className="w-full h-full object-contain" alt="Success" /></div>
                 <p className="text-white/60 font-medium">Thank you for your feedback!</p>
             </div>
         )
@@ -74,16 +74,21 @@ export function RatingInteraction({ className }: RatingInteractionProps) {
                                 )}
                             >
                                 {/* Emoji with smooth grayscale transition */}
-                                <span
+                                <div
                                     className={cn(
-                                        "text-2xl md:text-3xl transition-all duration-300 ease-out select-none",
+                                        "w-8 h-8 md:w-10 md:h-10 transition-all duration-300 ease-out select-none flex items-center justify-center",
                                         isActive
                                             ? "grayscale-0 drop-shadow-lg scale-110"
                                             : "grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0",
                                     )}
                                 >
-                                    {item.emoji}
-                                </span>
+                                    <img
+                                        src={`https://emojicdn.elk.sh/${item.emoji}?style=apple`}
+                                        alt={item.label}
+                                        className="w-full h-full object-contain pointer-events-none"
+                                        loading="lazy"
+                                    />
+                                </div>
                             </div>
                         </button>
                     )

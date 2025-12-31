@@ -12,7 +12,7 @@ export default function AboutPage() {
         contact_email: "Abhishek23main@gmail.com",
         phone_number: "+91 9883511660",
         location: "Kolkata, India",
-        birthday: "2003-01-01",
+        birthday: "2004-10-23",
         profile_image_url: "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
     };
 
