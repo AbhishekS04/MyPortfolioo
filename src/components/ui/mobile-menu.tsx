@@ -105,13 +105,19 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         {/* Visually Infinite Background - Massive filler */}
                         <div className="absolute top-[60%] left-0 right-0 h-[800vh] bg-[#111111] -z-10" />
 
-                        {/* Close Indicator */}
-                        <div className="flex justify-center mb-8">
+                        {/* Close Indicator & Header Actions */}
+                        <div className="flex justify-center items-center mb-12">
+                            {/* Drag Handle */}
                             <div className="w-12 h-1.5 bg-white/20 rounded-full" />
                         </div>
 
-                        {/* Links */}
-                        <div className="flex flex-col gap-6 items-center">
+                        {/* Links - Centered and spacious */}
+                        <div className="relative w-full flex flex-col gap-9 items-center justify-center min-h-[150px] pr-0 md:pr-0">
+                            {/* Story Trigger - Aligned with Home Text */}
+                            <div className="absolute right-0 top-1">
+                                <SocialStories />
+                            </div>
+
                             {LINKS.map((item, i) => (
                                 <motion.div
                                     key={item}
@@ -123,7 +129,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                     <Link
                                         href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                         onClick={onClose}
-                                        className="text-3xl font-medium text-white/90 hover:text-white transition-colors tracking-tight"
+                                        className="text-4xl font-medium text-white/90 hover:text-white transition-colors tracking-tight"
                                     >
                                         {item}
                                     </Link>
@@ -131,16 +137,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             ))}
                         </div>
 
-                        {/* Story Trigger */}
-                        <motion.div
-                            custom={LINKS.length}
-                            variants={linkVariants}
-                            initial="closed"
-                            animate="open"
-                            className="flex justify-center mt-12 mb-12"
-                        >
-                            <SocialStories />
-                        </motion.div>
+                        {/* Spacer to push content up slightly */}
+                        <div className="h-16" />
 
                         {/* Easter Egg Bottom Zone - Static Text with Apple Emoji */}
                         <motion.div
