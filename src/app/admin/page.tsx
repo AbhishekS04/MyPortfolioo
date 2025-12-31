@@ -163,13 +163,7 @@ export default function AdminDashboard() {
                     description="Change the images in the vertical stack on the home page."
                     delay={0.5}
                 />
-                <AdminCard
-                    href="/admin/about"
-                    icon={FileText}
-                    label="About Page"
-                    description="Manage bio, experience, education, skills, and interests."
-                    delay={0.6}
-                />
+
                 <AdminCard
                     href="/admin/settings"
                     icon={Settings}
