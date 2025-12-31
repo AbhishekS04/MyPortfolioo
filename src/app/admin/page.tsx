@@ -11,7 +11,8 @@ import {
     Settings,
     Cpu,
     Zap,
-    ExternalLink
+    ExternalLink,
+    FileText
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -128,10 +129,10 @@ export default function AdminDashboard() {
                     delay={0.5}
                 />
                 <AdminCard
-                    href="/admin/contact"
-                    icon={Zap}
-                    label="Contact Page"
-                    description="Update heading, availability status, and contact emails."
+                    href="/admin/about"
+                    icon={FileText}
+                    label="About Page"
+                    description="Manage bio, experience, education, skills, and interests."
                     delay={0.6}
                 />
                 <AdminCard
