@@ -168,7 +168,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                 style={{
                                     opacity: textOpacity,
                                     scale: textScale,
-                                    // y: textY // Exactly commented out as requested to stop position shifts
+                                    // y: textY // Disabled to keep static position
                                 }}
                                 className="px-4 pb-4" // Anchored to the very bottom
                             >
