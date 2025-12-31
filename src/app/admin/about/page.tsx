@@ -53,15 +53,22 @@ export default function AdminAbout() {
         setSaving(true);
         try {
             // 1. Save General
+            const generalPayload = {
+                full_name: general.full_name,
+                role_title: general.role_title,
+                bio_description: general.bio_description,
+                availability_status: general.availability_status,
+                is_available: general.is_available,
+                contact_email: general.contact_email
+            };
+
             if (general.id) {
-                await supabase.from("about_general").update({
-                    full_name: general.full_name,
-                    role_title: general.role_title,
-                    bio_description: general.bio_description,
-                    availability_status: general.availability_status,
-                    is_available: general.is_available,
-                    contact_email: general.contact_email
-                }).eq("id", general.id);
+                const { error } = await supabase.from("about_general").update(generalPayload).eq("id", general.id);
+                if (error) throw error;
+            } else {
+                const { data, error } = await supabase.from("about_general").insert([generalPayload]).select().single();
+                if (error) throw error;
+                if (data) setGeneral(data);
             }
 
             // 2. Upsert Experience
@@ -74,9 +81,13 @@ export default function AdminAbout() {
                     display_order: item.display_order
                 };
                 if (item.id.includes("temp")) {
-                    await supabase.from("about_experience").insert([{ ...payload }]);
+                    const { data, error } = await supabase.from("about_experience").insert([{ ...payload }]).select().single();
+                    if (error) throw error;
+                    // Update local ID to prevent duplicate inserts on next save
+                    item.id = data.id;
                 } else {
-                    await supabase.from("about_experience").update(payload).eq("id", item.id);
+                    const { error } = await supabase.from("about_experience").update(payload).eq("id", item.id);
+                    if (error) throw error;
                 }
             }
 
@@ -89,9 +100,12 @@ export default function AdminAbout() {
                     display_order: item.display_order
                 };
                 if (item.id.includes("temp")) {
-                    await supabase.from("about_education").insert([{ ...payload }]);
+                    const { data, error } = await supabase.from("about_education").insert([{ ...payload }]).select().single();
+                    if (error) throw error;
+                    item.id = data.id;
                 } else {
-                    await supabase.from("about_education").update(payload).eq("id", item.id);
+                    const { error } = await supabase.from("about_education").update(payload).eq("id", item.id);
+                    if (error) throw error;
                 }
             }
 
@@ -105,9 +119,12 @@ export default function AdminAbout() {
                     display_order: item.display_order
                 };
                 if (item.id.includes("temp")) {
-                    await supabase.from("about_skills").insert([{ ...payload }]);
+                    const { data, error } = await supabase.from("about_skills").insert([{ ...payload }]).select().single();
+                    if (error) throw error;
+                    item.id = data.id;
                 } else {
-                    await supabase.from("about_skills").update(payload).eq("id", item.id);
+                    const { error } = await supabase.from("about_skills").update(payload).eq("id", item.id);
+                    if (error) throw error;
                 }
             }
 
@@ -119,16 +136,22 @@ export default function AdminAbout() {
                     display_order: item.display_order
                 };
                 if (item.id.includes("temp")) {
-                    await supabase.from("about_interests").insert([{ ...payload }]);
+                    const { data, error } = await supabase.from("about_interests").insert([{ ...payload }]).select().single();
+                    if (error) throw error;
+                    item.id = data.id;
                 } else {
-                    await supabase.from("about_interests").update(payload).eq("id", item.id);
+                    const { error } = await supabase.from("about_interests").update(payload).eq("id", item.id);
+                    if (error) throw error;
                 }
             }
 
             showToast("About Information updated!", "success");
-            fetchData(); // Refresh to clean temp IDs
+            // No need to refetch full data if we update IDs in place, but safer to refetch if wanted. 
+            // However, updating IDs in place (above) prevents UI jump. 
+            // We can skip fetchData() to avoid overwriting state with stale data if backend is slow.
         } catch (error: any) {
-            showToast("Error saving: " + error.message, "error");
+            console.error("Save error:", error);
+            showToast("Error saving: " + (error.message || "Unknown error"), "error");
         } finally {
             setSaving(false);
         }
@@ -137,7 +160,11 @@ export default function AdminAbout() {
     // Helper to delete items
     const handleDelete = async (table: string, id: string, setter: any, list: any[]) => {
         if (!id.includes("temp")) {
-            await supabase.from(table).delete().eq("id", id);
+            const { error } = await supabase.from(table).delete().eq("id", id);
+            if (error) {
+                showToast("Error deleting: " + error.message, "error");
+                return;
+            }
         }
         setter(list.filter(i => i.id !== id));
     };
