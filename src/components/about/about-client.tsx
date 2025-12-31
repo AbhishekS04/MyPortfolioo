@@ -133,48 +133,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                 </BentoCard>
             </div>
 
-            {/* --- Tools & Languages --- */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Design */}
-                <BentoCard className="p-6 flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-4">
-                        <span className="text-white/40 text-sm font-semibold border-r border-white/10 pr-4">Design Tools</span>
-                        <div className="flex gap-3">
-                            {skills.filter((s: any) => s.category === 'design').map((s: any) => (
-                                <div key={s.id} className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ backgroundColor: `${s.color_code}20`, color: s.color_code }}>
-                                    {s.icon_name}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </BentoCard>
 
-                {/* Editing */}
-                <BentoCard className="p-6 flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-4">
-                        <span className="text-white/40 text-sm font-semibold border-r border-white/10 pr-4">Editing Tools</span>
-                        <div className="flex gap-3">
-                            {skills.filter((s: any) => s.category === 'editing').map((s: any) => (
-                                <div key={s.id} className="w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ backgroundColor: `${s.color_code}20`, color: s.color_code }}>
-                                    {s.icon_name}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </BentoCard>
-
-                {/* Languages - Hardcoded for now unless added to DB? Or use Skills category 'language' */}
-                <BentoCard className="p-6 flex items-center justify-between group cursor-default">
-                    <div className="flex items-center gap-4">
-                        <span className="text-white/40 text-sm font-semibold border-r border-white/10 pr-4">Languages</span>
-                        <div className="flex gap-3 text-lg">
-                            <span>🇮🇳</span>
-                            <span>🇺🇸</span>
-                            <span>🇬🇧</span>
-                        </div>
-                    </div>
-                </BentoCard>
-            </div>
 
             {/* --- Portfolio Row --- */}
             <BentoCard className="p-6">
