@@ -142,25 +142,25 @@ export function Signature() {
                                 {/* Dynamic Terminate Action */}
                                 <button
                                     onClick={() => setIsTriggered(false)}
-                                    className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-700 text-white/40 hover:text-red-500 text-[10px] sm:text-xs uppercase tracking-[0.3em] border border-white/10 px-6 py-2.5 rounded-full backdrop-blur-2xl bg-black/40 hover:bg-black/90 shadow-2xl translate-y-2 group-hover:translate-y-0 font-mono"
+                                    className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-0 group-hover:opacity-100 transition-all duration-700 text-white/40 hover:text-red-500 text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] border border-white/10 px-4 py-2 sm:px-6 sm:py-2.5 rounded-full backdrop-blur-2xl bg-black/40 hover:bg-black/90 shadow-2xl translate-y-1 group-hover:translate-y-0 font-mono z-50"
                                 >
                                     [ ABORT_SEQUENCE ]
                                 </button>
                             </div>
                         </motion.div>
 
-                        {/* Restricted Zone Status */}
+                        {/* Restricted Zone Status HUD - Top Positioned */}
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, transition: { delay: 0.2 } }}
-                            transition={{ delay: 1.5, duration: 1 }}
-                            className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center space-y-2"
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20, transition: { delay: 0.1 } }}
+                            transition={{ delay: 1.2, duration: 1 }}
+                            className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center space-y-1 sm:space-y-2 w-full px-4 text-center"
                         >
-                            <span className="text-red-500/40 text-[10px] sm:text-xs font-mono tracking-[0.8em] uppercase whitespace-nowrap animate-pulse">
+                            <span className="text-red-500/60 text-[8px] sm:text-[10px] font-mono tracking-[0.3em] sm:tracking-[0.8em] uppercase whitespace-nowrap animate-pulse">
                                 Restricted Zone Accessed
                             </span>
-                            <span className="text-white/20 text-[9px] font-mono tracking-[0.4em] uppercase">
+                            <span className="text-white/30 text-[7px] sm:text-[9px] font-mono tracking-[0.2em] sm:tracking-[0.4em] uppercase whitespace-nowrap">
                                 Easter Egg Unlocked • Enjoy the Secret
                             </span>
                         </motion.div>
