@@ -86,10 +86,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         animate="open"
                         exit="closed"
                         drag="y"
-                        dragConstraints={{ top: -50, bottom: 0 }} // Limit expansion to just show the text
+                        dragConstraints={{ top: -85, bottom: 0 }} // Limit expansion to just show the text
                         dragElastic={0.05} // Slight elasticity at the limit so it doesn't feel broken
                         onDragEnd={(_, info) => {
-                            if (info.offset.y > 50 || info.velocity.y > 500) {
+                            if (info.offset.y > 85 || info.velocity.y > 500) {
                                 onClose();
                             } else {
                                 // Snappy return to simulate rubber band Snap
