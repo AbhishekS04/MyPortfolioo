@@ -50,39 +50,34 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const [hasExploded, setHasExploded] = useState(false);
     const [triggerExplode, setTriggerExplode] = useState(false);
 
-    // Hard-Resistance Transform with "Squeegee" Soft-Cap
+    // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
     // raw drag value -> visual stretch value
     const stretch = useTransform(y, (v: any) => {
         const num = typeof v === 'string' ? parseFloat(v) : v;
         const rawY = -(num || 0);
         if (rawY <= 0) return 0;
 
-        // Linear heavy resistance first (0.25 factor)
-        // Then HARD cap at ~20px visual stretch (rawY 80px)
-        const visual = rawY * 0.25;
-        if (visual > 20) {
-            // "Struck but not stuck": minimal movement past the limit
-            // This stops the bar from going up effectively
-            return 20 + (visual - 20) * 0.05;
-        }
-        return visual;
+        // Linear heavy resistance: moves 1px for every 4px of finger drag
+        return rawY * 0.25;
     });
 
-    // Thresholds: Text appears and explodes right at the limit
-    const textOpacity = useTransform(stretch, [5, 20], [0, 1]);
-    const textScale = useTransform(stretch, [5, 20], [0.9, 1]);
-    // const textY = useTransform(stretch, [0, 20], [20, 0]); // Disabled
-    const barHeight = useTransform(stretch, [0, 40], [0, 60]);
+    // Synchronized Thresholds: Text appears and explodes simultaneously
+    // Text fades in from 2 to 12
+    const textOpacity = useTransform(stretch, [2, 12], [0, 1]);
+    const textScale = useTransform(stretch, [2, 12], [0.9, 1]);
+    // const textY = useTransform(stretch, [0, 12], [20, 0]); // Disabled
+    const barHeight = useTransform(stretch, [0, 40], [0, 80]);
 
     useEffect(() => {
         const unsubscribe = stretch.on("change", (v: number) => {
-            // Trigger explosion right as it hits the "wall" (at 18px)
-            if (v > 18 && !hasExploded && isOpen) {
+            // Trigger explosion EXACTLY when text becomes fully visible (at 12)
+            // This ensures "when the text shows up it explodes"
+            if (v > 12 && !hasExploded && isOpen) {
                 setHasExploded(true);
                 setTriggerExplode(true);
             }
             // Instant reset
-            else if (v < 5 && hasExploded) {
+            else if (v < 2 && hasExploded) {
                 setHasExploded(false);
                 setTriggerExplode(false);
             }
