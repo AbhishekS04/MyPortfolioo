@@ -80,15 +80,23 @@ export default function AdminDashboard() {
                     </motion.p>
                 </div>
 
-                <motion.button
+                <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    onClick={handleLogout}
-                    className="self-start md:self-auto flex items-center gap-3 px-6 py-3 rounded-full bg-white/5 border border-white/10 hover:bg-red-500/10 hover:border-red-500/20 hover:text-red-400 text-white/60 transition-all font-medium backdrop-blur-sm"
                 >
-                    <LogOut className="w-4 h-4" />
-                    <span>End Session</span>
-                </motion.button>
+                    <button
+                        onClick={async () => {
+                            const { createClient } = await import("@/utils/supabase/client");
+                            const supabase = createClient();
+                            await supabase.auth.signOut();
+                            window.location.href = "/admin/login";
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl transition-all text-sm font-medium border border-red-500/10"
+                    >
+                        <LogOut className="w-4 h-4" />
+                        End Session
+                    </button>
+                </motion.div>
             </div>
 
             {/* Dashboard Grid */}
