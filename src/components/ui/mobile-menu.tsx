@@ -1,8 +1,10 @@
 "use client";
 
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link";
 import { SocialStories } from "@/components/ui/social-stories";
+import TextExplode from "./text-explode";
 import { X } from "lucide-react";
 
 interface MobileMenuProps {
@@ -44,6 +46,40 @@ const linkVariants: Variants = {
 const LINKS = ["Home", "Works", "About"];
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+    const y = useMotionValue(0);
+    const [hasExploded, setHasExploded] = useState(false);
+    const [triggerExplode, setTriggerExplode] = useState(false);
+
+    // Hard-Resistance Transform: Non-linear power curve for a "hard rubber" feel
+    // raw drag value -> visual stretch value
+    const stretch = useTransform(y, (v: any) => {
+        const num = typeof v === 'string' ? parseFloat(v) : v;
+        const rawY = -(num || 0);
+        if (rawY <= 0) return 0;
+        // Steep curve: first 50px are easy, then it gets exponentially hard
+        return Math.pow(rawY, 0.55);
+    });
+
+    // Thresholds adjusted for early reveal and a firm "earned" payoff
+    const textOpacity = useTransform(stretch, [10, 50], [0, 1]);
+    const textScale = useTransform(stretch, [10, 50], [0.85, 1]);
+    const textY = useTransform(stretch, [0, 50], [20, 0]); // Slide up from bottom
+    const barHeight = useTransform(stretch, [0, 200], [0, 180]);
+
+    useEffect(() => {
+        const unsubscribe = stretch.on("change", (v: number) => {
+            // Trigger explosion at a reachable threshold (rawY ≈ 470px)
+            if (v > 85 && !hasExploded && isOpen) {
+                setHasExploded(true);
+                setTriggerExplode(true);
+            } else if (v < 30 && hasExploded) {
+                setHasExploded(false);
+                setTriggerExplode(false);
+            }
+        });
+        return () => unsubscribe();
+    }, [hasExploded, isOpen, stretch]);
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -59,20 +95,33 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
                     {/* Bottom Sheet */}
                     <motion.div
+                        style={{ y }}
                         variants={menuVariants}
                         initial="closed"
                         animate="open"
                         exit="closed"
                         drag="y"
-                        dragConstraints={{ top: 0 }}
-                        dragElastic={0.2}
+                        dragConstraints={{ top: -2000, bottom: 0 }} // Allow deep fight against resistance
+                        dragElastic={0}
                         onDragEnd={(_, info) => {
+                            setHasExploded(false);
+                            setTriggerExplode(false);
                             if (info.offset.y > 100 || info.velocity.y > 500) {
                                 onClose();
+                            } else {
+                                // Snappy return to simulate rubber band Snap
+                                animate(y, 0, {
+                                    type: "tween",
+                                    ease: [0.33, 1, 0.68, 1], // easeOutQuart
+                                    duration: 0.4
+                                });
                             }
                         }}
-                        className="fixed bottom-0 left-0 right-0 bg-[#111111] border-t border-white/10 rounded-t-[32px] p-8 z-[100] pb-12"
+                        className="fixed bottom-0 left-0 right-0 bg-[#111111] border-t border-white/10 rounded-t-[32px] p-8 z-[100] pb-12 cursor-grab active:cursor-grabbing shadow-[0_-30px_60px_rgba(0,0,0,0.6)]"
                     >
+                        {/* Visually Infinite Background - Massive filler */}
+                        <div className="absolute top-[60%] left-0 right-0 h-[800vh] bg-[#111111] -z-10" />
+
                         {/* Close Indicator */}
                         <div className="flex justify-center mb-8">
                             <div className="w-12 h-1.5 bg-white/20 rounded-full" />
@@ -99,17 +148,35 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             ))}
                         </div>
 
-                        {/* Story Trigger unified in stagger */}
+                        {/* Story Trigger */}
                         <motion.div
                             custom={LINKS.length}
                             variants={linkVariants}
                             initial="closed"
                             animate="open"
-                            className="flex justify-center mt-12"
+                            className="flex justify-center mt-12 mb-12"
                         >
                             <SocialStories />
                         </motion.div>
 
+                        {/* Easter Egg Bottom Zone - Text anchored to the absolute bottom edge */}
+                        <motion.div
+                            style={{ height: barHeight }}
+                            className="absolute bottom-0 left-0 right-0 flex items-end justify-center overflow-hidden pointer-events-none"
+                        >
+                            <motion.div
+                                style={{ opacity: textOpacity, scale: textScale, y: textY }}
+                                className="px-4 pb-4" // Anchored to the very bottom
+                            >
+                                <TextExplode
+                                    text="You stretched it too much"
+                                    mode="manual"
+                                    trigger={triggerExplode}
+                                    className="text-lg md:text-xl font-bold text-red-500 whitespace-nowrap"
+                                    onComplete={() => setTriggerExplode(false)}
+                                />
+                            </motion.div>
+                        </motion.div>
                     </motion.div>
                 </>
             )}

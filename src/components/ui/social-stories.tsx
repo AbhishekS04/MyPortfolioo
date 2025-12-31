@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ArrowUpRight, X, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
+import { cn } from "@/lib/utils"
 
 export type SocialPlatform = "linkedin" | "instagram"
 
@@ -32,6 +33,7 @@ export function SocialStories() {
     const [isMediaLoaded, setIsMediaLoaded] = useState(false)
     const [mounted, setMounted] = useState(false)
     const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
+    const [isFetchLoading, setIsFetchLoading] = useState(true)
 
     // Timing refs for high-performance animation
     const startTimeRef = useRef<number | null>(null)
@@ -49,20 +51,25 @@ export function SocialStories() {
     }, [])
 
     const fetchStories = async () => {
-        const { data } = await supabase
-            .from("social_stories")
-            .select("*")
-            .order("display_order", { ascending: true })
+        setIsFetchLoading(true)
+        try {
+            const { data } = await supabase
+                .from("social_stories")
+                .select("*")
+                .order("display_order", { ascending: true })
 
-        if (data) {
-            setStories(data.map(s => ({
-                id: s.id,
-                platform: s.platform as SocialPlatform,
-                mediaUrl: s.media_url,
-                linkUrl: s.link_url,
-                caption: s.caption,
-                duration: 5
-            })))
+            if (data) {
+                setStories(data.map(s => ({
+                    id: s.id,
+                    platform: s.platform as SocialPlatform,
+                    mediaUrl: s.media_url,
+                    linkUrl: s.link_url,
+                    caption: s.caption,
+                    duration: 5
+                })))
+            }
+        } finally {
+            setIsFetchLoading(false)
         }
     }
 
@@ -178,10 +185,9 @@ export function SocialStories() {
     }
 
     if (!mounted) return null
-    if (stories.length === 0) return null
-    if (!currentStory) return null
+    // removed early return to show trigger immediately
 
-    const isCurrentVideo = isVideoUrl(currentStory.mediaUrl);
+    const isCurrentVideo = currentStory ? isVideoUrl(currentStory.mediaUrl) : false;
 
     return (
         <>
@@ -191,19 +197,40 @@ export function SocialStories() {
                     {!isOpen && (
                         <motion.div
                             layoutId="story-container"
-                            className="absolute inset-0 cursor-pointer rounded-full p-[2px]"
-                            onClick={toggleOpen}
+                            className={cn(
+                                "absolute inset-0 cursor-pointer rounded-full p-[2px] transition-all duration-500",
+                                isFetchLoading ? "opacity-50 grayscale scale-95" : "opacity-100 grayscale-0 scale-100"
+                            )}
+                            onClick={() => !isFetchLoading && stories.length > 0 && setIsOpen(true)}
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.2 }}
                         >
                             {/* Gold Border Ring */}
-                            <div className="absolute inset-0 rounded-full border-[2px] border-[#FFD700]/80 group-hover:border-[#FFD700] transition-colors shadow-[0_0_10px_rgba(255,215,0,0.2)]" />
+                            <div className={cn(
+                                "absolute inset-0 rounded-full border-[2px] transition-colors",
+                                isFetchLoading ? "border-white/10" : "border-[#FFD700]/80 group-hover:border-[#FFD700]"
+                            )} />
 
                             <div className="absolute inset-[3px] rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                <Image src={PROFILE.avatarUrl} alt={PROFILE.name} fill className="object-cover" />
+                                <Image
+                                    src={PROFILE.avatarUrl}
+                                    alt={PROFILE.name}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
                             </div>
+
+                            {/* Loading Pulse */}
+                            {isFetchLoading && (
+                                <motion.div
+                                    className="absolute inset-0 rounded-full border border-white/20"
+                                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                />
+                            )}
                         </motion.div>
                     )}
                 </AnimatePresence>
