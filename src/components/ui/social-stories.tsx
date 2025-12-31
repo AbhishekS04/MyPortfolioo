@@ -31,8 +31,12 @@ export function SocialStories() {
     const [isPaused, setIsPaused] = useState(false)
     const [isMediaLoaded, setIsMediaLoaded] = useState(false)
     const [mounted, setMounted] = useState(false)
+    const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
 
-    // Store the start time of the current slice of progress
+    // Timing refs for high-performance animation
+    const startTimeRef = useRef<number | null>(null)
+    const pausedAtRef = useRef<number | null>(null)
+    const rafRef = useRef<number | null>(null)
     const lastTimeRef = useRef<number>(Date.now())
     const progressRef = useRef(0)
 
@@ -64,30 +68,50 @@ export function SocialStories() {
 
     const currentStory = stories[currentIndex]
 
-    // Default duration 5s if not specified
-    const duration = (currentStory?.duration || 5) * 1000
+    // Priority: Dynamic (video detected) > DB provided > Default (5s)
+    const defaultDuration = 5
+    const durationMs = dynamicDuration ?? (currentStory?.duration ?? defaultDuration) * 1000
+
+    const stopAnimation = () => {
+        if (rafRef.current) {
+            cancelAnimationFrame(rafRef.current)
+            rafRef.current = null
+        }
+    }
+
+    const resetTiming = () => {
+        startTimeRef.current = null
+        // pausedAtRef.current = null // Not used in current draft but good to reset if added back
+        setIsMediaLoaded(false)
+        if (activeProgressBarRef.current) {
+            activeProgressBarRef.current.style.width = "0%"
+        }
+        progressRef.current = 0
+    }
 
     const isVideoUrl = (url: string) => {
         return url.match(/\.(mp4|webm|ogg|mov|m4v)$|^https?:\/\/res\.cloudinary\.com\/.*\/video\/upload\//i);
     };
 
     const goToNext = useCallback(() => {
+        stopAnimation()
+        resetTiming()
+        setDynamicDuration(null)
+
         if (currentIndex < stories.length - 1) {
-            setCurrentIndex(prev => prev + 1)
+            setCurrentIndex(i => i + 1)
         } else {
-            setCurrentIndex(0)
             setIsOpen(false)
+            setCurrentIndex(0)
         }
-        progressRef.current = 0
-        setIsMediaLoaded(false)
     }, [currentIndex, stories.length])
 
     const goToPrev = useCallback(() => {
-        if (currentIndex > 0) {
-            setCurrentIndex(prev => prev - 1)
-        }
-        progressRef.current = 0
-        setIsMediaLoaded(false)
+        if (currentIndex === 0) return
+        stopAnimation()
+        resetTiming()
+        setDynamicDuration(null)
+        setCurrentIndex(i => i - 1)
     }, [currentIndex])
 
     useEffect(() => {
@@ -109,13 +133,13 @@ export function SocialStories() {
                 lastTimeRef.current = now
 
                 progressRef.current += delta
-                const progressPercent = Math.min((progressRef.current / duration) * 100, 100)
+                const progressPercent = Math.min((progressRef.current / durationMs) * 100, 100)
 
                 if (activeProgressBarRef.current) {
                     activeProgressBarRef.current.style.width = `${progressPercent}%`
                 }
 
-                if (progressRef.current >= duration) {
+                if (progressRef.current >= durationMs) {
                     goToNext()
                 }
             } else {
@@ -130,7 +154,7 @@ export function SocialStories() {
         return () => {
             cancelAnimationFrame(animationFrameId)
         }
-    }, [isPaused, duration, goToNext, isOpen, currentIndex, isMediaLoaded, currentStory])
+    }, [isPaused, durationMs, goToNext, isOpen, currentIndex, isMediaLoaded, currentStory])
 
     const handleTap = (e: React.MouseEvent<HTMLDivElement>) => {
         if ((e.target as HTMLElement).closest('button')) {
@@ -246,7 +270,11 @@ export function SocialStories() {
                                                     playsInline
                                                     loop
                                                     className="w-full h-full object-contain"
-                                                    onLoadedData={() => setIsMediaLoaded(true)}
+                                                    onLoadedData={(e) => {
+                                                        const video = e.currentTarget;
+                                                        setDynamicDuration(video.duration * 1000);
+                                                        setIsMediaLoaded(true);
+                                                    }}
                                                 />
                                             ) : (
                                                 <Image
