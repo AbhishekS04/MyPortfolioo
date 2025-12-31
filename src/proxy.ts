@@ -21,14 +21,9 @@ export async function proxy(request: NextRequest) {
                     supabaseResponse = NextResponse.next({
                         request,
                     });
-                    cookiesToSet.forEach(({ name, value, options }) => {
-                        // Enforce Session Cookies: Remove persistence
-                        const sessionOptions = { ...options };
-                        delete sessionOptions.maxAge;
-                        delete sessionOptions.expires;
-
-                        supabaseResponse.cookies.set(name, value, sessionOptions);
-                    });
+                    cookiesToSet.forEach(({ name, value, options }) =>
+                        supabaseResponse.cookies.set(name, value, options)
+                    );
                 },
             },
         }
