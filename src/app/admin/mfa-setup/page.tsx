@@ -76,8 +76,15 @@ export default function MFASetupPage() {
                 setFactorId(data.id);
                 setSecret(data.totp.secret);
 
-                // 5. Generate QR
-                const qrUrl = await QRCode.toDataURL(data.totp.uri);
+                // 5. Generate QR with Custom Branding
+                const customIssuer = "Abhishek Portfolio";
+                const accountName = "Admin"; // Cleaner look
+
+
+                // Reconstruct the URI with custom issuer to ensure professional appearance
+                const brandingUri = `otpauth://totp/${encodeURIComponent(customIssuer)}:${encodeURIComponent(accountName)}?secret=${data.totp.secret}&issuer=${encodeURIComponent(customIssuer)}&algorithm=SHA1&digits=6&period=30`;
+
+                const qrUrl = await QRCode.toDataURL(brandingUri);
                 setQrCodeUrl(qrUrl);
             } catch (err: any) {
                 console.error("MFA Setup Error:", err);
