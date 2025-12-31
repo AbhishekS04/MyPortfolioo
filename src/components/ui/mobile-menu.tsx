@@ -1,10 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link";
 import { SocialStories } from "@/components/ui/social-stories";
-import TextExplode from "./text-explode";
+// import TextExplode from "./text-explode";
 import { X } from "lucide-react";
 
 interface MobileMenuProps {
@@ -47,8 +46,6 @@ const LINKS = ["Home", "Works", "About"];
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const y = useMotionValue(0);
-    const [hasExploded, setHasExploded] = useState(false);
-    const [triggerExplode, setTriggerExplode] = useState(false);
 
     // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
     // raw drag value -> visual stretch value
@@ -61,29 +58,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         return rawY * 0.25;
     });
 
-    // Synchronized Thresholds: Text appears and explodes simultaneously
-    // Text fades in from 2 to 12
-    const textOpacity = useTransform(stretch, [2, 12], [0, 1]);
-    const textScale = useTransform(stretch, [2, 12], [0.9, 1]);
-    // const textY = useTransform(stretch, [0, 12], [20, 0]); // Disabled
+    // Thresholds adjusted for early reveal
+    const textOpacity = useTransform(stretch, [2, 15], [0, 1]);
+    const textScale = useTransform(stretch, [2, 15], [0.9, 1]);
     const barHeight = useTransform(stretch, [0, 40], [0, 80]);
 
-    useEffect(() => {
-        const unsubscribe = stretch.on("change", (v: number) => {
-            // Trigger explosion EXACTLY when text becomes fully visible (at 12)
-            // This ensures "when the text shows up it explodes"
-            if (v > 12 && !hasExploded && isOpen) {
-                setHasExploded(true);
-                setTriggerExplode(true);
-            }
-            // Instant reset
-            else if (v < 2 && hasExploded) {
-                setHasExploded(false);
-                setTriggerExplode(false);
-            }
-        });
-        return () => unsubscribe();
-    }, [hasExploded, isOpen, stretch]);
+    // Removed explosion logic entirely
 
     return (
         <AnimatePresence>
@@ -109,8 +89,6 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         dragConstraints={{ top: -2000, bottom: 0 }} // Allow deep fight against resistance
                         dragElastic={0}
                         onDragEnd={(_, info) => {
-                            setHasExploded(false);
-                            setTriggerExplode(false);
                             if (info.offset.y > 100 || info.velocity.y > 500) {
                                 onClose();
                             } else {
@@ -164,7 +142,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             <SocialStories />
                         </motion.div>
 
-                        {/* Easter Egg Bottom Zone - Text anchored to the absolute bottom edge */}
+                        {/* Easter Egg Bottom Zone - Static Text with Apple Emoji */}
                         <motion.div
                             style={{ height: barHeight }}
                             className="absolute bottom-0 left-0 right-0 flex items-end justify-center overflow-hidden pointer-events-none"
@@ -173,16 +151,17 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                 style={{
                                     opacity: textOpacity,
                                     scale: textScale,
-                                    // y: textY // Disabled to keep static position
                                 }}
-                                className="px-4 pb-4" // Anchored to the very bottom
+                                className="px-4 pb-4 flex items-center gap-2" // Anchored to the very bottom
                             >
-                                <TextExplode
-                                    text="You stretched it too much"
-                                    mode="manual"
-                                    trigger={triggerExplode}
-                                    className="text-lg md:text-xl font-bold text-red-500 whitespace-nowrap"
-                                    onComplete={() => setTriggerExplode(false)}
+                                <span className="text-lg md:text-xl font-bold text-white-500 whitespace-nowrap">
+                                    Why are you stretching that
+                                </span>
+                                {/* Apple-style Broken Heart Emoji via CDN to ensure Windows assumes it's Apple */}
+                                <img
+                                    src="https://emojicdn.elk.sh/💔?style=apple"
+                                    alt="broken heart"
+                                    className="w-6 h-6 mb-0.5"
                                 />
                             </motion.div>
                         </motion.div>
