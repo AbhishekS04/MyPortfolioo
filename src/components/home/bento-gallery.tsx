@@ -33,7 +33,7 @@ export function BentoGallery() {
                 </div>
 
                 {/* 3. Focus Card - Top Right */}
-                <div className="order-3 md:order-2 lg:order-3 md:col-span-1 lg:col-span-1 h-[300px] md:h-[500px] lg:h-[500px]">
+                <div className="order-3 md:order-2 lg:order-3 md:col-span-1 lg:col-span-1 h-[550px] md:h-[500px] lg:h-[500px]">
                     <FocusCard />
                 </div>
 
