@@ -86,10 +86,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         animate="open"
                         exit="closed"
                         drag="y"
-                        dragConstraints={{ top: -2000, bottom: 0 }} // Allow deep fight against resistance
-                        dragElastic={0}
+                        dragConstraints={{ top: -50, bottom: 0 }} // Limit expansion to just show the text
+                        dragElastic={0.05} // Slight elasticity at the limit so it doesn't feel broken
                         onDragEnd={(_, info) => {
-                            if (info.offset.y > 100 || info.velocity.y > 500) {
+                            if (info.offset.y > 50 || info.velocity.y > 500) {
                                 onClose();
                             } else {
                                 // Snappy return to simulate rubber band Snap
@@ -155,7 +155,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                 className="px-4 pb-4 flex items-center gap-2" // Anchored to the very bottom
                             >
                                 <span className="text-lg md:text-xl font-bold text-white/50 whitespace-nowrap">
-                                    Why are you stretching that
+                                    Why are you stretching that !
                                 </span>
                                 {/* Apple-style Broken Heart Emoji via CDN to ensure Windows assumes it's Apple */}
                                 <img
