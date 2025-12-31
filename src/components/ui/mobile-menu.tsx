@@ -14,30 +14,29 @@ const menuVariants: Variants = {
     closed: {
         y: "100%",
         transition: {
-            type: "spring",
-            stiffness: 300,
-            damping: 30
+            duration: 0.5,
+            ease: [0.32, 0, 0.67, 0]
         }
     },
     open: {
         y: "0%",
         transition: {
-            type: "spring",
-            stiffness: 300,
-            damping: 30
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1]
         }
     }
 };
 
 const linkVariants: Variants = {
-    closed: { opacity: 0, y: 20 },
+    closed: { opacity: 0, scale: 0.95, y: 10 },
     open: (i: number) => ({
         opacity: 1,
+        scale: 1,
         y: 0,
         transition: {
-            delay: 0.1 + i * 0.1,
-            duration: 0.4,
-            ease: "easeOut"
+            delay: 0.15 + i * 0.08,
+            duration: 0.5,
+            ease: [0.22, 1, 0.36, 1]
         }
     })
 };
@@ -100,11 +99,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             ))}
                         </div>
 
-                        {/* Story Trigger moved here for Mobile */}
+                        {/* Story Trigger unified in stagger */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4 }}
+                            custom={LINKS.length}
+                            variants={linkVariants}
+                            initial="closed"
+                            animate="open"
                             className="flex justify-center mt-12"
                         >
                             <SocialStories />
