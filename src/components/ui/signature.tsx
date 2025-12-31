@@ -12,7 +12,7 @@ export function Signature() {
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
     // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = "https://res.cloudinary.com/dap0u41dz/video/upload/v1767176363/f066396cd1a2bbe8285f9c0a3a9911fb_720w_wujgvl.mp4";
+    const VIDEO_SRC = "https://res.cloudinary.com/dap0u41dz/video/upload/v1767179570/james_doakes_dexter_meme_720P_HD_bgahqk.mp4";
 
     const handleClick = () => {
         const now = Date.now();
