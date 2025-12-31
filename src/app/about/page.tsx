@@ -156,23 +156,23 @@ export default function AboutPage() {
                             <div className="flex justify-between items-start">
                                 <div>
                                     <h3 className="text-xl font-bold">Graduation</h3>
-                                    <p className="text-white/40 text-xs">University Degree</p>
+                                    <p className="text-white/40 text-xs">Adamas University</p>
                                 </div>
-                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2017-21</span>
+                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2023</span>
                             </div>
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="text-xl font-bold">Diploma</h3>
-                                    <p className="text-white/40 text-xs">Animation & Graphic Design</p>
+                                    <h3 className="text-xl font-bold">Higher Secondary</h3>
+                                    <p className="text-white/40 text-xs">Rampurhat JL Vidyabhaban</p>
                                 </div>
-                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2017-18</span>
+                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2023</span>
                             </div>
                             <div className="flex justify-between items-start">
                                 <div>
-                                    <h3 className="text-xl font-bold">High School</h3>
-                                    <p className="text-white/40 text-xs">Humanities</p>
+                                    <h3 className="text-xl font-bold">Secondary Education</h3>
+                                    <p className="text-white/40 text-xs">Rampurhat JL Vidyabhaban</p>
                                 </div>
-                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2017</span>
+                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded">2020</span>
                             </div>
                         </div>
                     </BentoCard>
@@ -278,7 +278,7 @@ export default function AboutPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Email</p>
-                                <p className="text-sm font-medium">hello@abhishek.com</p>
+                                <p className="text-sm font-medium">Abhishek23main@gmail.com</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -287,7 +287,7 @@ export default function AboutPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Phone</p>
-                                <p className="text-sm font-medium">+91 00000 00000</p>
+                                <p className="text-sm font-medium">+91 9883511660</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-4">
@@ -296,7 +296,7 @@ export default function AboutPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Location</p>
-                                <p className="text-sm font-medium">Delhi, India</p>
+                                <p className="text-sm font-medium">Kolkata, India</p>
                             </div>
                         </div>
                     </div>
