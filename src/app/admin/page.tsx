@@ -2,6 +2,7 @@
 
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import {
     LogOut,
     LayoutDashboard,
@@ -52,6 +53,29 @@ function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
 
 export default function AdminDashboard() {
     const router = useRouter();
+
+    useEffect(() => {
+        const checkSecurity = async () => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) {
+                router.replace("/admin/login");
+                return;
+            }
+
+            const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+            if (aal && aal.currentLevel === 'aal1') {
+                const { data: factors } = await supabase.auth.mfa.listFactors();
+                const hasVerified = factors?.totp?.some(f => f.status === 'verified');
+
+                if (hasVerified) {
+                    router.replace("/admin/verify-2fa");
+                } else {
+                    router.replace("/admin/mfa-setup");
+                }
+            }
+        };
+        checkSecurity();
+    }, []);
 
     const handleLogout = async () => {
         await supabase.auth.signOut();
