@@ -243,10 +243,9 @@ export function SocialStories() {
                                                 <video
                                                     src={currentStory.mediaUrl}
                                                     autoPlay
-                                                    muted
                                                     playsInline
                                                     loop
-                                                    className="w-full h-full object-cover"
+                                                    className="w-full h-full object-contain"
                                                     onLoadedData={() => setIsMediaLoaded(true)}
                                                 />
                                             ) : (
