@@ -154,13 +154,13 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                 }}
                                 className="px-4 pb-4 flex items-center gap-2" // Anchored to the very bottom
                             >
-                                <span className="text-lg md:text-xl font-bold text-white-500 whitespace-nowrap">
+                                <span className="text-lg md:text-xl font-bold text-white/50 whitespace-nowrap">
                                     Why are you stretching that
                                 </span>
                                 {/* Apple-style Broken Heart Emoji via CDN to ensure Windows assumes it's Apple */}
                                 <img
-                                    src="https://emojicdn.elk.sh/💔?style=apple"
-                                    alt="broken heart"
+                                    src="https://emojicdn.elk.sh/🤨?style=apple"
+                                    alt="sus"
                                     className="w-6 h-6 mb-0.5"
                                 />
                             </motion.div>
