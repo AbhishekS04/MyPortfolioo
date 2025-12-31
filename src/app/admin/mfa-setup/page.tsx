@@ -123,6 +123,26 @@ export default function MFASetupPage() {
         );
     }
 
+    const handleReset = async () => {
+        if (!confirm("Are you sure? This will disable 2FA and you will need to scan a new QR code.")) return;
+
+        setIsLoading(true);
+        try {
+            const { data: factors } = await supabase.auth.mfa.listFactors();
+            const totpFactors = factors?.totp || [];
+
+            for (const factor of totpFactors) {
+                await supabase.auth.mfa.unenroll({ factorId: factor.id });
+            }
+
+            // Reload to triggers clean setup
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+        }
+    };
+
     if (isSuccess) {
         return (
             <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4">
@@ -130,11 +150,19 @@ export default function MFASetupPage() {
                     <div className="w-16 h-16 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto text-emerald-500">
                         <CheckCircle2 size={32} />
                     </div>
-                    <h2 className="text-2xl font-bold text-white">2FA Enabled!</h2>
-                    <p className="text-white/40">Your account is now more secure. You will be asked for a code on next login.</p>
-                    <Button onClick={() => router.push("/admin")} className="w-full bg-white text-black hover:bg-white/90">
-                        Back to Dashboard
-                    </Button>
+                    <h2 className="text-2xl font-bold text-white">2FA is Active</h2>
+                    <p className="text-white/40">Your account is secured. You can reset it if you need to re-configure a new device.</p>
+                    <div className="space-y-3">
+                        <Button onClick={() => router.push("/admin")} className="w-full bg-white text-black hover:bg-white/90">
+                            Continue to Dashboard
+                        </Button>
+                        <button
+                            onClick={handleReset}
+                            className="w-full py-2 text-sm text-red-400 hover:text-red-300 transition-colors"
+                        >
+                            Reset Configuration
+                        </button>
+                    </div>
                 </div>
             </div>
         );
