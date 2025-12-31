@@ -105,19 +105,20 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                         {/* Visually Infinite Background - Massive filler */}
                         <div className="absolute top-[60%] left-0 right-0 h-[800vh] bg-[#111111] -z-10" />
 
-                        {/* Close Indicator & Header Actions */}
-                        <div className="flex justify-center items-center mb-12">
-                            {/* Drag Handle */}
+                        {/* Close Indicator */}
+                        <div className="flex justify-center mb-6">
                             <div className="w-12 h-1.5 bg-white/20 rounded-full" />
                         </div>
 
-                        {/* Links - Centered and spacious */}
-                        <div className="relative w-full flex flex-col gap-9 items-center justify-center min-h-[150px] pr-0 md:pr-0">
-                            {/* Story Trigger - Aligned with Home Text */}
-                            <div className="absolute right-0 top-1">
+                        {/* User Profile / Story - Primary Visual Anchor */}
+                        <div className="flex justify-center mb-10 mt-10">
+                            <div className="scale-[1.5] transform-gpu">
                                 <SocialStories />
                             </div>
+                        </div>
 
+                        {/* Links - Clean vertical stack */}
+                        <div className="flex flex-col gap-8 items-center justify-center min-h-[200px]">
                             {LINKS.map((item, i) => (
                                 <motion.div
                                     key={item}
