@@ -18,10 +18,19 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
 
     // Initialize state based on session to prevent flash.
-    // Default to TRUE if not in admin and not shown yet.
+    // Default to TRUE if not in admin, not shown yet, and on a VALID route.
     const [isVisible, setIsVisible] = useState(() => {
         if (typeof window !== 'undefined' && globalHasShownPreloader) return false;
-        if (pathname?.startsWith("/admin")) return false;
+
+        const validRoutes = ["/", "/about", "/works", "/contact"];
+        const isDynamicWork = pathname?.startsWith("/works/");
+        const isAdmin = pathname?.startsWith("/admin");
+
+        const isValidRoute = validRoutes.includes(pathname || "") || isDynamicWork || isAdmin;
+
+        // Skip preloader for admin or invalid (404) routes
+        if (isAdmin || !isValidRoute) return false;
+
         return true;
     });
 
