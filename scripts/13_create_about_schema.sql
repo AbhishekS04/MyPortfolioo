@@ -1,6 +1,6 @@
 -- Create tables for the About Page dynamic content
 
--- 1. General Info (Singleton table, usually just 1 row with id=1)
+-- 1. General Info
 create table if not exists public.about_general (
   id uuid not null default gen_random_uuid() primary key,
   full_name text not null default 'Abhishek Singh',
@@ -36,13 +36,13 @@ create table if not exists public.about_education (
   created_at timestamptz default now()
 );
 
--- 4. Skills / Tools (Category: 'design' or 'editing' or 'language')
+-- 4. Skills / Tools
 create table if not exists public.about_skills (
   id uuid not null default gen_random_uuid() primary key,
-  category text not null, -- 'design', 'editing', 'language'
+  category text not null, 
   name text not null,
-  icon_name text, -- For lucide icons or shortcodes like 'Ps', 'Ae'
-  color_code text, -- e.g. '#31A8FF'
+  icon_name text, 
+  color_code text,
   display_order integer default 0,
   created_at timestamptz default now()
 );
@@ -51,64 +51,92 @@ create table if not exists public.about_skills (
 create table if not exists public.about_interests (
   id uuid not null default gen_random_uuid() primary key,
   label text not null,
-  icon_name text not null, -- 'Gamepad2', 'Film', etc.
+  icon_name text not null, 
   display_order integer default 0,
   created_at timestamptz default now()
 );
 
--- Enable RLS
+-- Enable RLS (Safe to run multiple times)
 alter table public.about_general enable row level security;
 alter table public.about_experience enable row level security;
 alter table public.about_education enable row level security;
 alter table public.about_skills enable row level security;
 alter table public.about_interests enable row level security;
 
--- Policies (Public Read, Admin Write)
+-- Policies (Drop before creating to avoid 'already exists' error)
+drop policy if exists "Public can view about_general" on public.about_general;
 create policy "Public can view about_general" on public.about_general for select using (true);
-create policy "Admins can update about_general" on public.about_general for all using (auth.role() = 'authenticated'); -- Simplified auth check
 
+drop policy if exists "Admins can update about_general" on public.about_general;
+create policy "Admins can update about_general" on public.about_general for all using (auth.role() = 'authenticated');
+
+
+drop policy if exists "Public can view about_experience" on public.about_experience;
 create policy "Public can view about_experience" on public.about_experience for select using (true);
+
+drop policy if exists "Admins can update about_experience" on public.about_experience;
 create policy "Admins can update about_experience" on public.about_experience for all using (auth.role() = 'authenticated');
 
+
+drop policy if exists "Public can view about_education" on public.about_education;
 create policy "Public can view about_education" on public.about_education for select using (true);
+
+drop policy if exists "Admins can update about_education" on public.about_education;
 create policy "Admins can update about_education" on public.about_education for all using (auth.role() = 'authenticated');
 
+
+drop policy if exists "Public can view about_skills" on public.about_skills;
 create policy "Public can view about_skills" on public.about_skills for select using (true);
+
+drop policy if exists "Admins can update about_skills" on public.about_skills;
 create policy "Admins can update about_skills" on public.about_skills for all using (auth.role() = 'authenticated');
 
+
+drop policy if exists "Public can view about_interests" on public.about_interests;
 create policy "Public can view about_interests" on public.about_interests for select using (true);
+
+drop policy if exists "Admins can update about_interests" on public.about_interests;
 create policy "Admins can update about_interests" on public.about_interests for all using (auth.role() = 'authenticated');
 
--- Insert Initial Seed Data (matching the current website content)
-insert into public.about_general (full_name, role_title, bio_description, contact_email)
-select 'Abhishek Singh', 'UI System Designer & Developer', 'My name is Abhishek Singh, a self-taught UI Designer & Frontend Engineer...', 'Abhishek23main@gmail.com'
-where not exists (select 1 from public.about_general);
+-- Insert Initial Seed Data (Only if empty)
 
--- Seed Experience
-insert into public.about_experience (role, company, period, description_points, display_order)
-values 
-('Freelancer', 'UI System Designer', '2021 - Now', ARRAY['worked on diverse UI system and brand identity projects.', 'collaborated with clients from multiple countries.', 'developed a versatile design skill set.'], 1),
-('Product Designer', 'Meetzed', '2020 - 2021', ARRAY['Collaboration: Supported Lead Designer on projects.', 'Branding: Crafted unique brand identities.', 'Tools: Worked on design systems and prototypes.'], 2);
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM public.about_general) THEN
+    insert into public.about_general (full_name, role_title, bio_description, contact_email)
+    values ('Abhishek Singh', 'UI System Designer & Developer', 'My name is Abhishek Singh, a self-taught UI Designer & Frontend Engineer...', 'Abhishek23main@gmail.com');
+  END IF;
 
--- Seed Education
-insert into public.about_education (degree, institution, year, display_order)
-values
-('Graduation', 'Adamas University', '2023', 1),
-('Higher Secondary', 'Rampurhat JL Vidyabhaban', '2023', 2),
-('Secondary Education', 'Rampurhat JL Vidyabhaban', '2020', 3);
+  IF NOT EXISTS (SELECT 1 FROM public.about_experience) THEN
+    insert into public.about_experience (role, company, period, description_points, display_order)
+    values 
+    ('Freelancer', 'UI System Designer', '2021 - Now', ARRAY['worked on diverse UI system and brand identity projects.', 'collaborated with clients from multiple countries.', 'developed a versatile design skill set.'], 1),
+    ('Product Designer', 'Meetzed', '2020 - 2021', ARRAY['Collaboration: Supported Lead Designer on projects.', 'Branding: Crafted unique brand identities.', 'Tools: Worked on design systems and prototypes.'], 2);
+  END IF;
 
--- Seed Interests
-insert into public.about_interests (label, icon_name, display_order)
-values
-('Gaming', 'Gamepad2', 1),
-('Film Making', 'Film', 2),
-('Traveling', 'Plane', 3);
+  IF NOT EXISTS (SELECT 1 FROM public.about_education) THEN
+    insert into public.about_education (degree, institution, year, display_order)
+    values
+    ('Graduation', 'Adamas University', '2023', 1),
+    ('Higher Secondary', 'Rampurhat JL Vidyabhaban', '2023', 2),
+    ('Secondary Education', 'Rampurhat JL Vidyabhaban', '2020', 3);
+  END IF;
 
--- Seed Skills
-insert into public.about_skills (category, name, icon_name, color_code, display_order)
-values
-('design', 'Figma', 'Fg', '#F24E1E', 1),
-('design', 'Photoshop', 'Ps', '#31A8FF', 2),
-('design', 'Illustrator', 'Ai', '#FF3366', 3),
-('editing', 'After Effects', 'Ae', '#9999FF', 1),
-('editing', 'Premiere Pro', 'Pr', '#FF66FF', 2);
+  IF NOT EXISTS (SELECT 1 FROM public.about_interests) THEN
+    insert into public.about_interests (label, icon_name, display_order)
+    values
+    ('Gaming', 'Gamepad2', 1),
+    ('Film Making', 'Film', 2),
+    ('Traveling', 'Plane', 3);
+  END IF;
+
+  IF NOT EXISTS (SELECT 1 FROM public.about_skills) THEN
+    insert into public.about_skills (category, name, icon_name, color_code, display_order)
+    values
+    ('design', 'Figma', 'Fg', '#F24E1E', 1),
+    ('design', 'Photoshop', 'Ps', '#31A8FF', 2),
+    ('design', 'Illustrator', 'Ai', '#FF3366', 3),
+    ('editing', 'After Effects', 'Ae', '#9999FF', 1),
+    ('editing', 'Premiere Pro', 'Pr', '#FF66FF', 2);
+  END IF;
+END $$;
