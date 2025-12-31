@@ -50,26 +50,26 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const [hasExploded, setHasExploded] = useState(false);
     const [triggerExplode, setTriggerExplode] = useState(false);
 
-    // Hard-Resistance Transform: Non-linear power curve for a "hard rubber" feel
+    // Hard-Resistance Transform: Non-linear power curve for a physical "rubber" feel
     // raw drag value -> visual stretch value
     const stretch = useTransform(y, (v: any) => {
         const num = typeof v === 'string' ? parseFloat(v) : v;
         const rawY = -(num || 0);
         if (rawY <= 0) return 0;
-        // Steep curve: first 50px are easy, then it gets exponentially hard
-        return Math.pow(rawY, 0.55);
+        // 0.75 provides a solid "rubber" feel that is easily achievable on mobile (rawY ~240px for 60px stretch)
+        return Math.pow(rawY, 0.75);
     });
 
-    // Thresholds adjusted for early reveal and a firm "earned" payoff
-    const textOpacity = useTransform(stretch, [10, 50], [0, 1]);
-    const textScale = useTransform(stretch, [10, 50], [0.85, 1]);
-    const textY = useTransform(stretch, [0, 50], [20, 0]); // Slide up from bottom
-    const barHeight = useTransform(stretch, [0, 200], [0, 180]);
+    // Thresholds adjusted for early reveal and reachable payoff
+    const textOpacity = useTransform(stretch, [10, 40], [0, 1]);
+    const textScale = useTransform(stretch, [10, 40], [0.85, 1]);
+    const textY = useTransform(stretch, [0, 40], [20, 0]); // Slide up from bottom
+    const barHeight = useTransform(stretch, [0, 120], [0, 160]);
 
     useEffect(() => {
         const unsubscribe = stretch.on("change", (v: number) => {
-            // Trigger explosion at a reachable threshold (rawY ≈ 470px)
-            if (v > 85 && !hasExploded && isOpen) {
+            // Trigger explosion at a reachable threshold (rawY ≈ 240px on iPhone 15 Pro)
+            if (v > 60 && !hasExploded && isOpen) {
                 setHasExploded(true);
                 setTriggerExplode(true);
             } else if (v < 30 && hasExploded) {
