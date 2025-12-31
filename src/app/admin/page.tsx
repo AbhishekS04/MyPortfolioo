@@ -1,6 +1,6 @@
 "use client";
 
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {
@@ -53,6 +53,7 @@ function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
 
 export default function AdminDashboard() {
     const router = useRouter();
+    const supabase = createClient();
 
     useEffect(() => {
         const checkSecurity = async () => {
@@ -63,6 +64,8 @@ export default function AdminDashboard() {
             }
 
             const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+            console.log("Current AAL Status:", aal);
+
             if (aal && aal.currentLevel === 'aal1') {
                 const { data: factors } = await supabase.auth.mfa.listFactors();
                 const hasVerified = factors?.totp?.some(f => f.status === 'verified');
