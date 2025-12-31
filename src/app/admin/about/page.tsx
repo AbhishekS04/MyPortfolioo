@@ -59,7 +59,11 @@ export default function AdminAbout() {
                 bio_description: general.bio_description,
                 availability_status: general.availability_status,
                 is_available: general.is_available,
-                contact_email: general.contact_email
+                contact_email: general.contact_email,
+                phone_number: general.phone_number,
+                location: general.location,
+                birthday: general.birthday,
+                profile_image_url: general.profile_image_url
             };
 
             if (general.id) {
@@ -201,9 +205,20 @@ export default function AdminAbout() {
                             <Input label="Full Name" value={general.full_name} onChange={(v: string) => setGeneral({ ...general, full_name: v })} />
                             <Input label="Role Title" value={general.role_title} onChange={(v: string) => setGeneral({ ...general, role_title: v })} />
                         </div>
+
+                        <Input label="Profile Image URL" value={general.profile_image_url} onChange={(v: string) => setGeneral({ ...general, profile_image_url: v })} />
+
                         <TextArea label="Bio Description" value={general.bio_description} onChange={(v: string) => setGeneral({ ...general, bio_description: v })} />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <Input label="Contact Email" value={general.contact_email} onChange={(v: string) => setGeneral({ ...general, contact_email: v })} />
+                            <Input label="Phone Number (+91...)" value={general.phone_number} onChange={(v: string) => setGeneral({ ...general, phone_number: v })} />
+                            <Input label="Location" value={general.location} onChange={(v: string) => setGeneral({ ...general, location: v })} />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <Input label="Birthday (YYYY-MM-DD)" value={general.birthday} onChange={(v: string) => setGeneral({ ...general, birthday: v })} />
+
                             <div className="space-y-2">
                                 <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Availability</label>
                                 <button

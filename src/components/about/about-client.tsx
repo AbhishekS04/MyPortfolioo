@@ -234,7 +234,11 @@ export function AboutClient({ general, experience, education, skills, interests 
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Age</p>
-                            <p className="text-sm font-medium">21 Years</p>
+                            <p className="text-sm font-medium">
+                                {general.birthday ? (
+                                    `${Math.floor((Date.now() - new Date(general.birthday).getTime()) / 31557600000)} Years`
+                                ) : "21 Years"}
+                            </p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4 group cursor-pointer" onClick={() => window.location.href = `mailto:${general.contact_email}`}>
@@ -243,7 +247,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Email</p>
-                            <p className="text-sm font-medium">{general.contact_email}</p>
+                            <p className="text-sm font-medium truncat max-w-[150px]">{general.contact_email}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -252,7 +256,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Phone</p>
-                            <p className="text-sm font-medium">+91 9883511660</p>
+                            <p className="text-sm font-medium">{general.phone_number || "+91 0000000000"}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -261,7 +265,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Location</p>
-                            <p className="text-sm font-medium">Kolkata, India</p>
+                            <p className="text-sm font-medium">{general.location || "Kolkata, India"}</p>
                         </div>
                     </div>
                 </div>
