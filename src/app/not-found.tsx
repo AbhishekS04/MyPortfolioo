@@ -3,7 +3,7 @@ import { Error404 } from "@/components/ui/pixeleted-404-not-found";
 export default function NotFound() {
     return (
         <Error404
-            postcardImage="https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?q=80&w=2070&auto=format&fit=crop"
+            postcardImage="https://res.cloudinary.com/dap0u41dz/image/upload/v1766866944/Batman_z0yo3k.jpg"
             postcardAlt="New York City Postcard with Statue of Liberty"
             curvedTextTop="The General Intelligence"
             curvedTextBottom="of New York"
