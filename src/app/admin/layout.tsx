@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { Loader2 } from "lucide-react";
 import { ToastProvider } from "@/components/ui/toast";
 
@@ -15,6 +15,7 @@ export default function AdminLayout({
     const pathname = usePathname();
     const [isLoading, setIsLoading] = useState(true);
     const [authorized, setAuthorized] = useState(false);
+    const supabase = createClient();
 
     // 1. Security: Disable Right Click & Inspector
     useEffect(() => {

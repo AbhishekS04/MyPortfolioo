@@ -28,11 +28,11 @@ export default function AdminLogin() {
                 throw error;
             }
 
-            router.push("/admin");
+            // Force hard navigation to ensure middleware runs fresh
+            window.location.href = "/admin";
         } catch (err: any) {
             setError(err.message || "Failed to login");
-        } finally {
-            setIsLoading(false);
+            setIsLoading(false); // Only stop loading on error, otherwise we navigate
         }
     };
 
