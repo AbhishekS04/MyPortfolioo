@@ -165,7 +165,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             className="absolute bottom-0 left-0 right-0 flex items-end justify-center overflow-hidden pointer-events-none"
                         >
                             <motion.div
-                                style={{ opacity: textOpacity, scale: textScale, y: textY }}
+                                style={{
+                                    opacity: textOpacity,
+                                    scale: textScale,
+                                    // y: textY // Exactly commented out as requested to stop position shifts
+                                }}
                                 className="px-4 pb-4" // Anchored to the very bottom
                             >
                                 <TextExplode
