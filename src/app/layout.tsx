@@ -24,6 +24,9 @@ export const metadata: Metadata = {
     url: "https://portfolio-test-devaura.vercel.app", // User should update this
     siteName: "Abhishek Singh Portfolio",
   },
+  icons: {
+    icon: "/removebg.png",
+  },
 };
 
 export default function RootLayout({
