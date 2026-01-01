@@ -253,13 +253,12 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                                 <CustomVideoPlayer videoUrl={project.video_url} posterUrl={project.image_url} />
                             </div>
                         ) : (
-                            <div className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[21/9]">
-                                <Image
+                            <div className="relative w-full">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
                                     src={project.image_url}
                                     alt={project.title}
-                                    fill
-                                    priority
-                                    className="object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01]"
+                                    className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01]"
                                 />
                             </div>
                         )}
