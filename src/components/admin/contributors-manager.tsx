@@ -1,6 +1,5 @@
-"use client";
 import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -23,6 +22,7 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
         avatar_url: "",
         social_url: ""
     });
+    const supabase = createClient();
 
     useEffect(() => {
         if (projectId && projectId !== 'new') {
@@ -32,11 +32,16 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
 
     const fetchContributors = async () => {
         setLoading(true);
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from("project_contributors")
             .select("*")
             .eq("project_id", projectId)
             .order("created_at", { ascending: true });
+
+        if (error) {
+            console.error(error);
+            alert("Error fetching contributors: " + error.message);
+        }
 
         if (data) setContributors(data);
         setLoading(false);

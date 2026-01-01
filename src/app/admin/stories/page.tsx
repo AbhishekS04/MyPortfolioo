@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, Edit2, X, Loader2, Image as ImageIcon, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,20 +20,27 @@ export default function AdminStories() {
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
     const [formData, setFormData] = useState<Partial<Story>>({});
+    const supabase = createClient();
 
     useEffect(() => {
         fetchStories();
     }, []);
 
     const fetchStories = async () => {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from("social_stories")
             .select("*")
             .order("display_order", { ascending: true });
 
+        if (error) {
+            console.error(error);
+            alert("Error fetching stories: " + error.message);
+        }
+
         if (data) setStories(data);
         setLoading(false);
     };
+
 
     const handleEdit = (story: Story) => {
         setEditingId(story.id);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, Globe, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,7 @@ export default function AdminProfile() {
         availability_status: "",
         resume_url: "",
     });
+    const supabase = createClient();
 
     useEffect(() => {
         fetchProfile();

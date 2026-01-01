@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,15 +58,22 @@ export default function AdminProjects() {
     const [techInput, setTechInput] = useState("");
     const [galleryInput, setGalleryInput] = useState("");
 
+    const supabase = createClient();
+
     useEffect(() => {
         fetchProjects();
     }, []);
 
     const fetchProjects = async () => {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from("projects")
             .select("*")
             .order("display_order", { ascending: true });
+
+        if (error) {
+            console.error("Error fetching projects:", error);
+            alert("Error fetching projects: " + error.message);
+        }
 
         if (data) setProjects(data);
         setLoading(false);
@@ -127,13 +134,26 @@ export default function AdminProjects() {
 
         // Logic: If 'is_currently_working' is true, set false for others
         if (payload.is_currently_working) {
-            await supabase.from("projects").update({ is_currently_working: false }).neq("id", "00000000-0000-0000-0000-000000000000");
+            const { error: updateError } = await supabase.from("projects").update({ is_currently_working: false }).neq("id", "00000000-0000-0000-0000-000000000000");
+            if (updateError) console.error("Error resetting currently working status:", updateError);
         }
 
         if (editingId === "new") {
-            await supabase.from("projects").insert([payload]);
+            const { error } = await supabase.from("projects").insert([payload]);
+            if (error) {
+                console.error("Error creating project:", error);
+                alert("Error creating project: " + error.message);
+                setLoading(false);
+                return;
+            }
         } else {
-            await supabase.from("projects").update(payload).eq("id", editingId);
+            const { error } = await supabase.from("projects").update(payload).eq("id", editingId);
+            if (error) {
+                console.error("Error updating project:", error);
+                alert("Error updating project: " + error.message);
+                setLoading(false);
+                return;
+            }
         }
 
         setEditingId(null);
@@ -142,7 +162,14 @@ export default function AdminProjects() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure you want to delete this project?")) return;
-        await supabase.from("projects").delete().eq("id", id);
+        const { error } = await supabase.from("projects").delete().eq("id", id);
+
+        if (error) {
+            console.error("Error deleting project:", error);
+            alert("Error deleting project: " + error.message);
+            return;
+        }
+
         fetchProjects();
     };
 

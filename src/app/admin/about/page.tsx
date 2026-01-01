@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ export default function AdminAbout() {
     const [education, setEducation] = useState<any[]>([]);
     const [skills, setSkills] = useState<any[]>([]);
     const [interests, setInterests] = useState<any[]>([]);
+    const supabase = createClient();
 
     useEffect(() => {
         fetchData();

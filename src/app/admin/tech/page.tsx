@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, GripVertical, Save, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion, Reorder } from "framer-motion";
@@ -44,16 +44,22 @@ export default function AdminTech() {
     const [loading, setLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newItem, setNewItem] = useState({ name: "", icon_key: "js" });
+    const supabase = createClient();
 
     useEffect(() => {
         fetchItems();
     }, []);
 
     const fetchItems = async () => {
-        const { data } = await supabase
+        const { data, error } = await supabase
             .from("tech_stack")
             .select("*")
             .order("display_order", { ascending: true });
+
+        if (error) {
+            console.error(error);
+            alert("Error fetching tech stack: " + error.message);
+        }
 
         if (data) setItems(data);
         setLoading(false);

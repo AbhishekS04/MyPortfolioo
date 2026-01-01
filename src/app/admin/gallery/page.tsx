@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, GripVertical, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Reorder } from "framer-motion";
@@ -18,13 +18,18 @@ export default function AdminGallery() {
     const [loading, setLoading] = useState(true);
     const [isAdding, setIsAdding] = useState(false);
     const [newItem, setNewItem] = useState({ image_url: "", alt_text: "" });
+    const supabase = createClient();
 
     useEffect(() => {
         fetchImages();
     }, []);
 
     const fetchImages = async () => {
-        const { data } = await supabase.from("gallery_images").select("*").order("display_order", { ascending: true });
+        const { data, error } = await supabase.from("gallery_images").select("*").order("display_order", { ascending: true });
+        if (error) {
+            console.error("Error fetching images:", error);
+            alert("Error fetching images: " + error.message);
+        }
         if (data) setImages(data);
         setLoading(false);
     };
@@ -36,17 +41,36 @@ export default function AdminGallery() {
     const saveOrder = async () => {
         setLoading(true);
         const updates = images.map((img, index) => ({ id: img.id, display_order: index + 1 }));
+
+        let hasError = false;
         for (const update of updates) {
-            await supabase.from("gallery_images").update({ display_order: update.display_order }).eq("id", update.id);
+            const { error } = await supabase.from("gallery_images").update({ display_order: update.display_order }).eq("id", update.id);
+            if (error) {
+                console.error("Error saving order:", error);
+                hasError = true;
+            }
         }
+
         setLoading(false);
-        alert("Order saved!");
+        if (hasError) {
+            alert("Some errors occurred while saving order. Check console.");
+        } else {
+            alert("Order saved!");
+        }
     };
 
     const handleAdd = async () => {
         if (!newItem.image_url) return;
         setLoading(true);
-        await supabase.from("gallery_images").insert([{ ...newItem, display_order: images.length + 1 }]);
+        const { error } = await supabase.from("gallery_images").insert([{ ...newItem, display_order: images.length + 1 }]);
+
+        if (error) {
+            console.error("Error adding image:", error);
+            alert("Error adding image: " + error.message);
+            setLoading(false);
+            return;
+        }
+
         setNewItem({ image_url: "", alt_text: "" });
         setIsAdding(false);
         fetchImages();
@@ -54,7 +78,14 @@ export default function AdminGallery() {
 
     const handleDelete = async (id: string) => {
         if (!confirm("Delete?")) return;
-        await supabase.from("gallery_images").delete().eq("id", id);
+        const { error } = await supabase.from("gallery_images").delete().eq("id", id);
+
+        if (error) {
+            console.error("Error deleting image:", error);
+            alert("Error deleting image: " + error.message);
+            return;
+        }
+
         fetchImages();
     };
 

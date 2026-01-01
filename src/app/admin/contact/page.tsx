@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, MessageSquare, List } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -29,6 +29,7 @@ export default function AdminContact() {
 
     // Temporary state for the availability tag input
     const [newTag, setNewTag] = useState("");
+    const supabase = createClient();
 
     useEffect(() => {
         fetchData();
