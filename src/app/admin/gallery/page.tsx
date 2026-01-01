@@ -89,6 +89,10 @@ export default function AdminGallery() {
         fetchImages();
     };
 
+    const isVideo = (url: string) => {
+        return url?.match(/\.(mp4|webm|ogg|mov)$/i);
+    };
+
     return (
         <div className="min-h-screen p-6 md:p-12 max-w-4xl mx-auto pb-32">
             <div className="flex items-center justify-between mb-12 sticky top-0 bg-[#050505]/80 backdrop-blur-xl py-4 z-40 -mx-4 px-4 md:mx-0 md:px-0">
@@ -98,20 +102,24 @@ export default function AdminGallery() {
                 </Link>
                 <div className="flex gap-2">
                     <button onClick={saveOrder} className="px-5 py-2 rounded-full bg-white/5 hover:bg-white/10 text-white text-sm font-medium transition-all">Save Order</button>
-                    <button onClick={() => setIsAdding(true)} className="px-5 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-all">Add Image</button>
+                    <button onClick={() => setIsAdding(true)} className="px-5 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-all">Add Item</button>
                 </div>
             </div>
 
             <h1 className="text-3xl font-medium text-white mb-2">Hero Gallery</h1>
-            <p className="text-white/40 text-sm mb-8">Manage the vertical stack images.</p>
+            <p className="text-white/40 text-sm mb-8">Manage the vertical stack images and videos.</p>
 
             <Reorder.Group axis="y" values={images} onReorder={handleReorder} className="space-y-4">
                 {images.map((img) => (
                     <Reorder.Item key={img.id} value={img} className="bg-[#111] border border-white/5 rounded-xl p-4 flex items-center gap-6 group hover:border-white/10 transition-colors cursor-grab active:cursor-grabbing">
                         <GripVertical className="w-5 h-5 text-white/20" />
-                        <div className="w-16 h-24 bg-black/50 rounded-lg overflow-hidden flex-shrink-0">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                        <div className="w-16 h-24 bg-black/50 rounded-lg overflow-hidden flex-shrink-0 relative">
+                            {isVideo(img.image_url) ? (
+                                <video src={img.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
+                            ) : (
+                                /* eslint-disable-next-line @next/next/no-img-element */
+                                <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                            )}
                         </div>
                         <div className="flex-1 min-w-0">
                             <p className="text-white text-sm font-medium truncate">{img.alt_text || "No Alt Text"}</p>
@@ -128,20 +136,30 @@ export default function AdminGallery() {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
                     <div onClick={() => setIsAdding(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
                     <div className="relative w-full max-w-md bg-[#161616] border border-white/10 rounded-3xl p-8 shadow-2xl space-y-4">
-                        <h2 className="text-xl font-medium text-white mb-4">Add Gallery Image</h2>
+                        <h2 className="text-xl font-medium text-white mb-4">Add Gallery Item</h2>
                         <input
                             value={newItem.image_url}
                             onChange={e => setNewItem({ ...newItem, image_url: e.target.value })}
                             className="w-full bg-[#111] border border-white/5 rounded-xl p-3 text-white text-sm"
-                            placeholder="Image URL..."
+                            placeholder="Image or Video URL (mp4, webm)..."
                         />
+                        {newItem.image_url && (
+                            <div className="w-full aspect-video bg-black rounded-lg overflow-hidden border border-white/5">
+                                {isVideo(newItem.image_url) ? (
+                                    <video src={newItem.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
+                                ) : (
+                                    /* eslint-disable-next-line @next/next/no-img-element */
+                                    <img src={newItem.image_url} alt="Preview" className="w-full h-full object-cover" />
+                                )}
+                            </div>
+                        )}
                         <input
                             value={newItem.alt_text}
                             onChange={e => setNewItem({ ...newItem, alt_text: e.target.value })}
                             className="w-full bg-[#111] border border-white/5 rounded-xl p-3 text-white text-sm"
                             placeholder="Alt Text..."
                         />
-                        <button onClick={handleAdd} className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-white/90">Add Image</button>
+                        <button onClick={handleAdd} className="w-full py-3 rounded-xl bg-white text-black font-medium hover:bg-white/90">Add to Gallery</button>
                     </div>
                 </div>
             )}

@@ -12,6 +12,10 @@ interface GalleryItem {
     alt: string;
 }
 
+const isVideo = (url: string) => {
+    return url?.match(/\.(mp4|webm|ogg|mov)$/i);
+};
+
 export function VerticalImageStack() {
     const [images, setImages] = useState<GalleryItem[]>([]);
 
@@ -287,16 +291,27 @@ export function VerticalImageStack() {
                                 {/* Card inner glow */}
                                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/10 via-transparent to-transparent z-10 pointer-events-none" />
 
-                                <Image
-                                    src={image.src || "/placeholder.svg"}
-                                    alt={image.alt}
-                                    fill
-                                    className="object-cover w-full h-full"
-                                    draggable={false}
-                                    priority={shouldPrioritize}
-                                    sizes="300px"
-                                    quality={90}
-                                />
+                                {isVideo(image.src) ? (
+                                    <video
+                                        src={image.src}
+                                        className="w-full h-full object-cover pointer-events-none"
+                                        autoPlay
+                                        loop
+                                        muted
+                                        playsInline
+                                    />
+                                ) : (
+                                    <Image
+                                        src={image.src || "/placeholder.svg"}
+                                        alt={image.alt}
+                                        fill
+                                        className="object-cover w-full h-full pointer-events-none"
+                                        draggable={false}
+                                        priority={shouldPrioritize}
+                                        sizes="300px"
+                                        quality={90}
+                                    />
+                                )}
 
                                 {/* Bottom gradient overlay */}
                                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none" />
