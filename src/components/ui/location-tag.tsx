@@ -49,10 +49,10 @@ export function LocationTag({ className = "" }: LocationTagProps) {
         const interval = setInterval(updateTime, 1000)
         return () => clearInterval(interval)
     }, [location.timezone])
-
     const [isRetro, setIsRetro] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
-    const [warningText, setWarningText] = useState("");
+    const [terminalLines, setTerminalLines] = useState<string[]>([]);
+    const [terminalColor, setTerminalColor] = useState<'gray' | 'green'>('gray');
     const pressTimer = useRef<NodeJS.Timeout | null>(null);
 
     const triggerRetroSequence = async () => {
@@ -62,33 +62,45 @@ export function LocationTag({ className = "" }: LocationTagProps) {
             return;
         }
 
-        // 1. Fade In Black Overlay
         setShowOverlay(true);
-        // Heartbeat vibration pattern
-        if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate([100, 100, 100, 100]);
+        setTerminalLines([]);
+        setTerminalColor('gray');
 
-        const type = async (text: string, ms: number) => {
-            setWarningText(text);
-            await new Promise(r => setTimeout(r, ms));
+        if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(50);
+
+        const addLine = async (line: string, delay: number) => {
+            setTerminalLines(prev => [...prev, line]);
+            if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(10);
+            await new Promise(r => setTimeout(r, delay));
         }
 
-        // 2. DANGER Narrative
-        await new Promise(r => setTimeout(r, 1000));
+        // DESTRUCTION PHASE (Gray)
+        await new Promise(r => setTimeout(r, 500));
 
-        await type("⚠️ SECURITY BREACH ⚠️", 2000);
-        await type("⛔ UNAUTHORIZED BIOS ACCESS ⛔", 2500);
-        await type("☠️ FATAL SYSTEM ERROR ☠️", 2000);
-        await type("🚨 INITIATING EMERGENCY RESET...", 1500);
+        await addLine("> ROOT_ACCESS_GRANTED", 400);
+        await addLine("> EXECUTING: sudo rm -rf /portfolio_v2", 800);
+        await addLine("> DELETING_ASSETS...", 400);
+        await addLine("> DELETING_STYLES...", 400);
+        await addLine("> REMOVING_OPERATING_SYSTEM...", 600);
 
-        // 3. Activate Global Retro Mode
+        if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate([50, 50, 100]);
+        await addLine("> SYSTEM_CRITICAL: OS_NOT_FOUND", 1200);
+
+        // REBIRTH PHASE (Green)
+        setTerminalColor('green');
+        await addLine("> BOOTING_LEGACY_KERNEL...", 800);
+        await addLine("> LOADING_BIOS_v1998...", 500);
+        await addLine("> CHECKING_VRAM... [OK]", 400);
+        await addLine("> STARTING_OS...", 1500);
+
+        // Activate Retro Mode
         document.documentElement.classList.add('retro-mode');
         setIsRetro(true);
 
-        // 4. Reveal
         setShowOverlay(false);
     };
 
-    const handlePressStart = () => {
+    const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
         pressTimer.current = setTimeout(() => {
             triggerRetroSequence();
         }, 800);
@@ -100,42 +112,45 @@ export function LocationTag({ className = "" }: LocationTagProps) {
 
     return (
         <>
-            {/* Smooth Black Overlay */}
+            {/* Terminal Overlay */}
             <AnimatePresence>
                 {showOverlay && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.8, ease: "easeInOut" }}
-                        className="fixed inset-0 z-[100000] flex flex-col items-center justify-center bg-[#050000] p-6 text-center select-none cursor-wait"
+                        transition={{ duration: 0.2 }}
+                        className={`fixed inset-0 z-[100000] bg-black p-6 md:p-20 font-mono overflow-hidden cursor-wait flex flex-col justify-start items-start transition-colors duration-500 ${terminalColor === 'green' ? 'text-[#33ff00] drop-shadow-[0_0_8px_rgba(51,255,0,0.4)]' : 'text-gray-300'}`}
                     >
-                        {/* Red Vignette */}
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,rgba(50,0,0,0.4)_100%)] pointer-events-none" />
+                        <div className="w-full max-w-4xl space-y-1 text-xs md:text-lg uppercase">
+                            {terminalLines.map((line, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    className="break-all md:break-words whitespace-pre-wrap"
+                                >
+                                    {line}
+                                </motion.div>
+                            ))}
 
-                        {/* Text Container */}
-                        <motion.div
-                            key={warningText}
-                            initial={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
-                            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                            exit={{ opacity: 0, scale: 1.1, filter: "blur(2px)" }}
-                            transition={{ duration: 0.4 }}
-                            className="font-mono font-bold tracking-widest uppercase relative z-10"
-                        >
-                            <span className="text-red-600 text-xl md:text-2xl lg:text-3xl drop-shadow-[0_0_25px_rgba(220,38,38,0.9)]">
-                                {warningText}
-                            </span>
-                        </motion.div>
-
-                        {/* Intense Loading Element */}
-                        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 w-48 h-1 bg-red-950/30 rounded-full overflow-hidden">
+                            {/* Blinking Cursor */}
                             <motion.div
-                                initial={{ x: "-100%" }}
-                                animate={{ x: "100%" }}
-                                transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                                className="w-1/2 h-full bg-red-600 shadow-[0_0_15px_rgba(220,38,38,1)]"
-                            />
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                className="mt-2"
+                            >
+                                <span className={terminalColor === 'green' ? 'text-[#33ff00]' : 'text-gray-500'}>{'>'}</span>
+                                <motion.span
+                                    animate={{ opacity: [0, 1, 0] }}
+                                    transition={{ duration: 0.8, repeat: Infinity }}
+                                    className={`inline-block w-2 h-4 md:w-3 md:h-5 ml-2 align-middle ${terminalColor === 'green' ? 'bg-[#33ff00]' : 'bg-gray-300'}`}
+                                />
+                            </motion.div>
                         </div>
+
+                        {/* Scanline Effect */}
+                        <div className="absolute inset-0 pointer-events-none select-none opacity-10" style={{ background: "repeating-linear-gradient(0deg, transparent, transparent 2px, #ffffff 4px)" }}></div>
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -147,55 +162,28 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                 onMouseUp={handlePressEnd}
                 onTouchStart={handlePressStart}
                 onTouchEnd={handlePressEnd}
-                className={`group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2.5 transition-all duration-500 ease-out hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.04)] ${className}`}
+                onContextMenu={(e) => e.preventDefault()}
+                style={{ WebkitTouchCallout: 'none' }}
+                className={`group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 transition-all duration-300 hover:border-white/20 hover:bg-white/10 select-none touch-none ${className}`}
             >
                 <div className="relative flex items-center justify-center">
-                    <span className="relative flex h-2 w-2">
-                        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
-                        <span className={`relative inline-flex h-2 w-2 rounded-full ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
-                    </span>
+                    <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
+                    <span className={`relative inline-flex h-2 w-2 rounded-full ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
                 </div>
 
-                <div className="flex items-center gap-2 overflow-hidden">
-                    <span
-                        className="relative flex h-4 items-center overflow-hidden"
-                    >
-                        <AnimatePresence mode="wait">
-                            {isRetro ? (
-                                <motion.span
-                                    key="retro"
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    exit={{ y: -20, opacity: 0 }}
-                                    className="whitespace-nowrap text-xs font-bold text-amber-500 font-mono tracking-widest"
-                                >
-                                    SYSTEM OVERRIDE
-                                </motion.span>
-                            ) : !isHovered ? (
-                                <motion.span
-                                    key="location"
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    exit={{ y: -20, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="whitespace-nowrap text-xs font-medium text-white/90"
-                                >
-                                    {location.city}, {location.country}
-                                </motion.span>
-                            ) : (
-                                <motion.span
-                                    key="time"
-                                    initial={{ y: 20, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    exit={{ y: -20, opacity: 0 }}
-                                    transition={{ duration: 0.3, ease: "easeOut" }}
-                                    className="whitespace-nowrap text-xs font-medium text-white/90"
-                                >
-                                    {currentTime} <span className="text-white/40">{new Date().toLocaleTimeString('en-us', { timeZoneName: 'short', timeZone: location.timezone }).split(' ')[2]}</span>
-                                </motion.span>
-                            )}
-                        </AnimatePresence>
-                    </span>
+                <div className="relative overflow-hidden h-5 flex flex-col justify-center">
+                    <AnimatePresence mode="wait">
+                        <motion.span
+                            key={isRetro ? "retro" : "standard"}
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: -20, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className={`text-sm font-medium block ${isRetro ? 'font-mono text-amber-500' : 'font-sans text-white/90'}`}
+                        >
+                            {isRetro ? "SYSTEM OVERRIDE" : "Available for hire"}
+                        </motion.span>
+                    </AnimatePresence>
                 </div>
             </button>
         </>
