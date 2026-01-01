@@ -21,7 +21,7 @@ export function ContactSection() {
                 </p>
 
                 <Link
-                    href="mailto:hello@example.com"
+                    href="mailto:abhishek23main@gmail.com"
                     className="group flex items-center gap-3 bg-white text-black px-8 py-4 rounded-full font-medium hover:bg-white/90 transition-all hover:scale-105 active:scale-95"
                 >
                     <Mail className="w-5 h-5" />
