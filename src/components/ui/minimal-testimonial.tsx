@@ -75,14 +75,15 @@ export function TestimonialsMinimal() {
                 </div>
 
                 {/* Active Author Info */}
-                <div className="relative flex-1 h-12">
+                <div className="flex-1 grid grid-cols-1">
                     {testimonials.map((t, i) => (
                         <div
                             key={i}
                             className={`
-                absolute inset-0 flex flex-col justify-center
+                col-start-1 row-start-1
+                flex flex-col justify-center
                 transition-all duration-500 ease-out
-                ${active === i ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4 pointer-events-none"}
+                ${active === i ? "opacity-100 translate-x-0 z-10" : "opacity-0 -translate-x-4 pointer-events-none z-0"}
               `}
                         >
                             <span className="text-lg font-medium text-white">{t.name}</span>
