@@ -98,6 +98,7 @@ body {
   background-color: #0a0a0a;
   /* Force dark background immediately */
   color: #ededed;
+  transition: filter 2.5s ease-in-out, background-color 2.5s ease-in-out, color 2.5s ease-in-out;
 }
 
 body {
@@ -187,4 +188,74 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* --- TIME TRAVELER EASTER EGG (v2) --- */
+.retro-mode {
+  --background: #050505;
+  --foreground: #33ff00;
+  /* Phosphor Green */
+  --muted: #1a2a1a;
+  --muted-foreground: #25b800;
+  --card: #000000;
+  --card-foreground: #33ff00;
+  --border: #33ff00;
+
+  font-family: 'Courier New', Courier, monospace !important;
+  text-shadow: 0 0 2px rgba(51, 255, 0, 0.4), 0 0 8px rgba(51, 255, 0, 0.2);
+  overflow-x: hidden;
+}
+
+.retro-mode body {
+  background-color: #050505 !important;
+}
+
+/* Force Green Wireframe Look */
+.retro-mode * {
+  border-color: rgba(51, 255, 0, 0.3) !important;
+  scrollbar-color: #33ff00 #000;
+}
+
+.retro-mode img,
+.retro-mode video {
+  filter: grayscale(100%) contrast(1.2) brightness(0.8) sepia(100%) hue-rotate(50deg) saturate(3);
+  mix-blend-mode: luminosity;
+  opacity: 0.8;
+}
+
+/* Override text colors globally */
+.retro-mode h1,
+.retro-mode h2,
+.retro-mode h3,
+.retro-mode h4,
+.retro-mode p,
+.retro-mode span,
+.retro-mode div,
+.retro-mode a,
+.retro-mode button {
+  color: #33ff00 !important;
+  letter-spacing: -0.02em;
+}
+
+/* CRT Scanlines & Vignette Overlay */
+.retro-mode::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 99999;
+}
+
+/* Screen Curve / Vignette */
+.retro-mode::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
+  pointer-events: none;
+  z-index: 99998;
 }
