@@ -21,9 +21,6 @@ export function NavBar() {
                 top: 0,
                 behavior: "smooth"
             });
-        } else {
-            // For other pages, we let the Link handle it normally or do a manual push
-            router.push("/");
         }
     };
 
