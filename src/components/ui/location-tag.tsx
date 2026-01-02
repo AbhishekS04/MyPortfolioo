@@ -169,6 +169,8 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                 <div className="relative flex items-center justify-center">
                     <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-75 ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
                     <span className={`relative inline-flex h-2 w-2 rounded-full ${isRetro ? 'bg-amber-500' : 'bg-emerald-500'}`} />
+
+
                 </div>
 
                 <div className="relative overflow-hidden h-5 flex flex-col justify-center">

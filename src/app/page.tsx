@@ -14,10 +14,12 @@ const ContactSection = dynamic(() => import("@/components/home/contact-section")
 
 import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
 import { ClipboardSecret } from "@/components/ui/clipboard-secret";
+import { ExitMessage } from "@/components/ui/exit-message";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
+      <ExitMessage />
       <ClipboardSecret />
       <ConsciousnessMode />
       <motion.div

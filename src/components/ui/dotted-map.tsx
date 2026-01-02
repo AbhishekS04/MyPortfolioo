@@ -64,6 +64,22 @@ export function DottedMap({
     return { xStep: step || 1, yToRowIndex: rowMap }
   }, [points])
 
+  const [isEggActive, setIsEggActive] = React.useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const purged = localStorage.getItem("mapEgg");
+      if (purged !== "purged") setIsEggActive(true);
+    }
+  }, []);
+
+  const handleEggClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setIsEggActive(false);
+    localStorage.setItem("mapEgg", "purged");
+  };
+
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
@@ -87,13 +103,24 @@ export function DottedMap({
         const rowIndex = yToRowIndex.get(marker.y) ?? 0
         const offsetX = stagger && rowIndex % 2 === 1 ? xStep / 2 : 0
         return (
-          <circle
-            cx={marker.x + offsetX}
-            cy={marker.y}
-            r={marker.size ?? dotRadius}
-            fill={markerColor}
-            key={`${marker.x}-${marker.y}-${index}`}
-          />
+          <g key={`${marker.x}-${marker.y}-${index}`}>
+            <circle
+              cx={marker.x + offsetX}
+              cy={marker.y}
+              r={marker.size ?? dotRadius}
+              fill={markerColor}
+            />
+            {isEggActive && (
+              <circle
+                cx={marker.x + offsetX}
+                cy={marker.y}
+                r={(marker.size ?? dotRadius) * 4} // ~4x radius for comfortable click area
+                fill="transparent"
+                className="cursor-default pointer-events-auto"
+                onClick={handleEggClick}
+              />
+            )}
+          </g>
         )
       })}
     </svg>
