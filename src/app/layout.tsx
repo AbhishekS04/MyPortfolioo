@@ -68,11 +68,11 @@ export default function RootLayout({
           }}
         />
 
-        <SmoothScroll>
-          <PreloaderWrapper>
+        <PreloaderWrapper>
+          <SmoothScroll>
             {children}
-          </PreloaderWrapper>
-        </SmoothScroll>
+          </SmoothScroll>
+        </PreloaderWrapper>
       </body>
     </html>
   );
