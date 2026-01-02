@@ -13,10 +13,12 @@ const TestimonialsMinimal = dynamic(() => import("@/components/ui/minimal-testim
 const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection));
 
 import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
+import { ClipboardSecret } from "@/components/ui/clipboard-secret";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
+      <ClipboardSecret />
       <ConsciousnessMode />
       <motion.div
         initial={{ opacity: 0 }}
