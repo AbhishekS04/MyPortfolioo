@@ -53,17 +53,17 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         initial: {
             opacity: 0,
             y: 20,
-            filter: "blur(5px)" // Slightly reduced blur for cleaner look
+            filter: "blur(5px)"
         },
-        animate: {
+        animate: (index: number) => ({
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.4,
+                duration: index === 0 ? 0.6 : 0.4,
                 ease: [0.25, 1, 0.5, 1] as const,
             }
-        },
+        }),
         exit: {
             opacity: 0,
             y: -20,
@@ -79,8 +79,9 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
                     {greetings[currentIndex] && (
                         <motion.div
                             key={currentIndex}
+                            custom={currentIndex}
                             variants={textVariants}
-                            initial={currentIndex === 0 ? { opacity: 1, y: 0, filter: "blur(0px)" } : "initial"} // Start fully visible to match static splash handover
+                            initial="initial"
                             animate="animate"
                             exit="exit"
                             className="flex items-center gap-4 text-white"

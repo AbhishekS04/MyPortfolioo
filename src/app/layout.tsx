@@ -68,39 +68,7 @@ export default function RootLayout({
           }}
         /> */}
 
-        {/* Static Splash Screen to eliminate initial Delay */}
-        <div
-          id="static-splash"
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 99999,
-            backgroundColor: '#050805',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#ffffff',
-          }}
-        >
-          <style dangerouslySetInnerHTML={{
-            __html: `
-            @keyframes staticFadeIn {
-              from { opacity: 0; transform: translateY(20px); filter: blur(10px); }
-              to { opacity: 1; transform: translateY(0); filter: blur(0); }
-            }
-          `}} />
-          <span
-            style={{
-              fontSize: '3.75rem',
-              fontWeight: 500,
-              letterSpacing: '-0.025em',
-              fontFamily: 'var(--font-sans), sans-serif',
-              animation: 'staticFadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards'
-            }}
-          >
-            Hello
-          </span>
-        </div>
+
 
         <PreloaderWrapper>
           <SmoothScroll>
