@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface Greeting {
     text: string;
@@ -31,16 +32,16 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             // We do NOT increment here, so the text remains visible until the parent unmounts the whole component.
             const timeout = setTimeout(() => {
                 onComplete();
-            }, 800); // Matches the rhythm of other words (800ms)
+            }, 800);
             return () => clearTimeout(timeout);
         }
 
-        // For intermediate words, cycle faster
+        // For first word "Hello", give it more time to clear initial hydration/rendering lag
+        const duration = currentIndex === 0 ? 1400 : 800; // Increased to 1400ms for the first word
+
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
-        }, 800);
-
-        return () => clearTimeout(timeout);
+        }, duration);
 
         return () => clearTimeout(timeout);
     }, [currentIndex, onComplete]);
@@ -52,7 +53,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         initial: {
             opacity: 0,
             y: 20,
-            filter: "blur(6px)"
+            filter: "blur(5px)" // Slightly reduced blur for cleaner look
         },
         animate: {
             opacity: 1,
@@ -79,7 +80,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
                         <motion.div
                             key={currentIndex}
                             variants={textVariants}
-                            initial="initial"
+                            initial={currentIndex === 0 ? { opacity: 1, y: 0, filter: "blur(0px)" } : "initial"} // Start fully visible to match static splash handover
                             animate="animate"
                             exit="exit"
                             className="flex items-center gap-4 text-white"

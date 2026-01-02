@@ -35,6 +35,17 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     });
 
     useEffect(() => {
+        // Remove static splash screen if it exists
+        const staticSplash = document.getElementById('static-splash');
+        if (staticSplash) {
+            staticSplash.style.opacity = '0';
+            setTimeout(() => {
+                staticSplash.remove();
+            }, 300);
+        }
+    }, []);
+
+    useEffect(() => {
         // Handle overflow lock
         if (isVisible) {
             document.body.style.overflow = "hidden";
