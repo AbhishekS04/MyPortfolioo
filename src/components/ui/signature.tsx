@@ -61,6 +61,7 @@ export function Signature() {
                 className="absolute right-4 bottom-4 md:right-10 md:bottom-10 opacity-30 select-none transition-opacity z-50 mix-blend-overlay cursor-default"
                 style={{ WebkitTapHighlightColor: 'transparent' }}
             >
+                {/* Signature */}
                 <span className={cn(sacramento.className, "text-4xl md:text-5xl text-white/80")}>
                     Abhishek Singh
                 </span>

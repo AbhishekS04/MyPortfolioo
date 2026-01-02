@@ -77,21 +77,24 @@ export function LocationTag({ className = "" }: LocationTagProps) {
         // DESTRUCTION PHASE (Gray)
         await new Promise(r => setTimeout(r, 500));
 
+        await addLine('> SYSTEM_ALERT: UNEXPECTED_INTERACTION', 400);
+        await addLine('> ROOT_QUERY: "Why did you touch that?"', 800);
+        await addLine('> WARNING: "Restricted Access Protocol"', 600);
         await addLine("> ROOT_ACCESS_GRANTED", 400);
         await addLine("> EXECUTING: sudo rm -rf /portfolio_v2", 800);
-        await addLine("> DELETING_ASSETS...", 400);
-        await addLine("> DELETING_STYLES...", 400);
-        await addLine("> REMOVING_OPERATING_SYSTEM...", 600);
+        await addLine("> PURGING_ASSETS_DIRECTORY...", 400);
+        await addLine("> UNLINKING_STYLESHEETS...", 400);
+        await addLine("> CLEARING_RUNTIME_CACHE...", 600);
 
         if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate([50, 50, 100]);
-        await addLine("> SYSTEM_CRITICAL: OS_NOT_FOUND", 1200);
+        await addLine("> PROCESS_COMPLETE: CURRENT_VIEW_TERMINATED", 1200);
 
         // REBIRTH PHASE (Green)
         setTerminalColor('green');
-        await addLine("> BOOTING_LEGACY_KERNEL...", 800);
-        await addLine("> LOADING_BIOS_v1998...", 500);
+        await addLine("> INITIALIZING_LEGACY_PROTOCOL...", 800);
+        await addLine("> LOADING_BACKUP_ARCHIVES...", 500);
         await addLine("> CHECKING_VRAM... [OK]", 400);
-        await addLine("> STARTING_OS...", 1500);
+        await addLine("> LAUNCHING_LEGACY_INTERFACE...", 1500);
 
         // Activate Retro Mode
         document.documentElement.classList.add('retro-mode');

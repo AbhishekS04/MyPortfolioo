@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
-import { hendrigo, sacramento } from "@/lib/fonts";
+import { bolivia } from "@/lib/fonts";
 import { PreloaderWrapper } from "@/components/ui/preloader-wrapper";
 import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import "./globals.css";
@@ -36,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#050805' }}>
-      <body className={`${outfit.variable} ${hendrigo.variable} ${sacramento.variable}`} style={{ backgroundColor: '#050805', color: '#ededed' }}>
+      <body className={`${outfit.variable} ${bolivia.variable}`} style={{ backgroundColor: '#050805', color: '#ededed' }}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

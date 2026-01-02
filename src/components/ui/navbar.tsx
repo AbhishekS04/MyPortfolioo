@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { SocialStories } from "@/components/ui/social-stories"
 import { motion } from "framer-motion"
-import { hendrigo } from "@/lib/fonts"
+import { bolivia } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { MobileMenu } from "./mobile-menu"
@@ -40,8 +40,8 @@ export function NavBar() {
                         className="group block"
                     >
                         <span className={cn(
-                            hendrigo.className,
-                            "text-3xl md:text-4xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
+                            bolivia.className,
+                            "text-3xl md:text-5xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
                         )}>
                             Abhishek
                         </span>
