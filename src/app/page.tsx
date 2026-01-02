@@ -12,9 +12,12 @@ const FeaturedProjects = dynamic(() => import("@/components/home/featured-projec
 const TestimonialsMinimal = dynamic(() => import("@/components/ui/minimal-testimonial").then(mod => mod.TestimonialsMinimal));
 const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection));
 
+import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
+      <ConsciousnessMode />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
