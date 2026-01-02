@@ -38,7 +38,7 @@ export function NavBar() {
                     >
                         <span className={cn(
                             bolivia.className,
-                            "text-3xl md:text-5xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
+                            "text-4xl md:text-6xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
                         )}>
                             Abhishek
                         </span>
