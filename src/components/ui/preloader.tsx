@@ -38,14 +38,14 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
 
         // For first word "Hello", give it more time to clear initial hydration/rendering lag
         const isMobile = window.innerWidth < 768;
-        const baseDuration = isMobile ? 400 : 800; // Faster loop on mobile
-        const initialDuration = isMobile ? 1000 : 1400; // Faster initial hold on mobile
 
-        const duration = currentIndex === 0 ? initialDuration : baseDuration;
+        // Unified speed: consistent flow, no "solo" pause for Hello
+        // 600ms mobile / 800ms desktop
+        const stepDuration = isMobile ? 600 : 800; // Snappy loop
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
-        }, duration);
+        }, stepDuration);
 
         return () => clearTimeout(timeout);
     }, [currentIndex, onComplete]);
@@ -64,7 +64,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: index === 0 ? 0.6 : 0.4,
+                // Determine entrance speed
+                duration: 0.4,
                 ease: [0.25, 1, 0.5, 1] as const,
             }
         }),

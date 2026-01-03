@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { supabase } from "@/lib/supabase"
 import { MapPin, Clock } from "lucide-react"
@@ -53,10 +53,25 @@ export function UserLocation({ className = "" }: UserLocationProps) {
         return () => clearInterval(interval)
     }, [location.timezone])
 
+    const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+    const handleMobileClick = () => {
+        // Toggle or just show? User said "click... show type... after 1.5s auto animate change"
+        // Let's force show then revert.
+        setShowTime(true);
+
+        if (timerRef.current) clearTimeout(timerRef.current);
+
+        timerRef.current = setTimeout(() => {
+            setShowTime(false);
+        }, 1500);
+    };
+
     return (
         <motion.button
             onMouseEnter={() => setShowTime(true)}
             onMouseLeave={() => setShowTime(false)}
+            onClick={handleMobileClick}
             onBlur={() => setShowTime(false)}
             className={`group relative flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 transition-colors duration-300 hover:border-white/20 hover:bg-white/10 select-none touch-none overflow-hidden ${className}`}
         >
