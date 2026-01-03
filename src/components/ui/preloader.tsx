@@ -37,7 +37,11 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         }
 
         // For first word "Hello", give it more time to clear initial hydration/rendering lag
-        const duration = currentIndex === 0 ? 1400 : 800; // Increased to 1400ms for the first word
+        const isMobile = window.innerWidth < 768;
+        const baseDuration = isMobile ? 400 : 800; // Faster loop on mobile
+        const initialDuration = isMobile ? 1000 : 1400; // Faster initial hold on mobile
+
+        const duration = currentIndex === 0 ? initialDuration : baseDuration;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
