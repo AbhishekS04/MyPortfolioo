@@ -8,6 +8,18 @@ import { Project } from "@/lib/data";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+// Strict type for Supabase response to avoid 'any'
+interface SupabaseProject {
+    id: string;
+    title: string;
+    description: string;
+    tech_stack: string[];
+    image_url: string;
+    slug: string;
+    featured: boolean;
+    display_order: number;
+}
+
 function ProjectCard({ project }: { project: Project }) {
     return (
         <Link href={project.link} className="group block h-full">
@@ -54,9 +66,38 @@ function ProjectCard({ project }: { project: Project }) {
     );
 }
 
+function ProjectCardSkeleton() {
+    return (
+        <div className="h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden flex flex-col">
+            {/* Image Skeleton */}
+            <div className="relative w-full aspect-[16/10] bg-white/5 animate-pulse" />
+
+            {/* Content Skeleton */}
+            <div className="p-6 flex flex-col flex-1 justify-between gap-6">
+                <div className="space-y-3">
+                    <div className="flex justify-between items-start">
+                        <div className="h-7 w-1/2 bg-white/5 rounded-md animate-pulse" />
+                        <div className="h-5 w-5 bg-white/5 rounded-md animate-pulse" />
+                    </div>
+                    <div className="space-y-2">
+                        <div className="h-4 w-full bg-white/5 rounded-md animate-pulse" />
+                        <div className="h-4 w-2/3 bg-white/5 rounded-md animate-pulse" />
+                    </div>
+                </div>
+                <div className="flex gap-2">
+                    <div className="h-5 w-16 bg-white/5 rounded-full animate-pulse" />
+                    <div className="h-5 w-12 bg-white/5 rounded-full animate-pulse" />
+                    <div className="h-5 w-20 bg-white/5 rounded-full animate-pulse" />
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function FeaturedProjects() {
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         async function fetchProjects() {
@@ -69,8 +110,10 @@ export function FeaturedProjects() {
 
                 if (error) {
                     console.error('Error fetching projects:', error);
-                } else if (data && data.length > 0) {
-                    const mappedProjects: Project[] = data.map((item: any) => ({
+                    setHasError(true);
+                } else if (data) {
+                    // Safe type mapping
+                    const mappedProjects: Project[] = (data as unknown as SupabaseProject[]).map((item) => ({
                         id: item.id,
                         title: item.title,
                         description: item.description,
@@ -82,6 +125,7 @@ export function FeaturedProjects() {
                 }
             } catch (err) {
                 console.error("Unexpected error fetching projects", err);
+                setHasError(true);
             } finally {
                 setIsLoading(false);
             }
@@ -90,13 +134,17 @@ export function FeaturedProjects() {
         fetchProjects();
     }, []);
 
-    if (isLoading || projects.length === 0) {
-        return null;
+    // Error State
+    if (hasError) {
+        return (
+            <section className="py-20 flex justify-center text-white/40">
+                <p>Unable to load contents</p>
+            </section>
+        );
     }
 
     return (
         <section id="featured-projects" className="py-20">
-
             {/* Section Header */}
             <div className="flex items-center justify-between mb-12 px-2">
                 <h2 className="text-3xl md:text-4xl font-medium text-white/90">
@@ -112,17 +160,26 @@ export function FeaturedProjects() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {projects.map((project, index) => (
-                    <motion.div
-                        key={project.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                        <ProjectCard project={project} />
-                    </motion.div>
-                ))}
+                {isLoading ? (
+                    // Skeleton Loading State
+                    <>
+                        <ProjectCardSkeleton />
+                        <ProjectCardSkeleton />
+                    </>
+                ) : (
+                    // Real Data
+                    projects.map((project, index) => (
+                        <motion.div
+                            key={project.id}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                        >
+                            <ProjectCard project={project} />
+                        </motion.div>
+                    ))
+                )}
             </div>
         </section>
     );
