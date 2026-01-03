@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { LocationTag } from "@/components/ui/location-tag"
+import { UserLocation } from "@/components/ui/user-location"
 
 export function IdentityCard() {
     return (
@@ -33,8 +34,9 @@ export function IdentityCard() {
                         Frontend Engineer & <br /> Ui System Designer.
                     </p>
 
-                    <div className="mt-6 flex items-center gap-3 flex-wrap">
+                    <div className="mt-6 flex items-center justify-between w-full gap-3 flex-wrap">
                         <LocationTag className="!bg-white/10 !backdrop-blur-md !border-white/10" />
+                        <UserLocation className="!bg-white/10 !backdrop-blur-md !border-white/10" />
                     </div>
                 </motion.div>
             </div>
