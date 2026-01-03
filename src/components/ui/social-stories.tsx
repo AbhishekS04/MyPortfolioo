@@ -191,15 +191,19 @@ export function SocialStories() {
 
     return (
         <>
-            {/* Trigger in Navbar - Gold Border, No Glow */}
-            <div className="w-10 h-10 relative flex items-center justify-center z-50 group">
+            {/* Trigger in Navbar - Gold Border Ring */}
+            <div className="w-full h-full relative flex items-center justify-center z-50 group">
                 <AnimatePresence>
                     {!isOpen && (
                         <motion.div
                             layoutId="story-container"
                             className={cn(
-                                "absolute inset-0 cursor-pointer rounded-full p-[2px] transition-all duration-500",
-                                isFetchLoading ? "opacity-50 grayscale scale-95" : "opacity-100 grayscale-0 scale-100"
+                                "absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300",
+                                // Gold border integration
+                                "border-[1.5px]",
+                                isFetchLoading
+                                    ? "border-white/10 opacity-50 grayscale"
+                                    : "border-[#007AFF] hover:border-[#007AFF] opacity-100 grayscale-0 shadow-[0_0_10px_rgba(0,122,255,0.3)]"
                             )}
                             onClick={() => !isFetchLoading && stories.length > 0 && setIsOpen(true)}
                             initial={{ opacity: 0, scale: 0.8 }}
@@ -207,27 +211,19 @@ export function SocialStories() {
                             exit={{ opacity: 0, scale: 0.8 }}
                             transition={{ duration: 0.2 }}
                         >
-                            {/* Gold Border Ring */}
-                            <div className={cn(
-                                "absolute inset-0 rounded-full border-[2px] transition-colors",
-                                isFetchLoading ? "border-white/10" : "border-[#FFD700]/80 group-hover:border-[#FFD700]"
-                            )} />
+                            <Image
+                                src={PROFILE.avatarUrl}
+                                alt={PROFILE.name}
+                                fill
+                                className="object-cover p-[2px] rounded-full" // Slight padding inside border
+                                priority
+                            />
 
-                            <div className="absolute inset-[3px] rounded-full bg-black flex items-center justify-center overflow-hidden">
-                                <Image
-                                    src={PROFILE.avatarUrl}
-                                    alt={PROFILE.name}
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
-                            </div>
-
-                            {/* Loading Pulse */}
+                            {/* Loading / Active Pulse Overlay */}
                             {isFetchLoading && (
                                 <motion.div
-                                    className="absolute inset-0 rounded-full border border-white/20"
-                                    animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                                    className="absolute inset-0 bg-white/10"
+                                    animate={{ opacity: [0, 0.2, 0] }}
                                     transition={{ duration: 1.5, repeat: Infinity }}
                                 />
                             )}

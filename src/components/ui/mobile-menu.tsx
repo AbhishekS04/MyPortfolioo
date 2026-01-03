@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link";
-import { SocialStories } from "@/components/ui/social-stories";
+// import { SocialStories } from "@/components/ui/social-stories";
 // import TextExplode from "./text-explode";
 import { X } from "lucide-react";
 
@@ -110,12 +110,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                             <div className="w-12 h-1.5 bg-white/20 rounded-full" />
                         </div>
 
-                        {/* User Profile / Story - Primary Visual Anchor */}
-                        <div className="flex justify-center mb-10 mt-10">
-                            <div className="scale-[1.5] transform-gpu">
-                                <SocialStories />
-                            </div>
-                        </div>
+                        {/* Spacer or Alternative Content - Removed SocialStories as per user request */}
+                        <div className="mb-8" />
 
                         {/* Links - Clean vertical stack */}
                         <div className="flex flex-col gap-8 items-center justify-center min-h-[200px]">

@@ -2,85 +2,135 @@
 
 import Link from "next/link"
 import { SocialStories } from "@/components/ui/social-stories"
-import { motion } from "framer-motion"
 import { bolivia } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { MobileMenu } from "./mobile-menu"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 export function NavBar() {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const pathname = usePathname();
-    const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const pathname = usePathname()
 
     const handleLogoClick = (e: React.MouseEvent) => {
         if (pathname === "/") {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
+            e.preventDefault()
+            window.scrollTo({ top: 0, behavior: "smooth" })
         }
-    };
+    }
 
     return (
         <>
             <nav
-                className="fixed top-0 left-0 w-full z-40 bg-[#0a0a0a]/70 backdrop-blur-xl border-b border-white/5 h-16 px-4 md:px-6 flex items-center justify-between"
-            >
-                {/* Left: Signature Logo - Direct Font Class Usage */}
-                <div className="flex-shrink-0">
-                    <Link
-                        href="/"
-                        onClick={handleLogoClick}
-                        className="group block"
-                    >
-                        <span className={cn(
-                            bolivia.className,
-                            "text-4xl md:text-6xl text-white group-hover:text-blue-400 transition-colors duration-300 tracking-wide"
-                        )}>
-                            Abhishek
-                        </span>
-                    </Link>
-                </div>
+                className="
+                    fixed z-50 transition-all duration-300
+                    top-4 left-8 right-8 h-13 rounded-full
+                    bg-[#0a0a0a]/60 backdrop-blur-xl
+                    border border-white/5 shadow-sm
 
-                {/* Center: Nav Links - HIDDEN on Mobile, Visible on Desktop */}
-                <div className="hidden md:flex items-center gap-1.5 md:gap-2 md:absolute md:left-1/2 md:-translate-x-1/2">
-                    {["Home", "Works", "About"].map((item) => (
+                    pl-4 pr-2
+                    flex items-center justify-between
+
+                    md:top-0 md:left-0 md:right-0 md:w-full md:h-16 md:rounded-none
+                    md:bg-[#0a0a0a]/70 md:border-b md:border-white/5 md:shadow-none
+                    md:px-8
+                "
+            >
+                {/* Left: Logo */}
+                <Link
+                    href="/"
+                    onClick={handleLogoClick}
+                    className="flex items-center"
+                >
+                    <span
+                        className={cn(
+                            bolivia.className,
+                            "text-3xl md:text-4xl text-white/90 tracking-wide pt-1"
+                        )}
+                    >
+                        Abhishek
+                    </span>
+                </Link>
+
+                {/* Center (Desktop only) */}
+                <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
+                    {["Home", "Works", "About"].map(item => (
                         <Link
                             key={item}
                             href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                            className="px-3 py-1.5 rounded-full text-[10px] md:text-xs font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all uppercase tracking-wider border border-transparent hover:border-white/5"
+                            className="px-4 py-2 rounded-full text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all uppercase tracking-wider"
                         >
                             {item}
                         </Link>
                     ))}
                 </div>
 
-                {/* Right: Actions */}
-                <div className="flex-shrink-0 flex items-center gap-4">
-                    {/* Desktop: Show Story Directly */}
-                    <div className="hidden md:block">
-                        <SocialStories />
+                {/* Right Actions */}
+                <div className="flex items-center">
+                    {/* MOBILE ACTION PILL */}
+                    <div
+                        className="
+                            md:hidden
+                            flex items-center
+                            gap-1.5
+                            p-1
+                            rounded-full
+                            bg-white/[0.035]
+                            border border-white/[0.03]
+                        "
+                    >
+                        {/* Hamburger */}
+                        <button
+                            onClick={() => setIsMenuOpen(true)}
+                            aria-label="Open Menu"
+                            className="
+                                w-6 h-6
+                                flex items-center justify-center
+                                transition-colors
+                                text-white/90
+                                hover:text-white
+                            "
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12"
+                                height="12"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <line x1="4" x2="20" y1="7" y2="7" />
+                                <line x1="4" x2="20" y1="12" y2="12" />
+                                <line x1="4" x2="20" y1="17" y2="17" />
+                            </svg>
+                        </button>
+
+                        {/* Social Stories */}
+                        <div
+                            className="
+                                w-[34px] h-[34px]
+                                rounded-full
+                                overflow-hidden
+                                bg-neutral-800/50
+                                flex items-center justify-center
+                            "
+                        >
+                            <SocialStories />
+                        </div>
                     </div>
 
-                    {/* Mobile: Menu Trigger */}
-                    <button
-                        onClick={() => setIsMenuOpen(true)}
-                        aria-label="Open Mobile Menu"
-                        className="md:hidden w-10 h-10 flex items-center justify-center text-white/80 border border-white/10 rounded-full hover:bg-white/5 transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <line x1="4" x2="20" y1="12" y2="12" />
-                            <line x1="4" x2="20" y1="6" y2="6" />
-                            <line x1="4" x2="20" y1="18" y2="18" />
-                        </svg>
-                    </button>
+                    {/* DESKTOP */}
+                    <div className="hidden md:flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
+                            <SocialStories />
+                        </div>
+                    </div>
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay */}
             <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
         </>
     )
