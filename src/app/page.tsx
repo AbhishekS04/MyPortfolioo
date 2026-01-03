@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { NavBar } from "@/components/ui/navbar";
 import { BentoGallery } from "@/components/home/bento-gallery";
 import dynamic from "next/dynamic";
 
@@ -28,8 +27,6 @@ export default function Home() {
         transition={{ duration: 0.3 }}
         className="relative z-0"
       >
-        <NavBar />
-
         <div className="pt-24 md:pt-28 lg:pt-32 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] flex flex-col justify-center">
           {/* --- Hero Grid (Eager Load) --- */}
           <BentoGallery />

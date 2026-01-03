@@ -4,6 +4,7 @@ import { bolivia } from "@/lib/fonts";
 import { PreloaderWrapper } from "@/components/ui/preloader-wrapper";
 import { SmoothScroll } from "@/components/ui/smooth-scroll";
 import { CommandPalette } from "@/components/ui/command-palette";
+import { NavBar } from "@/components/ui/navbar";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -86,6 +87,7 @@ export default function RootLayout({
 
 
         <CommandPalette />
+        <NavBar />
         <PreloaderWrapper>
           <SmoothScroll>
             {children}
