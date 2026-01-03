@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import { bolivia } from "@/lib/fonts";
 import { PreloaderWrapper } from "@/components/ui/preloader-wrapper";
 import { SmoothScroll } from "@/components/ui/smooth-scroll";
+import { CommandPalette } from "@/components/ui/command-palette";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -84,6 +85,7 @@ export default function RootLayout({
 
 
 
+        <CommandPalette />
         <PreloaderWrapper>
           <SmoothScroll>
             {children}
