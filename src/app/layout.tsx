@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
 import { bolivia } from "@/lib/fonts";
 import { PreloaderWrapper } from "@/components/ui/preloader-wrapper";
@@ -11,21 +11,35 @@ const outfit = Outfit({
   display: "swap",
 });
 
+export const viewport = {
+  themeColor: "#050805",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false, // Prevent zooming for app-like feel
+};
+
 export const metadata: Metadata = {
-  title: {
-    default: "Abhishek Singh | Portfolio",
-    template: "%s | Abhishek Singh",
+  title: "Abhishek Singh | Portfolio",
+  description: "Frontend Engineer & UI System Designer specializing in React, Next.js, and interaction design.",
+  applicationName: "Abhishek Singh",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Abhishek Singh",
   },
-  description: "Senior Frontend Engineer & UI System Designer specializing in performant, aesthetic, and scalable web applications.",
   keywords: ["Frontend Engineer", "UI Designer", "React", "Next.js", "Portfolio", "Web Development"],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://abhishekkpf.vercel.app", // User should update this
-    siteName: "Abhishek Singh Portfolio",
+    url: "https://your-domain.com", // User should update this
+    title: "Abhishek Singh | Portfolio",
+    description: "Frontend Engineer & UI System Designer.",
+    siteName: "Abhishek Singh",
   },
   icons: {
-    icon: "/removebg.png",
+    icon: "/favicon.ico",
+    apple: "/icon-192x192.png", // Use our new PWA icon for Apple touch too
   },
 };
 
