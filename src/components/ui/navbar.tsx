@@ -40,12 +40,12 @@ export function NavBar() {
                 <Link
                     href="/"
                     onClick={handleLogoClick}
-                    className="flex items-center"
+                    className="flex items-center group"
                 >
                     <span
                         className={cn(
                             bolivia.className,
-                            "text-3xl md:text-4xl text-white/90 tracking-wide pt-1"
+                            "text-3xl md:text-4xl text-white/90 group-hover:text-[#007AFF] transition-colors duration-300 tracking-wide pt-1"
                         )}
                     >
                         Abhishek
@@ -74,9 +74,6 @@ export function NavBar() {
                             flex items-center
                             gap-1.5
                             p-1
-                            rounded-full
-                            bg-white/[0.035]
-                            border border-white/[0.03]
                         "
                     >
                         {/* Hamburger */}
@@ -84,7 +81,7 @@ export function NavBar() {
                             onClick={() => setIsMenuOpen(true)}
                             aria-label="Open Menu"
                             className="
-                                w-6 h-6
+                                w-8 h-8
                                 flex items-center justify-center
                                 transition-colors
                                 text-white/90
@@ -93,8 +90,8 @@ export function NavBar() {
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="12"
-                                height="12"
+                                width="16"
+                                height="16"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -111,10 +108,9 @@ export function NavBar() {
                         {/* Social Stories */}
                         <div
                             className="
-                                w-[34px] h-[34px]
+                                w-10 h-10
                                 rounded-full
                                 overflow-hidden
-                                bg-neutral-800/50
                                 flex items-center justify-center
                             "
                         >
