@@ -175,7 +175,7 @@ const CommandMenuContent = React.forwardRef<
                         exit={{ opacity: 0, scale: 0.95, y: -20 }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
                         className={cn(
-                            "fixed left-[50%] top-[30%] z-50 w-[95%] max-w-2xl translate-x-[-50%] translate-y-[-50%]",
+                            "fixed left-[50%] top-[50%] z-50 w-[95%] max-w-2xl translate-x-[-50%] translate-y-[-50%]",
                             // GLASS EFFECT UPDATE: Heavy blur, translucent black, subtle border
                             "bg-[#09090b]/80 backdrop-blur-3xl border border-white/5 rounded-2xl shadow-2xl ring-1 ring-white/5",
                             "overflow-hidden max-h-[85vh] flex flex-col",
@@ -256,7 +256,7 @@ const CommandMenuList = React.forwardRef<
     React.HTMLAttributes<HTMLDivElement> & {
         maxHeight?: string;
     }
->(({ className, children, maxHeight = "320px", ...props }, ref) => {
+>(({ className, children, maxHeight, ...props }, ref) => {
     const {
         selectedIndex,
         setSelectedIndex,
@@ -307,7 +307,7 @@ const CommandMenuList = React.forwardRef<
         <div ref={ref} className={cn("p-2 overflow-hidden", className)} {...props}>
             <ScrollArea
                 className="w-full [&_[data-radix-scroll-area-viewport]]:overscroll-contain [&_[data-radix-scroll-area-scrollbar]]:opacity-0 [&_[data-radix-scroll-area-scrollbar]]:w-0 [&_[data-radix-scroll-area-scrollbar]]:bg-transparent"
-                style={{ height: maxHeight }}
+                style={{ height: maxHeight || "auto" }}
                 type="always"
             >
                 <div className="space-y-1 p-1">{children}</div>
@@ -344,6 +344,8 @@ const CommandMenuItem = React.forwardRef<
         shortcut?: string;
         icon?: React.ReactNode;
         index?: number;
+        keywords?: string[];
+        label?: string;
     }
 >(
     (
@@ -355,12 +357,17 @@ const CommandMenuItem = React.forwardRef<
             shortcut,
             icon,
             index = 0,
+            keywords,
+            label,
             ...props
         },
         ref
     ) => {
-        const { selectedIndex, setSelectedIndex } = useCommandMenu();
+        const { selectedIndex, setSelectedIndex, value: searchValue } = useCommandMenu();
         const isSelected = selectedIndex === index;
+
+        // Filter logic
+        const matches = !searchValue || (label || (typeof children === 'string' ? children : '')).toLowerCase().includes(searchValue.toLowerCase()) || keywords?.some(k => k.toLowerCase().includes(searchValue.toLowerCase()));
 
         // Handle click and enter key
         const handleSelect = React.useCallback(() => {
@@ -381,8 +388,15 @@ const CommandMenuItem = React.forwardRef<
             return () => document.removeEventListener("keydown", handleKeyDown);
         }, [isSelected, handleSelect]);
 
+        if (!matches) return null;
+
         return (
-            <div
+            <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.2 }}
                 ref={ref}
                 data-command-item
                 className={cn(
@@ -399,7 +413,7 @@ const CommandMenuItem = React.forwardRef<
                 )}
                 onClick={handleSelect}
                 onMouseEnter={() => setSelectedIndex(index)}
-                {...props}
+                {...(props as any)}
             >
                 {icon && (
                     <div className={cn("h-4 w-4 flex items-center justify-center transition-colors", isSelected ? "text-zinc-100" : "text-zinc-500")}>
@@ -436,7 +450,7 @@ const CommandMenuItem = React.forwardRef<
                         ))}
                     </div>
                 )}
-            </div>
+            </motion.div>
         );
     }
 );
