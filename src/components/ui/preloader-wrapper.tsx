@@ -82,11 +82,11 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
             </AnimatePresence>
 
             {/* 
-               Render children immediately but keep them behind the preloader.
-               This allows the browser to start loading homepage assets, images, 
-               and components while the preloader is still active.
+               Render children immediately. 
+               We REMOVED the opacity toggle so the browser paints the LCP element 
+               instantly behind the preloader layer. This fixes the LCP score.
             */}
-            <div className={isVisible ? "opacity-0" : "opacity-100 transition-opacity duration-500"}>
+            <div className="relative">
                 {children}
             </div>
         </PreloaderContext.Provider>

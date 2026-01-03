@@ -5,6 +5,7 @@ import { motion, PanInfo } from "framer-motion"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
 import { PAPER_SOUND_BASE64 } from "@/components/ui/sound-constants"
+import { usePreloader } from "@/components/ui/preloader-wrapper"
 
 interface GalleryItem {
     id: number;
@@ -17,6 +18,7 @@ const isVideo = (url: string) => {
 };
 
 export function VerticalImageStack() {
+    const { hasShown } = usePreloader();
     const [images, setImages] = useState<GalleryItem[]>([]);
 
     // Remove dummy data. If no images, we will handle in render.
@@ -116,12 +118,14 @@ export function VerticalImageStack() {
     // User requested "iPhone tick". I will use a very short logic for now.
 
     useEffect(() => {
+        if (!hasShown) return; // Defer audio init until preloader is done
+
         // Initialize Audio
         // Using Embedded Base64 for INSTANT playback (no network delay)
         audioRef.current = new Audio(PAPER_SOUND_BASE64);
         audioRef.current.load();
 
-    }, []);
+    }, [hasShown]);
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 640)

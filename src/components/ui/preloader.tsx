@@ -57,7 +57,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         initial: {
             opacity: 0,
             y: 20,
-            filter: "blur(5px)"
+            filter: "blur(5px)",
+            willChange: "transform, opacity, filter"
         },
         animate: (index: number) => ({
             opacity: 1,
