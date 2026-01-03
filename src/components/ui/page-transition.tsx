@@ -16,6 +16,7 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
                 ease: "easeOut",
             }}
             className="w-full h-full"
+            style={{ willChange: "transform, opacity, filter" }}
         >
             {children}
         </motion.div>

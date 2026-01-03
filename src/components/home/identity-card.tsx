@@ -31,7 +31,7 @@ export function IdentityCard() {
                 >
                     <h2 className="text-3xl font-bold text-white mb-2 leading-tight">Abhishek Singh</h2>
                     <p className="text-white/60 text-lg font-medium">
-                        Frontend Engineer & <br /> Ui System Designer.
+                        Product Engineer.
                     </p>
 
                     <div className="mt-6 flex items-center justify-between w-full gap-3 flex-wrap">

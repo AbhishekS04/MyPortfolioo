@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
     return {
         name: 'Abhishek Singh | Portfolio',
         short_name: 'Abhishek',
-        description: 'Frontend Engineer & UI System Designer',
+        description: 'Product Engineer',
         start_url: '/',
         display: 'standalone',
         background_color: '#050805',

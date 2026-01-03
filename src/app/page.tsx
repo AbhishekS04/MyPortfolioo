@@ -6,10 +6,11 @@ import dynamic from "next/dynamic";
 
 // Code Split / Lazy Load below-the-fold content
 const FeaturedProjects = dynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects), {
+  ssr: false,
   loading: () => <div className="h-96 w-full animate-pulse bg-white/5 rounded-3xl" />
 });
-const TestimonialsMinimal = dynamic(() => import("@/components/ui/minimal-testimonial").then(mod => mod.TestimonialsMinimal));
-const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection));
+const TestimonialsMinimal = dynamic(() => import("@/components/ui/minimal-testimonial").then(mod => mod.TestimonialsMinimal), { ssr: false });
+const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection), { ssr: false });
 
 import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
 import { ClipboardSecret } from "@/components/ui/clipboard-secret";

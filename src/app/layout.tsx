@@ -23,20 +23,20 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: "Abhishek Singh | Portfolio",
-  description: "Frontend Engineer & UI System Designer specializing in React, Next.js, and interaction design.",
+  description: "Product Engineer specializing in React, Next.js, and interaction design.",
   applicationName: "Abhishek Singh",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Abhishek Singh",
   },
-  keywords: ["Frontend Engineer", "UI Designer", "React", "Next.js", "Portfolio", "Web Development"],
+  keywords: ["Product Engineer", "Full Stack Engineer", "React", "Next.js", "Portfolio", "Web Development"],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://your-domain.com", // User should update this
+    url: "https://abhishekkpf.vercel.app", // User should update this
     title: "Abhishek Singh | Portfolio",
-    description: "Frontend Engineer & UI System Designer.",
+    description: "Product Engineer.",
     siteName: "Abhishek Singh",
   },
   icons: {
@@ -60,8 +60,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Abhishek Singh",
-              "url": "https://portfolio-test-devaura.vercel.app",
-              "jobTitle": "Senior Frontend Engineer",
+              "url": "https://abhishekkpf.vercel.app",
+              "jobTitle": "Product Engineer",
               "sameAs": [
                 "https://github.com/AbhishekS04",
                 "https://linkedin.com/in/AbhishekS04",
