@@ -43,6 +43,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "media.licdn.com",
       },
+      {
+        protocol: "https",
+        hostname: "wallpapers.com",
+      },
     ],
   },
   async headers() {

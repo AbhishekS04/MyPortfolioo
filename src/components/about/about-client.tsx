@@ -80,12 +80,29 @@ export function AboutClient({ general, experience, education, skills, interests 
                         Interests
                     </span>
                     <div className="flex flex-wrap gap-4">
-                        {interests.map((item: any, idx: number) => (
-                            <div key={idx} className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/[0.03] border border-white/5 text-white/60">
-                                {getIcon(item.icon_name)}
-                                <span className="text-sm font-medium">{item.label}</span>
-                            </div>
-                        ))}
+                        {interests.map((item: any, idx: number) => {
+                            const isGaming = item.label === "Gaming";
+
+                            const Wrapper = isGaming ? Link : "div";
+                            const wrapperProps = isGaming ? { href: "/gaming" } : {};
+
+                            return (
+                                <Wrapper
+                                    key={idx}
+                                    {...wrapperProps}
+                                    className={`
+                                        flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-300
+                                        ${isGaming
+                                            ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400 cursor-pointer hover:bg-emerald-500/10 hover:scale-105"
+                                            : "bg-white/[0.03] border-white/5 text-white/60"
+                                        }
+                                    `}
+                                >
+                                    {getIcon(item.icon_name)}
+                                    <span className="text-sm font-medium">{item.label}</span>
+                                </Wrapper>
+                            );
+                        })}
                         {interests.length === 0 && <span className="text-sm text-white/20">No interests added yet.</span>}
                     </div>
                 </div>
