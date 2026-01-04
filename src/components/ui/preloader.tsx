@@ -24,24 +24,24 @@ interface PreloaderProps {
 
 export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [dimension, setDimension] = useState({ width: 0, height: 0 });
 
     useEffect(() => {
-        // Handle the loop
+        setDimension({ width: window.innerWidth, height: window.innerHeight });
+    }, []);
+
+    useEffect(() => {
         if (currentIndex === greetings.length - 1) {
-            // Last one: Wait a bit longer, then trigger complete. 
-            // We do NOT increment here, so the text remains visible until the parent unmounts the whole component.
+            // Smoothest exit: hold the last word slightly longer then complete
             const timeout = setTimeout(() => {
                 onComplete();
-            }, 800);
+            }, 1000); // 1s hold for the last word
             return () => clearTimeout(timeout);
         }
 
-        // For first word "Hello", give it more time to clear initial hydration/rendering lag
         const isMobile = window.innerWidth < 768;
-
-        // Unified speed: consistent flow, no "solo" pause for Hello
-        // 600ms mobile / 800ms desktop
-        const stepDuration = isMobile ? 600 : 800; // Snappy loop
+        // Consistent, slightly slower pace for "cinematic" feel
+        const stepDuration = isMobile ? 700 : 900;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -50,59 +50,53 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         return () => clearTimeout(timeout);
     }, [currentIndex, onComplete]);
 
-    // Initial enter for the first word (index 0)
-    // We want a stagger or just clean enter? Use AnimatePresence mode="wait"
-
     const textVariants = {
         initial: {
             opacity: 0,
-            y: 20,
-            filter: "blur(5px)",
-            willChange: "transform, opacity, filter"
+            y: 40, // Increased movement for more "drama"
+            filter: "blur(12px)", // Stronger blur
         },
-        animate: (index: number) => ({
+        animate: {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                // Determine entrance speed
-                duration: 0.4,
-                ease: [0.25, 1, 0.5, 1] as const,
+                duration: 0.8, // Slower, smoother entrance
+                ease: [0.25, 1, 0.5, 1], // Ultra smooth bezier
             }
-        }),
+        },
         exit: {
             opacity: 0,
-            y: -20,
-            filter: "blur(6px)",
-            transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] as const }
+            y: -40, // Match entrance movement
+            filter: "blur(12px)",
+            transition: {
+                duration: 0.6,
+                ease: [0.25, 1, 0.5, 1]
+            }
         },
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050805] cursor-none">
-            <div className="relative flex items-center justify-center">
-                <AnimatePresence mode="wait">
-                    {greetings[currentIndex] && (
-                        <motion.div
-                            key={currentIndex}
-                            custom={currentIndex}
-                            variants={textVariants}
-                            initial="initial"
-                            animate="animate"
-                            exit="exit"
-                            className="flex items-center gap-4 text-white"
-                        >
-                            {/* Dot Indicator REMOVED */}
-
-
-                            {/* Text */}
-                            <span className="text-4xl md:text-6xl font-medium tracking-tight font-sans">
-                                {greetings[currentIndex].text}
-                            </span>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
-            </div>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050805] cursor-none overflow-hidden">
+            {/* 
+                Use absolute positioning for the text container to prevent any flex-based layout shifts 
+                during size changes (though text is mostly centered, this is safer).
+             */}
+            <AnimatePresence mode="wait">
+                {greetings[currentIndex] && (
+                    <motion.p
+                        key={currentIndex}
+                        variants={textVariants}
+                        initial="initial"
+                        animate="animate"
+                        exit="exit"
+                        className="absolute text-4xl md:text-7xl font-light tracking-tight text-white font-sans mix-blend-difference"
+                        style={{ willChange: "transform, opacity, filter" }}
+                    >
+                        {greetings[currentIndex].text}
+                    </motion.p>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

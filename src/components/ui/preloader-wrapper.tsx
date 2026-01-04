@@ -70,8 +70,8 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
                         exit={{
                             y: "-100%",
                             transition: {
-                                duration: 0.8,
-                                ease: [0.76, 0, 0.24, 1] // Custom ease for organic shutter feel
+                                duration: 1.2, // Slower for more elegance
+                                ease: [0.83, 0, 0.17, 1] // "Quint" like easing, very dramatic slow start/end
                             }
                         }}
                         className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
