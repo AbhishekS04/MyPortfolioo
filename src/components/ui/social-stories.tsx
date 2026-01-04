@@ -25,7 +25,7 @@ const PROFILE = {
     avatarUrl: "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg",
 }
 
-export function SocialStories() {
+export function SocialStories({ id = "default" }: { id?: string }) {
     const [stories, setStories] = useState<Story[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -196,7 +196,8 @@ export function SocialStories() {
                 <AnimatePresence>
                     {!isOpen && (
                         <motion.div
-                            layoutId="story-container"
+                            // Removed layoutId to prevent visibility conflics
+                            key="trigger"
                             className={cn(
                                 "absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300",
                                 // Gold border integration
@@ -248,7 +249,11 @@ export function SocialStories() {
 
                             {/* Card - Responsive Size */}
                             <motion.div
-                                layoutId="story-container"
+                                key="card"
+                                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                transition={{ type: "spring", damping: 25, stiffness: 300 }}
                                 className="relative w-[90vw] h-[65vh] md:w-[380px] md:h-[650px] bg-black rounded-[32px] overflow-hidden shadow-2xl z-10"
                                 drag="y"
                                 dragConstraints={{ top: 0, bottom: 0 }}

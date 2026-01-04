@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 // import { SocialStories } from "@/components/ui/social-stories";
 // import TextExplode from "./text-explode";
 import { X } from "lucide-react";
@@ -45,6 +46,8 @@ const linkVariants: Variants = {
 const LINKS = ["Home", "Works", "About"];
 
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+    const pathname = usePathname();
+    const router = useRouter();
     const y = useMotionValue(0);
 
     // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
@@ -125,7 +128,16 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                 >
                                     <Link
                                         href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                                        onClick={onClose}
+                                        onClick={(e) => {
+                                            onClose();
+                                            const href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
+
+                                            // Only prevent default if we are already on the page (to smooth scroll)
+                                            if (pathname === href) {
+                                                e.preventDefault();
+                                                window.scrollTo({ top: 0, behavior: "smooth" });
+                                            }
+                                        }}
                                         className="text-4xl font-medium text-white/90 hover:text-white transition-colors tracking-tight"
                                     >
                                         {item}
