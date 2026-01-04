@@ -312,3 +312,10 @@ body {
 html.terminal-active nav {
   display: none !important;
 }
+
+html.terminal-active,
+html.terminal-active body {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none !important;
+}

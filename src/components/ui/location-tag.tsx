@@ -51,10 +51,34 @@ export function LocationTag({ className = "" }: LocationTagProps) {
     }, [location.timezone])
 
     const [isRetro, setIsRetro] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [terminalLines, setTerminalLines] = useState<string[]>([]);
     const [terminalColor, setTerminalColor] = useState<'gray' | 'green'>('gray');
     const pressTimer = useRef<NodeJS.Timeout | null>(null);
+
+    // Initialize state from localStorage
+    useEffect(() => {
+        const storedRetro = localStorage.getItem('retro-mode') === 'true';
+        if (storedRetro) {
+            setIsRetro(true);
+            document.documentElement.classList.add('retro-mode');
+        }
+        setIsInitialized(true);
+    }, []);
+
+    // Sync state with localStorage and DOM
+    useEffect(() => {
+        if (!isInitialized) return;
+
+        if (isRetro) {
+            document.documentElement.classList.add('retro-mode');
+            localStorage.setItem('retro-mode', 'true');
+        } else {
+            document.documentElement.classList.remove('retro-mode');
+            localStorage.setItem('retro-mode', 'false');
+        }
+    }, [isRetro, isInitialized]);
 
     // Manage terminal-active class for Navbar visibility
     useEffect(() => {
@@ -70,7 +94,6 @@ export function LocationTag({ className = "" }: LocationTagProps) {
 
     const triggerRetroSequence = async () => {
         if (isRetro) {
-            document.documentElement.classList.remove('retro-mode');
             setIsRetro(false);
             return;
         }
@@ -110,7 +133,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
         await addLine("> LAUNCHING_LEGACY_INTERFACE...", 1500);
 
         // Activate Retro Mode
-        document.documentElement.classList.add('retro-mode');
+        // Activate Retro Mode
         setIsRetro(true);
 
         setShowOverlay(false);
