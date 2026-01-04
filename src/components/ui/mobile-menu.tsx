@@ -3,6 +3,8 @@
 import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animate } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 // import { SocialStories } from "@/components/ui/social-stories";
 // import TextExplode from "./text-explode";
 import { X } from "lucide-react";
@@ -49,6 +51,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const pathname = usePathname();
     const router = useRouter();
     const y = useMotionValue(0);
+
+    // Prefetch Home on mount for instant load after animation
+    useEffect(() => {
+        router.prefetch("/");
+    }, [router]);
 
     // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
     // raw drag value -> visual stretch value
@@ -129,13 +136,17 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                     <Link
                                         href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                         onClick={(e) => {
+                                            e.preventDefault();
                                             onClose();
                                             const href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
 
-                                            // Only prevent default if we are already on the page (to smooth scroll)
                                             if (pathname === href) {
-                                                e.preventDefault();
                                                 window.scrollTo({ top: 0, behavior: "smooth" });
+                                            } else {
+                                                // Smooth Transition: Close menu (0.4s) -> Then Navigate
+                                                setTimeout(() => {
+                                                    router.push(href);
+                                                }, 400);
                                             }
                                         }}
                                         className="text-4xl font-medium text-white/90 hover:text-white transition-colors tracking-tight"
