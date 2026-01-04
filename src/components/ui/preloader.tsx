@@ -40,8 +40,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         }
 
         const isMobile = window.innerWidth < 768;
-        // Consistent, slightly slower pace for "cinematic" feel
-        const stepDuration = isMobile ? 700 : 900;
+        // 1.4s per word as requested
+        const stepDuration = 1400;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -61,8 +61,10 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             y: 0,
             filter: "blur(0px)",
             transition: {
-                duration: 0.8, // Slower, smoother entrance
-                ease: [0.25, 1, 0.5, 1], // Ultra smooth bezier
+                // Reduced duration to fit within 1.4s interval (Wait Mode: Exit + Enter + Static = Interval)
+                // 0.4s Exit + 0.6s Enter = 1.0s. Leaves 0.4s for static readability.
+                duration: 0.6,
+                ease: [0.25, 1, 0.5, 1] as const,
             }
         },
         exit: {
@@ -70,8 +72,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
             y: -40, // Match entrance movement
             filter: "blur(12px)",
             transition: {
-                duration: 0.6,
-                ease: [0.25, 1, 0.5, 1]
+                duration: 0.4,
+                ease: [0.25, 1, 0.5, 1] as const
             }
         },
     };
