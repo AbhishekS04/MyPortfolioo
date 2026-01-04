@@ -227,7 +227,7 @@ export default function GamingPage() {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.97, opacity: 0 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full max-w-xl bg-[#0c0c0c] border border-white/10 rounded-[42px] sm:rounded-[64px] overflow-hidden flex flex-col relative p-10 sm:p-16 shadow-[0_0_150px_-30px_rgba(255,255,255,0.08)] max-h-[95vh] overflow-y-auto custom-scrollbar"
+                            className="w-full max-w-xl bg-[#0c0c0c] border border-white/10 rounded-[42px] sm:rounded-[64px] overflow-hidden flex flex-col relative p-10 sm:p-16 shadow-[0_0_150px_-30px_rgba(255,255,255,0.08)] max-h-[95vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]"
                         >
                             {/* HUD Corners */}
                             <div className="absolute top-8 left-8 w-5 h-5 border-t border-l border-white/10" />
