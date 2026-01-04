@@ -49,11 +49,24 @@ export function LocationTag({ className = "" }: LocationTagProps) {
         const interval = setInterval(updateTime, 1000)
         return () => clearInterval(interval)
     }, [location.timezone])
+
     const [isRetro, setIsRetro] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
     const [terminalLines, setTerminalLines] = useState<string[]>([]);
     const [terminalColor, setTerminalColor] = useState<'gray' | 'green'>('gray');
     const pressTimer = useRef<NodeJS.Timeout | null>(null);
+
+    // Manage terminal-active class for Navbar visibility
+    useEffect(() => {
+        if (showOverlay) {
+            document.documentElement.classList.add('terminal-active');
+        } else {
+            document.documentElement.classList.remove('terminal-active');
+        }
+        return () => {
+            document.documentElement.classList.remove('terminal-active');
+        }
+    }, [showOverlay]);
 
     const triggerRetroSequence = async () => {
         if (isRetro) {

@@ -12,6 +12,9 @@ export function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const pathname = usePathname()
 
+    // Hide Navbar on specific route
+    if (pathname?.includes("/pickup/recycle04")) return null;
+
     const handleLogoClick = (e: React.MouseEvent) => {
         if (pathname === "/") {
             e.preventDefault()

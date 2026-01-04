@@ -307,3 +307,8 @@ body {
   pointer-events: none;
   z-index: 99998;
 }
+
+/* Hide Navbar ONLY when Terminal is Active (Transition) */
+html.terminal-active nav {
+  display: none !important;
+}
