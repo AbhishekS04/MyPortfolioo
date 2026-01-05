@@ -13,7 +13,12 @@ export function NavBar() {
     const pathname = usePathname()
 
     // Hide Navbar on specific route
-    if (pathname?.includes("/pickup/recycle04") || pathname?.startsWith("/gaming") || pathname?.includes("/github/abhisheks04")) return null;
+    if (
+        pathname?.includes("/pickup/recycle04") ||
+        pathname?.startsWith("/gaming") ||
+        pathname?.includes("/github/abhisheks04") ||
+        pathname?.startsWith("/works/")
+    ) return null;
 
     const handleLogoClick = (e: React.MouseEvent) => {
         if (pathname === "/") {
