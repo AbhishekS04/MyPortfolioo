@@ -23,16 +23,22 @@ export default function Home() {
       <ClipboardSecret />
       <ConsciousnessMode />
       <div className="relative z-0">
-        <div className="pt-24 md:pt-28 lg:pt-32 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] flex flex-col justify-center">
-          {/* --- Hero Grid (Eager Load) --- */}
-          <BentoGallery />
+        {/* --- Hero Section (Eager Load) --- */}
+        {/* Enforces 100vh and absolute centering on Desktop only (lg: 1024px+) */}
+        <div className="lg:h-screen lg:overflow-hidden flex flex-col pt-24 md:pt-28 lg:pt-0 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] lg:min-h-0">
+          {/* Optical Spacer for Navbar balance on Desktop */}
+          <div className="hidden lg:block h-16 shrink-0" />
 
-          {/* --- Lazy Loaded Sections --- */}
-          <div className="mt-32 space-y-32">
-            <FeaturedProjects />
-            <TestimonialsMinimal />
-            <ContactSection />
+          <div className="flex-1 flex flex-col justify-center">
+            <BentoGallery />
           </div>
+        </div>
+
+        {/* --- Below-the-fold content --- */}
+        <div className="mt-32 px-4 md:px-8 max-w-[1600px] mx-auto space-y-32 pb-32">
+          <FeaturedProjects />
+          <TestimonialsMinimal />
+          <ContactSection />
         </div>
       </div>
     </main>

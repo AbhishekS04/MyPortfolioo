@@ -10,7 +10,7 @@ import { CraftCard } from "./craft-card"
 
 export function BentoGallery() {
     return (
-        <section className="w-full max-w-[1400px] mx-auto px-4 md:px-6 pb-12 pt-4 md:py-24">
+        <section className="w-full max-w-[1400px] mx-auto px-4 md:px-6 pb-12 pt-4 md:py-24 lg:py-0">
 
             {/* 
                 Responsive Bento Grid:
