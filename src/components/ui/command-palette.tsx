@@ -98,7 +98,7 @@ export function CommandPalette() {
                             icon={<Twitter />}
                             index={5}
                             keywords={["twitter", "x", "social", "tweet"]}
-                            onSelect={() => runCommand(() => window.open("https://twitter.com/AbhishekS04", "_blank"))}
+                            onSelect={() => runCommand(() => window.open("https://x.com/_abhishek2304", "_blank"))}
                         >
                             Twitter / X
                         </CommandMenuItem>
@@ -106,7 +106,7 @@ export function CommandPalette() {
                             icon={<Linkedin />}
                             index={6}
                             keywords={["linkedin", "network", "social", "career"]}
-                            onSelect={() => runCommand(() => window.open("https://linkedin.com/in/AbhishekS04", "_blank"))}
+                            onSelect={() => runCommand(() => window.open("https://www.linkedin.com/in/abhishek-singh200423", "_blank"))}
                         >
                             LinkedIn Network
                         </CommandMenuItem>
