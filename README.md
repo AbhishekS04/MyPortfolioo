@@ -58,6 +58,15 @@ If you're interested in using any part of this portfolio, you must contact me di
 
 ---
 
+## ⚡ Ready‑Made Template (NPX)
+
+Want a ready‑made template inspired by this portfolio? You can scaffold a similar project using my NPX package:
+
+```bash path=null start=null
+npx abhishek-portfolio-template
+
+---
+
 ## 🎯 About This Portfolio
 
 This is a cutting-edge portfolio website built for a Product Engineer, showcasing exceptional design, performance, and interactivity. The project demonstrates modern web development practices with a focus on user experience, accessibility, and performance optimization.
