@@ -109,6 +109,14 @@ export function DottedMap({
               cy={marker.y}
               r={marker.size ?? dotRadius}
               fill={markerColor}
+              className="animate-ping opacity-75"
+              style={{ transformBox: "fill-box", transformOrigin: "center" }}
+            />
+            <circle
+              cx={marker.x + offsetX}
+              cy={marker.y}
+              r={marker.size ?? dotRadius}
+              fill={markerColor}
             />
             {isEggActive && (
               <circle
