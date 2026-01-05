@@ -175,23 +175,21 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                 <div className="absolute top-[30%] -right-[10%] w-[60vw] h-[60vw] bg-teal-900/[0.02] rounded-full blur-[120px] mix-blend-screen opacity-30" />
             </div>
 
-            {/* --- 1. Top Navigation (Sticky) --- */}
-            <div className="sticky top-0 z-50 pt-8 left-0 w-full pointer-events-none">
-                <motion.nav
-                    className="pl-6 md:pl-10 pointer-events-auto"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
+            {/* --- 1. Top Navigation (Fixed) --- */}
+            <motion.nav
+                className="fixed top-8 left-6 md:left-10 z-[60] pointer-events-auto"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+            >
+                <Link
+                    href="/works"
+                    className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-500 hover:border-white/20 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                 >
-                    <Link
-                        href="/works"
-                        className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-500 hover:border-white/20 shadow-lg"
-                    >
-                        <ArrowLeft className="w-4 h-4 text-white/60 group-hover:-translate-x-1 transition-transform duration-300" />
-                        <span className="text-sm font-medium text-white/80 tracking-wide group-hover:text-white transition-colors">Back to Works</span>
-                    </Link>
-                </motion.nav>
-            </div>
+                    <ArrowLeft className="w-4 h-4 text-white/60 group-hover:-translate-x-1 transition-transform duration-300" />
+                    <span className="text-sm font-medium text-white/80 tracking-wide group-hover:text-white transition-colors">Back to Works</span>
+                </Link>
+            </motion.nav>
 
             <article className="relative z-10 max-w-[1400px] mx-auto pt-32 md:pt-48 px-6 md:px-12 lg:px-20">
 

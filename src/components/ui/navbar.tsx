@@ -17,7 +17,8 @@ export function NavBar() {
         pathname?.includes("/pickup/recycle04") ||
         pathname?.startsWith("/gaming") ||
         pathname?.includes("/github/abhisheks04") ||
-        pathname?.startsWith("/works/")
+        pathname?.startsWith("/works/") ||
+        pathname?.startsWith("/admin")
     ) return null;
 
     const handleLogoClick = (e: React.MouseEvent) => {
