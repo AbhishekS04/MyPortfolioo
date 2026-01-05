@@ -63,12 +63,12 @@ export function ChangelogOverlay({ isOpen, onClose, githubUrl, projectTitle }: C
 
     if (!mounted) return null;
 
-    // Calculate pagination
-    const totalPages = Math.ceil(commits.length / itemsPerPage);
-    const currentCommits = commits.slice(
-        (currentPage - 1) * itemsPerPage,
-        currentPage * itemsPerPage
-    );
+    // Calculate pagination with safety check
+    const isCommitsArray = Array.isArray(commits);
+    const totalPages = isCommitsArray ? Math.ceil(commits.length / itemsPerPage) : 0;
+    const currentCommits = isCommitsArray
+        ? commits.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+        : [];
 
     const overlayContent = (
         <AnimatePresence>

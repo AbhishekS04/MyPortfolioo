@@ -16,24 +16,47 @@ export interface GithubCommit {
 
 export async function fetchGithubCommits(githubUrl: string): Promise<GithubCommit[]> {
     try {
-        // Parse owner and repo from URL
-        // Example: https://github.com/AbhishekS04/ppppfffff
-        const match = githubUrl.match(/github\.com\/([^/]+)\/([^/]+)/);
-        if (!match) return [];
+        console.log("Fetching commits for:", githubUrl);
 
-        const [, owner, repo] = match;
-        // Strip trailing .git if present
-        const cleanRepo = repo.replace(/\.git$/, "");
-
-        const response = await fetch(`https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=10`);
-        if (!response.ok) {
-            console.error("GitHub API error:", response.statusText);
+        // Improved Regex: Handles trailing slashes and common subpaths
+        const match = githubUrl.match(/github\.com\/([^/]+)\/([^/?#]+)/);
+        if (!match) {
+            console.error("Invalid GitHub URL format:", githubUrl);
             return [];
         }
 
-        return await response.json();
+        const [, owner, repo] = match;
+        const cleanRepo = repo.replace(/\.git$/, "");
+
+        const apiUrl = `https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=100`;
+        console.log("GitHub API Call:", apiUrl);
+
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error(`GitHub API Error (${response.status}):`, errorData.message || response.statusText);
+
+            if (response.status === 404) {
+                console.warn("Hint: The repository might be private or the URL is incorrect.");
+            } else if (response.status === 403) {
+                console.warn("Hint: You might have hit the GitHub API rate limit (60 requests/hr for unauthorized).");
+            }
+
+            return [];
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            console.error("GitHub API returned non-array data:", data);
+            return [];
+        }
+
+        console.log(`Successfully fetched ${data.length} commits.`);
+        return data;
     } catch (error) {
-        console.error("Error fetching commits:", error);
+        console.error("Network error fetching commits:", error);
         return [];
     }
 }
