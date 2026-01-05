@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowUpRight, Play, Pause, Volume2, VolumeX } from "lucide-r
 import { FaGithub, FaTerminal } from "react-icons/fa6";
 import ProjectContributors from "@/components/ui/project-contributors";
 import { ChangelogOverlay } from "./changelog-overlay";
+import { ImageZoomOverlay } from "@/components/ui/image-zoom-overlay";
 
 interface Contributor {
     name: string;
@@ -128,6 +129,7 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
     const { scrollY } = useScroll();
     const [showBottomNav, setShowBottomNav] = useState(false);
     const [showChangelog, setShowChangelog] = useState(false);
+    const [zoomImage, setZoomImage] = useState<string | null>(null);
     const mediaRef = useRef<HTMLDivElement>(null);
 
     // Show mobile bottom nav only after scrolling past the hero
@@ -261,7 +263,8 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                                 <img
                                     src={project.image_url}
                                     alt={project.title}
-                                    className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01]"
+                                    onClick={() => setZoomImage(project.image_url)}
+                                    className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01] cursor-zoom-in"
                                 />
                             </div>
                         )}
@@ -431,7 +434,8 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                                         alt={`Gallery ${idx}`}
                                         fill
                                         sizes="(max-width: 768px) 100vw, 50vw"
-                                        className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 ease-out"
+                                        onClick={() => setZoomImage(img)}
+                                        className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 ease-out cursor-zoom-in"
                                     />
                                 </motion.div>
                             ))}
@@ -446,6 +450,13 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                 onClose={() => setShowChangelog(false)}
                 githubUrl={project.github_url}
                 projectTitle={project.title}
+            />
+
+            <ImageZoomOverlay
+                isOpen={!!zoomImage}
+                onClose={() => setZoomImage(null)}
+                imageUrl={zoomImage || ""}
+                altText={project.title}
             />
 
         </main>
