@@ -64,6 +64,7 @@ Want a ready‑made template inspired by this portfolio? You can scaffold a simi
 
 ```bash path=null start=null
 npx abhishek-portfolio-template
+```
 
 ---
 
