@@ -3,20 +3,62 @@
 <div align="center">
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
+![License](https://img.shields.io/badge/license-Proprietary-red.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black.svg)
 ![React](https://img.shields.io/badge/React-19.2.3-61dafb.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)
 
 **A modern, progressive web application portfolio with stunning animations and interactive experiences**
 
-[View Demo](https://abhishekkpf.vercel.app) · [Report Bug](https://github.com/AbhishekS04/portfolio/issues) · [Request Feature](https://github.com/AbhishekS04/portfolio/issues)
+<!-- [View Live Site](https://abhishekkpf.vercel.app) -->
+
+</div>
+
+<!-- --- -->
+
+## 📸 Preview
+
+<div align="center">
+
+[![Portfolio Preview](https://res.cloudinary.com/dap0u41dz/image/upload/v1767605291/2026-01-05_09.27.18_abhishekkpf.vercel.app_0494e41891da_ngyeab.png)](https://abhishekkpf.vercel.app)
+
+*Click the image to visit the live site*
 
 </div>
 
 ---
 
-## 🎯 Overview
+## ⚠️ Important Notice
+
+**This repository is for SHOWCASE and REFERENCE purposes only.**
+
+This is a **proprietary portfolio** - the code and design are the exclusive property of Abhishek Singh and are protected under copyright law. 
+
+### 🚫 What You CANNOT Do:
+
+- ❌ Copy, clone, or fork this repository for your own use
+- ❌ Use this code in your own projects
+- ❌ Modify or create derivative works
+- ❌ Distribute, share, or republish the code
+- ❌ Use for commercial purposes
+- ❌ Remove or modify copyright notices
+
+### ✅ What You CAN Do:
+
+- ✅ View the live website
+- ✅ Browse the code for learning and inspiration
+- ✅ Reference the techniques and approaches used
+
+### 📧 Need Permission?
+
+If you're interested in using any part of this portfolio, you must contact me directly:
+
+- **Email:** [Abhishek23main@gmail.com](mailto:Abhishek23main@gmail.com)
+- **Subject:** "Portfolio License Permission Request"
+
+---
+
+## 🎯 About This Portfolio
 
 This is a cutting-edge portfolio website built for a Product Engineer, showcasing exceptional design, performance, and interactivity. The project demonstrates modern web development practices with a focus on user experience, accessibility, and performance optimization.
 
@@ -55,273 +97,204 @@ This portfolio contains several hidden interactive features and surprises. Pay a
 
 ## 🛠️ Tech Stack
 
-### **Core**
+### **Core Technologies**
 - [Next.js 16.1](https://nextjs.org/) - React framework with App Router
 - [React 19.2](https://react.dev/) - UI library
 - [TypeScript 5](https://www.typescriptlang.org/) - Type safety
 
-### **Styling**
-- [Tailwind CSS 4.1](https://tailwindcss.com/) - Utility-first CSS
-- [Framer Motion 12](https://www.framer.com/motion/) - Animation library
+### **Styling & Animation**
+- [Tailwind CSS 4.1](https://tailwindcss.com/) - Utility-first CSS framework
+- [Framer Motion 12](https://www.framer.com/motion/) - Production-ready animation library
 - [Radix UI](https://www.radix-ui.com/) - Accessible component primitives
-- [Lucide React](https://lucide.dev/) - Beautiful icons
+- [Lucide React](https://lucide.dev/) - Beautiful & consistent icon set
+- [21st.dev](https://21st.dev/) - Premium UI components and design inspiration
 
-### **Backend & Data**
-- [Supabase](https://supabase.com/) - Backend as a Service (Auth, Database)
+### **Backend & Infrastructure**
+- [Supabase](https://supabase.com/) - Backend as a Service (Authentication & Database)
 - [OpenAI API](https://openai.com/) - AI-powered text optimization
-
-### **Infrastructure**
 - [@ducanh2912/next-pwa](https://github.com/DuCanhGH/next-pwa) - Progressive Web App support
 - [Lenis](https://lenis.studiofreight.com/) - Smooth scroll library
 
 ---
 
-## 📦 Installation
-
-### **Prerequisites**
-- Node.js 20+ and npm/yarn/pnpm
-- Git
-- A Supabase account (for backend features)
-
-### **Clone Repository**
-```bash
-git clone https://github.com/AbhishekS04/portfolio.git
-cd portfolio
-```
-
-### **Install Dependencies**
-```bash
-npm install
-# or
-yarn install
-# or
-pnpm install
-```
-
-### **Environment Variables**
-Create a `.env.local` file in the root directory:
-
-```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-
-# OpenAI Configuration (for AI text optimizer in admin)
-OPENAI_API_KEY=your_openai_api_key
-
-# Optional: Site URL
-NEXT_PUBLIC_SITE_URL=http://localhost:3000
-```
-
----
-
-## 🚀 Usage
-
-### **Development Server**
-```bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### **Production Build**
-```bash
-npm run build
-npm run start
-```
-
-### **Linting**
-```bash
-npm run lint
-```
-
----
-
-## 📂 Project Structure
+## 📂 Project Architecture
 
 ```
-ppppfffff/
+Portfolio Structure:
 ├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── about/             # About page
-│   │   ├── admin/             # Admin dashboard & auth
-│   │   ├── gaming/            # Gaming profile showcase
-│   │   ├── works/             # Projects portfolio
-│   │   ├── api/               # API routes
-│   │   └── page.tsx           # Homepage
+│   ├── app/                    # Next.js App Router (Pages & Routes)
+│   │   ├── page.tsx           # Homepage with Bento Gallery
+│   │   ├── about/             # About page with experience & education
+│   │   ├── works/             # Project portfolio showcase
+│   │   ├── gaming/            # Gaming profile (Cyberpunk design)
+│   │   ├── admin/             # Protected admin dashboard
+│   │   │   ├── login/         # Authentication
+│   │   │   ├── mfa-setup/     # Two-factor authentication
+│   │   │   └── [pages]/       # Content management pages
+│   │   └── api/               # API routes
+│   │
 │   ├── components/
-│   │   ├── home/              # Homepage components
-│   │   ├── ui/                # Reusable UI components
-│   │   ├── admin/             # Admin-specific components
+│   │   ├── home/              # Homepage-specific components
+│   │   ├── ui/                # Reusable UI components & Easter eggs
+│   │   ├── admin/             # Admin dashboard components
 │   │   └── github/            # GitHub integration components
-│   └── lib/                   # Utilities and helpers
-├── public/                     # Static assets
+│   │
+│   └── lib/                   # Utilities, helpers & configurations
+│
+├── public/                     # Static assets (images, fonts, icons)
 ├── docs/                       # Documentation
-└── scripts/                    # Build and utility scripts
+└── scripts/                    # Build scripts & utilities
 ```
 
 ---
 
-## 🎨 Customization
+## 🎨 Design Philosophy
 
-### **Personal Information**
-Update your details in `src/app/about/page.tsx`:
-```typescript
-const general = {
-    full_name: "Your Name",
-    role_title: "Your Title",
-    bio_description: "Your bio...",
-    contact_email: "your@email.com",
-    // ... more fields
-};
-```
+This portfolio embodies:
 
-### **Metadata & SEO**
-Edit `src/app/layout.tsx`:
-```typescript
-export const metadata: Metadata = {
-    title: "Your Name | Portfolio",
-    description: "Your description",
-    // ... more metadata
-};
-```
-
-### **Colors & Theme**
-Modify `tailwind.config.ts` for custom color schemes.
+- **Minimalism** - Clean, focused design without unnecessary elements
+- **Performance** - Optimized for speed and smooth interactions
+- **Attention to Detail** - Subtle animations and micro-interactions
+- **Accessibility** - WCAG compliant with keyboard navigation
+- **Progressive Enhancement** - Works everywhere, enhanced on modern browsers
 
 ---
 
-## 🔐 Admin Features
+## 🚀 Key Highlights
 
-### **Access Admin Panel**
-Navigate to `/admin/login` and authenticate with your Supabase credentials.
+### **Progressive Web App**
+Fully PWA-enabled with:
+- Installable on mobile and desktop
+- Offline support for cached pages
+- App-like experience with custom splash screens
+- Service worker caching for instant loads
 
-### **Setup MFA**
-Visit `/admin/mfa-setup` after login to enable two-factor authentication for enhanced security.
+### **Admin Dashboard**
+Secure content management system featuring:
+- Supabase authentication with MFA
+- AI-powered text optimization via OpenAI
+- Dynamic content editing for all sections
+- Real-time preview and publishing
+- Analytics and ratings dashboard
 
-### **Admin Capabilities**
-- ✏️ Edit About, Contact, and Gallery content
-- 🎨 Manage project showcases and tech stack
-- 📖 Write and publish stories/blog posts
-- 🤖 AI-powered text optimization using OpenAI
-- 📊 View site analytics and ratings
+### **Performance Optimizations**
+- Next.js Image component for automatic optimization
+- Dynamic imports for code splitting
+- Font optimization with `next/font`
+- Lazy loading for below-the-fold content
+- Edge-ready deployment architecture
 
----
+### **Security Features** 🔐
+**Top-notch, enterprise-grade security implementation:**
 
-## 📱 Progressive Web App
-
-This portfolio is fully PWA-enabled:
-- **Installable** on mobile and desktop devices
-- **Offline Support** for cached pages
-- **App-like Experience** with custom splash screens
-- **Fast Loading** with service worker caching
-
-To install, visit the site on a supported browser and look for the "Install" prompt.
-
----
-
-## 🎯 Performance Optimizations
-
-- **Next.js Image** component for automatic image optimization
-- **Dynamic imports** for code splitting
-- **Font optimization** with `next/font`
-- **Webpack configuration** for custom builds
-- **Lazy loading** for below-the-fold content
-- **Memoization** and React optimization patterns
-
----
-
-## 🔒 Security Features
-
-- **Security Headers** (X-Frame-Options, X-Content-Type-Options, etc.)
-- **MFA Support** for admin authentication
-- **Environment Variables** for sensitive data
-- **Supabase RLS** (Row Level Security) policies
-- **Input Validation** and sanitization
+- **Two-Factor Authentication (2FA)** - Multi-factor authentication with TOTP for admin access
+- **Supabase Authentication** - Industry-standard OAuth and email verification
+- **Row Level Security (RLS)** - Database-level access control policies
+- **Security Headers** - X-Frame-Options, X-Content-Type-Options, CSP, Referrer-Policy
+- **Permission Policies** - Strict camera, microphone, and geolocation restrictions
+- **Environment Variables** - Sensitive data protected and never exposed to client
+- **Input Validation** - Comprehensive sanitization and validation
+- **Session Management** - Secure token-based authentication with automatic expiry
+- **HTTPS Only** - Forced secure connections in production
+- **Protected Routes** - Server-side authentication checks for admin areas
 
 ---
 
-## 🌐 Deployment
+## 📱 Responsive Design
 
-### **Vercel (Recommended)**
-This project is optimized for deployment on [Vercel](https://vercel.com):
+Fully responsive across all devices:
+- 📱 **Mobile** - Optimized touch interactions
+- 💻 **Desktop** - Enhanced with hover effects and keyboard shortcuts
+- 🖥️ **Large Screens** - Maximized content layout
+- ⌚ **Small Devices** - Graceful degradation
 
-1. Push your code to GitHub
-2. Import the repository in Vercel
-3. Add environment variables
-4. Deploy!
+---
 
-### **Other Platforms**
-Compatible with any platform supporting Next.js:
-- Netlify
-- Railway
-- AWS Amplify
-- Self-hosted with Node.js
+## 🌐 Live Website
+
+**Visit the live portfolio:** [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+
+Experience the full interactive features, smooth animations, and discover the hidden easter eggs!
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+**Copyright © 2026 Abhishek Singh. All Rights Reserved.**
 
-You are free to:
-- ✅ Use this project for personal or commercial purposes
-- ✅ Modify and adapt the code to your needs
-- ✅ Distribute copies of the project
-- ✅ Use it as a foundation for your own portfolio
+This project is licensed under a **Proprietary License**. See the [LICENSE](LICENSE) file for complete terms.
 
-**Attribution is appreciated but not required!**
+### Summary:
+- This code is **NOT open source**
+- Viewing for reference/learning is permitted
+- **Copying, using, or distributing is prohibited** without written permission
+- Commercial use is strictly forbidden
 
----
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/AbhishekS04/portfolio/issues).
-
-### **How to Contribute**
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+**To request permission:** Email [Abhishek23main@gmail.com](mailto:Abhishek23main@gmail.com) with subject "Portfolio License Permission Request"
 
 ---
 
-## 💬 Contact
+## 💼 Hire Me / Collaboration
+
+Interested in working together? Let's connect!
 
 **Abhishek Singh** - Product Engineer
 
 - 📧 Email: [Abhishek23main@gmail.com](mailto:Abhishek23main@gmail.com)
-- 🔗 LinkedIn: [linkedin.com/in/AbhishekS04](https://linkedin.com/in/AbhishekS04)
-- 🐙 GitHub: [@AbhishekS04](https://github.com/AbhishekS04)
-- 🐦 Twitter: [@AbhishekS04](https://twitter.com/AbhishekS04)
-- 🌐 Website: [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+- 🔗 LinkedIn: [linkedin.com/in/Abhishek Singh](https://www.linkedin.com/in/abhishek-singh200423/)
+- 🐙 GitHub: [Abhishek Singh](https://github.com/AbhishekS04)
+- 🐦 Twitter: [Abhishek Singh](https://twitter.com/_abhishek2304)
+- 🌐 Portfolio: [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+- 📱 Phone: +91 9883511660
+- 📍 Location: Kolkata, India
+
+### What I Offer:
+- 🎨 Modern web development (React, Next.js, TypeScript)
+- ⚡ Performance optimization & SEO
+- 🎭 Interactive animations & UI/UX design
+- 🔐 Full-stack development with authentication
+- 📱 Progressive Web Apps
+- 🤝 Freelance & consulting services
 
 ---
 
 ## 🙏 Acknowledgments
 
-- [Next.js](https://nextjs.org/) - The React Framework
-- [Vercel](https://vercel.com/) - Deployment and hosting
-- [Framer Motion](https://www.framer.com/motion/) - Animation library
-- [Radix UI](https://www.radix-ui.com/) - Accessible primitives
-- [Supabase](https://supabase.com/) - Backend infrastructure
-- [Lenis](https://lenis.studiofreight.com/) - Smooth scrolling
-- All open-source contributors who make amazing tools
+Special thanks to the amazing open-source community and the teams behind:
+
+- [Next.js](https://nextjs.org/) & [Vercel](https://vercel.com/) - The React framework and deployment platform
+- [React](https://react.dev/) Team - For the incredible UI library
+- [Framer Motion](https://www.framer.com/motion/) - Best-in-class animation library
+- [Radix UI](https://www.radix-ui.com/) - Accessible component primitives
+- [Supabase](https://supabase.com/) - Backend infrastructure and authentication
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [Lenis](https://lenis.studiofreight.com/) - Smooth scrolling magic
+- [21st.dev](https://21st.dev/) - 🌟 **Special shoutout for premium UI components and design inspiration**
 
 ---
 
-## 📊 Project Stats
+## 📊 Project Information
 
-![GitHub stars](https://img.shields.io/github/stars/AbhishekS04/portfolio?style=social)
-![GitHub forks](https://img.shields.io/github/forks/AbhishekS04/portfolio?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/AbhishekS04/portfolio?style=social)
+- **Version:** 0.1.0
+- **Last Updated:** January 2026
+- **Status:** Active & Maintained
+- **Framework:** Next.js 16.1.1
+- **Deployment:** Vercel
 
 ---
 
 <div align="center">
 
-**⭐ If you find this project useful, please consider giving it a star! ⭐**
+### 🌟 Enjoyed exploring the portfolio?
+
+**Visit the live site:** [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+
+---
+
+**This repository is for showcase purposes only. All rights reserved.**
 
 Made with ❤️ by [Abhishek Singh](https://github.com/AbhishekS04)
+
+© 2026 Abhishek Singh. Do not copy or distribute without permission.
 
 </div>

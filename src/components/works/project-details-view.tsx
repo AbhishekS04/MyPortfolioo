@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence, Variants } from "framer-motion";
-import { ArrowLeft, ArrowUpRight, Github, Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { FaGithub, FaTerminal } from "react-icons/fa6";
 import ProjectContributors from "@/components/ui/project-contributors";
+import { ChangelogOverlay } from "./changelog-overlay";
 
 interface Contributor {
     name: string;
@@ -125,6 +127,7 @@ function CustomVideoPlayer({ videoUrl, posterUrl }: { videoUrl: string, posterUr
 export function ProjectDetailsView({ project, contributors }: ProjectDetailsViewProps) {
     const { scrollY } = useScroll();
     const [showBottomNav, setShowBottomNav] = useState(false);
+    const [showChangelog, setShowChangelog] = useState(false);
     const mediaRef = useRef<HTMLDivElement>(null);
 
     // Show mobile bottom nav only after scrolling past the hero
@@ -331,15 +334,25 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                                 </a>
                             )}
                             {project.github_url && (
-                                <a
-                                    href={project.github_url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group w-full py-5 px-6 border-b border-white/10 hover:border-white/40 transition-colors flex items-center justify-between text-white/50 hover:text-white"
-                                >
-                                    <span className="text-sm font-medium tracking-wide">Source Code</span>
-                                    <Github className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-all duration-300" />
-                                </a>
+                                <>
+                                    <a
+                                        href={project.github_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="group w-full py-5 px-6 border-b border-white/10 hover:border-white/40 transition-colors flex items-center justify-between text-white/50 hover:text-white"
+                                    >
+                                        <span className="text-sm font-medium tracking-wide">Source Code</span>
+                                        <FaGithub className="w-4 h-4 opacity-40 group-hover:opacity-100 transition-all duration-300" />
+                                    </a>
+
+                                    <button
+                                        onClick={() => setShowChangelog(true)}
+                                        className="group w-full py-5 px-6 border-b border-white/10 hover:border-emerald-500/40 transition-colors flex items-center justify-between text-white/50 hover:text-emerald-400"
+                                    >
+                                        <span className="text-sm font-medium tracking-wide">View Change Log</span>
+                                        <FaTerminal className="w-4 h-4 opacity-40 group-hover:opacity-100 group-hover:rotate-[-10deg] transition-all" />
+                                    </button>
+                                </>
                             )}
                         </motion.div>
 
@@ -427,6 +440,13 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                 )}
 
             </article>
+
+            <ChangelogOverlay
+                isOpen={showChangelog}
+                onClose={() => setShowChangelog(false)}
+                githubUrl={project.github_url}
+                projectTitle={project.title}
+            />
 
         </main>
     );
