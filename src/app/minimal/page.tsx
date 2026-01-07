@@ -7,6 +7,8 @@ import { ArrowUpRight, Circle, Mail, MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
 
+import { SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiSupabase, SiNodedotjs, SiFramer, SiPostgresql } from "react-icons/si";
+
 // Types
 interface HelperProject {
     id: string;
@@ -21,6 +23,18 @@ interface HelperProject {
 export default function MinimalPage() {
     const [projects, setProjects] = useState<HelperProject[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Disable Control Keys
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, []);
 
     useEffect(() => {
         async function fetchProjects() {
@@ -104,9 +118,9 @@ export default function MinimalPage() {
                                     href="/resume.pdf"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium text-sm hover:scale-105 transition-transform duration-300"
+                                    className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors duration-300 font-medium"
                                 >
-                                    View Resume <ArrowUpRight className="w-4 h-4" />
+                                    <span className="border-b border-white/20 pb-0.5 hover:border-white transition-colors">Resume</span> <ArrowUpRight className="w-4 h-4" />
                                 </a>
                             </div>
                         </div>
@@ -116,33 +130,23 @@ export default function MinimalPage() {
                             {/* Tech Stack */}
                             <div className="space-y-6">
                                 <h2 className="text-xs font-mono text-white/30 uppercase tracking-widest">Core Stack</h2>
-                                <div className="flex flex-wrap gap-3">
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                                     {[
-                                        { name: "Next.js", color: "#FFFFFF", bg: "rgba(255,255,255,0.1)" },
-                                        { name: "React", color: "#61DAFB", bg: "rgba(97, 218, 251, 0.1)" },
-                                        { name: "TypeScript", color: "#3178C6", bg: "rgba(49, 120, 198, 0.1)" },
-                                        { name: "Tailwind", color: "#38B2AC", bg: "rgba(56, 178, 172, 0.1)" },
-                                        { name: "Supabase", color: "#3ECF8E", bg: "rgba(62, 207, 142, 0.1)" },
-                                        { name: "Node.js", color: "#339933", bg: "rgba(51, 153, 51, 0.1)" },
-                                        { name: "Framer", color: "#0055FF", bg: "rgba(0, 85, 255, 0.1)" },
-                                        { name: "PostgreSQL", color: "#4169E1", bg: "rgba(65, 105, 225, 0.1)" },
+                                        { name: "Next.js", icon: SiNextdotjs },
+                                        { name: "React", icon: SiReact },
+                                        { name: "TypeScript", icon: SiTypescript },
+                                        { name: "Tailwind", icon: SiTailwindcss },
+                                        { name: "Supabase", icon: SiSupabase },
+                                        { name: "Node.js", icon: SiNodedotjs },
+                                        { name: "Framer", icon: SiFramer },
+                                        { name: "PostgreSQL", icon: SiPostgresql },
                                     ].map((tech) => (
                                         <div
                                             key={tech.name}
-                                            className="group relative px-4 py-2 rounded-lg bg-[#111] border border-white/5 overflow-hidden transition-all duration-300 hover:border-white/20 cursor-default"
+                                            className="flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300"
                                         >
-                                            <div
-                                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                                                style={{ backgroundColor: tech.bg }}
-                                            />
-                                            <span
-                                                className="relative z-10 text-sm font-medium text-white/50 group-hover:text-white transition-colors duration-300"
-                                                style={{ textShadow: `0 0 20px ${tech.color}00` }} // Basic shadow, hover handles glow via color
-                                            >
-                                                <span className="group-hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)] transition-all">
-                                                    {tech.name}
-                                                </span>
-                                            </span>
+                                            <tech.icon className="w-5 h-5 opacity-80" />
+                                            <span className="text-sm">{tech.name}</span>
                                         </div>
                                     ))}
                                 </div>
