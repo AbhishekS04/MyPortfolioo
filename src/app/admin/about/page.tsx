@@ -8,7 +8,17 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useToast } from "@/components/ui/toast";
 
-export default function AdminAbout() {
+import { Suspense } from "react";
+
+export default function AdminAboutPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-[#050505]"><Loader2 className="animate-spin text-white/50" /></div>}>
+            <AdminAboutContent />
+        </Suspense>
+    );
+}
+
+function AdminAboutContent() {
     const router = useRouter();
     const { showToast } = useToast();
     const [loading, setLoading] = useState(true);
