@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Outfit } from "next/font/google";
 import { bolivia } from "@/lib/fonts";
 import { PreloaderWrapper } from "@/components/ui/preloader-wrapper";
@@ -87,7 +88,9 @@ export default function RootLayout({
 
 
         <CommandPalette />
-        <NavBar />
+        <Suspense fallback={null}>
+          <NavBar />
+        </Suspense>
         <PreloaderWrapper>
           <SmoothScroll>
             {children}
