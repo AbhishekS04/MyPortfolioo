@@ -18,6 +18,15 @@ export function WorksClient({ projects }: { projects: Project[] }) {
                 transition={{ duration: 0.5 }}
                 className="w-full max-w-[1280px] mx-auto space-y-24"
             >
+                {/* Back to Minimal Button (Conditional) */}
+                {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get("from") === "minimal" && (
+                    <div className="mb-8">
+                        <a href="/minimal" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
+                            <span className="block border-b border-white/20 pb-0.5 group-hover:border-white transition-colors">← Back to Minimal</span>
+                        </a>
+                    </div>
+                )}
+
                 {/* 1. Currently Working Section */}
                 {currentlyWorking && (
                     <section>

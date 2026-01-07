@@ -102,8 +102,16 @@ export function NavBar() {
             >
                 {/* Left: Logo */}
                 <Link
-                    href="/"
-                    onClick={handleLogoClick}
+                    href={isMinimal ? "/minimal" : "/"}
+                    onClick={(e) => {
+                        if (isMinimal && pathname === "/minimal") {
+                            e.preventDefault();
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        } else if (!isMinimal && pathname === "/") {
+                            e.preventDefault();
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }
+                    }}
                     className="flex items-center group"
                 >
                     <span
@@ -138,7 +146,7 @@ export function NavBar() {
 
                     {/* Re-implementing with cleaner logic */}
                     {[
-                        { label: "Home", href: "/" },
+                        { label: "Home", href: isMinimal ? "/minimal" : "/" },
                         { label: "Works", href: "/works", hidden: isMinimal },
                         { label: "About", href: "/about", hidden: isMinimal },
                         {
@@ -162,10 +170,14 @@ export function NavBar() {
                                         e.preventDefault();
                                         handleSwitch(link.href);
                                     } else if (link.label === "Home") {
-                                        // If we are on the home page OR in minimal mode, scroll to top
-                                        if (pathname === "/" || isMinimal) {
-                                            e.preventDefault()
-                                            window.scrollTo({ top: 0, behavior: "smooth" })
+                                        // If in Minimal mode, Home should take us to /minimal (or scroll top)
+                                        // If in Main mode, Home should take us to / (or scroll top)
+                                        if (isMinimal && pathname === "/minimal") {
+                                            e.preventDefault();
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
+                                        } else if (!isMinimal && pathname === "/") {
+                                            e.preventDefault();
+                                            window.scrollTo({ top: 0, behavior: "smooth" });
                                         }
                                     }
                                 }}
