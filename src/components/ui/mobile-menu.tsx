@@ -4,6 +4,7 @@ import { motion, AnimatePresence, Variants, useMotionValue, useTransform, animat
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 // import { SocialStories } from "@/components/ui/social-stories";
 // import TextExplode from "./text-explode";
@@ -12,6 +13,8 @@ import { X } from "lucide-react";
 interface MobileMenuProps {
     isOpen: boolean;
     onClose: () => void;
+    onSwitch?: (path: string) => void;
+    isMinimal?: boolean;
 }
 
 const menuVariants: Variants = {
@@ -45,9 +48,9 @@ const linkVariants: Variants = {
     })
 };
 
-const LINKS = ["Home", "Works", "About"];
 
-export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
+
+export function MobileMenu({ isOpen, onClose, onSwitch, isMinimal }: MobileMenuProps) {
     const pathname = usePathname();
     const router = useRouter();
     const y = useMotionValue(0);
@@ -125,7 +128,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
                         {/* Links - Clean vertical stack */}
                         <div className="flex flex-col gap-8 items-center justify-center min-h-[200px]">
-                            {LINKS.map((item, i) => (
+                            {["Home", "Works", "About", isMinimal ? "Main" : "Minimal"].map((item, i) => (
                                 <motion.div
                                     key={item}
                                     custom={i}
@@ -137,6 +140,15 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                         href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                         onClick={(e) => {
                                             e.preventDefault();
+                                            // Handle Switch Item
+                                            if (item === "Minimal" || item === "Main") {
+                                                if (onSwitch) {
+                                                    const target = item === "Main" ? "/" : "/minimal";
+                                                    onSwitch(target);
+                                                }
+                                                return;
+                                            }
+
                                             onClose();
                                             const href = item === "Home" ? "/" : `/${item.toLowerCase()}`;
 
@@ -149,7 +161,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                                                 }, 400);
                                             }
                                         }}
-                                        className="text-4xl font-medium text-white/90 hover:text-white transition-colors tracking-tight"
+                                        className={cn(
+                                            "text-4xl font-medium transition-colors tracking-tight",
+                                            (item === "Minimal" || item === "Main")
+                                                ? "text-white/40 italic font-serif"
+                                                : "text-white/90 hover:text-white"
+                                        )}
                                     >
                                         {item}
                                     </Link>

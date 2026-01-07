@@ -6,11 +6,31 @@ import { bolivia } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { MobileMenu } from "./mobile-menu"
-import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
+import { TransitionOverlay } from "./transition-overlay";
+import { useRouter, usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 export function NavBar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [isSwitching, setIsSwitching] = useState(false);
     const pathname = usePathname()
+    const router = useRouter();
+
+    const isMinimal = pathname === "/minimal";
+
+    // Reset switch state when pathname changes
+    useEffect(() => {
+        setIsSwitching(false);
+    }, [pathname]);
+
+    const handleSwitch = (target: string) => {
+        setIsSwitching(true);
+        // Wait for entrance animation
+        setTimeout(() => {
+            router.push(target);
+        }, 800);
+    };
 
     // Hide Navbar on specific route
     if (
@@ -63,21 +83,42 @@ export function NavBar() {
 
                 {/* Center (Desktop only) */}
                 <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-                    {["Home", "Works", "About"].map(item => (
-                        <Link
-                            key={item}
-                            href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-                            onClick={(e) => {
-                                if (item === "Home" && pathname === "/") {
-                                    e.preventDefault()
-                                    window.scrollTo({ top: 0, behavior: "smooth" })
-                                }
-                            }}
-                            className="px-4 py-2 rounded-full text-sm font-medium text-white/60 hover:text-white hover:bg-white/5 transition-all uppercase tracking-wider"
-                        >
-                            {item}
-                        </Link>
-                    ))}
+                    {["Home", "Works", "About", isMinimal ? "Main" : "Minimal"].map(item => {
+                        const isSwitchLink = item === "Main" || item === "Minimal";
+                        const target = item === "Home" || item === "Main" ? "/" : item === "Minimal" ? "/minimal" : `/${item.toLowerCase()}`;
+
+                        return (
+                            <Link
+                                key={item}
+                                href={target}
+                                onClick={(e) => {
+                                    if (isSwitchLink) {
+                                        e.preventDefault();
+                                        handleSwitch(target);
+                                    } else if (item === "Home" && pathname === "/") {
+                                        e.preventDefault()
+                                        window.scrollTo({ top: 0, behavior: "smooth" })
+                                    }
+                                }}
+                                className={cn(
+                                    "px-4 py-2 rounded-full text-sm font-medium transition-all uppercase tracking-wider relative overflow-hidden",
+                                    isSwitchLink
+                                        ? "text-white bg-white/10 hover:bg-white/20 border border-white/5"
+                                        : "text-white/60 hover:text-white hover:bg-white/5"
+                                )}
+                            >
+                                <span className={cn("relative z-10", isSwitchLink && "font-bold")}>{item}</span>
+                                {isSwitchLink && (
+                                    <motion.div
+                                        layoutId="active-pill"
+                                        className="absolute inset-0 bg-white/5"
+                                        initial={false}
+                                        transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                    />
+                                )}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Right Actions */}
@@ -142,7 +183,17 @@ export function NavBar() {
                 </div>
             </nav>
 
-            <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
+            <MobileMenu
+                isOpen={isMenuOpen}
+                onClose={() => setIsMenuOpen(false)}
+                onSwitch={(path) => {
+                    setIsMenuOpen(false);
+                    handleSwitch(path);
+                }}
+                isMinimal={isMinimal}
+            />
+
+            <TransitionOverlay isSwitching={isSwitching} targetMode={isMinimal ? "Detailed" : "Minimal"} />
         </>
     )
 }
