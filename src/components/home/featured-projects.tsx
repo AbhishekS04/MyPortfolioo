@@ -119,7 +119,7 @@ export function FeaturedProjects() {
                         description: item.description,
                         techStack: item.tech_stack || [],
                         image: item.image_url,
-                        link: `/works/${item.slug}`,
+                        link: `/works/${item.slug}?from=home`,
                     }));
                     setProjects(mappedProjects);
                 }

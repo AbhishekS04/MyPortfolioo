@@ -28,8 +28,11 @@ export function TransitionOverlay({ isSwitching, targetMode }: TransitionOverlay
                         className="flex flex-col items-center gap-4"
                     >
                         <div className="w-8 h-8 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                        <p className="text-white/80 font-mono text-sm tracking-widest uppercase">
-                            Switching to {targetMode} Mode
+                        <p className="text-white/80 font-mono text-sm tracking-widest uppercase text-center px-4">
+                            {targetMode === "Minimal"
+                                ? "Building this portfolio minimal for you..."
+                                : "Making a detailed portfolio for you..."
+                            }
                         </p>
                     </motion.div>
                 </motion.div>
