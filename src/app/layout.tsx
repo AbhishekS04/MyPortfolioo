@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     siteName: "Abhishek Singh",
   },
   icons: {
-    icon: "/favicon.ico",
-    apple: "/icon-192x192.png", // Use our new PWA icon for Apple touch too
+    icon: "/removebg.png",
+    apple: "/removebg.png",
   },
 };
 
