@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
 import { WorksClient } from "./client";
-import { NavBar } from "@/components/ui/navbar";
 
 export const metadata = {
     title: "Works | Abhishek Singh",
@@ -17,7 +16,6 @@ export default async function WorksPage() {
 
     return (
         <>
-            <NavBar />
             <WorksClient projects={projects || []} />
         </>
     );

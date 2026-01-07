@@ -1,4 +1,3 @@
-import { NavBar } from "@/components/ui/navbar";
 import { AboutClient } from "@/components/about/about-client";
 
 export default function AboutPage() {
@@ -78,7 +77,6 @@ export default function AboutPage() {
 
     return (
         <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
-            <NavBar />
             <AboutClient
                 general={general}
                 experience={experience}
