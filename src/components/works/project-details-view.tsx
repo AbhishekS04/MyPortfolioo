@@ -194,10 +194,10 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                             searchParams.get('from') === 'home' ? "/" :
                                 "/works"
                     }
-                    className="group inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-500 hover:border-white/20 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
+                    className="group inline-flex items-center gap-3 p-3 md:px-5 md:py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-500 hover:border-white/20 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
                 >
                     <ArrowLeft className="w-4 h-4 text-white/60 group-hover:-translate-x-1 transition-transform duration-300" />
-                    <span className="text-sm font-medium text-white/80 tracking-wide group-hover:text-white transition-colors">
+                    <span className="hidden md:inline text-sm font-medium text-white/80 tracking-wide group-hover:text-white transition-colors">
                         {fromMinimal ? "Back to Minimal" : searchParams.get('from') === 'home' ? "Back to Home" : "Back to Works"}
                     </span>
                 </Link>
