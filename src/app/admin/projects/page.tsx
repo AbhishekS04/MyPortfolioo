@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users, Clock } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
@@ -45,6 +45,7 @@ interface Project {
     is_currently_working: boolean;
     progress_percentage?: number;
     project_url: string; // Keeping for backward compatibility or redirection
+    is_coming_soon?: boolean;
 }
 
 export default function AdminProjects() {
@@ -103,7 +104,8 @@ export default function AdminProjects() {
             project_type: 'Personal',
             media_mode: 'gallery',
             gallery_images: [],
-            external_link_label: 'Live Demo'
+            external_link_label: 'Live Demo',
+            is_coming_soon: false
         });
         setTechInput("");
         setGalleryInput("");
@@ -610,6 +612,16 @@ export default function AdminProjects() {
                                             )}
 
                                             <div className="flex flex-col gap-3 pt-4">
+                                                <button
+                                                    onClick={() => setFormData({ ...formData, is_coming_soon: !formData.is_coming_soon })}
+                                                    className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.is_coming_soon
+                                                        ? "bg-purple-500/10 border-purple-500/50 text-purple-400"
+                                                        : "bg-white/5 border-white/10 text-white/40 hover:text-white"
+                                                        }`}
+                                                >
+                                                    <Clock className="w-4 h-4" />
+                                                    {formData.is_coming_soon ? "Status: Coming Soon" : "Mark as Coming Soon"}
+                                                </button>
                                                 <button
                                                     onClick={() => setFormData({ ...formData, is_currently_working: !formData.is_currently_working })}
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.is_currently_working
