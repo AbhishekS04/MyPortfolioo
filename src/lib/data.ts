@@ -6,6 +6,7 @@ export interface Project {
     techStack: string[];
     image: string; // URL for now
     link: string;
+    is_coming_soon?: boolean;
 }
 
 export const FEATURED_PROJECTS: Project[] = [

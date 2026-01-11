@@ -11,4 +11,5 @@ export interface Project {
     is_currently_working?: boolean;
     created_at?: string;
     display_order?: number;
+    is_coming_soon?: boolean;
 }

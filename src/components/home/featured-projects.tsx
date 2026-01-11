@@ -18,12 +18,22 @@ interface SupabaseProject {
     slug: string;
     featured: boolean;
     display_order: number;
+    is_coming_soon?: boolean;
 }
 
 function ProjectCard({ project }: { project: Project }) {
+    const isComingSoon = project.is_coming_soon;
+
+    const Wrapper = ({ children }: { children: React.ReactNode }) => {
+        if (isComingSoon) {
+            return <div className="group block h-full select-none cursor-default">{children}</div>;
+        }
+        return <Link href={project.link} className="group block h-full">{children}</Link>;
+    };
+
     return (
-        <Link href={project.link} className="group block h-full">
-            <div className="relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 hover:border-white/10 flex flex-col group-hover:bg-[#161616]">
+        <Wrapper>
+            <div className={`relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 flex flex-col ${!isComingSoon ? "hover:border-white/10 group-hover:bg-[#161616]" : "opacity-80"}`}>
                 {/* Image Container */}
                 <div className="relative w-full aspect-[16/10] overflow-hidden">
                     <Image
@@ -31,19 +41,34 @@ function ProjectCard({ project }: { project: Project }) {
                         alt={project.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] group-hover:scale-105"
+                        className={`object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] ${!isComingSoon && "group-hover:scale-105"}`}
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+
+                    {/* Coming Soon Overlay */}
+                    {isComingSoon && (
+                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
+                            <div className="px-4 py-2 rounded-full bg-black/60 border border-white/10 backdrop-blur-md flex items-center gap-2 shadow-xl">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                                </span>
+                                <span className="text-xs font-medium text-white/90 tracking-wide uppercase">Coming Soon</span>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 {/* Content */}
                 <div className="p-6 flex flex-col flex-1 justify-between">
                     <div>
                         <div className="flex items-start justify-between">
-                            <h3 className="text-xl font-medium text-white/90 group-hover:text-white transition-colors">
+                            <h3 className={`text-xl font-medium transition-colors ${!isComingSoon ? "text-white/90 group-hover:text-white" : "text-white/50"}`}>
                                 {project.title}
                             </h3>
-                            <ArrowUpRight className="w-5 h-5 text-white/30 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+                            {!isComingSoon && (
+                                <ArrowUpRight className="w-5 h-5 text-white/30 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+                            )}
                         </div>
                         <p className="mt-2 text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors line-clamp-2">
                             {project.description}
@@ -62,7 +87,7 @@ function ProjectCard({ project }: { project: Project }) {
                     </div>
                 </div>
             </div>
-        </Link>
+        </Wrapper>
     );
 }
 
@@ -119,6 +144,7 @@ export function FeaturedProjects() {
                         description: item.description,
                         techStack: item.tech_stack || [],
                         image: item.image_url,
+                        is_coming_soon: item.is_coming_soon,
                         link: `/works/${item.slug}?from=home`,
                     }));
                     setProjects(mappedProjects);

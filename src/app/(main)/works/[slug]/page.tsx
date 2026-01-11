@@ -1,5 +1,5 @@
 import { createClient } from "@/utils/supabase/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ProjectDetailsView } from "@/components/works/project-details-view";
 import { Metadata } from "next";
 
@@ -38,6 +38,10 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
 
     if (!project) {
         notFound();
+    }
+
+    if (project.is_coming_soon) {
+        redirect('/works');
     }
 
     const { data: contributors } = await (await createClient())
