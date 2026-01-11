@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { Project } from "@/types/project";
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
@@ -28,67 +29,65 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                         >
                             <div className="group relative block h-full">
                                 {(() => {
-                                    const Wrapper = project.is_coming_soon
-                                        ? ({ children }: { children: React.ReactNode }) => <div className="block h-full cursor-not-allowed select-none">{children}</div>
-                                        : ({ children }: { children: React.ReactNode }) => <Link href={`/works/${project.slug || '#'}`} className="block h-full">{children}</Link>;
+                                    const cardContent = (
+                                        <div className={`h-full bg-[#111] border border-white/5 rounded-[32px] overflow-hidden flex flex-col transition-all duration-300 ${!project.is_coming_soon ? "group-hover:border-white/10 hover:shadow-2xl hover:shadow-white/5" : ""}`}>
 
-                                    return (
-                                        <Wrapper>
-                                            <div className={`h-full bg-[#111] border border-white/5 rounded-[32px] overflow-hidden flex flex-col transition-all duration-300 ${!project.is_coming_soon ? "group-hover:border-white/10 hover:shadow-2xl hover:shadow-white/5" : "opacity-80"}`}>
+                                            {/* Image */}
+                                            <div className="aspect-[4/3] w-full relative bg-black/50 overflow-hidden">
+                                                <Image
+                                                    src={project.image_url}
+                                                    alt={project.title}
+                                                    fill
+                                                    className={`object-cover transition-transform duration-500 ${!project.is_coming_soon ? "group-hover:scale-110 group-hover:opacity-100 opacity-80" : "opacity-60 blur-[2px]"}`}
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-80" />
 
-                                                {/* Image */}
-                                                <div className="aspect-[4/3] w-full relative bg-black/50 overflow-hidden">
-                                                    <Image
-                                                        src={project.image_url}
-                                                        alt={project.title}
-                                                        fill
-                                                        className={`object-cover transition-transform duration-500 ${!project.is_coming_soon && "group-hover:scale-110 group-hover:opacity-100"} opacity-80`}
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-80" />
+                                                {/* Hover Overlay Icon or Coming Soon */}
+                                                {project.is_coming_soon ? (
+                                                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500">
+                                                        <ComingSoonBadge />
+                                                    </div>
+                                                ) : (
+                                                    <div className="absolute top-4 right-4 p-2 rounded-full bg-white/10 backdrop-blur-md opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                                        <ArrowUpRight className="w-4 h-4 text-white" />
+                                                    </div>
+                                                )}
+                                            </div>
 
-                                                    {/* Hover Overlay Icon or Coming Soon */}
-                                                    {project.is_coming_soon ? (
-                                                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/40 backdrop-blur-[2px]">
-                                                            <div className="px-4 py-2 rounded-full bg-black/60 border border-white/10 backdrop-blur-md flex items-center gap-2 shadow-xl">
-                                                                <span className="relative flex h-2 w-2">
-                                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
-                                                                </span>
-                                                                <span className="text-xs font-medium text-white/90 tracking-wide uppercase">Coming Soon</span>
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <div className="absolute top-4 right-4 p-2 rounded-full bg-white/10 backdrop-blur-md opacity-0 transform translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                                            <ArrowUpRight className="w-4 h-4 text-white" />
-                                                        </div>
-                                                    )}
-                                                </div>
+                                            {/* Content */}
+                                            <div className="p-6 flex flex-col flex-1">
+                                                <h3 className={`text-xl font-bold mb-2 transition-colors ${project.is_coming_soon ? "text-white/50" : "text-white group-hover:text-blue-200/90"}`}>
+                                                    {project.title}
+                                                </h3>
+                                                <p className="text-white/40 text-sm leading-relaxed mb-6 flex-1 line-clamp-2">
+                                                    {project.description}
+                                                </p>
 
-                                                {/* Content */}
-                                                <div className="p-6 flex flex-col flex-1">
-                                                    <h3 className={`text-xl font-bold mb-2 transition-colors ${project.is_coming_soon ? "text-white/50" : "text-white group-hover:text-blue-200/90"}`}>
-                                                        {project.title}
-                                                    </h3>
-                                                    <p className="text-white/40 text-sm leading-relaxed mb-6 flex-1 line-clamp-2">
-                                                        {project.description}
-                                                    </p>
-
-                                                    {/* Footer / Tech */}
-                                                    <div className="flex items-center justify-between mt-auto">
-                                                        <div className="flex flex-wrap gap-2">
-                                                            {project.tech_stack.slice(0, 3).map((t) => (
-                                                                <span key={t} className="text-[10px] uppercase font-medium tracking-wider text-white/30 px-2 py-1 bg-white/5 rounded border border-white/5">
-                                                                    {t}
-                                                                </span>
-                                                            ))}
-                                                            {project.tech_stack.length > 3 && (
-                                                                <span className="text-[10px] text-white/20">+{project.tech_stack.length - 3}</span>
-                                                            )}
-                                                        </div>
+                                                {/* Footer / Tech */}
+                                                <div className="flex items-center justify-between mt-auto">
+                                                    <div className="flex flex-wrap gap-2">
+                                                        {project.tech_stack.slice(0, 3).map((t) => (
+                                                            <span key={t} className="text-[10px] uppercase font-medium tracking-wider text-white/30 px-2 py-1 bg-white/5 rounded border border-white/5">
+                                                                {t}
+                                                            </span>
+                                                        ))}
+                                                        {project.tech_stack.length > 3 && (
+                                                            <span className="text-[10px] text-white/20">+{project.tech_stack.length - 3}</span>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
-                                        </Wrapper>
+                                        </div>
+                                    );
+
+                                    if (project.is_coming_soon) {
+                                        return <div className="block h-full cursor-not-allowed select-none">{cardContent}</div>;
+                                    }
+
+                                    return (
+                                        <Link href={`/works/${project.slug || '#'}`} className="block h-full">
+                                            {cardContent}
+                                        </Link>
                                     );
                                 })()}
                             </div>
