@@ -16,6 +16,20 @@ import {
     ExternalLink
 } from "lucide-react";
 import { RatingInteraction } from "@/components/ui/emoji-rating";
+import FisheyeShader from "@/components/ui/fisheye-shader";
+
+const fisheyeSettings = {
+    fisheyeStrength: 2.2,
+    vignetteStart: 0.3,
+    vignetteEnd: 1.5,
+    fisheyeRadius: 1.2,
+    chromaticAberration: 0.005,
+    noiseIntensity: 0.08,
+    vignetteIntensity: 0.1,
+    animationDuration: 0.4,
+    canvasOpacity: 1.0,
+    showVignetteMask: false,
+};
 
 const BentoCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
     <motion.div
@@ -48,14 +62,13 @@ export function AboutClient({ general, experience, education, skills, interests 
 
             {/* --- Top Row: Profile & Bio --- */}
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-                <BentoCard className="md:col-span-4 h-[320px] relative group">
-                    <Image
+                <BentoCard className="md:col-span-4 h-[320px] relative group overflow-hidden">
+                    <FisheyeShader
                         src={general.profile_image_url || "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"}
-                        alt={general.full_name}
-                        fill
-                        className="object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                        settings={fisheyeSettings}
+                        className="absolute inset-0 w-full h-full object-cover"
                     />
-                    <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 bg-gradient-to-t from-black/80 to-transparent">
+                    <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
                         <h1 className="text-xl md:text-2xl font-bold">{general.full_name}</h1>
                         <p className="text-white/40 text-sm italic">{general.role_title}</p>
                     </div>
