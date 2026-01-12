@@ -28,6 +28,10 @@ export default function RealMap() {
         return () => clearTimeout(timer)
     }, [])
 
+    const handleMarkerClick = () => {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${targetLat},${targetLng}`, "_blank");
+    };
+
     return (
         <div className="w-full h-full bg-[#111]">
             <Map
@@ -41,14 +45,17 @@ export default function RealMap() {
                     dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                 }}
                 attributionControl={false}
-                scrollZoom={false}
+                scrollZoom={true}
                 dragPan={true}
                 dragRotate={true}
-                doubleClickZoom={false}
+                doubleClickZoom={true}
             >
                 <MapMarker longitude={targetLng} latitude={targetLat}>
-                    <MarkerContent>
-                        <div className="relative flex items-center justify-center group/marker">
+                    <MarkerContent className="flex items-center justify-center w-12 h-12 z-[50]">
+                        <div
+                            onClick={handleMarkerClick}
+                            className="relative flex items-center justify-center group/marker w-full h-full cursor-pointer pointer-events-auto"
+                        >
                             <div className="absolute w-12 h-12 bg-orange-500/20 rounded-full animate-ping" />
                             <div className="absolute w-6 h-6 bg-orange-500/30 rounded-full animate-pulse" />
                             <div className="relative w-3.5 h-3.5 bg-[#F97316] rounded-full border-2 border-white shadow-[0_0_15px_rgba(249,115,22,0.8)] z-10" />
