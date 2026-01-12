@@ -1,4 +1,5 @@
 "use client";
+import { FaJava } from "react-icons/fa";
 
 import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiSupabase, SiFigma, SiC, SiCplusplus, SiOpenjdk, SiPython, SiPostgresql, SiDocker, SiGo, SiRust, SiNodedotjs, SiMongodb, SiRedis, SiAmazonwebservices, SiGit, SiPostman, SiGithub, SiServerless } from "react-icons/si";
 
@@ -104,7 +105,7 @@ export function FocusCard() {
                             <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">Go / Rust (Allegedly 🤷‍♂️)</span>
                         </div>
                         <div className={`flex items-center gap-4 text-white/50 hover:text-[#ED8B00] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}>
-                            <SiOpenjdk className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]" : "text-[#ED8B00]"}`} />
+                            <FaJava className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]" : "text-[#ED8B00]"}`} />
                             <span className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? "text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]" : ""}`}>Java</span>
                         </div>
                         <div className={`flex items-center gap-4 text-white/50 hover:text-[#00599C] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}>
@@ -149,11 +150,11 @@ export function FocusCard() {
                                 <span className={isGolden ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : ""}>APIs</span>
                             </span>
                         </div>
-                    </div>
-                </div>
+                    </div >
+                </div >
 
                 {/* Right Area - Large spinning React icon */}
-                <div className="flex-shrink-0 pt-4 pr-1 sm:pr-4 absolute right-4 top-12 pointer-events-none z-30">
+                < div className="flex-shrink-0 pt-4 pr-1 sm:pr-4 absolute right-4 top-12 pointer-events-none z-30" >
                     <motion.div
                         animate={{ rotate: (isHovering || isGolden) ? 360 : 0 }}
                         transition={{
@@ -164,8 +165,8 @@ export function FocusCard() {
                     >
                         <SiReact className={`w-20 h-20 sm:w-28 sm:h-28 rotate-12 transition-all duration-700 ease-in-out ${isGolden ? "text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] opacity-80" : "text-[#61DAFB]/10 opacity-20 sm:opacity-100 group-hover:text-[#61DAFB]/40 group-hover:drop-shadow-[0_0_15px_rgba(97,218,251,0.3)]"}`} />
                     </motion.div>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
     );
 }
