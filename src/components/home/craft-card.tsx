@@ -15,11 +15,8 @@ export function CraftCard() {
     const [showRealMap, setShowRealMap] = useState(false)
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-    // Check for persisted state on mount and preload map
+    // Check for persisted state on mount
     useEffect(() => {
-        // Preload the RealMap component chunk
-        import("@/components/ui/real-map");
-
         const checkPersistence = () => {
             const expiry = localStorage.getItem("mapEggExpiry")
             if (expiry) {

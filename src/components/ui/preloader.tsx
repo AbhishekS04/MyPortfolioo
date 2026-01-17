@@ -40,8 +40,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         }
 
         const isMobile = window.innerWidth < 768;
-        // 1.4s per word as requested
-        const stepDuration = 1400;
+        // 0.8s per word for 95+ performance score
+        const stepDuration = 800;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
