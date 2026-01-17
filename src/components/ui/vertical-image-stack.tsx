@@ -46,7 +46,7 @@ export function VerticalImageStack() {
 
     const [currentIndex, setCurrentIndex] = useState(0)
     const lastNavigationTime = useRef(0)
-    const navigationCooldown = 400 // Adjusted cooldown
+    const navigationCooldown = 300 // Snappier interaction
 
     const navigate = useCallback((newDirection: number) => {
         const now = Date.now()

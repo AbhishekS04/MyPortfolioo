@@ -12,7 +12,7 @@ export function IdentityCard() {
             {/* Background Image */}
             <div className="absolute inset-0">
                 <Image
-                    src="https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
+                    src="https://res.cloudinary.com/dap0u41dz/image/upload/f_auto,q_auto,w_1000/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
                     alt="Abhishek Singh"
                     fill
                     priority
@@ -30,7 +30,7 @@ export function IdentityCard() {
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <h2 className="text-3xl font-bold text-white mb-2 leading-tight">Abhishek Singh</h2>
-                    <p className="text-white/60 text-lg font-medium">
+                    <p className="text-white/80 text-lg font-medium">
                         Product Engineer.
                     </p>
 
