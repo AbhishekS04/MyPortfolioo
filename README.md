@@ -1,6 +1,8 @@
-# ✨ Abhishek Singh | Portfolio
-
 <div align="center">
+
+# Hi 👋, I'm Abhishek Singh
+
+### Product Engineer | Creative Developer | React, Next.js, TypeScript Specialist | Building Premium Web Experiences
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Proprietary-red.svg)
@@ -251,11 +253,10 @@ Interested in working together? Let's connect!
 **Abhishek Singh** - Product Engineer
 
 - 📧 Email: [Abhishek23main@gmail.com](mailto:Abhishek23main@gmail.com)
-- 🔗 LinkedIn: [linkedin.com/in/Abhishek Singh](https://www.linkedin.com/in/abhishek-singh200423/)
-- 🐙 GitHub: [Abhishek Singh](https://github.com/AbhishekS04)
-- 🐦 Twitter: [Abhishek Singh](https://twitter.com/_abhishek2304)
+- 🔗 LinkedIn: [linkedin.com/in/abhishek-singh200423](https://www.linkedin.com/in/abhishek-singh200423/)
+- 🐙 GitHub: [AbhishekS04](https://github.com/AbhishekS04)
+- 🐦 X (Twitter): [@_abhishek2304](https://x.com/_abhishek2304)
 - 🌐 Portfolio: [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
-- 📱 Phone: +91 9883511660
 - 📍 Location: Kolkata, India
 
 ### What I Offer:

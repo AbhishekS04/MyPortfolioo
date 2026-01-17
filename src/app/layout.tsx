@@ -81,7 +81,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Abhishek Singh | Portfolio",
     description: "Product Engineer specializing in React, Next.js, and interaction design.",
-    creator: "@AbhishekS04",
+    creator: "@_abhishek2304",
     images: ["/og-image.png"],
   },
   icons: {
@@ -117,32 +117,41 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Person",
-              "name": "Abhishek Singh",
-              "url": "https://abhishekkpf.vercel.app",
-              "image": "https://abhishekkpf.vercel.app/removebg.png",
-              "jobTitle": "Product Engineer",
-              "description": "Product Engineer specializing in React, Next.js, and interaction design.",
-              "sameAs": [
-                "https://github.com/AbhishekS04",
-                "https://www.linkedin.com/in/abhishek-singh200423",
-                "https://instagram.com/abhi3hekk"
-              ],
-              "knowsAbout": [
-                "React",
-                "Next.js",
-                "TypeScript",
-                "Product Engineering",
-                "Interaction Design",
-                "Full Stack Development"
-              ],
-              "worksFor": {
-                "@type": "Organization",
-                "name": "Freelance"
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Abhishek Singh",
+                "url": "https://abhishekkpf.vercel.app",
+                "image": "https://abhishekkpf.vercel.app/removebg.png",
+                "jobTitle": "Product Engineer",
+                "description": "Product Engineer specializing in React, Next.js, and interaction design.",
+                "sameAs": [
+                  "https://github.com/AbhishekS04",
+                  "https://www.linkedin.com/in/abhishek-singh-045312292",
+                  "https://instagram.com/abhi3hekk",
+                  "https://x.com/_abhishek2304"
+                ],
+                "knowsAbout": [
+                  "React",
+                  "Next.js",
+                  "TypeScript",
+                  "Product Engineering",
+                  "Interaction Design",
+                  "Full Stack Development"
+                ]
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                "name": "Abhishek Singh Portfolio",
+                "url": "https://abhishekkpf.vercel.app",
+                "publisher": {
+                  "@type": "Person",
+                  "name": "Abhishek Singh"
+                }
               }
-            })
+            ])
           }}
         />
         {children}

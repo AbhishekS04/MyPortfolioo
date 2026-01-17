@@ -177,10 +177,10 @@ export function AboutClient({ general, experience, education, skills, interests 
                 <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
                     <span className="text-lg font-bold border-b md:border-b-0 md:border-r border-white/10 pb-4 md:pb-0 md:pr-8 w-full md:w-auto">Portfolio</span>
                     <div className="flex flex-wrap gap-4 md:gap-6 text-sm font-medium text-white/40">
-                        <a href="#" className="flex items-center gap-2 hover:text-white transition-colors"><span>Behance</span> <ExternalLink size={14} /></a>
-                        <a href="#" className="flex items-center gap-2 hover:text-white transition-colors"><span>Dribbble</span> <ExternalLink size={14} /></a>
-                        <a href="#" className="flex items-center gap-2 hover:text-white transition-colors"><span>Instagram</span> <ExternalLink size={14} /></a>
-                        <a href="#" className="flex items-center gap-2 hover:text-white transition-colors"><span>LinkedIn</span> <ExternalLink size={14} /></a>
+                        <a href="https://github.com/AbhishekS04" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors"><span>GitHub</span> <ExternalLink size={14} /></a>
+                        <a href="https://x.com/_abhishek2304" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors"><span>Twitter</span> <ExternalLink size={14} /></a>
+                        <a href="https://instagram.com/abhi3hekk" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors"><span>Instagram</span> <ExternalLink size={14} /></a>
+                        <a href="https://www.linkedin.com/in/abhishek-singh-045312292" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-white transition-colors"><span>LinkedIn</span> <ExternalLink size={14} /></a>
                     </div>
                 </div>
             </BentoCard>
