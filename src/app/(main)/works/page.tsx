@@ -1,8 +1,9 @@
+import { Metadata } from "next";
 import { createClient } from "@/utils/supabase/server";
 import { WorksClient } from "./client";
 
-export const metadata = {
-    title: "Works | Abhishek Singh",
+export const metadata: Metadata = {
+    title: "Works",
     description: "A curated list of my projects and current work in progress.",
 };
 

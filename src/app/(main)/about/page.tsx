@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import { AboutClient } from "@/components/about/about-client";
+
+export const metadata: Metadata = {
+    title: "About",
+    description: "Learn more about Abhishek Singh, a Product Engineer focused on interaction design and building premium web experiences.",
+};
 
 export default function AboutPage() {
     // Static Data - Editable via Code

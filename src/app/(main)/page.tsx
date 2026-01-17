@@ -37,7 +37,7 @@ export default function Home() {
         {/* --- Below-the-fold content --- */}
         <div className="mt-32 px-4 md:px-8 max-w-[1600px] mx-auto space-y-32 pb-32">
           <FeaturedProjects />
-          <TestimonialsMinimal />
+          {/* <TestimonialsMinimal /> */}
           <ContactSection />
         </div>
       </div>

@@ -18,26 +18,91 @@ export const viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Abhishek Singh | Portfolio",
-  description: "Product Engineer specializing in React, Next.js, and interaction design.",
+  title: {
+    default: "Abhishek Singh | Portfolio",
+    template: "%s | Abhishek Singh",
+  },
+  description: "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
   applicationName: "Abhishek Singh",
+  authors: [{ name: "Abhishek Singh", url: "https://abhishekkpf.vercel.app" }],
+  generator: "Next.js",
+  keywords: [
+    "Abhishek Singh",
+    "Product Engineer",
+    "Full Stack Engineer",
+    "Creative Developer",
+    "React Developer",
+    "Next.js Developer",
+    "Frontend Architect",
+    "UI/UX Design",
+    "Interaction Design",
+    "Web Development",
+    "JavaScript",
+    "TypeScript",
+    "Portfolio",
+  ],
+  referrer: "origin-when-cross-origin",
+  creator: "Abhishek Singh",
+  publisher: "Abhishek Singh",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://abhishekkpf.vercel.app"),
+  alternates: {
+    canonical: "/",
+  },
+  verification: {
+    google: "o4NYyEymJnvH_de5Ee_BhhTIkgAcGNH4kK9ovHsZKuw",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Abhishek Singh",
   },
-  keywords: ["Product Engineer", "Full Stack Engineer", "React", "Next.js", "Portfolio", "Web Development"],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://abhishekkpf.vercel.app", // User should update this
-    title: "Abhishek Singh | Portfolio",
-    description: "Product Engineer.",
+    url: "https://abhishekkpf.vercel.app",
+    title: "Abhishek Singh | Product Engineer & Portfolio",
+    description: "Personal portfolio of Abhishek Singh, a Product Engineer specializing in building premium web experiences.",
     siteName: "Abhishek Singh",
+    images: [
+      {
+        url: "/og-image.png", // Recommended to add this asset
+        width: 1200,
+        height: 630,
+        alt: "Abhishek Singh | Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Abhishek Singh | Portfolio",
+    description: "Product Engineer specializing in React, Next.js, and interaction design.",
+    creator: "@AbhishekS04",
+    images: ["/og-image.png"],
   },
   icons: {
-    icon: "/removebg.png",
-    apple: "/removebg.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/removebg.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/removebg.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -57,12 +122,26 @@ export default function RootLayout({
               "@type": "Person",
               "name": "Abhishek Singh",
               "url": "https://abhishekkpf.vercel.app",
+              "image": "https://abhishekkpf.vercel.app/removebg.png",
               "jobTitle": "Product Engineer",
+              "description": "Product Engineer specializing in React, Next.js, and interaction design.",
               "sameAs": [
                 "https://github.com/AbhishekS04",
-                "https://linkedin.com/in/AbhishekS04",
-                "https://twitter.com/AbhishekS04"
-              ]
+                "https://www.linkedin.com/in/abhishek-singh200423",
+                "https://instagram.com/abhi3hekk"
+              ],
+              "knowsAbout": [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Product Engineering",
+                "Interaction Design",
+                "Full Stack Development"
+              ],
+              "worksFor": {
+                "@type": "Organization",
+                "name": "Freelance"
+              }
             })
           }}
         />
