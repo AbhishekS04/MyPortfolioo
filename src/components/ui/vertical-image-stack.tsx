@@ -2,8 +2,8 @@
 
 import { useEffect, useState, useRef, useCallback } from "react"
 import { motion, PanInfo } from "framer-motion"
-import Image from "next/image"
 import { supabase } from "@/lib/supabase"
+import { UniversalImage } from "@/components/ui/universal-image"
 import { PAPER_SOUND_BASE64 } from "@/components/ui/sound-constants"
 import { usePreloader } from "@/components/ui/preloader-wrapper"
 
@@ -305,8 +305,8 @@ export function VerticalImageStack() {
                                         playsInline
                                     />
                                 ) : (
-                                    <Image
-                                        src={image.src || "/placeholder.svg"}
+                                    <UniversalImage
+                                        src={image.src}
                                         alt={image.alt}
                                         fill
                                         className="object-cover w-full h-full pointer-events-none"
