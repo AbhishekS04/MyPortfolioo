@@ -40,8 +40,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         }
 
         const isMobile = window.innerWidth < 768;
-        // 0.8s per word for 95+ performance score
-        const stepDuration = 800;
+        // 1.2s per word for smoother reading and transition
+        const stepDuration = 1200;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -53,26 +53,26 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const textVariants = {
         initial: {
             opacity: 0,
-            y: 40, // Increased movement for more "drama"
-            filter: "blur(12px)", // Stronger blur
+            y: 40,
+            filter: "blur(12px)",
         },
         animate: {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                // Reduced duration to fit within 1.4s interval (Wait Mode: Exit + Enter + Static = Interval)
-                // 0.4s Exit + 0.6s Enter = 1.0s. Leaves 0.4s for static readability.
-                duration: 0.6,
+                // 0.8s enter for smooth rise
+                duration: 0.8,
                 ease: [0.25, 1, 0.5, 1] as const,
             }
         },
         exit: {
             opacity: 0,
-            y: -40, // Match entrance movement
+            y: -40,
             filter: "blur(12px)",
             transition: {
-                duration: 0.4,
+                // 0.6s exit to overlap nicely with next entrance
+                duration: 0.6,
                 ease: [0.25, 1, 0.5, 1] as const
             }
         },
@@ -84,7 +84,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
                 Use absolute positioning for the text container to prevent any flex-based layout shifts 
                 during size changes (though text is mostly centered, this is safer).
              */}
-            <AnimatePresence mode="wait">
+            <AnimatePresence>
                 {greetings[currentIndex] && (
                     <motion.p
                         key={currentIndex}
