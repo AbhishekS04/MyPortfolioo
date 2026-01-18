@@ -123,6 +123,7 @@ export function FeaturedProjects() {
                     .from('projects')
                     .select('*')
                     .eq('featured', true)
+                    .eq('is_hidden', false)
                     .order('display_order', { ascending: true });
 
                 if (error) {

@@ -13,6 +13,7 @@ export default async function WorksPage() {
     const { data: projects } = await supabase
         .from("projects")
         .select("*")
+        .eq("is_hidden", false)
         .order("display_order", { ascending: true });
 
     return (

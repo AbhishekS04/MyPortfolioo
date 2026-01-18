@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users, Clock } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Edit2, Save, X, Loader2, Link as LinkIcon, Image as ImageIcon, CheckCircle, Activity, Github, Video, FileText, Settings, Layout, Users, Clock, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
@@ -46,6 +46,7 @@ interface Project {
     progress_percentage?: number;
     project_url: string; // Keeping for backward compatibility or redirection
     is_coming_soon?: boolean;
+    is_hidden?: boolean;
 }
 
 export default function AdminProjects() {
@@ -105,7 +106,8 @@ export default function AdminProjects() {
             media_mode: 'gallery',
             gallery_images: [],
             external_link_label: 'Live Demo',
-            is_coming_soon: false
+            is_coming_soon: false,
+            is_hidden: false
         });
         setTechInput("");
         setGalleryInput("");
@@ -175,6 +177,25 @@ export default function AdminProjects() {
         fetchProjects();
     };
 
+    const handleToggleHidden = async (project: Project) => {
+        const newHiddenStatus = !project.is_hidden;
+
+        // Optimistic update
+        setProjects(projects.map(p => p.id === project.id ? { ...p, is_hidden: newHiddenStatus } : p));
+
+        const { error } = await supabase
+            .from("projects")
+            .update({ is_hidden: newHiddenStatus })
+            .eq("id", project.id);
+
+        if (error) {
+            console.error("Error updating project hidden status:", error);
+            alert("Error updating project: " + error.message);
+            fetchProjects(); // Revert on error
+            return;
+        }
+    };
+
     if (loading && !projects.length) return <div className="min-h-screen flex items-center justify-center bg-[#050505]"><Loader2 className="animate-spin text-white/50" /></div>;
 
     return (
@@ -224,6 +245,11 @@ export default function AdminProjects() {
                                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider border ${project.status === 'Completed' ? 'bg-white/10 text-white/60 border-white/10' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}>
                                         {project.status}
                                     </span>
+                                    {project.is_hidden && (
+                                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-red-500/10 text-red-400 text-[10px] font-medium uppercase tracking-wider border border-red-500/20">
+                                            <EyeOff className="w-3 h-3" /> Hidden
+                                        </span>
+                                    )}
                                 </div>
                                 <p className="text-white/40 text-sm truncate">{project.description}</p>
                             </div>
@@ -234,6 +260,9 @@ export default function AdminProjects() {
                                 </button>
                                 <button onClick={() => handleDelete(project.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors">
                                     <Trash2 className="w-4 h-4" />
+                                </button>
+                                <button onClick={() => handleToggleHidden(project)} className={`p-2 rounded-lg hover:bg-white/10 transition-colors ${project.is_hidden ? 'text-red-400' : 'text-white/40 hover:text-white'}`} title={project.is_hidden ? "Unhide Project" : "Hide Project"}>
+                                    {project.is_hidden ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
                             </div>
                         </motion.div>
