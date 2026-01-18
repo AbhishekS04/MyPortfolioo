@@ -40,8 +40,8 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         }
 
         const isMobile = window.innerWidth < 768;
-        // 1.2s per word for smoother reading and transition
-        const stepDuration = 1200;
+        // 1.0s overlap for snappy but smooth feel
+        const stepDuration = 1000;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -53,27 +53,27 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const textVariants = {
         initial: {
             opacity: 0,
-            y: 40,
-            filter: "blur(12px)",
+            y: 20, // Reduced movement for stability
+            filter: "blur(5px)", // Lighter blur for performance
         },
         animate: {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
             transition: {
-                // 0.8s enter for smooth rise
-                duration: 0.8,
-                ease: [0.25, 1, 0.5, 1] as const,
+                // 0.75s enter - smooth/elegant
+                duration: 0.75,
+                ease: [0.33, 1, 0.68, 1] as const,
             }
         },
         exit: {
             opacity: 0,
-            y: -40,
-            filter: "blur(12px)",
+            y: -20, // Reduced movement
+            filter: "blur(5px)", // Match entrance
             transition: {
-                // 0.6s exit to overlap nicely with next entrance
-                duration: 0.6,
-                ease: [0.25, 1, 0.5, 1] as const
+                // 0.5s exit - clears the stage effectively without rushing
+                duration: 0.5,
+                ease: [0.33, 1, 0.68, 1] as const
             }
         },
     };
