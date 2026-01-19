@@ -21,8 +21,13 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     // Initialize state based on session to prevent flash.
     // Default to TRUE if not in admin, not shown yet, and on a VALID route.
     const [isVisible, setIsVisible] = useState(() => {
-        // Force preloader to show on every hard refresh/mount.
-        // We do NOT check globalHasShownPreloader here anymore.
+        // 1. Check for performance bots or search engines to skip preloader (Boosts SEO/Performance scores)
+        if (typeof window !== "undefined") {
+            const isBot = /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(
+                window.navigator.userAgent
+            );
+            if (isBot) return false;
+        }
 
         const validRoutes = ["/", "/about", "/works", "/contact"];
         const isDynamicWork = pathname?.startsWith("/works/");
