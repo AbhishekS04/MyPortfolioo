@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     siteName: "Abhishek Singh",
     images: [
       {
-        url: "/og-image.png", // Recommended to add this asset
+        url: "/og-image.jpg", // Recommended to add this asset
         width: 1200,
         height: 630,
         alt: "Abhishek Singh | Portfolio",
@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     title: "Abhishek Singh | Portfolio",
     description: "Product Engineer specializing in React, Next.js, and interaction design.",
     creator: "@_abhishek2304",
-    images: ["/og-image.png"],
+    images: ["/og-image.jpg"],
   },
   icons: {
     icon: [
