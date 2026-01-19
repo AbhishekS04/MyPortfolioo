@@ -1,7 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useRef, useLayoutEffect, useState } from "react";
+import gsap from "gsap";
 
 interface Greeting {
     text: string;
@@ -21,61 +21,67 @@ interface PreloaderProps {
 
 export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const textRef = useRef<HTMLParagraphElement>(null);
 
-    useEffect(() => {
-        if (currentIndex === greetings.length - 1) {
-            const timeout = setTimeout(() => {
-                onComplete();
-            }, 1200);
-            return () => clearTimeout(timeout);
-        }
+    useLayoutEffect(() => {
+        if (!textRef.current) return;
 
-        const stepDuration = currentIndex === 0 ? 1800 : 1500;
+        // Reset state immediately to prevent "weird" flashes
+        gsap.set(textRef.current, {
+            y: 30,
+            opacity: 0,
+            filter: "blur(8px)",
+            scale: 0.9
+        });
 
-        const timeout = setTimeout(() => {
-            setCurrentIndex((prev) => prev + 1);
-        }, stepDuration);
+        const tl = gsap.timeline({
+            onComplete: () => {
+                if (currentIndex === greetings.length - 1) {
+                    onComplete();
+                } else {
+                    setCurrentIndex((prev: number) => prev + 1);
+                }
+            }
+        });
 
-        return () => clearTimeout(timeout);
+        // Entrance - Softer/Elegant
+        tl.to(textRef.current, {
+            y: 0,
+            opacity: 1,
+            filter: "blur(0px)",
+            scale: 1,
+            duration: 0.9,
+            ease: "power3.out"
+        })
+            // Hold - Slightly longer for readability
+            .to({}, { duration: 0.6 })
+            // Exit - Smooth
+            .to(textRef.current, {
+                y: -20,
+                opacity: 0,
+                filter: "blur(4px)",
+                scale: 1.02,
+                duration: 0.6,
+                ease: "power3.in"
+            });
+
+        return () => {
+            tl.kill();
+        };
     }, [currentIndex, onComplete]);
 
-    const textVariants = {
-        initial: {
-            opacity: 0,
-            y: 30,
-        },
-        animate: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.8,
-                ease: [0.33, 1, 0.68, 1] as const,
-            }
-        },
-        exit: {
-            opacity: 0,
-            y: -30,
-            transition: {
-                duration: 0.6,
-                ease: [0.33, 1, 0.68, 1] as const
-            }
-        },
-    };
-
     return (
-        <div className="flex items-center justify-center w-full h-full cursor-none overflow-hidden">
-            <AnimatePresence mode="wait">
-                <motion.p
-                    key={currentIndex}
-                    variants={textVariants}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    className="text-4xl md:text-6xl font-medium tracking-tight text-white font-sans absolute"
-                >
-                    {greetings[currentIndex].text}
-                </motion.p>
-            </AnimatePresence>
+        <div className="flex items-center justify-center w-full h-full cursor-none overflow-hidden bg-[#050805]">
+            <p
+                ref={textRef}
+                style={{
+                    opacity: 0,
+                    fontWeight: 300,
+                }}
+                className="text-4xl md:text-6xl text-white absolute font-sans tracking-tight"
+            >
+                {greetings[currentIndex].text}
+            </p>
         </div>
     );
 };
