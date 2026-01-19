@@ -10,6 +10,7 @@ let globalHasShownPreloader = false;
 
 interface PreloaderContextType {
     hasShown: boolean;
+    isVisible: boolean;
 }
 
 const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
@@ -62,7 +63,7 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     };
 
     return (
-        <PreloaderContext.Provider value={{ hasShown: !isVisible }}>
+        <PreloaderContext.Provider value={{ hasShown: !isVisible, isVisible }}>
             <AnimatePresence mode="wait">
                 {isVisible && (
                     <motion.div

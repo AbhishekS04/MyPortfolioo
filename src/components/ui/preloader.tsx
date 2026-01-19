@@ -10,11 +10,9 @@ interface Greeting {
 
 const greetings: Greeting[] = [
     { text: "Hello", language: "English" },
-    // { text: "Hola", language: "Spanish" },
-    // { text: "안녕하세요", language: "Korean" },
-    // { text: "Ciao", language: "Italian" },
+    { text: "Bonjour", language: "French" },
     { text: "নমস্কার", language: "Bengali" },
-    { text: "नमस्ते", "language": "Hindi" },
+    { text: "नमस्ते", language: "Hindi" },
 ];
 
 interface PreloaderProps {
@@ -26,15 +24,13 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
 
     useEffect(() => {
         if (currentIndex === greetings.length - 1) {
-            // Smoothest exit: hold the last word slightly longer then complete
             const timeout = setTimeout(() => {
                 onComplete();
             }, 1200);
             return () => clearTimeout(timeout);
         }
 
-        // 2s per word
-        const stepDuration = 2000;
+        const stepDuration = currentIndex === 0 ? 1800 : 1500;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -46,7 +42,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const textVariants = {
         initial: {
             opacity: 0,
-            y: 20,
+            y: 30,
         },
         animate: {
             opacity: 1,
@@ -58,7 +54,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
         },
         exit: {
             opacity: 0,
-            y: -20,
+            y: -30,
             transition: {
                 duration: 0.6,
                 ease: [0.33, 1, 0.68, 1] as const
@@ -67,20 +63,18 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     };
 
     return (
-        <div className="flex items-center justify-center w-full h-full cursor-none">
+        <div className="flex items-center justify-center w-full h-full cursor-none overflow-hidden">
             <AnimatePresence mode="wait">
-                {greetings[currentIndex] && (
-                    <motion.p
-                        key={currentIndex}
-                        variants={textVariants}
-                        initial="initial"
-                        animate="animate"
-                        exit="exit"
-                        className="text-4xl md:text-5xl font-medium tracking-wide text-white font-sans absolute"
-                    >
-                        {greetings[currentIndex].text}
-                    </motion.p>
-                )}
+                <motion.p
+                    key={currentIndex}
+                    variants={textVariants}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    className="text-4xl md:text-6xl font-medium tracking-tight text-white font-sans absolute"
+                >
+                    {greetings[currentIndex].text}
+                </motion.p>
             </AnimatePresence>
         </div>
     );
