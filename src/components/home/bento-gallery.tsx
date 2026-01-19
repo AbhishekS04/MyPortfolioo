@@ -2,27 +2,10 @@
 // Rebuilding layout to standard grid
 
 import { IdentityCard } from "./identity-card"
-import dynamic from "next/dynamic"
-
-const VerticalImageStack = dynamic(() => import("@/components/ui/vertical-image-stack").then(mod => mod.VerticalImageStack), {
-    ssr: false,
-    loading: () => <div className="w-full h-full bg-[#111] animate-pulse rounded-[32px]" />
-})
-
-const FocusCard = dynamic(() => import("./focus-card").then(mod => mod.FocusCard), {
-    ssr: false,
-    loading: () => <div className="w-full h-full bg-[#111] animate-pulse rounded-[32px]" />
-})
-
-const PhilosophyCard = dynamic(() => import("./philosophy-card").then(mod => mod.PhilosophyCard), {
-    ssr: false,
-    loading: () => <div className="w-full h-full bg-[#111] animate-pulse rounded-[32px]" />
-})
-
-const CraftCard = dynamic(() => import("./craft-card").then(mod => mod.CraftCard), {
-    ssr: false,
-    loading: () => <div className="w-full h-full bg-[#111] animate-pulse rounded-[32px]" />
-})
+import { VerticalImageStack } from "@/components/ui/vertical-image-stack"
+import { FocusCard } from "./focus-card"
+import { PhilosophyCard } from "./philosophy-card"
+import { CraftCard } from "./craft-card"
 
 export function BentoGallery() {
     return (

@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
 
 interface Greeting {
     text: string;
@@ -24,24 +23,18 @@ interface PreloaderProps {
 
 export const Preloader = ({ onComplete }: PreloaderProps) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [dimension, setDimension] = useState({ width: 0, height: 0 });
-
-    useEffect(() => {
-        setDimension({ width: window.innerWidth, height: window.innerHeight });
-    }, []);
 
     useEffect(() => {
         if (currentIndex === greetings.length - 1) {
             // Smoothest exit: hold the last word slightly longer then complete
             const timeout = setTimeout(() => {
                 onComplete();
-            }, 1000); // 1s hold for the last word
+            }, 1200);
             return () => clearTimeout(timeout);
         }
 
-        const isMobile = window.innerWidth < 768;
-        // 2.5s per word - Luxurious, slow pace to ensure readability and cover loading
-        const stepDuration = 2500;
+        // 2s per word
+        const stepDuration = 2000;
 
         const timeout = setTimeout(() => {
             setCurrentIndex((prev) => prev + 1);
@@ -53,38 +46,29 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const textVariants = {
         initial: {
             opacity: 0,
-            y: 30, // Gentle rise
-            filter: "blur(10px)", // Soft, dreamy blur
+            y: 20,
         },
         animate: {
             opacity: 1,
             y: 0,
-            filter: "blur(0px)",
             transition: {
-                // 1.5s enter - very slow and elegant
-                duration: 1.5,
-                ease: [0.25, 1, 0.5, 1] as const,
+                duration: 0.8,
+                ease: [0.33, 1, 0.68, 1] as const,
             }
         },
         exit: {
             opacity: 0,
-            y: -30, // Gentle float up
-            filter: "blur(10px)",
+            y: -20,
             transition: {
-                // 1.0s exit - slow fade out overlapping with next entrance
-                duration: 1.0,
-                ease: [0.25, 1, 0.5, 1] as const
+                duration: 0.6,
+                ease: [0.33, 1, 0.68, 1] as const
             }
         },
     };
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050805] cursor-none overflow-hidden">
-            {/* 
-                Use absolute positioning for the text container to prevent any flex-based layout shifts 
-                during size changes (though text is mostly centered, this is safer).
-             */}
-            <AnimatePresence>
+        <div className="flex items-center justify-center w-full h-full cursor-none">
+            <AnimatePresence mode="wait">
                 {greetings[currentIndex] && (
                     <motion.p
                         key={currentIndex}
@@ -92,8 +76,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
                         initial="initial"
                         animate="animate"
                         exit="exit"
-                        className="absolute text-4xl md:text-7xl font-light tracking-tight text-white font-sans mix-blend-difference"
-                        style={{ willChange: "transform, opacity, filter" }}
+                        className="text-4xl md:text-5xl font-medium tracking-wide text-white font-sans absolute"
                     >
                         {greetings[currentIndex].text}
                     </motion.p>

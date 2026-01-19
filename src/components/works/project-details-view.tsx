@@ -203,7 +203,7 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                 </Link>
             </motion.nav>
 
-            <article className="relative z-10 max-w-[1400px] mx-auto pt-32 md:pt-48 px-6 md:px-12 lg:px-20">
+            <article className="relative z-10 max-w-[1400px] mx-auto pt-44 md:pt-48 px-6 md:px-12 lg:px-20">
 
                 {/* --- 2. Hero Section --- */}
                 <motion.header

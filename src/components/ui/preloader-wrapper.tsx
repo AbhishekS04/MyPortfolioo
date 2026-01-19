@@ -20,7 +20,8 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     // Initialize state based on session to prevent flash.
     // Default to TRUE if not in admin, not shown yet, and on a VALID route.
     const [isVisible, setIsVisible] = useState(() => {
-        if (typeof window !== 'undefined' && globalHasShownPreloader) return false;
+        // Force preloader to show on every hard refresh/mount.
+        // We do NOT check globalHasShownPreloader here anymore.
 
         const validRoutes = ["/", "/about", "/works", "/contact"];
         const isDynamicWork = pathname?.startsWith("/works/");
@@ -70,8 +71,8 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
                         exit={{
                             y: "-100%",
                             transition: {
-                                duration: 1.2, // Slower for more elegance
-                                ease: [0.83, 0, 0.17, 1] // "Quint" like easing, very dramatic slow start/end
+                                duration: 1.0,
+                                ease: [0.76, 0, 0.24, 1] // "Quint" easeIn - starts slow, accelerates fast like a shutter
                             }
                         }}
                         className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
