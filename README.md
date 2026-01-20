@@ -306,6 +306,6 @@ Special thanks to the amazing open-source community and the teams behind:
 
 Made with ❤️ by [Abhishek Singh](https://github.com/AbhishekS04)
 
-© 2026 Abhishek Singh. Do not copy or distribute without permission.
+© 2026 Abhishek Singh. Do not copy or distribute without permission..
 
 </div>
