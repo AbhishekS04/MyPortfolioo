@@ -64,7 +64,7 @@ export function AboutClient({ general, experience, education, skills, interests 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
                 <BentoCard className="md:col-span-4 h-[320px] relative group overflow-hidden">
                     <FisheyeShader
-                        src={general.profile_image_url || "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"}
+                        src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
                         settings={fisheyeSettings}
                         className="absolute inset-0 w-full h-full object-cover"
                     />
