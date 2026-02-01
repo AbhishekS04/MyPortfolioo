@@ -22,7 +22,7 @@ export interface Story {
 
 const PROFILE = {
     name: "Abhishek Singh",
-    avatarUrl: "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg",
+    avatarUrl: "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg",
 }
 
 export function SocialStories({ id = "default" }: { id?: string }) {
