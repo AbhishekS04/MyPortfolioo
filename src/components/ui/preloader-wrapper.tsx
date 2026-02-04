@@ -21,6 +21,9 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     // Initialize state based on session to prevent flash.
     // Default to TRUE if not in admin, not shown yet, and on a VALID route.
     const [isVisible, setIsVisible] = useState(() => {
+        // 0. Check if already shown in this session (global variable)
+        if (globalHasShownPreloader) return false;
+
         // 1. Check for performance bots or search engines to skip preloader (Boosts SEO/Performance scores)
         if (typeof window !== "undefined") {
             const isBot = /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(

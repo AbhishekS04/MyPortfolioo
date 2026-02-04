@@ -9,14 +9,14 @@ export function PageTransition({ children }: { children: React.ReactNode }) {
     return (
         <motion.div
             key={pathname}
-            initial={{ opacity: 0, y: 10, filter: "blur(5px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{
                 duration: 0.25,
                 ease: "easeOut",
             }}
             className="w-full h-full"
-            style={{ willChange: "transform, opacity, filter" }}
+            style={{ willChange: "transform, opacity" }}
         >
             {children}
         </motion.div>
