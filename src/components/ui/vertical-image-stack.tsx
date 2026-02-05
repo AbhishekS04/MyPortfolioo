@@ -17,28 +17,26 @@ const isVideo = (url: string) => {
     return url?.match(/\.(mp4|webm|ogg|mov)$/i);
 };
 
-export function VerticalImageStack() {
+interface VerticalImageStackProps {
+    initialImages?: GalleryItem[];
+}
+
+export function VerticalImageStack({ initialImages = [] }: VerticalImageStackProps) {
     const { hasShown } = usePreloader();
-    const [images, setImages] = useState<GalleryItem[]>([]);
+    const [images, setImages] = useState<GalleryItem[]>(initialImages);
 
-    // Remove dummy data. If no images, we will handle in render.
-
+    // Preload first 3 images for instant impact
     useEffect(() => {
-        const fetchGallery = async () => {
-            const { data } = await supabase
-                .from("gallery_images")
-                .select("*")
-                .order("display_order", { ascending: true });
-
-            if (data && data.length > 0) {
-                setImages(data.map((item, i) => ({
-                    id: i + 1,
-                    src: item.image_url,
-                    alt: item.alt_text || "Gallery Image"
-                })));
-            }
-        };
-        fetchGallery();
+        if (images.length > 0) {
+            const preloadImages = images.slice(0, 3);
+            preloadImages.forEach((img) => {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'image';
+                link.href = img.src;
+                document.head.appendChild(link);
+            });
+        }
     }, []);
 
     // Ensure we handles empty case in UI

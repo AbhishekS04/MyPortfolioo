@@ -47,12 +47,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "wallpapers.com",
       },
-      // Added your Cloudinary Clone (Supabase) domain
       {
         protocol: "https",
         hostname: "rdxqqgntmtzvqsmepmls.supabase.co",
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "lodash"],
   },
   async headers() {
     return [

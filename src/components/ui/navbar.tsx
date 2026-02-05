@@ -133,6 +133,7 @@ export function NavBar() {
                             <Link
                                 key={link.label}
                                 href={link.href}
+                                prefetch={true}
                                 onClick={(e) => {
                                     if (link.isSwitch) {
                                         e.preventDefault();

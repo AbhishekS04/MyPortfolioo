@@ -7,7 +7,13 @@ import { FocusCard } from "./focus-card"
 import { PhilosophyCard } from "./philosophy-card"
 import { CraftCard } from "./craft-card"
 
-export function BentoGallery() {
+import { GalleryItem } from "@/app/actions/gallery"
+
+interface BentoGalleryProps {
+    galleryImages?: GalleryItem[];
+}
+
+export function BentoGallery({ galleryImages = [] }: BentoGalleryProps) {
     return (
         <section className="w-full max-w-[1400px] mx-auto px-4 md:px-6 pb-12 pt-4 md:py-24 lg:py-0">
 
@@ -27,7 +33,7 @@ export function BentoGallery() {
                 {/* 2. Gallery/Phone - Center Column (Spans 2 Rows on Desktop) */}
                 <div className="order-2 md:order-3 lg:order-2 md:col-span-1 lg:col-span-1 lg:row-span-2 h-[400px] md:h-[600px] lg:h-[764px] bg-[#111] rounded-[32px] border border-white/5 overflow-hidden relative shadow-2xl">
                     <div className="absolute inset-0">
-                        <VerticalImageStack />
+                        <VerticalImageStack initialImages={galleryImages} />
                     </div>
                 </div>
 

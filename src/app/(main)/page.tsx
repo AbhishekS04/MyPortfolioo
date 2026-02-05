@@ -1,22 +1,15 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { BentoGallery } from "@/components/home/bento-gallery";
-import dynamic from "next/dynamic";
-
-// Code Split / Lazy Load below-the-fold content
-const FeaturedProjects = dynamic(() => import("@/components/home/featured-projects").then(mod => mod.FeaturedProjects), {
-  ssr: false,
-  loading: () => <div className="h-96 w-full animate-pulse bg-white/5 rounded-3xl" />
-});
-const TestimonialsMinimal = dynamic(() => import("@/components/ui/minimal-testimonial").then(mod => mod.TestimonialsMinimal), { ssr: false });
-const ContactSection = dynamic(() => import("@/components/home/contact-section").then(mod => mod.ContactSection), { ssr: false });
+import { getGalleryImages } from "@/app/actions/gallery";
+import { LazyHomeContent } from "@/components/home/lazy-home-content";
 
 import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
 import { ClipboardSecret } from "@/components/ui/clipboard-secret";
 import { ExitMessage } from "@/components/ui/exit-message";
 
-export default function Home() {
+export default async function Home() {
+  // Fetch data on server - instant availability
+  const galleryImages = await getGalleryImages();
+
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
       <ExitMessage />
@@ -30,16 +23,12 @@ export default function Home() {
           <div className="hidden lg:block h-16 shrink-0" />
 
           <div className="flex-1 flex flex-col justify-center">
-            <BentoGallery />
+            <BentoGallery galleryImages={galleryImages} />
           </div>
         </div>
 
         {/* --- Below-the-fold content --- */}
-        <div className="mt-32 px-4 md:px-8 max-w-[1600px] mx-auto space-y-32 pb-32">
-          <FeaturedProjects />
-          {/* <TestimonialsMinimal /> */}
-          <ContactSection />
-        </div>
+        <LazyHomeContent />
       </div>
     </main>
   );

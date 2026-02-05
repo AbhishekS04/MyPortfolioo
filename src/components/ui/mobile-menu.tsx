@@ -138,6 +138,7 @@ export function MobileMenu({ isOpen, onClose, onSwitch, isMinimal }: MobileMenuP
                                 >
                                     <Link
                                         href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                                        prefetch={true}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             // Handle Switch Item
