@@ -297,7 +297,7 @@ Special thanks to the amazing open-source community and the teams behind:
 
 ### 🌟 Enjoyed exploring the portfolio?
 
-**Visit the live site:** [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+**Visit the live site:** [abhishekkpf.vercel.app](https://abhisheksingh.tech)
 
 ---
 
