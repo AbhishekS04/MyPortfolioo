@@ -58,7 +58,10 @@ export async function getGitHubProfile(username: string): Promise<GitHubProfile 
   // If no token, we can't reliably get pinned items via GraphQL.
   // Fallback or just return null/error if essential.
   if (!token) {
-    console.error("GITHUB_TOKEN is missing !");
+    // Avoid error logs in CI/CD when token is intentionally missing
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("GITHUB_TOKEN is missing! GitHub profile data will be unavailable.");
+    }
     return null;
   }
 
@@ -143,12 +146,15 @@ export async function getGitHubProfile(username: string): Promise<GitHubProfile 
 }
 
 export async function getGitHubReadme(username: string): Promise<string | null> {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) return null;
+
   // Fetching the README of the special repository [username]/[username]
   try {
     const res = await fetch(`https://api.github.com/repos/${username}/${username}/readme`, {
       headers: {
         Accept: "application/vnd.github.html", // Get rendered HTML
-        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
       next: { revalidate: 3600 } // Cache for 1 hour
     });
