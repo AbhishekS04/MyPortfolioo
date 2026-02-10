@@ -2,8 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Loader2 } from "lucide-react";
-import { FaGithub, FaCalendarDays, FaCodeCommit, FaUser, FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { SiGithubactions } from "react-icons/si";
+import { FaGithub, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import { fetchGithubCommits, GithubCommit } from "@/utils/github";
 
@@ -25,7 +24,7 @@ export function ChangelogOverlay({ isOpen, onClose, githubUrl, projectTitle }: C
 
     // Mount state for portal
     useEffect(() => {
-        setMounted(true);
+        setTimeout(() => setMounted(true), 0);
     }, []);
 
     // Body scroll lock
@@ -52,7 +51,7 @@ export function ChangelogOverlay({ isOpen, onClose, githubUrl, projectTitle }: C
 
     useEffect(() => {
         if (isOpen && githubUrl) {
-            setLoading(true);
+            setTimeout(() => setLoading(true), 0);
             fetchGithubCommits(githubUrl).then(data => {
                 setCommits(data);
                 setLoading(false);

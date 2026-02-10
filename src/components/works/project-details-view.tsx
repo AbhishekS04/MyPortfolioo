@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useScroll, useTransform, useMotionValueEvent, AnimatePresence, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { ArrowLeft, ArrowUpRight, Play, Pause, Volume2, VolumeX } from "lucide-react";
 import { FaGithub, FaTerminal } from "react-icons/fa6";
 import ProjectContributors from "@/components/ui/project-contributors";
@@ -18,8 +18,29 @@ interface Contributor {
     social_url?: string;
 }
 
+interface Project {
+    title: string;
+    description: string;
+    project_type: string;
+    created_at: string;
+    client_name?: string;
+    tech_stack: string[];
+    media_mode?: string;
+    video_url?: string;
+    image_url: string;
+    overview?: string;
+    problem_statement?: string;
+    approach?: string;
+    outcome?: string;
+    external_link_url?: string;
+    project_url?: string;
+    github_url?: string;
+    features?: string;
+    gallery_images?: string[];
+}
+
 interface ProjectDetailsViewProps {
-    project: any;
+    project: Project;
     contributors?: Contributor[];
 }
 
@@ -127,23 +148,12 @@ function CustomVideoPlayer({ videoUrl, posterUrl }: { videoUrl: string, posterUr
 }
 
 export function ProjectDetailsView({ project, contributors }: ProjectDetailsViewProps) {
-    const { scrollY } = useScroll();
-    const [showBottomNav, setShowBottomNav] = useState(false);
     const [showChangelog, setShowChangelog] = useState(false);
     const [zoomImage, setZoomImage] = useState<string | null>(null);
     const mediaRef = useRef<HTMLDivElement>(null);
     const searchParams = useSearchParams();
 
     const fromMinimal = searchParams.get('from') === 'minimal';
-
-    // Show mobile bottom nav only after scrolling past the hero
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        if (latest > 500) {
-            setShowBottomNav(true);
-        } else {
-            setShowBottomNav(false);
-        }
-    });
 
     const fadeInUp: Variants = {
         hidden: { opacity: 0, y: 30 },
@@ -318,7 +328,7 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                             >
                                 <h3 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em] mb-8">Outcome</h3>
                                 <p className="text-xl md:text-2xl text-white/90 font-light italic leading-relaxed">
-                                    "{project.outcome}"
+                                    &quot;{project.outcome}&quot;
                                 </p>
                             </motion.section>
                         )}
@@ -402,7 +412,7 @@ export function ProjectDetailsView({ project, contributors }: ProjectDetailsView
                                 <h4 className="px-6 py-4 text-xs font-bold text-blue-200/80 uppercase tracking-[0.2em] border-b border-white/5">Team</h4>
                                 <div className="px-6 py-6">
                                     <ProjectContributors
-                                        contributors={contributors.map((c: any) => ({
+                                        contributors={contributors.map((c) => ({
                                             name: c.name,
                                             avatar_url: c.avatar_url,
                                             role: c.role,
