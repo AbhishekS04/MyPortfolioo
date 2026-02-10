@@ -1,6 +1,6 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 export interface GalleryItem {
   id: number;
@@ -9,6 +9,11 @@ export interface GalleryItem {
 }
 
 export async function getGalleryImages(): Promise<GalleryItem[]> {
+  if (!isSupabaseConfigured) {
+    console.warn("Supabase credentials missing. Returning empty gallery.");
+    return [];
+  }
+
   try {
     const { data, error } = await supabase
       .from("gallery_images")
