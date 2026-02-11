@@ -1,11 +1,23 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { PenLine } from "lucide-react";
+import DOMPurify from "dompurify";
 
 export function ReadmeViewer({ content }: { content: string }) {
     const containerRef = useRef<HTMLDivElement>(null);
+
+    // Sanitize HTML to prevent XSS attacks
+    const sanitizedContent = useMemo(() => {
+        if (typeof window !== "undefined") {
+            return DOMPurify.sanitize(content, {
+                ADD_TAGS: ["iframe"],
+                ADD_ATTR: ["target", "rel", "align"],
+            });
+        }
+        return content;
+    }, [content]);
 
     useEffect(() => {
         if (containerRef.current) {
@@ -75,7 +87,7 @@ export function ReadmeViewer({ content }: { content: string }) {
               /* Hide GitHub's default anchor links on headers */
               [&_.anchor]:hidden
             "
-                    dangerouslySetInnerHTML={{ __html: content }}
+                    dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 />
             </div>
         </motion.div>

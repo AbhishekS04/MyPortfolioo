@@ -1,7 +1,38 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
+// Simple in-memory rate limiting (resets on server restart)
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT = 10; // Max requests per window
+const RATE_WINDOW = 60 * 1000; // 1 minute window
+
+function isRateLimited(ip: string): boolean {
+    const now = Date.now();
+    const record = rateLimitMap.get(ip);
+
+    if (!record || now > record.resetTime) {
+        rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_WINDOW });
+        return false;
+    }
+
+    if (record.count >= RATE_LIMIT) {
+        return true;
+    }
+
+    record.count++;
+    return false;
+}
+
 export async function POST(request: Request) {
+    // Rate limiting
+    const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
+    if (isRateLimited(ip)) {
+        return NextResponse.json(
+            { error: "Too many requests. Please try again later." },
+            { status: 429 }
+        );
+    }
+
     const supabase = await createClient();
     try {
         const { rating } = await request.json();

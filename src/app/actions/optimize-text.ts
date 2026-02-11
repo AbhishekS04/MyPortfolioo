@@ -7,10 +7,13 @@ const client = new OpenAI({
     baseURL: "https://openrouter.ai/api/v1",
     apiKey: process.env.OPENROUTER_API_KEY,
     defaultHeaders: {
-        "HTTP-Referer": "http://localhost:3000",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
         "X-Title": "Portfolio Admin",
     },
 });
+
+// Maximum allowed text length to prevent API abuse
+const MAX_TEXT_LENGTH = 5000;
 
 export async function optimizeText(currentText: string) {
     if (!process.env.OPENROUTER_API_KEY) {
@@ -19,6 +22,10 @@ export async function optimizeText(currentText: string) {
 
     if (!currentText || currentText.trim().length === 0) {
         return { error: "No text provided" };
+    }
+
+    if (currentText.length > MAX_TEXT_LENGTH) {
+        return { error: `Text too long. Maximum ${MAX_TEXT_LENGTH} characters allowed.` };
     }
 
     try {
