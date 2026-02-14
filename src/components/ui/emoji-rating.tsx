@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
+import { UniversalImage } from "@/components/ui/universal-image"
 
 interface RatingInteractionProps {
     className?: string
@@ -40,7 +41,7 @@ export function RatingInteraction({ className }: RatingInteractionProps) {
     if (submitted) {
         return (
             <div className={cn("flex flex-col items-center gap-4 py-8 animate-in fade-in zoom-in duration-500", className)}>
-                <div className="w-16 h-16 mb-2"><img src="https://emojicdn.elk.sh/🎉?style=apple" className="w-full h-full object-contain" alt="Success" /></div>
+                <div className="w-16 h-16 mb-2"><UniversalImage src="https://emojicdn.elk.sh/🎉?style=apple" alt="Success" className="w-full h-full object-contain" /></div>
                 <p className="text-white/60 font-medium">Thank you for your feedback!</p>
             </div>
         )
