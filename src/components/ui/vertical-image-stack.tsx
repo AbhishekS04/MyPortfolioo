@@ -70,10 +70,9 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
 
     const handleWheel = useCallback(
         (e: WheelEvent) => {
+            e.preventDefault();
             e.stopPropagation();
-            // Debounce wheel slightly less or differently? 
-            // Actually just relying on cooldown is enough.
-            if (Math.abs(e.deltaY) > 40) { // Higher threshold for stability
+            if (Math.abs(e.deltaY) > 40) {
                 if (e.deltaY > 0) {
                     navigate(1)
                 } else {
@@ -91,11 +90,11 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
         if (!container) return
 
         const onWheel = (e: WheelEvent) => {
-            // e.preventDefault() // prevent page scroll (removed to support passive listener)
             handleWheel(e)
         }
 
-        container.addEventListener("wheel", onWheel, { passive: true })
+        // Must be non-passive so e.preventDefault() can stop the page from scrolling
+        container.addEventListener("wheel", onWheel, { passive: false })
         return () => container.removeEventListener("wheel", onWheel)
     }, [handleWheel])
 
