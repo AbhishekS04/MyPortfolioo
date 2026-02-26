@@ -87,6 +87,7 @@ export function ReadmeViewer({ content }: { content: string }) {
               /* Hide GitHub's default anchor links on headers */
               [&_.anchor]:hidden
             "
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 />
             </div>

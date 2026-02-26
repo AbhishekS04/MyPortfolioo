@@ -33,7 +33,7 @@ export function UniversalImage({
     height,
     priority,
     quality,
-    sizes,
+    sizes = fill ? "100vw" : undefined,
     fallbackSrc = "/placeholder.svg",
     ...props
 }: UniversalImageProps) {

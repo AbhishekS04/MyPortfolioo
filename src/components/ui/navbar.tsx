@@ -9,9 +9,9 @@ import { MobileMenu } from "./mobile-menu"
 import { motion } from "framer-motion"
 import { TransitionOverlay } from "./transition-overlay";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 
-export function NavBar() {
+function NavBarInner() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isSwitching, setIsSwitching] = useState(false);
     const [transitionTarget, setTransitionTarget] = useState<"Minimal" | "Detailed" | null>(null);
@@ -241,5 +241,13 @@ export function NavBar() {
                 targetMode={transitionTarget || (isMinimal ? "Detailed" : "Minimal")}
             />
         </>
+    )
+}
+
+export function NavBar() {
+    return (
+        <Suspense fallback={<div className="h-16" />}>
+            <NavBarInner />
+        </Suspense>
     )
 }

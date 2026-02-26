@@ -1,5 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { notFound, redirect } from "next/navigation";
+import { Suspense } from "react";
 import { ProjectDetailsView } from "@/components/works/project-details-view";
 import { Metadata } from "next";
 
@@ -50,5 +51,9 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
         .eq("project_id", project.id)
         .order("created_at", { ascending: true });
 
-    return <ProjectDetailsView project={project} contributors={contributors || []} />;
+    return (
+        <Suspense fallback={null}>
+            <ProjectDetailsView project={project} contributors={contributors || []} />
+        </Suspense>
+    );
 }

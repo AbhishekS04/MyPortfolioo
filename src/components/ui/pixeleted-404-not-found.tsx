@@ -3,6 +3,9 @@
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Doto } from "next/font/google";
+
+const doto = Doto({ subsets: ["latin"] });
 
 interface Error404Props {
     postcardImage?: string;
@@ -27,10 +30,6 @@ export function Error404({
 }: Error404Props) {
     return (
         <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-[#0a0a0a]">
-            {/* Font import moved to layout or globals is better, but keeping here for single file portability if needed */}
-            <link rel="preconnect" href="https://fonts.googleapis.com" />
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-            <link href="https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap" rel="stylesheet" />
 
             <div className="flex flex-col items-center">
                 <div className="relative mb-16">
@@ -91,7 +90,7 @@ export function Error404({
                 </div>
 
                 <div className="text-center max-w-2xl">
-                    <h1 className="text-4xl md:text-5xl font-['Doto'] mb-6 text-white text-balance leading-tight">
+                    <h1 className={`text-4xl md:text-5xl mb-6 text-white text-balance leading-tight ${doto.className}`}>
                         {heading}
                     </h1>
                     <p className="text-white/60 text-base md:text-lg mb-10 font-sans">

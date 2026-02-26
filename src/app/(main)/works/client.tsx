@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CurrentlyWorkingCard } from "@/components/works/currently-working-card";
 import { ProjectGrid } from "@/components/works/project-grid";
+import Link from "next/link";
 
 import { Project } from "@/types/project";
 
@@ -21,9 +22,9 @@ export function WorksClient({ projects }: { projects: Project[] }) {
                 {/* Back to Minimal Button (Conditional) */}
                 {typeof window !== 'undefined' && new URLSearchParams(window.location.search).get("from") === "minimal" && (
                     <div className="mb-8">
-                        <a href="/minimal" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
+                        <Link href="/minimal" className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors group">
                             <span className="block border-b border-white/20 pb-0.5 group-hover:border-white transition-colors">← Back to Minimal</span>
-                        </a>
+                        </Link>
                     </div>
                 )}
 

@@ -112,46 +112,43 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#050805' }}>
       <body className={`${outfit.variable} ${bolivia.variable}`} style={{ backgroundColor: '#050805', color: '#ededed' }}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Abhishek Singh",
+              "url": "https://abhishekkpf.vercel.app",
+              "image": "https://abhishekkpf.vercel.app/removebg.png",
+              "jobTitle": "Product Engineer",
+              "description": "Product Engineer specializing in React, Next.js, and interaction design.",
+              "sameAs": [
+                "https://github.com/AbhishekS04",
+                "https://www.linkedin.com/in/abhishek-singh-045312292",
+                "https://instagram.com/abhi3hekk",
+                "https://x.com/_abhishek2304"
+              ],
+              "knowsAbout": [
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Product Engineering",
+                "Interaction Design",
+                "Full Stack Development"
+              ]
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Abhishek Singh Portfolio",
+              "url": "https://abhishekkpf.vercel.app",
+              "publisher": {
                 "@type": "Person",
-                "name": "Abhishek Singh",
-                "url": "https://abhishekkpf.vercel.app",
-                "image": "https://abhishekkpf.vercel.app/removebg.png",
-                "jobTitle": "Product Engineer",
-                "description": "Product Engineer specializing in React, Next.js, and interaction design.",
-                "sameAs": [
-                  "https://github.com/AbhishekS04",
-                  "https://www.linkedin.com/in/abhishek-singh-045312292",
-                  "https://instagram.com/abhi3hekk",
-                  "https://x.com/_abhishek2304"
-                ],
-                "knowsAbout": [
-                  "React",
-                  "Next.js",
-                  "TypeScript",
-                  "Product Engineering",
-                  "Interaction Design",
-                  "Full Stack Development"
-                ]
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                "name": "Abhishek Singh Portfolio",
-                "url": "https://abhishekkpf.vercel.app",
-                "publisher": {
-                  "@type": "Person",
-                  "name": "Abhishek Singh"
-                }
+                "name": "Abhishek Singh"
               }
-            ])
-          }}
-        />
+            }
+          ])}
+        </script>
         {children}
       </body>
     </html>

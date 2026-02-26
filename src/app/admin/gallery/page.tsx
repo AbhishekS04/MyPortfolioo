@@ -5,6 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, GripVertical, Save, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Reorder } from "framer-motion";
+import { UniversalImage } from "@/components/ui/universal-image";
 
 interface GalleryImage {
     id: string;
@@ -117,8 +118,7 @@ export default function AdminGallery() {
                             {isVideo(img.image_url) ? (
                                 <video src={img.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
                             ) : (
-                                /* eslint-disable-next-line @next/next/no-img-element */
-                                <img src={img.image_url} alt="" className="w-full h-full object-cover" />
+                                <UniversalImage src={img.image_url} alt="" fill className="object-cover" />
                             )}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -148,8 +148,7 @@ export default function AdminGallery() {
                                 {isVideo(newItem.image_url) ? (
                                     <video src={newItem.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
                                 ) : (
-                                    /* eslint-disable-next-line @next/next/no-img-element */
-                                    <img src={newItem.image_url} alt="Preview" className="w-full h-full object-cover" />
+                                    <UniversalImage src={newItem.image_url} alt="Preview" fill className="object-cover" />
                                 )}
                             </div>
                         )}

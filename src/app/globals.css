@@ -236,11 +236,13 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
   .maplibregl-popup-content {
-    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+    @apply !bg-transparent !shadow-none !p-0 !rounded-none;
   }
+
   .maplibregl-popup-tip {
-    @apply hidden!;
+    @apply !hidden;
   }
 }
 
@@ -324,4 +326,14 @@ html.terminal-active body {
   overflow: hidden !important;
   height: 100vh !important;
   touch-action: none !important;
+}
+
+/* Accessibility: Disable motion for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

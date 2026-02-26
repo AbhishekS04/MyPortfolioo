@@ -22,10 +22,10 @@ export const ClipboardSecret = () => {
             if (isMatch) {
                 e.preventDefault();
                 if (e.clipboardData) {
-                    const secret = "If you found this, we should talk.";
-                    e.clipboardData.setData("text/plain", secret);
+                    const easterEggMessage = "If you found this, we should talk.";
+                    e.clipboardData.setData("text/plain", easterEggMessage);
                     // Also try the navigator API as backup (though preventDefault usually handles it)
-                    // navigator.clipboard.writeText(secret).catch(() => {}); 
+                    // navigator.clipboard.writeText(easterEggMessage).catch(() => {}); 
                     console.log("🔒 Secret Injected");
                 }
             }

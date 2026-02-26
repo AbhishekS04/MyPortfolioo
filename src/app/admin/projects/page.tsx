@@ -56,17 +56,19 @@ export default function AdminProjects() {
     const [activeTab, setActiveTab] = useState<'essentials' | 'media' | 'content' | 'settings' | 'contributors'>('essentials');
 
     // Form State
-    const [formData, setFormData] = useState<Partial<Project>>({});
-    const [techInput, setTechInput] = useState("");
-    const [galleryInput, setGalleryInput] = useState("");
+    const [formState, setFormState] = useState({
+        formData: {} as Partial<Project>,
+        techInput: "",
+        galleryInput: ""
+    });
 
     const supabase = createClient();
 
     useEffect(() => {
-        fetchProjects();
+        loadProjects();
     }, []);
 
-    const fetchProjects = async () => {
+    const loadProjects = async () => {
         const { data, error } = await supabase
             .from("projects")
             .select("*")
@@ -83,34 +85,38 @@ export default function AdminProjects() {
 
     const handleEdit = (project: Project) => {
         setEditingId(project.id);
-        setFormData(project);
-        setTechInput(project.tech_stack?.join(", ") || "");
-        setGalleryInput(project.gallery_images?.join("\n") || ""); // Newline separated for easy editing
+        setFormState({
+            formData: project,
+            techInput: project.tech_stack?.join(", ") || "",
+            galleryInput: project.gallery_images?.join("\n") || ""
+        });
         setActiveTab('essentials');
     };
 
     const handleCreate = () => {
         setEditingId("new");
-        setFormData({
-            title: "",
-            slug: "",
-            description: "",
-            image_url: "",
-            project_url: "",
-            featured: false,
-            display_order: projects.length + 1,
-            status: 'Not Started',
-            is_currently_working: false,
-            progress_percentage: 0,
-            project_type: 'Personal',
-            media_mode: 'gallery',
-            gallery_images: [],
-            external_link_label: 'Live Demo',
-            is_coming_soon: false,
-            is_hidden: false
+        setFormState({
+            formData: {
+                title: "",
+                slug: "",
+                description: "",
+                image_url: "",
+                project_url: "",
+                featured: false,
+                display_order: projects.length + 1,
+                status: 'Not Started',
+                is_currently_working: false,
+                progress_percentage: 0,
+                project_type: 'Personal',
+                media_mode: 'gallery',
+                gallery_images: [],
+                external_link_label: 'Live Demo',
+                is_coming_soon: false,
+                is_hidden: false
+            },
+            techInput: "",
+            galleryInput: ""
         });
-        setTechInput("");
-        setGalleryInput("");
         setActiveTab('essentials');
     };
 
@@ -122,6 +128,7 @@ export default function AdminProjects() {
     };
 
     const handleSave = async () => {
+        const { formData, techInput, galleryInput } = formState;
         if (!formData.title) return alert("Title is required");
 
         // Auto-generate slug if missing
@@ -161,7 +168,7 @@ export default function AdminProjects() {
         }
 
         setEditingId(null);
-        fetchProjects();
+        loadProjects();
     };
 
     const handleDelete = async (id: string) => {
@@ -174,7 +181,7 @@ export default function AdminProjects() {
             return;
         }
 
-        fetchProjects();
+        loadProjects();
     };
 
     const handleToggleHidden = async (project: Project) => {
@@ -191,10 +198,15 @@ export default function AdminProjects() {
         if (error) {
             console.error("Error updating project hidden status:", error);
             alert("Error updating project: " + error.message);
-            fetchProjects(); // Revert on error
+            loadProjects(); // Revert on error
             return;
         }
     };
+
+    const { formData, techInput, galleryInput } = formState;
+    const updateFormData = (data: Partial<Project>) => setFormState(prev => ({ ...prev, formData: { ...prev.formData, ...data } }));
+    const setTechInputLocal = (val: string) => setFormState(prev => ({ ...prev, techInput: val }));
+    const setGalleryInputLocal = (val: string) => setFormState(prev => ({ ...prev, galleryInput: val }));
 
     if (loading && !projects.length) return <div className="min-h-screen flex items-center justify-center bg-[#050505]"><Loader2 className="animate-spin text-white/50" /></div>;
 
@@ -342,7 +354,7 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Title</label>
                                                     <input
                                                         value={formData.title || ""}
-                                                        onChange={(e) => setFormData({ ...formData, title: e.target.value, slug: !formData.slug ? generateSlug(e.target.value) : formData.slug })}
+                                                        onChange={(e) => updateFormData({ title: e.target.value, slug: !formData.slug ? generateSlug(e.target.value) : formData.slug })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                         placeholder="Project Name"
                                                     />
@@ -351,7 +363,7 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Slug (URL)</label>
                                                     <input
                                                         value={formData.slug || ""}
-                                                        onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                                                        onChange={(e) => updateFormData({ slug: e.target.value })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-sm text-white/60"
                                                         placeholder="project-name-slug"
                                                     />
@@ -363,12 +375,12 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Short Summary (Hero Description)</label>
                                                     <AiTextOptimizer
                                                         currentText={formData.description || ""}
-                                                        onOptimized={(val: string) => setFormData({ ...formData, description: val })}
+                                                        onOptimized={(val: string) => updateFormData({ description: val })}
                                                     />
                                                 </div>
                                                 <textarea
                                                     value={formData.description || ""}
-                                                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                                    onChange={(e) => updateFormData({ description: e.target.value })}
                                                     rows={3}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none resize-none"
                                                     placeholder="A brief 1-2 line description..."
@@ -379,7 +391,7 @@ export default function AdminProjects() {
                                                 <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Tech Stack (comma separated)</label>
                                                 <input
                                                     value={techInput}
-                                                    onChange={(e) => setTechInput(e.target.value)}
+                                                    onChange={(e) => setTechInputLocal(e.target.value)}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     placeholder="React, TypeScript, Tailwind..."
                                                 />
@@ -390,7 +402,7 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Type</label>
                                                     <select
                                                         value={formData.project_type || 'Personal'}
-                                                        onChange={(e) => setFormData({ ...formData, project_type: e.target.value as ProjectType })}
+                                                        onChange={(e) => updateFormData({ project_type: e.target.value as ProjectType })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                                                     >
                                                         <option value="Personal">Personal Project</option>
@@ -402,7 +414,7 @@ export default function AdminProjects() {
                                                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Client Name</label>
                                                         <input
                                                             value={formData.client_name || ""}
-                                                            onChange={(e) => setFormData({ ...formData, client_name: e.target.value })}
+                                                            onChange={(e) => updateFormData({ client_name: e.target.value })}
                                                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                             placeholder="Acme Corp"
                                                         />
@@ -421,7 +433,7 @@ export default function AdminProjects() {
                                                 </label>
                                                 <input
                                                     value={formData.image_url || ""}
-                                                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                                                    onChange={(e) => updateFormData({ image_url: e.target.value })}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                                                     placeholder="https://..."
                                                 />
@@ -434,7 +446,7 @@ export default function AdminProjects() {
                                                     </label>
                                                     <input
                                                         value={formData.video_url || ""}
-                                                        onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
+                                                        onChange={(e) => updateFormData({ video_url: e.target.value })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                                                         placeholder="https://... (mp4/webm)"
                                                     />
@@ -443,7 +455,7 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Media Mode</label>
                                                     <select
                                                         value={formData.media_mode || 'gallery'}
-                                                        onChange={(e) => setFormData({ ...formData, media_mode: e.target.value as MediaMode })}
+                                                        onChange={(e) => updateFormData({ media_mode: e.target.value as MediaMode })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                                                     >
                                                         <option value="gallery">Gallery Only</option>
@@ -456,7 +468,7 @@ export default function AdminProjects() {
                                                 <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Gallery Images (One URL per line)</label>
                                                 <textarea
                                                     value={galleryInput}
-                                                    onChange={(e) => setGalleryInput(e.target.value)}
+                                                    onChange={(e) => setGalleryInputLocal(e.target.value)}
                                                     rows={6}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs whitespace-pre"
                                                     placeholder={"https://image1.jpg\nhttps://image2.jpg"}
@@ -473,12 +485,12 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Overview</label>
                                                     <AiTextOptimizer
                                                         currentText={formData.overview || ""}
-                                                        onOptimized={(val: string) => setFormData({ ...formData, overview: val })}
+                                                        onOptimized={(val: string) => updateFormData({ overview: val })}
                                                     />
                                                 </div>
                                                 <textarea
                                                     value={formData.overview || ""}
-                                                    onChange={(e) => setFormData({ ...formData, overview: e.target.value })}
+                                                    onChange={(e) => updateFormData({ overview: e.target.value })}
                                                     rows={4}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     placeholder="Detailed overview of the project context..."
@@ -490,12 +502,12 @@ export default function AdminProjects() {
                                                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Problem</label>
                                                         <AiTextOptimizer
                                                             currentText={formData.problem_statement || ""}
-                                                            onOptimized={(val: string) => setFormData({ ...formData, problem_statement: val })}
+                                                            onOptimized={(val: string) => updateFormData({ problem_statement: val })}
                                                         />
                                                     </div>
                                                     <textarea
                                                         value={formData.problem_statement || ""}
-                                                        onChange={(e) => setFormData({ ...formData, problem_statement: e.target.value })}
+                                                        onChange={(e) => updateFormData({ problem_statement: e.target.value })}
                                                         rows={4}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                         placeholder="What challenge were you solving?"
@@ -506,12 +518,12 @@ export default function AdminProjects() {
                                                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest">The Approach / Solution</label>
                                                         <AiTextOptimizer
                                                             currentText={formData.approach || ""}
-                                                            onOptimized={(val: string) => setFormData({ ...formData, approach: val })}
+                                                            onOptimized={(val: string) => updateFormData({ approach: val })}
                                                         />
                                                     </div>
                                                     <textarea
                                                         value={formData.approach || ""}
-                                                        onChange={(e) => setFormData({ ...formData, approach: e.target.value })}
+                                                        onChange={(e) => updateFormData({ approach: e.target.value })}
                                                         rows={4}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                         placeholder="How did you tackle it?"
@@ -522,7 +534,7 @@ export default function AdminProjects() {
                                                 <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Key Features (List or Text)</label>
                                                 <textarea
                                                     value={formData.features || ""}
-                                                    onChange={(e) => setFormData({ ...formData, features: e.target.value })}
+                                                    onChange={(e) => updateFormData({ features: e.target.value })}
                                                     rows={4}
                                                     className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     placeholder="• Feature 1&#10;• Feature 2"
@@ -534,12 +546,12 @@ export default function AdminProjects() {
                                                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Challenges</label>
                                                         <AiTextOptimizer
                                                             currentText={formData.challenges || ""}
-                                                            onOptimized={(val: string) => setFormData({ ...formData, challenges: val })}
+                                                            onOptimized={(val: string) => updateFormData({ challenges: val })}
                                                         />
                                                     </div>
                                                     <textarea
                                                         value={formData.challenges || ""}
-                                                        onChange={(e) => setFormData({ ...formData, challenges: e.target.value })}
+                                                        onChange={(e) => updateFormData({ challenges: e.target.value })}
                                                         rows={3}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     />
@@ -549,12 +561,12 @@ export default function AdminProjects() {
                                                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Outcome / Results</label>
                                                         <AiTextOptimizer
                                                             currentText={formData.outcome || ""}
-                                                            onOptimized={(val: string) => setFormData({ ...formData, outcome: val })}
+                                                            onOptimized={(val: string) => updateFormData({ outcome: val })}
                                                         />
                                                     </div>
                                                     <textarea
                                                         value={formData.outcome || ""}
-                                                        onChange={(e) => setFormData({ ...formData, outcome: e.target.value })}
+                                                        onChange={(e) => updateFormData({ outcome: e.target.value })}
                                                         rows={3}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     />
@@ -576,7 +588,7 @@ export default function AdminProjects() {
                                                     <label className="text-xs font-medium text-white/40 uppercase tracking-widest">Project Status</label>
                                                     <select
                                                         value={formData.status || 'Not Started'}
-                                                        onChange={(e) => setFormData({ ...formData, status: e.target.value as ProjectStatus })}
+                                                        onChange={(e) => updateFormData({ status: e.target.value as ProjectStatus })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                                                     >
                                                         <option value="Not Started">Not Started</option>
@@ -592,7 +604,7 @@ export default function AdminProjects() {
                                                         value={formData.display_order ?? ""}
                                                         onChange={(e) => {
                                                             const val = e.target.value === "" ? 0 : parseInt(e.target.value);
-                                                            setFormData({ ...formData, display_order: isNaN(val) ? 0 : val });
+                                                            updateFormData({ display_order: isNaN(val) ? 0 : val });
                                                         }}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                                                     />
@@ -606,7 +618,7 @@ export default function AdminProjects() {
                                                     </label>
                                                     <input
                                                         value={formData.external_link_url || ""}
-                                                        onChange={(e) => setFormData({ ...formData, external_link_url: e.target.value })}
+                                                        onChange={(e) => updateFormData({ external_link_url: e.target.value })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                                                         placeholder="https://example.com"
                                                     />
@@ -617,7 +629,7 @@ export default function AdminProjects() {
                                                     </label>
                                                     <input
                                                         value={formData.github_url || ""}
-                                                        onChange={(e) => setFormData({ ...formData, github_url: e.target.value })}
+                                                        onChange={(e) => updateFormData({ github_url: e.target.value })}
                                                         className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                                                         placeholder="https://github.com/..."
                                                     />
@@ -634,7 +646,7 @@ export default function AdminProjects() {
                                                         min="0"
                                                         max="100"
                                                         value={formData.progress_percentage ?? 0}
-                                                        onChange={(e) => setFormData({ ...formData, progress_percentage: parseInt(e.target.value) })}
+                                                        onChange={(e) => updateFormData({ progress_percentage: parseInt(e.target.value) })}
                                                         className="w-full h-2 bg-emerald-500/30 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                                                     />
                                                 </div>
@@ -642,7 +654,7 @@ export default function AdminProjects() {
 
                                             <div className="flex flex-col gap-3 pt-4">
                                                 <button
-                                                    onClick={() => setFormData({ ...formData, is_coming_soon: !formData.is_coming_soon })}
+                                                    onClick={() => updateFormData({ is_coming_soon: !formData.is_coming_soon })}
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.is_coming_soon
                                                         ? "bg-purple-500/10 border-purple-500/50 text-purple-400"
                                                         : "bg-white/5 border-white/10 text-white/40 hover:text-white"
@@ -652,7 +664,7 @@ export default function AdminProjects() {
                                                     {formData.is_coming_soon ? "Status: Coming Soon" : "Mark as Coming Soon"}
                                                 </button>
                                                 <button
-                                                    onClick={() => setFormData({ ...formData, is_currently_working: !formData.is_currently_working })}
+                                                    onClick={() => updateFormData({ is_currently_working: !formData.is_currently_working })}
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.is_currently_working
                                                         ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-400"
                                                         : "bg-white/5 border-white/10 text-white/40 hover:text-white"
@@ -663,7 +675,7 @@ export default function AdminProjects() {
                                                 </button>
 
                                                 <button
-                                                    onClick={() => setFormData({ ...formData, featured: !formData.featured })}
+                                                    onClick={() => updateFormData({ featured: !formData.featured })}
                                                     className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${formData.featured
                                                         ? "bg-blue-500/10 border-blue-500/50 text-blue-400"
                                                         : "bg-white/5 border-white/10 text-white/40 hover:text-white"

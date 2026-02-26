@@ -29,10 +29,10 @@ export default function AdminProfile() {
     const supabase = createClient();
 
     useEffect(() => {
-        fetchProfile();
+        loadProfile();
     }, []);
 
-    const fetchProfile = async () => {
+    const loadProfile = async () => {
         try {
             const { data, error } = await supabase.from("profile").select("*").single();
             if (error && error.code !== "PGRST116") throw error; // PGRST116 is no rows
@@ -89,30 +89,9 @@ export default function AdminProfile() {
         }
     };
 
-    const InputField = ({ label, name, value, type = "text", placeholder }: any) => (
-        <div className="space-y-2">
-            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">{label}</label>
-            <input
-                type={type}
-                value={value}
-                onChange={(e) => setFormData({ ...formData, [name]: e.target.value })}
-                placeholder={placeholder}
-                className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
-            />
-        </div>
-    );
-
-    const TextAreaField = ({ label, name, value, rows = 3 }: any) => (
-        <div className="space-y-2">
-            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">{label}</label>
-            <textarea
-                value={value}
-                onChange={(e) => setFormData({ ...formData, [name]: e.target.value })}
-                rows={rows}
-                className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm resize-none"
-            />
-        </div>
-    );
+    const handleFieldChange = (name: string, value: string) => {
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
 
     if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#050505]"><Loader2 className="animate-spin text-white/50" /></div>;
 
@@ -143,10 +122,10 @@ export default function AdminProfile() {
                         <h2 className="text-xl font-medium text-white">Global Identity</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px]">
-                        <InputField label="Signature Text" name="signature_text" value={formData.signature_text} placeholder="Abhishek" />
-                        <InputField label="Email Address" name="email" value={formData.email} placeholder="hello@example.com" />
-                        <InputField label="Resume URL" name="resume_url" value={formData.resume_url} placeholder="/resume.pdf" />
-                        <InputField label="Availability Status" name="availability_status" value={formData.availability_status} placeholder="Available for work" />
+                        <InputField label="Signature Text" name="signature_text" value={formData.signature_text} onChange={handleFieldChange} placeholder="Abhishek" />
+                        <InputField label="Email Address" name="email" value={formData.email} onChange={handleFieldChange} placeholder="hello@example.com" />
+                        <InputField label="Resume URL" name="resume_url" value={formData.resume_url} onChange={handleFieldChange} placeholder="/resume.pdf" />
+                        <InputField label="Availability Status" name="availability_status" value={formData.availability_status} onChange={handleFieldChange} placeholder="Available for work" />
                     </div>
                 </section>
 
@@ -157,9 +136,9 @@ export default function AdminProfile() {
                         <h2 className="text-xl font-medium text-white">Location Settings</h2>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px]">
-                        <InputField label="City" name="location_city" value={formData.location_city} placeholder="Kolkata" />
-                        <InputField label="Country" name="location_country" value={formData.location_country} placeholder="India" />
-                        <InputField label="Timezone" name="location_timezone" value={formData.location_timezone} placeholder="IST" />
+                        <InputField label="City" name="location_city" value={formData.location_city} onChange={handleFieldChange} placeholder="Kolkata" />
+                        <InputField label="Country" name="location_country" value={formData.location_country} onChange={handleFieldChange} placeholder="India" />
+                        <InputField label="Timezone" name="location_timezone" value={formData.location_timezone} onChange={handleFieldChange} placeholder="IST" />
                     </div>
                 </section>
 
@@ -171,12 +150,12 @@ export default function AdminProfile() {
                     </div>
                     <div className="space-y-6 p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px]">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <InputField label="Focus Area Title" name="focus_area_title" value={formData.focus_area_title} />
-                            <TextAreaField label="Focus Area Text" name="focus_area_text" value={formData.focus_area_text} rows={3} />
+                            <InputField label="Focus Area Title" name="focus_area_title" value={formData.focus_area_title} onChange={handleFieldChange} />
+                            <TextAreaField label="Focus Area Text" name="focus_area_text" value={formData.focus_area_text} onChange={handleFieldChange} rows={3} />
                         </div>
                         <div className="bg-white/5 h-[1px] my-4" />
-                        <TextAreaField label="Bio Primary (Large)" name="bio_primary" value={formData.bio_primary} rows={2} />
-                        <TextAreaField label="Bio Secondary (Small)" name="bio_secondary" value={formData.bio_secondary} rows={3} />
+                        <TextAreaField label="Bio Primary (Large)" name="bio_primary" value={formData.bio_primary} onChange={handleFieldChange} rows={2} />
+                        <TextAreaField label="Bio Secondary (Small)" name="bio_secondary" value={formData.bio_secondary} onChange={handleFieldChange} rows={3} />
                     </div>
                 </section>
 
@@ -184,3 +163,30 @@ export default function AdminProfile() {
         </div>
     );
 }
+
+const InputField = ({ label, name, value, onChange, type = "text", placeholder }: any) => (
+    <div className="space-y-2">
+        <label htmlFor={name} className="text-xs font-medium text-white/40 uppercase tracking-widest">{label}</label>
+        <input
+            id={name}
+            type={type}
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            placeholder={placeholder}
+            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
+        />
+    </div>
+);
+
+const TextAreaField = ({ label, name, value, onChange, rows = 3 }: any) => (
+    <div className="space-y-2">
+        <label htmlFor={name} className="text-xs font-medium text-white/40 uppercase tracking-widest">{label}</label>
+        <textarea
+            id={name}
+            value={value}
+            onChange={(e) => onChange(name, e.target.value)}
+            rows={rows}
+            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm resize-none"
+        />
+    </div>
+);

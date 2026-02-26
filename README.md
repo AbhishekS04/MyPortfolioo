@@ -22,7 +22,7 @@
 
 <div align="center">
 
-[![Portfolio Preview](https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/01de06eb-0a47-4c5a-b6ca-f8285520e0c0.png)](https://abhishekkpf.vercel.app)
+[![Portfolio Preview](https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/01de06eb-0a47-4c5a-b6ca-f8285520e0c0.png)](https://www.abhisheksingh.tech)
 *Click the image to visit the live site*
 
 </div>

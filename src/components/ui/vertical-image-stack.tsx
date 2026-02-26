@@ -23,12 +23,12 @@ interface VerticalImageStackProps {
 
 export function VerticalImageStack({ initialImages = [] }: VerticalImageStackProps) {
     const { hasShown } = usePreloader();
-    const [images, setImages] = useState<GalleryItem[]>(initialImages);
+    const displayImages = initialImages;
 
     // Preload first 3 images for instant impact
     useEffect(() => {
-        if (images.length > 0) {
-            const preloadImages = images.slice(0, 3);
+        if (displayImages.length > 0) {
+            const preloadImages = displayImages.slice(0, 3);
             preloadImages.forEach((img) => {
                 const link = document.createElement('link');
                 link.rel = 'preload';
@@ -37,10 +37,7 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
                 document.head.appendChild(link);
             });
         }
-    }, []);
-
-    // Ensure we handles empty case in UI
-    const displayImages = images;
+    }, [displayImages]);
 
     const [currentIndex, setCurrentIndex] = useState(0)
     const lastNavigationTime = useRef(0)
@@ -94,11 +91,11 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
         if (!container) return
 
         const onWheel = (e: WheelEvent) => {
-            e.preventDefault() // prevent page scroll
+            // e.preventDefault() // prevent page scroll (removed to support passive listener)
             handleWheel(e)
         }
 
-        container.addEventListener("wheel", onWheel, { passive: false })
+        container.addEventListener("wheel", onWheel, { passive: true })
         return () => container.removeEventListener("wheel", onWheel)
     }, [handleWheel])
 
@@ -279,7 +276,6 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
                             style={{
                                 transformStyle: "preserve-3d",
                                 zIndex: style.zIndex,
-                                willChange: "transform, opacity, filter"
                             }}
                         >
                             <div
