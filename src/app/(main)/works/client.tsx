@@ -28,6 +28,9 @@ export function WorksClient({ projects }: { projects: Project[] }) {
                     </div>
                 )}
 
+                {/* Page H1 for SEO */}
+                <h1 className="sr-only">Works — Projects by Abhishek Singh</h1>
+
                 {/* 1. Currently Working Section */}
                 {currentlyWorking && (
                     <section>

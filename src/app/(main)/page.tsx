@@ -12,6 +12,8 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
+      {/* Visually hidden H1 for SEO — design uses BentoGallery as the visual hero */}
+      <h1 className="sr-only">Abhishek Singh — Product Engineer</h1>
       <ExitMessage />
       <ClipboardSecret />
       <ConsciousnessMode />
