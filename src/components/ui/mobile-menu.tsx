@@ -193,12 +193,7 @@ export function MobileMenu({ isOpen, onClose, onSwitch, isMinimal }: MobileMenuP
                                 <span className="text-lg md:text-xl font-bold text-white/50 whitespace-nowrap">
                                     Why are you stretching that !
                                 </span>
-                                {/* Apple-style Broken Heart Emoji via CDN to ensure Windows assumes it's Apple */}
-                                <img
-                                    src="https://emojicdn.elk.sh/🤨?style=apple"
-                                    alt="sus"
-                                    className="w-6 h-6 mb-0.5"
-                                />
+                                <span className="text-xl" role="img" aria-label="sus">🤨</span>
                             </motion.div>
                         </motion.div>
                     </motion.div>

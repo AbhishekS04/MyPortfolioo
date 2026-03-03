@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { cn } from "@/lib/utils"
-import { UniversalImage } from "@/components/ui/universal-image"
 
 interface RatingInteractionProps {
     className?: string
@@ -41,7 +40,7 @@ export function RatingInteraction({ className }: RatingInteractionProps) {
     if (submitted) {
         return (
             <div className={cn("flex flex-col items-center gap-4 py-8 animate-in fade-in zoom-in duration-500", className)}>
-                <div className="w-16 h-16 mb-2"><UniversalImage src="https://emojicdn.elk.sh/🎉?style=apple" alt="Success" className="w-full h-full object-contain" /></div>
+                <span className="text-5xl mb-2" role="img" aria-label="Success">🎉</span>
                 <p className="text-white/60 font-medium">Thank you for your feedback!</p>
             </div>
         )
@@ -77,18 +76,13 @@ export function RatingInteraction({ className }: RatingInteractionProps) {
                                 {/* Emoji with smooth grayscale transition */}
                                 <div
                                     className={cn(
-                                        "w-8 h-8 md:w-10 md:h-10 transition-all duration-300 ease-out select-none flex items-center justify-center",
+                                        "text-2xl md:text-3xl transition-all duration-300 ease-out select-none flex items-center justify-center",
                                         isActive
                                             ? "grayscale-0 drop-shadow-lg scale-110"
                                             : "grayscale opacity-40 group-hover:opacity-100 group-hover:grayscale-0",
                                     )}
                                 >
-                                    <img
-                                        src={`https://emojicdn.elk.sh/${item.emoji}?style=apple`}
-                                        alt={item.label}
-                                        className="w-full h-full object-contain pointer-events-none"
-                                        loading="lazy"
-                                    />
+                                    <span role="img" aria-label={item.label}>{item.emoji}</span>
                                 </div>
                             </div>
                         </button>
