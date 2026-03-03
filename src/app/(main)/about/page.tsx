@@ -18,7 +18,7 @@ export default function AboutPage() {
         phone_number: "+91 9883511660",
         location: "Kolkata, India",
         birthday: "2004-10-23",
-        profile_image_url: "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
+        profile_image_url: "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
     };
 
     const experience = [

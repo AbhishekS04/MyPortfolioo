@@ -111,12 +111,19 @@ function ProjectCardSkeleton() {
     );
 }
 
-export function FeaturedProjects() {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+interface FeaturedProjectsProps {
+    initialProjects?: Project[];
+}
+
+export function FeaturedProjects({ initialProjects = [] }: FeaturedProjectsProps) {
+    const [projects, setProjects] = useState<Project[]>(initialProjects);
+    const [isLoading, setIsLoading] = useState(initialProjects.length === 0);
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
+        // Skip client-side fetch if server already provided data
+        if (initialProjects.length > 0) return;
+
         async function fetchProjects() {
             try {
                 const { data, error } = await supabase
@@ -130,7 +137,6 @@ export function FeaturedProjects() {
                     console.error('Error fetching projects:', error);
                     setHasError(true);
                 } else if (data) {
-                    // Safe type mapping
                     const mappedProjects: Project[] = (data as unknown as SupabaseProject[]).map((item) => ({
                         id: item.id,
                         title: item.title,
@@ -151,7 +157,7 @@ export function FeaturedProjects() {
         }
 
         fetchProjects();
-    }, []);
+    }, [initialProjects]);
 
     // Error State
     if (hasError) {

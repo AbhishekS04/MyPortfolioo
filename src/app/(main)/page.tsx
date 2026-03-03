@@ -1,5 +1,5 @@
 import { BentoGallery } from "@/components/home/bento-gallery";
-import { getGalleryImages } from "@/app/actions/gallery";
+import { getGalleryImages, getFeaturedProjects } from "@/app/actions/gallery";
 import { LazyHomeContent } from "@/components/home/lazy-home-content";
 
 import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
@@ -8,7 +8,10 @@ import { ExitMessage } from "@/components/ui/exit-message";
 
 export default async function Home() {
   // Fetch data on server - instant availability
-  const galleryImages = await getGalleryImages();
+  const [galleryImages, featuredProjects] = await Promise.all([
+    getGalleryImages(),
+    getFeaturedProjects(),
+  ]);
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
@@ -30,7 +33,7 @@ export default async function Home() {
         </div>
 
         {/* --- Below-the-fold content --- */}
-        <LazyHomeContent />
+        <LazyHomeContent featuredProjects={featuredProjects} />
       </div>
     </main>
   );

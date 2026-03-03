@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/lib/supabase";
 import { WorksClient } from "./client";
 
 export const metadata: Metadata = {
@@ -8,13 +8,15 @@ export const metadata: Metadata = {
 };
 
 export default async function WorksPage() {
-    const supabase = await createClient();
-
-    const { data: projects } = await supabase
+    const { data: projects, error } = await supabase
         .from("projects")
         .select("*")
         .eq("is_hidden", false)
         .order("display_order", { ascending: true });
+
+    if (error) {
+        console.error("Error fetching projects:", error.message);
+    }
 
     return (
         <>

@@ -1,10 +1,8 @@
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/lib/supabase";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { ProjectDetailsView } from "@/components/works/project-details-view";
 import { Metadata } from "next";
-
-export const revalidate = 0; // Dynamic rendering
 
 interface WorksDetailProps {
     params: Promise<{
@@ -13,7 +11,6 @@ interface WorksDetailProps {
 }
 
 async function getProject(slug: string) {
-    const supabase = await createClient();
     const { data } = await supabase
         .from("projects")
         .select("*")
@@ -45,7 +42,7 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
         redirect('/works');
     }
 
-    const { data: contributors } = await (await createClient())
+    const { data: contributors } = await supabase
         .from("project_contributors")
         .select("*")
         .eq("project_id", project.id)
