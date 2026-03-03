@@ -1,6 +1,6 @@
 "use server";
 
-import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { createClient } from "@/utils/supabase/server";
 
 export interface GalleryItem {
   id: number;
@@ -9,19 +9,16 @@ export interface GalleryItem {
 }
 
 export async function getGalleryImages(): Promise<GalleryItem[]> {
-  if (!isSupabaseConfigured) {
-    console.warn("Supabase credentials missing. Returning empty gallery.");
-    return [];
-  }
-
   try {
+    const supabase = await createClient();
+
     const { data, error } = await supabase
       .from("gallery_images")
       .select("*")
       .order("display_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching gallery images:", error);
+      console.error("Error fetching gallery images:", error.message, error.code, error.details, error.hint);
       return [];
     }
 

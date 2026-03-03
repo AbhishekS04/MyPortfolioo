@@ -1,7 +1,7 @@
 "use client";
-import { FaJava } from "react-icons/fa";
+import { FaJava, FaAws } from "react-icons/fa";
 
-import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiSupabase, SiFigma, SiC, SiCplusplus, SiOpenjdk, SiPython, SiPostgresql, SiDocker, SiGo, SiRust, SiNodedotjs, SiMongodb, SiRedis, SiAmazonwebservices, SiGit, SiPostman, SiGithub, SiServerless } from "react-icons/si";
+import { SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiSupabase, SiFigma, SiC, SiCplusplus, SiOpenjdk, SiPython, SiPostgresql, SiDocker, SiGo, SiRust, SiNodedotjs, SiMongodb, SiRedis, SiGit, SiPostman, SiGithub, SiServerless } from "react-icons/si";
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -122,7 +122,7 @@ export function FocusCard() {
                         <div className={`flex items-center gap-4 text-white/50 hover:text-[#2496ED] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-20" : "opacity-100"}`}>
                             <div className="flex gap-1.5">
                                 <SiDocker className="w-4 h-4 text-[#2496ED]" />
-                                <SiAmazonwebservices className="w-4 h-4 text-[#FF9900]" />
+                                <FaAws className="w-4 h-4 text-[#FF9900]" />
                             </div>
                             <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">Cloud & Docker</span>
                         </div>
