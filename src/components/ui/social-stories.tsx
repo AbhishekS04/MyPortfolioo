@@ -97,7 +97,18 @@ export function SocialStories({ id = "default" }: { id?: string }) {
     }
 
     const isVideoUrl = (url: string) => {
-        return url.match(/\.(mp4|webm|ogg|mov|m4v)$|^https?:\/\/res\.cloudinary\.com\/.*\/video\/upload\//i);
+        if (!url) return false;
+        const cleanUrl = url.split('?')[0];
+        return /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url);
+    };
+
+    const getVideoMimeType = (url: string): string => {
+        const cleanUrl = url.split('?')[0].toLowerCase();
+        if (cleanUrl.endsWith('.webm')) return 'video/webm';
+        if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
+        if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
+        if (cleanUrl.endsWith('.m4v')) return 'video/x-m4v';
+        return 'video/mp4';
     };
 
     const goToNext = useCallback(() => {
@@ -293,17 +304,27 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         >
                                             {isCurrentVideo ? (
                                                 <video
-                                                    src={currentStory.mediaUrl}
+                                                    key={currentStory.id}
                                                     autoPlay
                                                     playsInline
-                                                    loop
+                                                    muted
+                                                    preload="auto"
+                                                    crossOrigin="anonymous"
                                                     className="w-full h-full object-contain"
                                                     onLoadedData={(e) => {
                                                         const video = e.currentTarget;
                                                         setDynamicDuration(video.duration * 1000);
                                                         setIsMediaLoaded(true);
+                                                        // Ensure playback starts
+                                                        video.play().catch(() => {});
                                                     }}
-                                                />
+                                                    onError={(e) => {
+                                                        console.warn('Story video failed to load:', currentStory.mediaUrl);
+                                                        setIsMediaLoaded(true); // unblock UI
+                                                    }}
+                                                >
+                                                    <source src={currentStory.mediaUrl} type={getVideoMimeType(currentStory.mediaUrl)} />
+                                                </video>
                                             ) : (
                                                 <Image
                                                     src={currentStory.mediaUrl}
