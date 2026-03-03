@@ -6,6 +6,9 @@ import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
 import { ClipboardSecret } from "@/components/ui/clipboard-secret";
 import { ExitMessage } from "@/components/ui/exit-message";
 
+// Revalidate every 60 seconds so admin panel updates appear without a full rebuild
+export const revalidate = 60;
+
 export default async function Home() {
   // Fetch data on server - instant availability
   const [galleryImages, featuredProjects] = await Promise.all([
