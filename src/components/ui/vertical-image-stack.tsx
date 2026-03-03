@@ -14,7 +14,19 @@ interface GalleryItem {
 }
 
 const isVideo = (url: string) => {
-    return url?.match(/\.(mp4|webm|ogg|mov)$/i);
+    if (!url) return false;
+    // Strip query params for extension check
+    const cleanUrl = url.split('?')[0];
+    // Check file extension OR Cloudinary video path pattern
+    return /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url);
+};
+
+const getVideoType = (url: string): string => {
+    const cleanUrl = url.split('?')[0].toLowerCase();
+    if (cleanUrl.endsWith('.webm')) return 'video/webm';
+    if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
+    if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
+    return 'video/mp4';
 };
 
 interface VerticalImageStackProps {
@@ -25,11 +37,12 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
     const { hasShown } = usePreloader();
     const displayImages = initialImages;
 
-    // Preload first 3 images for instant impact
+    // Preload first 3 images for instant impact (skip videos)
     useEffect(() => {
         if (displayImages.length > 0) {
             const preloadImages = displayImages.slice(0, 3);
             preloadImages.forEach((img) => {
+                if (isVideo(img.src)) return; // Don't preload videos as images
                 const link = document.createElement('link');
                 link.rel = 'preload';
                 link.as = 'image';
@@ -290,13 +303,17 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
 
                                 {isVideo(image.src) ? (
                                     <video
-                                        src={image.src}
                                         className="w-full h-full object-cover pointer-events-none"
                                         autoPlay
                                         loop
                                         muted
                                         playsInline
-                                    />
+                                        preload="auto"
+                                        crossOrigin="anonymous"
+                                        onError={(e) => console.warn('Video load error:', image.src, e)}
+                                    >
+                                        <source src={image.src} type={getVideoType(image.src)} />
+                                    </video>
                                 ) : (
                                     <UniversalImage
                                         src={image.src}

@@ -91,7 +91,17 @@ export default function AdminGallery() {
     };
 
     const isVideo = (url: string) => {
-        return url?.match(/\.(mp4|webm|ogg|mov)$/i);
+        if (!url) return false;
+        const cleanUrl = url.split('?')[0];
+        return /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url);
+    };
+
+    const getVideoType = (url: string): string => {
+        const cleanUrl = url.split('?')[0].toLowerCase();
+        if (cleanUrl.endsWith('.webm')) return 'video/webm';
+        if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
+        if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
+        return 'video/mp4';
     };
 
     return (
@@ -116,7 +126,9 @@ export default function AdminGallery() {
                         <GripVertical className="w-5 h-5 text-white/20" />
                         <div className="w-16 h-24 bg-black/50 rounded-lg overflow-hidden flex-shrink-0 relative">
                             {isVideo(img.image_url) ? (
-                                <video src={img.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
+                                <video className="w-full h-full object-cover" muted loop playsInline autoPlay preload="auto" crossOrigin="anonymous">
+                                    <source src={img.image_url} type={getVideoType(img.image_url)} />
+                                </video>
                             ) : (
                                 <UniversalImage src={img.image_url} alt="" fill className="object-cover" />
                             )}
@@ -146,7 +158,9 @@ export default function AdminGallery() {
                         {newItem.image_url && (
                             <div className="w-full aspect-video bg-black rounded-lg overflow-hidden border border-white/5 relative">
                                 {isVideo(newItem.image_url) ? (
-                                    <video src={newItem.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
+                                    <video className="w-full h-full object-cover" muted loop playsInline autoPlay preload="auto" crossOrigin="anonymous">
+                                        <source src={newItem.image_url} type={getVideoType(newItem.image_url)} />
+                                    </video>
                                 ) : (
                                     <UniversalImage src={newItem.image_url} alt="Preview" fill className="object-cover" />
                                 )}
