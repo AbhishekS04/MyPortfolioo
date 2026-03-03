@@ -144,7 +144,7 @@ export default function AdminGallery() {
                             placeholder="Image or Video URL (mp4, webm)..."
                         />
                         {newItem.image_url && (
-                            <div className="w-full aspect-video bg-black rounded-lg overflow-hidden border border-white/5">
+                            <div className="w-full aspect-video bg-black rounded-lg overflow-hidden border border-white/5 relative">
                                 {isVideo(newItem.image_url) ? (
                                     <video src={newItem.image_url} className="w-full h-full object-cover" muted loop playsInline autoPlay />
                                 ) : (

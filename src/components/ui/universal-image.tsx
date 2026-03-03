@@ -14,7 +14,8 @@ const OPTIMIZED_DOMAINS = [
     "res.cloudinary.com",
     "media.licdn.com",
     "wallpapers.com",
-    "rdxqqgntmtzvqsmepmls.supabase.co"
+    "rdxqqgntmtzvqsmepmls.supabase.co",
+    "ik.imagekit.io"
 ];
 
 interface UniversalImageProps extends Omit<ImageProps, "src"> {

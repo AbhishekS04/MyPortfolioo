@@ -56,6 +56,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "rdxqqgntmtzvqsmepmls.supabase.co",
       },
+      {
+        protocol: "https",
+        hostname: "ik.imagekit.io",
+      },
     ],
   },
   experimental: {
@@ -92,7 +96,7 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://res.cloudinary.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh",
+              "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://res.cloudinary.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh https://ik.imagekit.io",
               "font-src 'self'",
               "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com",
               "media-src 'self' data: blob:",
