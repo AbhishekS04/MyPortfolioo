@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { supabase } from "@/lib/supabase";
 
 export interface GalleryItem {
   id: number;
@@ -10,8 +10,6 @@ export interface GalleryItem {
 
 export async function getGalleryImages(): Promise<GalleryItem[]> {
   try {
-    const supabase = await createClient();
-
     const { data, error } = await supabase
       .from("gallery_images")
       .select("*")

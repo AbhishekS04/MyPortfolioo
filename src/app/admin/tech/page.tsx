@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Plus, Trash2, GripVertical, Save, X, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { motion, Reorder } from "framer-motion";
-import { SiCplusplus, SiHtml5, SiCss3, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiBootstrap, SiTailwindcss, SiNodedotjs, SiPython, SiRust, SiGo, SiMongodb, SiPostgresql, SiSupabase, SiFigma, SiDocker, SiGit } from "react-icons/si";
+import { SiCplusplus, SiHtml5, SiCss, SiJavascript, SiTypescript, SiReact, SiNextdotjs, SiBootstrap, SiTailwindcss, SiNodedotjs, SiPython, SiRust, SiGo, SiMongodb, SiPostgresql, SiSupabase, SiFigma, SiDocker, SiGit } from "react-icons/si";
 import { FaJava } from "react-icons/fa";
 
 // Mapping of available icons
@@ -13,7 +13,7 @@ const ICON_MAP: Record<string, any> = {
     "cpp": SiCplusplus,
     "java": FaJava,
     "html": SiHtml5,
-    "css": SiCss3,
+    "css": SiCss,
     "js": SiJavascript,
     "ts": SiTypescript,
     "react": SiReact,
