@@ -308,25 +308,34 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                 <video
                                                     ref={videoRef}
                                                     key={currentStory.id}
+                                                    src={currentStory.mediaUrl}
                                                     autoPlay
                                                     playsInline
-                                                    muted={isMuted}
+                                                    muted
                                                     preload="auto"
                                                     className="w-full h-full object-contain"
                                                     onLoadedData={(e) => {
                                                         const video = e.currentTarget;
                                                         setDynamicDuration(video.duration * 1000);
                                                         setIsMediaLoaded(true);
-                                                        // Ensure playback starts
-                                                        video.play().catch(() => {});
+                                                        // Apply saved mute preference
+                                                        video.muted = isMuted;
+                                                        // Ensure playback starts on mobile
+                                                        const playPromise = video.play();
+                                                        if (playPromise) {
+                                                            playPromise.catch(() => {
+                                                                // Retry muted if unmuted play was blocked
+                                                                video.muted = true;
+                                                                setIsMuted(true);
+                                                                video.play().catch(() => {});
+                                                            });
+                                                        }
                                                     }}
                                                     onError={(e) => {
                                                         console.warn('Story video failed to load:', currentStory.mediaUrl);
                                                         setIsMediaLoaded(true); // unblock UI
                                                     }}
-                                                >
-                                                    <source src={currentStory.mediaUrl} type={getVideoMimeType(currentStory.mediaUrl)} />
-                                                </video>
+                                                />
                                             ) : (
                                                 <Image
                                                     src={currentStory.mediaUrl}

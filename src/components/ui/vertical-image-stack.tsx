@@ -303,6 +303,7 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
 
                                 {isVideo(image.src) ? (
                                     <video
+                                        src={image.src}
                                         className="w-full h-full object-cover pointer-events-none"
                                         autoPlay
                                         loop
@@ -310,9 +311,7 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
                                         playsInline
                                         preload="auto"
                                         onError={(e) => console.warn('Video load error:', image.src, e)}
-                                    >
-                                        <source src={image.src} type={getVideoType(image.src)} />
-                                    </video>
+                                    />
                                 ) : (
                                     <UniversalImage
                                         src={image.src}
