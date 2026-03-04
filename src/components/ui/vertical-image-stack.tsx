@@ -309,7 +309,6 @@ export function VerticalImageStack({ initialImages = [] }: VerticalImageStackPro
                                         muted
                                         playsInline
                                         preload="auto"
-                                        crossOrigin="anonymous"
                                         onError={(e) => console.warn('Video load error:', image.src, e)}
                                     >
                                         <source src={image.src} type={getVideoType(image.src)} />

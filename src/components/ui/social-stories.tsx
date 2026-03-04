@@ -312,7 +312,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                     playsInline
                                                     muted={isMuted}
                                                     preload="auto"
-                                                    crossOrigin="anonymous"
                                                     className="w-full h-full object-contain"
                                                     onLoadedData={(e) => {
                                                         const video = e.currentTarget;
