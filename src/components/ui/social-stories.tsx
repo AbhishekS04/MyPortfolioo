@@ -36,6 +36,7 @@ export function SocialStories({ id = "default" }: { id?: string }) {
     const [isFetchLoading, setIsFetchLoading] = useState(true)
     const [isMuted, setIsMuted] = useState(true)
     const videoRef = useRef<HTMLVideoElement>(null)
+    const videoMountedRef = useRef(false)
 
     const currentStory = stories[currentIndex]
 
@@ -354,17 +355,19 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                 <video
                                                     ref={(el) => {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
-                                                        // Force muted attribute at DOM level immediately on mount
-                                                        if (el) {
+                                                        // Only force muted on FIRST mount, not on re-renders
+                                                        if (el && !videoMountedRef.current) {
+                                                            videoMountedRef.current = true;
                                                             el.setAttribute('muted', '');
                                                             el.muted = true;
                                                         }
+                                                        if (!el) videoMountedRef.current = false;
                                                     }}
                                                     key={currentStory.id}
                                                     src={currentStory.mediaUrl}
                                                     autoPlay
                                                     playsInline
-                                                    muted
+                                                    muted={isMuted}
                                                     preload="auto"
                                                     className="w-full h-full object-contain"
                                                     onCanPlay={(e) => {
@@ -433,29 +436,26 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                             <div className="flex items-center gap-2">
                                                 {/* Mute/Unmute Toggle */}
                                                 {isCurrentVideo && (
-                                                    <motion.button
+                                                    <button
                                                         onClick={(e) => {
                                                             e.stopPropagation()
                                                             const newMuted = !isMuted
                                                             setIsMuted(newMuted)
                                                             if (videoRef.current) {
                                                                 videoRef.current.muted = newMuted
+                                                                // Also update DOM attribute
+                                                                if (newMuted) {
+                                                                    videoRef.current.setAttribute('muted', '')
+                                                                } else {
+                                                                    videoRef.current.removeAttribute('muted')
+                                                                }
                                                             }
                                                         }}
-                                                        aria-label={isMuted ? "Tap to unmute" : "Tap to mute"}
-                                                        className={cn(
-                                                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md transition-colors",
-                                                            isMuted
-                                                                ? "bg-white/20 text-white"
-                                                                : "bg-white/10 text-white/80"
-                                                        )}
-                                                        initial={isMuted ? { scale: 1 } : undefined}
-                                                        animate={isMuted ? { scale: [1, 1.1, 1] } : undefined}
-                                                        transition={isMuted ? { duration: 1.5, repeat: Infinity, repeatDelay: 2 } : undefined}
+                                                        aria-label={isMuted ? "Unmute" : "Mute"}
+                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white/90 hover:bg-black/50 transition-colors"
                                                     >
                                                         {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                                                        <span className="text-[10px] font-medium">{isMuted ? "Tap for sound" : "Sound on"}</span>
-                                                    </motion.button>
+                                                    </button>
                                                 )}
 
                                                 {/* Close Button */}
