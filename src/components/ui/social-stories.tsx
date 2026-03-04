@@ -39,32 +39,43 @@ export function SocialStories({ id = "default" }: { id?: string }) {
 
     const currentStory = stories[currentIndex]
 
+    // Preload video URLs in the background as soon as stories are fetched
+    useEffect(() => {
+        stories.forEach(s => {
+            if (isVideoUrl(s.mediaUrl)) {
+                const link = document.createElement('link');
+                link.rel = 'preload';
+                link.as = 'video';
+                link.href = s.mediaUrl;
+                document.head.appendChild(link);
+            }
+        });
+    }, [stories]);
+
     // Force video playback on mount/story change (critical for Android)
     useEffect(() => {
         if (!isOpen || !currentStory) return;
         if (!isVideoUrl(currentStory.mediaUrl)) return;
 
-        // Small delay to let the video element mount in DOM
-        const timer = setTimeout(() => {
-            const video = videoRef.current;
-            if (!video) return;
+        // Try multiple times with increasing delays (Android needs DOM to settle)
+        const attempts = [50, 200, 500];
+        const timers = attempts.map((delay) =>
+            setTimeout(() => {
+                const video = videoRef.current;
+                if (!video || !video.paused) return;
 
-            // Force muted attribute at DOM level (Android requirement)
-            video.setAttribute('muted', '');
-            video.muted = true;
+                // Force muted attribute at DOM level (Android requirement)
+                video.setAttribute('muted', '');
+                video.muted = true;
 
-            // Force play
-            const playPromise = video.play();
-            if (playPromise) {
-                playPromise.catch(() => {
-                    // Last resort: reload and play
+                video.play().catch(() => {
                     video.load();
                     video.play().catch(() => {});
                 });
-            }
-        }, 100);
+            }, delay)
+        );
 
-        return () => clearTimeout(timer);
+        return () => timers.forEach(clearTimeout);
     }, [isOpen, currentIndex, currentStory]);
 
     // Timing refs for high-performance animation
@@ -321,10 +332,11 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         }
                                     }}
                                 >
-                                    {/* Loading State Spinner */}
+                                    {/* Loading State */}
                                     {!isMediaLoaded && (
-                                        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/20">
-                                            <Loader2 className="w-8 h-8 text-white/50 animate-spin" />
+                                        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black gap-3">
+                                            <Loader2 className="w-10 h-10 text-white/60 animate-spin" />
+                                            <span className="text-white/40 text-xs">Loading...</span>
                                         </div>
                                     )}
 
@@ -421,7 +433,7 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                             <div className="flex items-center gap-2">
                                                 {/* Mute/Unmute Toggle */}
                                                 {isCurrentVideo && (
-                                                    <button
+                                                    <motion.button
                                                         onClick={(e) => {
                                                             e.stopPropagation()
                                                             const newMuted = !isMuted
@@ -430,11 +442,20 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                                 videoRef.current.muted = newMuted
                                                             }
                                                         }}
-                                                        aria-label={isMuted ? "Unmute" : "Mute"}
-                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
+                                                        aria-label={isMuted ? "Tap to unmute" : "Tap to mute"}
+                                                        className={cn(
+                                                            "flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md transition-colors",
+                                                            isMuted
+                                                                ? "bg-white/20 text-white"
+                                                                : "bg-white/10 text-white/80"
+                                                        )}
+                                                        initial={isMuted ? { scale: 1 } : undefined}
+                                                        animate={isMuted ? { scale: [1, 1.1, 1] } : undefined}
+                                                        transition={isMuted ? { duration: 1.5, repeat: Infinity, repeatDelay: 2 } : undefined}
                                                     >
                                                         {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                                                    </button>
+                                                        <span className="text-[10px] font-medium">{isMuted ? "Tap for sound" : "Sound on"}</span>
+                                                    </motion.button>
                                                 )}
 
                                                 {/* Close Button */}
