@@ -37,6 +37,36 @@ export function SocialStories({ id = "default" }: { id?: string }) {
     const [isMuted, setIsMuted] = useState(true)
     const videoRef = useRef<HTMLVideoElement>(null)
 
+    const currentStory = stories[currentIndex]
+
+    // Force video playback on mount/story change (critical for Android)
+    useEffect(() => {
+        if (!isOpen || !currentStory) return;
+        if (!isVideoUrl(currentStory.mediaUrl)) return;
+
+        // Small delay to let the video element mount in DOM
+        const timer = setTimeout(() => {
+            const video = videoRef.current;
+            if (!video) return;
+
+            // Force muted attribute at DOM level (Android requirement)
+            video.setAttribute('muted', '');
+            video.muted = true;
+
+            // Force play
+            const playPromise = video.play();
+            if (playPromise) {
+                playPromise.catch(() => {
+                    // Last resort: reload and play
+                    video.load();
+                    video.play().catch(() => {});
+                });
+            }
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, [isOpen, currentIndex, currentStory]);
+
     // Timing refs for high-performance animation
     const startTimeRef = useRef<number | null>(null)
     const pausedAtRef = useRef<number | null>(null)
@@ -74,8 +104,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
             setIsFetchLoading(false)
         }
     }
-
-    const currentStory = stories[currentIndex]
 
     // Priority: Dynamic (video detected) > DB provided > Default (5s)
     const defaultDuration = 5
@@ -285,7 +313,13 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         handleTap(e)
                                     }}
                                     onTouchStart={() => setIsPaused(true)}
-                                    onTouchEnd={() => setIsPaused(false)}
+                                    onTouchEnd={(e) => {
+                                        setIsPaused(false)
+                                        // On mobile, re-trigger video play after touch
+                                        if (videoRef.current && videoRef.current.paused) {
+                                            videoRef.current.play().catch(() => {});
+                                        }
+                                    }}
                                 >
                                     {/* Loading State Spinner */}
                                     {!isMediaLoaded && (
@@ -306,7 +340,14 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         >
                                             {isCurrentVideo ? (
                                                 <video
-                                                    ref={videoRef}
+                                                    ref={(el) => {
+                                                        (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
+                                                        // Force muted attribute at DOM level immediately on mount
+                                                        if (el) {
+                                                            el.setAttribute('muted', '');
+                                                            el.muted = true;
+                                                        }
+                                                    }}
                                                     key={currentStory.id}
                                                     src={currentStory.mediaUrl}
                                                     autoPlay
@@ -314,26 +355,22 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                     muted
                                                     preload="auto"
                                                     className="w-full h-full object-contain"
-                                                    onLoadedData={(e) => {
+                                                    onCanPlay={(e) => {
+                                                        const video = e.currentTarget;
+                                                        setIsMediaLoaded(true);
+                                                        // Force play on canplay (fires before loadeddata, more reliable on Android)
+                                                        video.play().catch(() => {
+                                                            video.muted = true;
+                                                            video.play().catch(() => {});
+                                                        });
+                                                    }}
+                                                    onLoadedMetadata={(e) => {
                                                         const video = e.currentTarget;
                                                         setDynamicDuration(video.duration * 1000);
-                                                        setIsMediaLoaded(true);
-                                                        // Apply saved mute preference
-                                                        video.muted = isMuted;
-                                                        // Ensure playback starts on mobile
-                                                        const playPromise = video.play();
-                                                        if (playPromise) {
-                                                            playPromise.catch(() => {
-                                                                // Retry muted if unmuted play was blocked
-                                                                video.muted = true;
-                                                                setIsMuted(true);
-                                                                video.play().catch(() => {});
-                                                            });
-                                                        }
                                                     }}
                                                     onError={(e) => {
                                                         console.warn('Story video failed to load:', currentStory.mediaUrl);
-                                                        setIsMediaLoaded(true); // unblock UI
+                                                        setIsMediaLoaded(true);
                                                     }}
                                                 />
                                             ) : (
