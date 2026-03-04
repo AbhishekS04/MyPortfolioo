@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { createPortal } from "react-dom"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowUpRight, X, Loader2 } from "lucide-react"
+import { ArrowUpRight, X, Loader2, Volume2, VolumeX } from "lucide-react"
 import Image from "next/image"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
@@ -34,6 +34,8 @@ export function SocialStories({ id = "default" }: { id?: string }) {
     const [mounted, setMounted] = useState(false)
     const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
     const [isFetchLoading, setIsFetchLoading] = useState(true)
+    const [isMuted, setIsMuted] = useState(true)
+    const videoRef = useRef<HTMLVideoElement>(null)
 
     // Timing refs for high-performance animation
     const startTimeRef = useRef<number | null>(null)
@@ -304,10 +306,11 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         >
                                             {isCurrentVideo ? (
                                                 <video
+                                                    ref={videoRef}
                                                     key={currentStory.id}
                                                     autoPlay
                                                     playsInline
-                                                    muted
+                                                    muted={isMuted}
                                                     preload="auto"
                                                     crossOrigin="anonymous"
                                                     className="w-full h-full object-contain"
@@ -370,17 +373,37 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                 </div>
                                             </div>
 
-                                            {/* Toggle Close Button */}
-                                            <button
-                                                onClick={(e) => {
-                                                    e.stopPropagation()
-                                                    setIsOpen(false)
-                                                }}
-                                                aria-label="Close Story"
-                                                className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
-                                            >
-                                                <X className="w-4 h-4" />
-                                            </button>
+                                            <div className="flex items-center gap-2">
+                                                {/* Mute/Unmute Toggle */}
+                                                {isCurrentVideo && (
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            const newMuted = !isMuted
+                                                            setIsMuted(newMuted)
+                                                            if (videoRef.current) {
+                                                                videoRef.current.muted = newMuted
+                                                            }
+                                                        }}
+                                                        aria-label={isMuted ? "Unmute" : "Mute"}
+                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
+                                                    >
+                                                        {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                                                    </button>
+                                                )}
+
+                                                {/* Close Button */}
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        setIsOpen(false)
+                                                    }}
+                                                    aria-label="Close Story"
+                                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </button>
+                                            </div>
                                         </div>
 
                                         <div className="flex-1" />
