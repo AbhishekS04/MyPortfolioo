@@ -53,6 +53,20 @@ export function SocialStories({ id = "default" }: { id?: string }) {
         });
     }, [stories]);
 
+    // Sync video mute state whenever isMuted or current story changes
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        video.muted = isMuted;
+        if (isMuted) {
+            video.setAttribute('muted', '');
+        } else {
+            video.removeAttribute('muted');
+            video.volume = 1; // Ensure volume is up
+        }
+    }, [isMuted, currentStory, currentIndex]);
+
     // Force video playback on mount/story change (critical for Android)
     useEffect(() => {
         if (!isOpen || !currentStory) return;
@@ -65,19 +79,27 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                 const video = videoRef.current;
                 if (!video || !video.paused) return;
 
-                // Force muted attribute at DOM level (Android requirement)
-                video.setAttribute('muted', '');
-                video.muted = true;
+                // Sync muted attribute based on state
+                video.muted = isMuted;
+                if (isMuted) {
+                    video.setAttribute('muted', '');
+                } else {
+                    video.removeAttribute('muted');
+                    video.volume = 1;
+                }
 
                 video.play().catch(() => {
+                    // Fallback: If autoplay fails (e.g. unmuted blocked), mute and try again
+                    video.muted = true;
+                    video.setAttribute('muted', '');
                     video.load();
-                    video.play().catch(() => {});
+                    video.play().catch(() => { });
                 });
             }, delay)
         );
 
         return () => timers.forEach(clearTimeout);
-    }, [isOpen, currentIndex, currentStory]);
+    }, [isOpen, currentIndex, currentStory, isMuted]);
 
     // Timing refs for high-performance animation
     const startTimeRef = useRef<number | null>(null)
@@ -329,7 +351,7 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         setIsPaused(false)
                                         // On mobile, re-trigger video play after touch
                                         if (videoRef.current && videoRef.current.paused) {
-                                            videoRef.current.play().catch(() => {});
+                                            videoRef.current.play().catch(() => { });
                                         }
                                     }}
                                 >
@@ -355,13 +377,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                 <video
                                                     ref={(el) => {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
-                                                        // Only force muted on FIRST mount, not on re-renders
-                                                        if (el && !videoMountedRef.current) {
-                                                            videoMountedRef.current = true;
-                                                            el.setAttribute('muted', '');
-                                                            el.muted = true;
-                                                        }
-                                                        if (!el) videoMountedRef.current = false;
                                                     }}
                                                     key={currentStory.id}
                                                     src={currentStory.mediaUrl}
@@ -373,10 +388,17 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                     onCanPlay={(e) => {
                                                         const video = e.currentTarget;
                                                         setIsMediaLoaded(true);
+
+                                                        // Explicitly sync the state on can play
+                                                        video.muted = isMuted;
+                                                        if (!isMuted) video.volume = 1;
+
                                                         // Force play on canplay (fires before loadeddata, more reliable on Android)
                                                         video.play().catch(() => {
+                                                            // Fallback to muted if unmuted start is denied
                                                             video.muted = true;
-                                                            video.play().catch(() => {});
+                                                            video.setAttribute('muted', '');
+                                                            video.play().catch(() => { });
                                                         });
                                                     }}
                                                     onLoadedMetadata={(e) => {
@@ -438,19 +460,26 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                 {isCurrentVideo && (
                                                     <button
                                                         onClick={(e) => {
+                                                            e.preventDefault()
                                                             e.stopPropagation()
                                                             const newMuted = !isMuted
                                                             setIsMuted(newMuted)
                                                             if (videoRef.current) {
                                                                 videoRef.current.muted = newMuted
-                                                                // Also update DOM attribute
-                                                                if (newMuted) {
-                                                                    videoRef.current.setAttribute('muted', '')
-                                                                } else {
+                                                                if (!newMuted) {
+                                                                    videoRef.current.volume = 1
                                                                     videoRef.current.removeAttribute('muted')
+                                                                } else {
+                                                                    videoRef.current.setAttribute('muted', '')
+                                                                }
+                                                                // Ensure we try to play on interaction
+                                                                if (videoRef.current.paused) {
+                                                                    videoRef.current.play().catch(() => { })
                                                                 }
                                                             }
                                                         }}
+                                                        onPointerDown={(e) => e.stopPropagation()}
+                                                        onPointerUp={(e) => e.stopPropagation()}
                                                         aria-label={isMuted ? "Unmute" : "Mute"}
                                                         className="w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white/90 hover:bg-black/50 transition-colors"
                                                     >
