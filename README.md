@@ -12,7 +12,7 @@
 
 **A modern, progressive web application portfolio with stunning animations and interactive experiences**
 
-<!-- [View Live Site](https://abhishekkpf.vercel.app) -->
+Live Demo: [abhisheksingh.tech](https://abhisheksingh.tech)
 
 </div>
 
@@ -223,7 +223,7 @@ Fully responsive across all devices:
 
 ## 🌐 Live Website
 
-**Visit the live portfolio:** [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+**Visit the live portfolio:** [abhisheksingh.tech](https://abhisheksingh.tech)
 
 Experience the full interactive features, smooth animations, and discover the hidden easter eggs!
 
@@ -255,7 +255,7 @@ Interested in working together? Let's connect!
 - 🔗 LinkedIn: [linkedin.com/in/abhishek-singh200423](https://www.linkedin.com/in/abhishek-singh200423/)
 - 🐙 GitHub: [AbhishekS04](https://github.com/AbhishekS04)
 - 🐦 X (Twitter): [@_abhishek2304](https://x.com/_abhishek2304)
-- 🌐 Portfolio: [abhishekkpf.vercel.app](https://abhishekkpf.vercel.app)
+- 🌐 Portfolio: [abhisheksingh.tech](https://abhisheksingh.tech)
 - 📍 Location: Kolkata, India
 
 ### What I Offer:
@@ -297,7 +297,7 @@ Special thanks to the amazing open-source community and the teams behind:
 
 ### 🌟 Enjoyed exploring the portfolio?
 
-**Visit the live site:** [abhishekkpf.vercel.app](https://abhisheksingh.tech)
+**Visit the live site:** [abhisheksingh.tech](https://abhisheksingh.tech)
 
 ---
 

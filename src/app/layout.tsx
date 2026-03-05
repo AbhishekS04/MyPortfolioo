@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
   description: "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
   applicationName: "Abhishek Singh",
-  authors: [{ name: "Abhishek Singh", url: "https://abhishekkpf.vercel.app" }],
+  authors: [{ name: "Abhishek Singh", url: "https://abhisheksingh.tech" }],
   generator: "Next.js",
   keywords: [
     "Abhishek Singh",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://abhishekkpf.vercel.app"),
+  metadataBase: new URL("https://abhisheksingh.tech"),
   alternates: {
     canonical: "/",
   },
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://abhishekkpf.vercel.app",
+    url: "https://abhisheksingh.tech",
     title: "Abhishek Singh | Product Engineer & Portfolio",
     description: "Personal portfolio of Abhishek Singh, a Product Engineer specializing in building premium web experiences.",
     siteName: "Abhishek Singh",
@@ -118,8 +118,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Abhishek Singh",
-              "url": "https://abhishekkpf.vercel.app",
-              "image": "https://abhishekkpf.vercel.app/removebg.png",
+              "url": "https://abhisheksingh.tech",
+              "image": "https://abhisheksingh.tech/removebg.png",
               "jobTitle": "Product Engineer",
               "description": "Product Engineer specializing in React, Next.js, and interaction design.",
               "sameAs": [
@@ -141,7 +141,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               "name": "Abhishek Singh Portfolio",
-              "url": "https://abhishekkpf.vercel.app",
+              "url": "https://abhisheksingh.tech",
               "publisher": {
                 "@type": "Person",
                 "name": "Abhishek Singh"
