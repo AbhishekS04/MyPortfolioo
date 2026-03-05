@@ -11,7 +11,7 @@ export default function AboutPage() {
     const general = {
         full_name: "Abhishek Singh",
         role_title: "Product Engineer",
-        bio_description: "My name is Abhishek Singh, a self-taught Product Engineer with 4+ years of experience creating modern, clean, and minimal digital experiences that make a lasting impression.",
+        bio_description: "My name is Abhishek Singh, a self-taught Product Engineer with 2+ years of experience creating modern, clean, and minimal digital experiences that make a lasting impression.",
         availability_status: "Available",
         is_available: true,
         contact_email: "Abhishek23main@gmail.com",

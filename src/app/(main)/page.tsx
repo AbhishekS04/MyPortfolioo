@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { BentoGallery } from "@/components/home/bento-gallery";
 import { getGalleryImages, getFeaturedProjects } from "@/app/actions/gallery";
 import { LazyHomeContent } from "@/components/home/lazy-home-content";
@@ -8,6 +9,11 @@ import { ExitMessage } from "@/components/ui/exit-message";
 
 // Revalidate every 60 seconds so admin panel updates appear without a full rebuild
 export const revalidate = 60;
+
+export const metadata: Metadata = {
+  title: "Abhishek Singh | Portfolio",
+  description: "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
+};
 
 export default async function Home() {
   // Fetch data on server - instant availability
