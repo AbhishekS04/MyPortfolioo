@@ -153,19 +153,55 @@ export function AboutClient({ general, experience, education, skills, interests 
                     </BentoCard>
                 ))}
 
-                {/* Education Card (Consolidated) */}
-                <BentoCard className="p-5 md:p-8 flex flex-col justify-start">
-                    <div className="space-y-4 md:space-y-5">
-                        {education.map((edu: any, idx: number) => (
-                            <div key={edu.id} className="flex justify-between items-start">
-                                <div>
-                                    <h3 className="text-lg md:text-xl font-bold">{edu.degree}</h3>
-                                    <p className="text-white/40 text-xs">{edu.institution}</p>
+                {/* Education Card */}
+                <BentoCard className="p-5 flex flex-col justify-start h-full">
+                    <div className="flex items-center justify-between mb-4 md:mb-6">
+                        <h2 className="text-lg md:text-xl font-bold">Education</h2>
+                        <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-white/40">
+                            <LucideIcons.GraduationCap size={16} />
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-4 md:gap-5 mt-auto">
+                        {education.map((edu: any, idx: number) => {
+                            const isCurrent = idx === 0; // Highlight the latest education as 'currently pursuing'
+                            return (
+                                <div key={edu.id} className={`group/edu flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4 border-b border-white/[0.03] pb-4 last:border-0 last:pb-0 transition-all duration-300 ${isCurrent ? 'opacity-100' : 'opacity-70 hover:opacity-100'}`}>
+                                    <div className="space-y-1.5 sm:max-w-[70%]">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            <h3 className="text-sm md:text-base font-bold text-white/90 leading-snug">{edu.degree}</h3>
+                                            <div className="flex items-center gap-1.5">
+                                                {isCurrent ? (
+                                                    <div className="flex items-center gap-1.5" title="Currently Pursuing">
+                                                        <span className="relative flex h-1.5 w-1.5">
+                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
+                                                        </span>
+                                                        <span className="text-[9px] uppercase font-bold text-blue-400 tracking-wider">Pursuing</span>
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-1.5" title="Completed">
+                                                        <span className="relative flex h-1.5 w-1.5">
+                                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                                        </span>
+                                                        <span className="text-[9px] uppercase font-bold text-emerald-400 tracking-wider">Completed</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <p className="text-xs text-white/40 flex items-center gap-2">
+                                            {edu.institution}
+                                        </p>
+                                    </div>
+                                    <div className="sm:text-right shrink-0 mt-1 sm:mt-0">
+                                        <span className="text-[9px] uppercase tracking-widest px-2 py-0.5 bg-white/5 border border-white/10 rounded-md whitespace-nowrap ml-2">
+                                            {edu.year}
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="text-[10px] px-2 py-0.5 bg-white/5 border border-white/10 rounded ml-2 whitespace-nowrap">{edu.year}</span>
-                            </div>
-                        ))}
-                        {education.length === 0 && <p className="text-sm text-white/40">No education added.</p>}
+                            );
+                        })}
+                        {education.length === 0 && <p className="text-xs text-white/40">No education added.</p>}
                     </div>
                 </BentoCard>
             </div>

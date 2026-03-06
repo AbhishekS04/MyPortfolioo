@@ -51,19 +51,19 @@ export default function AboutPage() {
             id: "1",
             degree: "Graduation",
             institution: "Adamas University",
-            year: "2023"
+            year: "2020 - 2023"
         },
         {
             id: "2",
             degree: "Higher Secondary",
             institution: "Rampurhat JL Vidyabhaban",
-            year: "2023"
+            year: "2018 - 2020"
         },
         {
             id: "3",
             degree: "Secondary Education",
             institution: "Rampurhat JL Vidyabhaban",
-            year: "2020"
+            year: "2016 - 2018"
         }
     ];
 
