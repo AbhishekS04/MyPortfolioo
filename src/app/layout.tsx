@@ -1,4 +1,4 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { bolivia } from "@/lib/fonts";
 import "./globals.css";

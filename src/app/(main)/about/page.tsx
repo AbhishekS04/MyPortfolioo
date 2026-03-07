@@ -67,14 +67,6 @@ export default function AboutPage() {
         }
     ];
 
-    const skills = [
-        { id: "1", category: "design", name: "Figma", icon_name: "Fg", color_code: "#F24E1E" },
-        { id: "2", category: "design", name: "Photoshop", icon_name: "Ps", color_code: "#31A8FF" },
-        { id: "3", category: "design", name: "Illustrator", icon_name: "Ai", color_code: "#FF3366" },
-        { id: "4", category: "editing", name: "After Effects", icon_name: "Ae", color_code: "#9999FF" },
-        { id: "5", category: "editing", name: "Premiere Pro", icon_name: "Pr", color_code: "#FF66FF" }
-    ];
-
     const interests = [
         { id: "1", label: "Gaming", icon_name: "Gamepad2" },
         { id: "2", label: "Film Making", icon_name: "Film" },
@@ -87,7 +79,6 @@ export default function AboutPage() {
                 general={general}
                 experience={experience}
                 education={education}
-                skills={skills}
                 interests={interests}
             />
         </main>

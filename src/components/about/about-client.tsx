@@ -1,18 +1,15 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import * as LucideIcons from "lucide-react";
 import {
     Gamepad2,
-    Film,
-    Plane,
     Mail,
     Phone,
     MapPin,
     User,
-    Download,
     ExternalLink
 } from "lucide-react";
 import { RatingInteraction } from "@/components/ui/emoji-rating";
@@ -49,11 +46,59 @@ const Badge = ({ children }: { children: React.ReactNode }) => (
     </span>
 );
 
-export function AboutClient({ general, experience, education, skills, interests }: any) {
+interface GeneralData {
+    profile_image_url?: string;
+    full_name: string;
+    role_title: string;
+    bio_description: string;
+    is_available: boolean;
+    availability_status: string;
+    birthday?: string;
+    contact_email: string;
+    phone_number?: string;
+    location?: string;
+}
+
+interface ExperienceData {
+    id: string;
+    role: string;
+    company: string;
+    period: string;
+    description_points?: string[];
+}
+
+interface EducationData {
+    id: string;
+    degree: string;
+    institution: string;
+    year: string;
+}
+
+interface InterestData {
+    label: string;
+    icon_name: string;
+}
+
+export function AboutClient({ general, experience, education, interests }: {
+    general: GeneralData;
+    experience: ExperienceData[];
+    education: EducationData[];
+    interests: InterestData[];
+}) {
+    const [age, setAge] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (general.birthday) {
+            const timer = setTimeout(() => {
+                setAge(Math.floor((Date.now() - new Date(general.birthday!).getTime()) / 31557600000));
+            }, 0);
+            return () => clearTimeout(timer);
+        }
+    }, [general.birthday]);
 
     // Helper to dynamic icon
     const getIcon = (name: string) => {
-        const Icon = (LucideIcons as any)[name];
+        const Icon = (LucideIcons as unknown as Record<string, React.ComponentType<{ size?: number }>>)[name];
         return Icon ? <Icon size={16} /> : <Gamepad2 size={16} />;
     };
 
@@ -93,7 +138,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                         Interests
                     </span>
                     <div className="flex flex-wrap gap-3 md:gap-4">
-                        {interests.map((item: any, idx: number) => {
+                        {interests.map((item, idx) => {
                             const isGaming = item.label === "Gaming";
                             const content = (
                                 <>
@@ -132,7 +177,7 @@ export function AboutClient({ general, experience, education, skills, interests 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 
                 {/* Experience Cards */}
-                {experience.map((exp: any, idx: number) => (
+                {experience.map((exp) => (
                     <BentoCard key={exp.id} className="p-5 md:p-8 space-y-4 md:space-y-6">
                         <div className="flex justify-between items-start">
                             <div>
@@ -163,7 +208,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                     </div>
 
                     <div className="flex flex-col gap-4 md:gap-5 mt-auto">
-                        {education.map((edu: any, idx: number) => {
+                        {education.map((edu, idx) => {
                             const isCurrent = idx === 0; // Highlight the latest education as 'currently pursuing'
                             return (
                                 <div key={edu.id} className={`group/edu flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4 border-b border-white/[0.03] pb-4 last:border-0 last:pb-0 transition-all duration-300 ${isCurrent ? 'opacity-100' : 'opacity-70 hover:opacity-100'}`}>
@@ -268,7 +313,7 @@ export function AboutClient({ general, experience, education, skills, interests 
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Age</p>
                             <p className="text-xs md:text-sm font-medium">
                                 {general.birthday ? (
-                                    `${Math.floor((Date.now() - new Date(general.birthday).getTime()) / 31557600000)} Years`
+                                    age !== null ? `${age} Years` : "Loading..."
                                 ) : "21 Years"}
                             </p>
                         </div>

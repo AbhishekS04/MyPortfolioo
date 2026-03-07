@@ -25,7 +25,7 @@ const PROFILE = {
     avatarUrl: "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg",
 }
 
-export function SocialStories({ id = "default" }: { id?: string }) {
+export function SocialStories() {
     const [stories, setStories] = useState<Story[]>([])
     const [isOpen, setIsOpen] = useState(false)
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -36,7 +36,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
     const [isFetchLoading, setIsFetchLoading] = useState(true)
     const [isMuted, setIsMuted] = useState(true)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const videoMountedRef = useRef(false)
 
     const currentStory = stories[currentIndex]
 
@@ -103,7 +102,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
 
     // Timing refs for high-performance animation
     const startTimeRef = useRef<number | null>(null)
-    const pausedAtRef = useRef<number | null>(null)
     const rafRef = useRef<number | null>(null)
     const lastTimeRef = useRef<number>(Date.now())
     const progressRef = useRef(0)
@@ -152,7 +150,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
 
     const resetTiming = () => {
         startTimeRef.current = null
-        // pausedAtRef.current = null // Not used in current draft but good to reset if added back
         setIsMediaLoaded(false)
         if (activeProgressBarRef.current) {
             activeProgressBarRef.current.style.width = "0%"
@@ -164,15 +161,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
         if (!url) return false;
         const cleanUrl = url.split('?')[0];
         return /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url);
-    };
-
-    const getVideoMimeType = (url: string): string => {
-        const cleanUrl = url.split('?')[0].toLowerCase();
-        if (cleanUrl.endsWith('.webm')) return 'video/webm';
-        if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
-        if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
-        if (cleanUrl.endsWith('.m4v')) return 'video/x-m4v';
-        return 'video/mp4';
     };
 
     const goToNext = useCallback(() => {
@@ -250,12 +238,6 @@ export function SocialStories({ id = "default" }: { id?: string }) {
             goToPrev()
         } else {
             goToNext()
-        }
-    }
-
-    const toggleOpen = () => {
-        if (stories.length > 0) {
-            setIsOpen(!isOpen)
         }
     }
 
@@ -347,7 +329,7 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                         handleTap(e)
                                     }}
                                     onTouchStart={() => setIsPaused(true)}
-                                    onTouchEnd={(e) => {
+                                    onTouchEnd={() => {
                                         setIsPaused(false)
                                         // On mobile, re-trigger video play after touch
                                         if (videoRef.current && videoRef.current.paused) {
@@ -405,7 +387,7 @@ export function SocialStories({ id = "default" }: { id?: string }) {
                                                         const video = e.currentTarget;
                                                         setDynamicDuration(video.duration * 1000);
                                                     }}
-                                                    onError={(e) => {
+                                                    onError={() => {
                                                         console.warn('Story video failed to load:', currentStory.mediaUrl);
                                                         setIsMediaLoaded(true);
                                                     }}
