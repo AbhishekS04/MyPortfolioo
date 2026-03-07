@@ -6,7 +6,6 @@ import { bolivia } from "@/lib/fonts"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import { MobileMenu } from "./mobile-menu"
-import { motion } from "framer-motion"
 import { TransitionOverlay } from "./transition-overlay";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { useEffect, Suspense } from "react";
@@ -37,7 +36,7 @@ function NavBarInner() {
             }, 500); // Wait for exit animation or ensure smooth end
             return () => clearTimeout(t);
         }
-    }, [pathname]);
+    }, [pathname, isSwitching]);
 
     const handleSwitch = (target: string) => {
         setIsSwitching(true);
@@ -60,13 +59,6 @@ function NavBarInner() {
         // pathname?.startsWith("/works/") || // Show navbar on works, letting dynamic state handle it
         pathname?.startsWith("/admin")
     ) return null;
-
-    const handleLogoClick = (e: React.MouseEvent) => {
-        if (pathname === "/") {
-            e.preventDefault()
-            window.scrollTo({ top: 0, behavior: "smooth" })
-        }
-    }
 
     return (
         <>
@@ -213,14 +205,14 @@ function NavBarInner() {
                                 flex items-center justify-center
                             "
                         >
-                            <SocialStories id="mobile" />
+                            <SocialStories />
                         </div>
                     </div>
 
                     {/* DESKTOP */}
                     <div className="hidden md:flex items-center gap-4">
                         <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10 hover:border-white/20 transition-colors">
-                            <SocialStories id="desktop" />
+                            <SocialStories />
                         </div>
                     </div>
                 </div>
