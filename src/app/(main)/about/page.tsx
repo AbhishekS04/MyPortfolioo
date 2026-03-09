@@ -26,7 +26,7 @@ export default function AboutPage() {
             id: "1",
             role: "Freelance Designer & Dev",
             company: "Self-Employed",
-            period: "2021 - Present",
+            period: "2024 - Present",
             description_points: [
                 "Worked on diverse UI system and brand identity projects.",
                 "Collaborated with clients from multiple countries.",
@@ -51,19 +51,19 @@ export default function AboutPage() {
             id: "1",
             degree: "Graduation",
             institution: "Adamas University",
-            year: "2020 - 2023"
+            year: "2023 - 2027"
         },
         {
             id: "2",
             degree: "Higher Secondary",
             institution: "Rampurhat JL Vidyabhaban",
-            year: "2018 - 2020"
+            year: "2022 - 2023"
         },
         {
             id: "3",
             degree: "Secondary Education",
             institution: "Rampurhat JL Vidyabhaban",
-            year: "2016 - 2018"
+            year: "2020 - 2021"
         }
     ];
 

@@ -304,7 +304,7 @@ export function AboutClient({ general, experience, education, interests }: {
 
             {/* --- Footer / Details --- */}
             <BentoCard className="p-5 md:p-8">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="grid grid-cols-2 lg:grid-cols-[0.8fr_1.3fr_1fr_1fr] gap-6 md:gap-8">
                     <div className="flex items-center gap-3 md:gap-4">
                         <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40">
                             <User size={16} className="md:w-[18px] md:h-[18px]" />
@@ -324,7 +324,7 @@ export function AboutClient({ general, experience, education, interests }: {
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Email</p>
-                            <p className="text-xs md:text-sm font-medium truncate max-w-[100px] md:max-w-[150px]">{general.contact_email}</p>
+                            <p className="text-xs md:text-sm font-medium break-all">{general.contact_email}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 md:gap-4">
@@ -333,7 +333,7 @@ export function AboutClient({ general, experience, education, interests }: {
                         </div>
                         <div>
                             <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Phone</p>
-                            <p className="text-xs md:text-sm font-medium truncate max-w-[100px] md:max-w-none">{general.phone_number || "+91 0000000000"}</p>
+                            <p className="text-xs md:text-sm font-medium">{general.phone_number || "+91 0000000000"}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-3 md:gap-4">

@@ -304,7 +304,6 @@ export function SocialStories() {
                                 onClick={() => setIsOpen(false)}
                             />
 
-                            {/* Card - Responsive Size */}
                             <motion.div
                                 key="card"
                                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -312,13 +311,6 @@ export function SocialStories() {
                                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                                 transition={{ type: "spring", damping: 25, stiffness: 300 }}
                                 className="relative w-[90vw] h-[65vh] md:w-[380px] md:h-[650px] bg-black rounded-[32px] overflow-hidden shadow-2xl z-10"
-                                drag="y"
-                                dragConstraints={{ top: 0, bottom: 0 }}
-                                onDragEnd={(e, { offset, velocity }) => {
-                                    if (offset.y > 100 || velocity.y > 500) {
-                                        setIsOpen(false)
-                                    }
-                                }}
                             >
                                 <div className="absolute inset-0 w-full h-full"
                                     onMouseEnter={() => setIsPaused(true)}
