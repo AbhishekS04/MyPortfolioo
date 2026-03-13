@@ -41,10 +41,7 @@ export async function proxy(request: NextRequest) {
             request.nextUrl.pathname === "/admin/verify-2fa" ||
             request.nextUrl.pathname === "/admin/mfa-setup";
 
-        console.log(`[Proxy] Checking path: ${request.nextUrl.pathname} | User: ${user?.id ? 'Logged In' : 'No Session'} | Exempt: ${isExempt}`);
-
         if (!user && !isExempt) {
-            console.log(`[Proxy] Access Denied: Redirecting to Login`);
             return NextResponse.redirect(new URL("/admin/login", request.url));
         }
 
@@ -58,14 +55,11 @@ export async function proxy(request: NextRequest) {
             }
 
             const { currentLevel } = aalData;
-            console.log(`[Proxy] AAL Level: ${currentLevel}`);
 
-            // If user is stuck at AAL1 (Password only) 
+            // If user is stuck at AAL1 (Password only)
             if (currentLevel === 'aal1') {
                 const { data: factors } = await supabase.auth.mfa.listFactors();
                 const hasVerifiedFactor = factors?.totp?.some(f => f.status === 'verified');
-
-                console.log(`[Proxy] Verified Factors: ${hasVerifiedFactor}`);
 
                 if (hasVerifiedFactor) {
                     // Start Verification Flow

@@ -6,6 +6,13 @@ const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT = 10; // Max requests per window
 const RATE_WINDOW = 60 * 1000; // 1 minute window
 
+// Allowed origins for CSRF protection
+const ALLOWED_ORIGINS = [
+    "https://www.abhisheksingh.tech",
+    "https://abhisheksingh.tech",
+    "http://localhost:3000",
+];
+
 function isRateLimited(ip: string): boolean {
     const now = Date.now();
     const record = rateLimitMap.get(ip);
@@ -23,7 +30,40 @@ function isRateLimited(ip: string): boolean {
     return false;
 }
 
+function isValidOrigin(request: Request): boolean {
+    const origin = request.headers.get("origin");
+    const referer = request.headers.get("referer");
+
+    // Check origin header first
+    if (origin && ALLOWED_ORIGINS.includes(origin)) {
+        return true;
+    }
+
+    // Fallback to referer check
+    if (referer) {
+        try {
+            const refererUrl = new URL(referer);
+            const refererOrigin = `${refererUrl.protocol}//${refererUrl.host}`;
+            if (ALLOWED_ORIGINS.includes(refererOrigin)) {
+                return true;
+            }
+        } catch {
+            // Invalid referer URL
+        }
+    }
+
+    return false;
+}
+
 export async function POST(request: Request) {
+    // CSRF protection
+    if (!isValidOrigin(request)) {
+        return NextResponse.json(
+            { error: "Forbidden" },
+            { status: 403 }
+        );
+    }
+
     // Rate limiting
     const ip = request.headers.get("x-forwarded-for") || request.headers.get("x-real-ip") || "unknown";
     if (isRateLimited(ip)) {
@@ -54,7 +94,15 @@ export async function POST(request: Request) {
     }
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+    // CSRF protection for same-origin only
+    if (!isValidOrigin(request)) {
+        return NextResponse.json(
+            { error: "Forbidden" },
+            { status: 403 }
+        );
+    }
+
     const supabase = await createClient();
     try {
         const { data, error } = await supabase

@@ -66,6 +66,12 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "lodash"],
   },
   async headers() {
+    // unsafe-eval needed in dev for webpack HMR, removed in production
+    const isDev = process.env.NODE_ENV === "development";
+    const scriptSrc = isDev
+      ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+      : "script-src 'self' 'unsafe-inline'";
+
     return [
       {
         source: '/(.*)',
@@ -88,19 +94,20 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'X-XSS-Protection',
-            value: '1; mode=block',
+            value: '0',
           },
           {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+              scriptSrc,
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://res.cloudinary.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh https://ik.imagekit.io",
               "font-src 'self'",
               "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com",
               "media-src 'self' data: blob: https://res.cloudinary.com https://ik.imagekit.io",
               "worker-src 'self' blob:",
+              "object-src 'none'",
               "frame-src 'none'",
               "frame-ancestors 'none'",
               "base-uri 'self'",

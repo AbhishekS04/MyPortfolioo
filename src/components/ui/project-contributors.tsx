@@ -33,6 +33,7 @@ const ProjectContributors = ({ contributors, className = '', size = 'md' }: Proj
                             <Link
                                 href={contributor.social_url || '#'}
                                 target={contributor.social_url ? "_blank" : "_self"}
+                                rel={contributor.social_url ? "noopener noreferrer" : undefined}
                                 className={`relative transition-transform hover:z-10 hover:scale-110`}
                             >
                                 <Avatar className={`ring-background ring-2 ${sizeClasses[size]}`}>

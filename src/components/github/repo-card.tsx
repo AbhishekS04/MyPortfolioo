@@ -12,7 +12,7 @@ export function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
         >
-            <Link href={repo.url} target="_blank" className="group block h-full">
+            <Link href={repo.url} target="_blank" rel="noopener noreferrer" className="group block h-full">
                 <div className="h-full bg-[#0d1117] border border-white/10 rounded-md p-4 flex flex-col justify-between transition-all duration-300 hover:border-white/30 group-hover:bg-[#161b22]">
                     <div>
                         <div className="flex items-center gap-2 mb-2">

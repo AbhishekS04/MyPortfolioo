@@ -29,7 +29,10 @@ export default function RealMap() {
     }, [])
 
     const handleMarkerClick = () => {
-        window.open(`https://www.google.com/maps/search/?api=1&query=${targetLat},${targetLng}`, "_blank");
+        const mapWindow = window.open(`https://www.google.com/maps/search/?api=1&query=${targetLat},${targetLng}`, "_blank");
+        if (mapWindow) {
+            mapWindow.opener = null;
+        }
     };
 
     return (

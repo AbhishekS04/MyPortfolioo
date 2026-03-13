@@ -100,7 +100,7 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
                                 <h4 className="text-sm font-medium text-white">{c.name}</h4>
                                 <div className="flex gap-2 text-xs text-white/40">
                                     <span>{c.role}</span>
-                                    {c.social_url && <a href={c.social_url} target="_blank" className="text-blue-400 hover:underline">Link</a>}
+                                    {c.social_url && <a href={c.social_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Link</a>}
                                 </div>
                             </div>
                         </div>

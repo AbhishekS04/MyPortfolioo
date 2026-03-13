@@ -12,7 +12,6 @@ export function ReadmeViewer({ content }: { content: string }) {
     const sanitizedContent = useMemo(() => {
         if (typeof window !== "undefined") {
             return DOMPurify.sanitize(content, {
-                ADD_TAGS: ["iframe"],
                 ADD_ATTR: ["target", "rel", "align"],
             });
         }
