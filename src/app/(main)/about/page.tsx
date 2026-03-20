@@ -4,6 +4,29 @@ import { AboutClient } from "@/components/about/about-client";
 export const metadata: Metadata = {
     title: "About",
     description: "Learn more about Abhishek Singh, a Product Engineer focused on interaction design and building premium web experiences.",
+    openGraph: {
+        title: "About | Abhishek Singh",
+        description: "Learn more about Abhishek Singh, a Product Engineer focused on interaction design and building premium web experiences.",
+        url: "https://abhisheksingh.tech/about",
+        siteName: "Abhishek Singh Portfolio",
+        images: [
+            {
+                url: "/og-image.jpg",
+                width: 1200,
+                height: 630,
+            },
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "About | Abhishek Singh",
+        description: "Learn more about Abhishek Singh, a Product Engineer focused on interaction design and building premium web experiences.",
+        images: ["/og-image.jpg"],
+    },
+    alternates: {
+        canonical: "https://abhisheksingh.tech/about"
+    }
 };
 
 export default function AboutPage() {
