@@ -7,48 +7,56 @@ import { cn } from "@/lib/utils";
 import { sacramento } from "@/lib/fonts";
 
 export function Signature() {
-    const [clickCount, setClickCount] = useState(0);
+    const clickCountRef = useRef(0);
     const [isTriggered, setIsTriggered] = useState(false);
     const lastClickTime = useRef<number>(0);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const [mounted, setMounted] = useState(false);
+    const [videoFailed, setVideoFailed] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
+        const timeout = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timeout);
     }, []);
 
     // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = "https://res.cloudinary.com/dap0u41dz/video/upload/v1767179570/james_doakes_dexter_meme_720P_HD_bgahqk.mp4";
+    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
 
     const handleClick = () => {
         const now = Date.now();
         const diff = now - lastClickTime.current;
 
         if (diff < 500) { // Rapid click window
-            setClickCount(prev => {
-                const newCount = prev + 1;
-                if (newCount >= 3) {
-                    setIsTriggered(true);
-                    return 0;
-                }
-                return newCount;
-            });
+            clickCountRef.current += 1;
+            if (clickCountRef.current >= 3) {
+                setVideoFailed(false);
+                setIsTriggered(true);
+                clickCountRef.current = 0;
+            }
         } else {
-            setClickCount(1);
+            clickCountRef.current = 1;
         }
 
         lastClickTime.current = now;
 
         if (timerRef.current) clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => {
-            setClickCount(0);
+            clickCountRef.current = 0;
         }, 1000);
     };
+
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         if (isTriggered) {
             document.body.style.overflow = "hidden";
+            // Attempt to force play in case browser strict policies block standard autoPlay
+            setTimeout(() => {
+                if (videoRef.current) {
+                    // Use console.warn instead of console.error so Next.js doesn't pop up a fatal error overlay in dev mode
+                    videoRef.current.play().catch(err => console.warn("Autoplay or video load blocked:", err));
+                }
+            }, 100);
         } else {
             document.body.style.overflow = "";
         }
@@ -128,15 +136,25 @@ export function Signature() {
                                     transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] }
                                 }}
                                 transition={{ delay: 0.9, duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }}
-                                className="relative z-30 flex items-center justify-center max-w-[90vw] max-h-[85vh] p-2 sm:p-4"
+                                className="relative z-30 flex items-center justify-center w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[65vw] xl:w-[55vw] max-w-5xl aspect-video p-2 sm:p-4"
                             >
-                                <div className="relative rounded-[32px] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,1)] bg-black/20 ring-1 ring-white/10 group">
-                                    {VIDEO_SRC ? (
+                                <div className="relative w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,1)] bg-black/40 ring-1 ring-white/10 group flex items-center justify-center">
+                                    {videoFailed ? (
+                                        <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 space-y-3 sm:space-y-4 bg-black/80 backdrop-blur-sm rounded-[24px] sm:rounded-[32px]">
+                                            <svg className="w-10 h-10 sm:w-12 sm:h-12 text-red-500/70 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                            </svg>
+                                            <p className="text-red-400 text-xs sm:text-sm md:text-base font-mono uppercase tracking-[0.2em] sm:tracking-[0.3em]">Connection Failed</p>
+                                            <p className="text-white/40 text-[10px] sm:text-xs md:text-sm max-w-sm sm:max-w-md font-mono mt-2">The media source is offline. If using Supabase, check if the project is paused or the bucket is private.</p>
+                                        </div>
+                                    ) : VIDEO_SRC ? (
                                         <video
+                                            ref={videoRef}
                                             autoPlay
                                             playsInline
-                                            className="max-w-full max-h-[80vh] w-auto h-auto object-contain rounded-[24px]"
+                                            className="w-full h-full object-cover"
                                             onEnded={() => setIsTriggered(false)}
+                                            onError={() => setVideoFailed(true)}
                                             src={VIDEO_SRC}
                                         >
                                             Your browser does not support the video tag.

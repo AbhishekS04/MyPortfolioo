@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, Circle, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { motion } from "framer-motion";
 
 import { SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiSupabase, SiNodedotjs, SiFramer, SiPostgresql } from "react-icons/si";
 
@@ -74,7 +73,7 @@ export default function MinimalPage() {
                             <div className="flex items-center gap-5">
                                 <div className="w-20 h-20 rounded-full bg-white/10 overflow-hidden relative border border-white/5 shadow-2xl">
                                     <Image
-                                        src="https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
+                                        src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
                                         alt="Abhishek Singh"
                                         fill
                                         className="object-cover"

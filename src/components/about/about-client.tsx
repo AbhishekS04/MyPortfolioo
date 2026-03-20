@@ -124,7 +124,7 @@ export function AboutClient({ general, experience, education, interests }: {
                         {general.bio_description}
                     </p>
                     <div className="mt-6 md:mt-8 flex flex-wrap gap-2 md:gap-3">
-                        <Badge>Founder</Badge>
+                        {/* <Badge>Founder</Badge> */}
                         <Badge>Product Designer</Badge>
                         <Badge>Systems Thinker</Badge>
                     </div>
