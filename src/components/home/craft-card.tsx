@@ -83,8 +83,6 @@ export function CraftCard() {
             if (videoRef.current) {
                 const vid = videoRef.current;
                 vid.currentTime = 0;
-                // Always call load() first — critical for mobile browsers
-                vid.load();
                 const playPromise = vid.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(() => {

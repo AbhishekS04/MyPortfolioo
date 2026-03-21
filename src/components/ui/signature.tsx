@@ -36,12 +36,9 @@ export function Signature() {
                 if (videoRef.current) {
                     const vid = videoRef.current;
                     vid.currentTime = 0;
-                    // Always call load() first on mobile — ensures browser pipeline is ready
-                    vid.load();
                     const playPromise = vid.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(() => {
-                            // Browser blocked unmuted autoplay — fall back to muted
                             vid.muted = true;
                             setIsMuted(true);
                             vid.play().catch(() => {});
