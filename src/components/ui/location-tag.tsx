@@ -2,54 +2,12 @@
 
 import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { supabase } from "@/lib/supabase"
 
 interface LocationTagProps {
     className?: string
 }
 
 export function LocationTag({ className = "" }: LocationTagProps) {
-    const [isHovered, setIsHovered] = useState(false)
-    const [currentTime, setCurrentTime] = useState("")
-    const [location, setLocation] = useState({ city: "Kolkata", country: "India", timezone: "Asia/Kolkata" })
-
-    useEffect(() => {
-        // Fetch location data
-        const fetchLocation = async () => {
-            const { data } = await supabase.from("profile").select("location_city, location_country, location_timezone").single();
-            if (data) {
-                setLocation({
-                    city: data.location_city || "Kolkata",
-                    country: data.location_country || "India",
-                    timezone: data.location_timezone || "Asia/Kolkata"
-                });
-            }
-        };
-        fetchLocation();
-    }, []);
-
-    useEffect(() => {
-        const updateTime = () => {
-            try {
-                const now = new Date()
-                setCurrentTime(
-                    now.toLocaleTimeString("en-US", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false,
-                        timeZone: location.timezone,
-                    }),
-                )
-            } catch (e) {
-                // Fallback for invalid timezone
-                setCurrentTime("00:00")
-            }
-        }
-        updateTime()
-        const interval = setInterval(updateTime, 1000)
-        return () => clearInterval(interval)
-    }, [location.timezone])
-
     const [isRetro, setIsRetro] = useState(false);
     const [isInitialized, setIsInitialized] = useState(false);
     const [showOverlay, setShowOverlay] = useState(false);
@@ -59,12 +17,17 @@ export function LocationTag({ className = "" }: LocationTagProps) {
 
     // Initialize state from localStorage
     useEffect(() => {
-        const storedRetro = localStorage.getItem('retro-mode') === 'true';
-        if (storedRetro) {
-            setIsRetro(true);
-            document.documentElement.classList.add('retro-mode');
-        }
-        setIsInitialized(true);
+        let isMounted = true;
+        Promise.resolve().then(() => {
+            if (!isMounted) return;
+            const storedRetro = localStorage.getItem('retro-mode') === 'true';
+            if (storedRetro) {
+                setIsRetro(true);
+                document.documentElement.classList.add('retro-mode');
+            }
+            setIsInitialized(true);
+        });
+        return () => { isMounted = false; };
     }, []);
 
     // Sync state with localStorage and DOM
@@ -139,7 +102,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
         setShowOverlay(false);
     };
 
-    const handlePressStart = (e: React.MouseEvent | React.TouchEvent) => {
+    const handlePressStart = () => {
         pressTimer.current = setTimeout(() => {
             triggerRetroSequence();
         }, 800);
@@ -180,7 +143,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                                 className="mt-2"
                             >
                                 <span className={terminalColor === 'green' ? 'text-[#33ff00]' : 'text-gray-500'}>{'>'}</span>
-                                <motion.span
+                                <motion.div
                                     animate={{ opacity: [0, 1, 0] }}
                                     transition={{ duration: 0.8, repeat: Infinity }}
                                     className={`inline-block w-2 h-4 md:w-3 md:h-5 ml-2 align-middle ${terminalColor === 'green' ? 'bg-[#33ff00]' : 'bg-gray-300'}`}
@@ -195,8 +158,6 @@ export function LocationTag({ className = "" }: LocationTagProps) {
             </AnimatePresence>
 
             <button
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
                 onMouseDown={handlePressStart}
                 onMouseUp={handlePressEnd}
                 onTouchStart={handlePressStart}
@@ -214,7 +175,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
 
                 <div className="relative overflow-hidden h-5 flex flex-col justify-center">
                     <AnimatePresence mode="wait">
-                        <motion.span
+                        <motion.div
                             key={isRetro ? "retro" : "standard"}
                             initial={{ y: 20, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -223,7 +184,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                             className={`text-sm font-medium block ${isRetro ? 'font-mono text-amber-500' : 'font-sans text-white/90'}`}
                         >
                             {isRetro ? "SYSTEM OVERRIDE" : "Available for hire"}
-                        </motion.span>
+                        </motion.div>
                     </AnimatePresence>
                 </div>
             </button>
