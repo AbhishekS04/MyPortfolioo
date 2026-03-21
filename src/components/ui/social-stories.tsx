@@ -39,18 +39,7 @@ export function SocialStories() {
 
     const currentStory = stories[currentIndex]
 
-    // Preload video URLs in the background as soon as stories are fetched
-    useEffect(() => {
-        stories.forEach(s => {
-            if (isVideoUrl(s.mediaUrl)) {
-                const link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'video';
-                link.href = s.mediaUrl;
-                document.head.appendChild(link);
-            }
-        });
-    }, [stories]);
+
 
     // Sync video mute state whenever isMuted or current story changes
     useEffect(() => {
@@ -353,11 +342,10 @@ export function SocialStories() {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
                                                     }}
                                                     key={currentStory.id}
-                                                    src={currentStory.mediaUrl}
+                                                    src={currentStory.mediaUrl + "#t=0.001"}
                                                     autoPlay
                                                     playsInline
                                                     muted={isMuted}
-                                                    preload="auto"
                                                     className="w-full h-full object-contain"
                                                     onCanPlay={(e) => {
                                                         const video = e.currentTarget;

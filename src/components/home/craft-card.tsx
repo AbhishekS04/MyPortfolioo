@@ -64,16 +64,10 @@ export function CraftCard() {
     const videoRef = useRef<HTMLVideoElement>(null)
 
     useEffect(() => {
-        if (isVideoPlaying && videoRef.current) {
-            const video = videoRef.current;
-            video.muted = isMuted;
-            video.play().catch(() => {
-                video.muted = true;
-                setIsMuted(true);
-                video.play().catch(() => {});
-            });
+        if (!isVideoPlaying && videoRef.current) {
+            videoRef.current.pause();
+            videoRef.current.currentTime = 0;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isVideoPlaying]);
 
     const handleCardClick = () => {
@@ -84,6 +78,21 @@ export function CraftCard() {
 
         if (newCount >= 3) {
             setIsVideoPlaying(true)
+            setIsMuted(false);
+            if (videoRef.current) {
+                videoRef.current.muted = false;
+                videoRef.current.currentTime = 0;
+                const playPromise = videoRef.current.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        if (videoRef.current) {
+                            videoRef.current.muted = true;
+                            setIsMuted(true);
+                            videoRef.current.play().catch(() => {});
+                        }
+                    });
+                }
+            }
             if (timeoutRef.current) clearTimeout(timeoutRef.current)
             setClickCount(0)
         } else {
@@ -136,34 +145,23 @@ export function CraftCard() {
             onClick={handleCardClick}
             className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer transition-colors duration-300 hover:bg-[#151515]"
         >
-            {/* Video Easter Egg */}
-            <AnimatePresence>
-                {isVideoPlaying && (
-                    <motion.div
-                        key="video-player"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 1, ease: "easeInOut" }}
-                        className="absolute inset-0 z-[100] w-full h-full bg-black flex items-center justify-center"
-                    >
-                        {/* Change the src link below to whatever video URL you want to play! */}
-                        <video 
-                            ref={videoRef}
-                            src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
-                            playsInline
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                const newMuted = !isMuted;
-                                setIsMuted(newMuted);
-                                if (videoRef.current) videoRef.current.muted = newMuted;
-                            }}
-                            onEnded={() => setIsVideoPlaying(false)}
-                            className="w-full h-full object-cover opacity-90 cursor-pointer"
-                        />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            {/* Video Easter Egg - Kept in DOM continually so mobile Safari synchronizes play gesture */}
+            <div 
+                className={`absolute inset-0 z-[100] w-full h-full bg-black flex items-center justify-center transition-opacity duration-1000 ease-in-out ${isVideoPlaying ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+            >
+                <video 
+                    ref={videoRef}
+                    src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4#t=0.001"
+                    playsInline
+                    muted={isMuted}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMuted(!isMuted);
+                    }}
+                    onEnded={() => setIsVideoPlaying(false)}
+                    className="w-full h-full object-cover opacity-90 cursor-pointer"
+                />
+            </div>
 
             {/* Click indicator dot (subtle feedback) */}
             {!isVideoPlaying && (

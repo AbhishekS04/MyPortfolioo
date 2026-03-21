@@ -21,7 +21,7 @@ export function Signature() {
     }, []);
 
     // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
+    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008#t=0.001";
 
     const handleClick = () => {
         const now = Date.now();
@@ -32,6 +32,21 @@ export function Signature() {
             if (clickCountRef.current >= 3) {
                 setVideoFailed(false);
                 setIsTriggered(true);
+                setIsMuted(false);
+                if (videoRef.current) {
+                    videoRef.current.muted = false;
+                    videoRef.current.currentTime = 0;
+                    const playPromise = videoRef.current.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            if (videoRef.current) {
+                                videoRef.current.muted = true;
+                                setIsMuted(true);
+                                videoRef.current.play().catch(() => {});
+                            }
+                        });
+                    }
+                }
                 clickCountRef.current = 0;
             }
         } else {
@@ -51,22 +66,14 @@ export function Signature() {
     useEffect(() => {
         if (isTriggered) {
             document.body.style.overflow = "hidden";
-            setTimeout(() => {
-                if (videoRef.current) {
-                    const video = videoRef.current;
-                    video.muted = isMuted;
-                    video.play().catch(() => {
-                        video.muted = true;
-                        setIsMuted(true);
-                        video.play().catch(() => {});
-                    });
-                }
-            }, 100);
         } else {
             document.body.style.overflow = "";
+            if (videoRef.current) {
+                videoRef.current.pause();
+                videoRef.current.currentTime = 0;
+            }
         }
         return () => { document.body.style.overflow = ""; };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTriggered]);
 
     // Buttery smooth GSAP-level extreme easing
@@ -89,6 +96,7 @@ export function Signature() {
             </div>
 
             {mounted && createPortal(
+                <>
                 <AnimatePresence mode="wait">
                     {isTriggered && (
                         <div className="fixed inset-0 z-[100000] flex items-center justify-center pointer-events-auto">
@@ -131,62 +139,6 @@ export function Signature() {
                                 className="fixed bottom-0 right-0 w-1/2 h-1/2 bg-black origin-bottom-right z-20"
                             />
 
-                            {/* Dynamic Video Content */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
-                                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                                exit={{
-                                    opacity: 0,
-                                    scale: 1.1,
-                                    filter: "blur(20px)",
-                                    transition: { duration: 0.8, ease: [0.4, 0, 0.2, 1] }
-                                }}
-                                transition={{ delay: 0.9, duration: 1.2, ease: [0.22, 1, 0.36, 1] as const }}
-                                className="relative z-30 flex items-center justify-center w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[65vw] xl:w-[55vw] max-w-5xl aspect-video p-2 sm:p-4"
-                            >
-                                <div className="relative w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,1)] bg-black/40 ring-1 ring-white/10 group flex items-center justify-center">
-                                    {videoFailed ? (
-                                        <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 space-y-3 sm:space-y-4 bg-black/80 backdrop-blur-sm rounded-[24px] sm:rounded-[32px]">
-                                            <svg className="w-10 h-10 sm:w-12 sm:h-12 text-red-500/70 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                                            </svg>
-                                            <p className="text-red-400 text-xs sm:text-sm md:text-base font-mono uppercase tracking-[0.2em] sm:tracking-[0.3em]">Connection Failed</p>
-                                            <p className="text-white/40 text-[10px] sm:text-xs md:text-sm max-w-sm sm:max-w-md font-mono mt-2">The media source is offline. If using Supabase, check if the project is paused or the bucket is private.</p>
-                                        </div>
-                                    ) : VIDEO_SRC ? (
-                                        <video
-                                            ref={videoRef}
-                                            playsInline
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                const newMuted = !isMuted;
-                                                setIsMuted(newMuted);
-                                                if (videoRef.current) videoRef.current.muted = newMuted;
-                                            }}
-                                            className="w-full h-full object-cover cursor-pointer"
-                                            onEnded={() => setIsTriggered(false)}
-                                            onError={() => setVideoFailed(true)}
-                                            src={VIDEO_SRC}
-                                        >
-                                            Your browser does not support the video tag.
-                                        </video>
-                                    ) : (
-                                        <div className="w-[300px] h-[300px] flex flex-col items-center justify-center text-center space-y-4">
-                                            <div className="w-16 h-16 rounded-full border-2 border-white/5 border-t-white/40 animate-spin" />
-                                            <p className="text-white/20 text-xs font-mono uppercase tracking-widest">Awaiting Secret...</p>
-                                        </div>
-                                    )}
-
-                                    {/* Dynamic Terminate Action */}
-                                    <button
-                                        onClick={() => setIsTriggered(false)}
-                                        className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-0 group-hover:opacity-100 transition-all duration-700 text-white/40 hover:text-red-500 text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] border border-white/10 px-4 py-2 sm:px-6 sm:py-2.5 rounded-full backdrop-blur-2xl bg-black/40 hover:bg-black/90 shadow-2xl translate-y-1 group-hover:translate-y-0 font-mono z-50"
-                                    >
-                                        [ ABORT_SEQUENCE ]
-                                    </button>
-                                </div>
-                            </motion.div>
-
                             {/* Restricted Zone Status HUD - Top Positioned */}
                             <motion.div
                                 initial={{ opacity: 0, y: -20 }}
@@ -204,7 +156,58 @@ export function Signature() {
                             </motion.div>
                         </div>
                     )}
-                </AnimatePresence>,
+                </AnimatePresence>
+
+                {/* Dynamic Video Content Kept in DOM continually for iOS auto-play synchronization */}
+                <div 
+                    className={`fixed inset-0 z-[100001] flex items-center justify-center transition-all duration-[1200ms] pointer-events-none ${isTriggered ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-[10px] scale-90'}`}
+                    style={{ 
+                        transitionDelay: isTriggered ? '900ms' : '0ms',
+                        transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)'
+                    }}
+                >
+                    <div className={`relative flex items-center justify-center w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[65vw] xl:w-[55vw] max-w-5xl aspect-video p-2 sm:p-4 ${isTriggered ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+                        <div className="relative w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,1)] bg-black/40 ring-1 ring-white/10 group flex items-center justify-center">
+                            {videoFailed ? (
+                                <div className="w-full h-full flex flex-col items-center justify-center text-center p-6 space-y-3 sm:space-y-4 bg-black/80 backdrop-blur-sm rounded-[24px] sm:rounded-[32px]">
+                                    <svg className="w-10 h-10 sm:w-12 sm:h-12 text-red-500/70 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                    <p className="text-red-400 text-xs sm:text-sm md:text-base font-mono uppercase tracking-[0.2em] sm:tracking-[0.3em]">Connection Failed</p>
+                                    <p className="text-white/40 text-[10px] sm:text-xs md:text-sm max-w-sm sm:max-w-md font-mono mt-2">The media source is offline. If using Supabase, check if the project is paused or the bucket is private.</p>
+                                </div>
+                            ) : VIDEO_SRC ? (
+                                <video
+                                    ref={videoRef}
+                                    playsInline
+                                    muted={isMuted}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsMuted(!isMuted);
+                                    }}
+                                    className="w-full h-full object-cover cursor-pointer"
+                                    onEnded={() => setIsTriggered(false)}
+                                    onError={() => setVideoFailed(true)}
+                                    src={VIDEO_SRC}
+                                />
+                            ) : (
+                                <div className="w-[300px] h-[300px] flex flex-col items-center justify-center text-center space-y-4">
+                                    <div className="w-16 h-16 rounded-full border-2 border-white/5 border-t-white/40 animate-spin" />
+                                    <p className="text-white/20 text-xs font-mono uppercase tracking-widest">Awaiting Secret...</p>
+                                </div>
+                            )}
+
+                            {/* Dynamic Terminate Action */}
+                            <button
+                                onClick={() => setIsTriggered(false)}
+                                className="absolute top-4 right-4 sm:top-6 sm:right-6 opacity-0 group-hover:opacity-100 transition-all duration-700 text-white/40 hover:text-red-500 text-[9px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] border border-white/10 px-4 py-2 sm:px-6 sm:py-2.5 rounded-full backdrop-blur-2xl bg-black/40 hover:bg-black/90 shadow-2xl translate-y-1 group-hover:translate-y-0 font-mono z-50"
+                            >
+                                [ ABORT_SEQUENCE ]
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                </>,
                 document.body
             )}
         </>
