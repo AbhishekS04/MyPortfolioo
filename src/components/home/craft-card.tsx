@@ -62,6 +62,12 @@ export function CraftCard() {
     const [dailyQuote, setDailyQuote] = useState(BG_QUOTES[0])
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
+    const [cacheStamp, setCacheStamp] = useState("1")
+
+    useEffect(() => {
+        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
+        return () => clearTimeout(t);
+    }, [])
 
     useEffect(() => {
         if (!isVideoPlaying && videoRef.current) {
@@ -150,7 +156,7 @@ export function CraftCard() {
             >
                 <video 
                     ref={videoRef}
-                    src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
+                    src={`https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4?updatedAt=${cacheStamp}`}
                     playsInline
                     preload="none"
                     muted={isMuted}

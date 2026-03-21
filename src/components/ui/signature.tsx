@@ -20,8 +20,14 @@ export function Signature() {
         return () => clearTimeout(timeout);
     }, []);
 
+    const [cacheStamp, setCacheStamp] = useState("1772565852008");
+    useEffect(() => {
+        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
+        return () => clearTimeout(t);
+    }, []);
+
     // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
+    const VIDEO_SRC = `https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=${cacheStamp}`;
 
     const handleClick = () => {
         const now = Date.now();
