@@ -58,8 +58,23 @@ const BG_QUOTES = [
 export function CraftCard() {
     const [clickCount, setClickCount] = useState(0)
     const [isVideoPlaying, setIsVideoPlaying] = useState(false)
+    const [isMuted, setIsMuted] = useState(false)
     const [dailyQuote, setDailyQuote] = useState(BG_QUOTES[0])
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+    const videoRef = useRef<HTMLVideoElement>(null)
+
+    useEffect(() => {
+        if (isVideoPlaying && videoRef.current) {
+            const video = videoRef.current;
+            video.muted = isMuted;
+            video.play().catch(() => {
+                video.muted = true;
+                setIsMuted(true);
+                video.play().catch(() => {});
+            });
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isVideoPlaying]);
 
     const handleCardClick = () => {
         if (isVideoPlaying) return
@@ -134,11 +149,17 @@ export function CraftCard() {
                     >
                         {/* Change the src link below to whatever video URL you want to play! */}
                         <video 
+                            ref={videoRef}
                             src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
-                            autoPlay
                             playsInline
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const newMuted = !isMuted;
+                                setIsMuted(newMuted);
+                                if (videoRef.current) videoRef.current.muted = newMuted;
+                            }}
                             onEnded={() => setIsVideoPlaying(false)}
-                            className="w-full h-full object-cover opacity-90"
+                            className="w-full h-full object-cover opacity-90 cursor-pointer"
                         />
                     </motion.div>
                 )}

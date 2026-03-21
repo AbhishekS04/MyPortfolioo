@@ -9,6 +9,7 @@ import { sacramento } from "@/lib/fonts";
 export function Signature() {
     const clickCountRef = useRef(0);
     const [isTriggered, setIsTriggered] = useState(false);
+    const [isMuted, setIsMuted] = useState(false);
     const lastClickTime = useRef<number>(0);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const [mounted, setMounted] = useState(false);
@@ -50,17 +51,22 @@ export function Signature() {
     useEffect(() => {
         if (isTriggered) {
             document.body.style.overflow = "hidden";
-            // Attempt to force play in case browser strict policies block standard autoPlay
             setTimeout(() => {
                 if (videoRef.current) {
-                    // Use console.warn instead of console.error so Next.js doesn't pop up a fatal error overlay in dev mode
-                    videoRef.current.play().catch(err => console.warn("Autoplay or video load blocked:", err));
+                    const video = videoRef.current;
+                    video.muted = isMuted;
+                    video.play().catch(() => {
+                        video.muted = true;
+                        setIsMuted(true);
+                        video.play().catch(() => {});
+                    });
                 }
             }, 100);
         } else {
             document.body.style.overflow = "";
         }
         return () => { document.body.style.overflow = ""; };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTriggered]);
 
     // Buttery smooth GSAP-level extreme easing
@@ -150,9 +156,14 @@ export function Signature() {
                                     ) : VIDEO_SRC ? (
                                         <video
                                             ref={videoRef}
-                                            autoPlay
                                             playsInline
-                                            className="w-full h-full object-cover"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                const newMuted = !isMuted;
+                                                setIsMuted(newMuted);
+                                                if (videoRef.current) videoRef.current.muted = newMuted;
+                                            }}
+                                            className="w-full h-full object-cover cursor-pointer"
                                             onEnded={() => setIsTriggered(false)}
                                             onError={() => setVideoFailed(true)}
                                             src={VIDEO_SRC}
