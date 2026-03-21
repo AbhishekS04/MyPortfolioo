@@ -20,14 +20,8 @@ export function Signature() {
         return () => clearTimeout(timeout);
     }, []);
 
-    const [cacheBuster, setCacheBuster] = useState("");
-    useEffect(() => {
-        const t = setTimeout(() => setCacheBuster(`&skipCache=${Date.now()}`), 0);
-        return () => clearTimeout(t);
-    }, []);
-
     // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = `https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008${cacheBuster}`;
+    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
 
     const handleClick = () => {
         const now = Date.now();
@@ -40,7 +34,6 @@ export function Signature() {
                 setIsTriggered(true);
                 setIsMuted(false);
                 if (videoRef.current) {
-                    videoRef.current.muted = false;
                     videoRef.current.currentTime = 0;
                     const playPromise = videoRef.current.play();
                     if (playPromise !== undefined) {
@@ -186,6 +179,7 @@ export function Signature() {
                                 <video
                                     ref={videoRef}
                                     playsInline
+                                    preload="none"
                                     muted={isMuted}
                                     onClick={(e) => {
                                         e.stopPropagation();

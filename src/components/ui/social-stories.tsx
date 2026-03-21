@@ -35,17 +35,9 @@ export function SocialStories() {
     const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
     const [isFetchLoading, setIsFetchLoading] = useState(true)
     const [isMuted, setIsMuted] = useState(true)
-    const [cacheStamp, setCacheStamp] = useState("")
     const videoRef = useRef<HTMLVideoElement>(null)
 
     const currentStory = stories[currentIndex]
-
-    useEffect(() => {
-        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
-        return () => clearTimeout(t);
-    }, [])
-
-
 
     // Sync video mute state whenever isMuted or current story changes
     useEffect(() => {
@@ -348,9 +340,10 @@ export function SocialStories() {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
                                                     }}
                                                     key={currentStory.id}
-                                                    src={`${currentStory.mediaUrl}${currentStory.mediaUrl.includes('?') ? '&' : '?'}v=${cacheStamp}`}
+                                                    src={currentStory.mediaUrl}
                                                     autoPlay
                                                     playsInline
+                                                    preload="none"
                                                     muted={isMuted}
                                                     className="w-full h-full object-contain"
                                                     onCanPlay={(e) => {

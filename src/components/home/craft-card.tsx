@@ -62,12 +62,6 @@ export function CraftCard() {
     const [dailyQuote, setDailyQuote] = useState(BG_QUOTES[0])
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const [cacheBuster, setCacheBuster] = useState("")
-
-    useEffect(() => {
-        const t = setTimeout(() => setCacheBuster(`?v=${Date.now()}`), 0);
-        return () => clearTimeout(t);
-    }, [])
 
     useEffect(() => {
         if (!isVideoPlaying && videoRef.current) {
@@ -86,7 +80,6 @@ export function CraftCard() {
             setIsVideoPlaying(true)
             setIsMuted(false);
             if (videoRef.current) {
-                videoRef.current.muted = false;
                 videoRef.current.currentTime = 0;
                 const playPromise = videoRef.current.play();
                 if (playPromise !== undefined) {
@@ -157,8 +150,9 @@ export function CraftCard() {
             >
                 <video 
                     ref={videoRef}
-                    src={`https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4${cacheBuster}`}
+                    src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
                     playsInline
+                    preload="none"
                     muted={isMuted}
                     onClick={(e) => {
                         e.stopPropagation();
