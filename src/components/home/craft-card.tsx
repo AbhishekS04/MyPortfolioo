@@ -62,12 +62,7 @@ export function CraftCard() {
     const [dailyQuote, setDailyQuote] = useState(BG_QUOTES[0])
     const timeoutRef = useRef<NodeJS.Timeout | null>(null)
     const videoRef = useRef<HTMLVideoElement>(null)
-    const [cacheStamp, setCacheStamp] = useState("1")
 
-    useEffect(() => {
-        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
-        return () => clearTimeout(t);
-    }, [])
 
     useEffect(() => {
         if (!isVideoPlaying && videoRef.current) {
@@ -86,15 +81,16 @@ export function CraftCard() {
             setIsVideoPlaying(true)
             setIsMuted(false);
             if (videoRef.current) {
-                videoRef.current.currentTime = 0;
-                const playPromise = videoRef.current.play();
+                const vid = videoRef.current;
+                vid.currentTime = 0;
+                // Always call load() first — critical for mobile browsers
+                vid.load();
+                const playPromise = vid.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(() => {
-                        if (videoRef.current) {
-                            videoRef.current.muted = true;
-                            setIsMuted(true);
-                            videoRef.current.play().catch(() => {});
-                        }
+                        vid.muted = true;
+                        setIsMuted(true);
+                        vid.play().catch(() => {});
                     });
                 }
             }
@@ -156,9 +152,9 @@ export function CraftCard() {
             >
                 <video 
                     ref={videoRef}
-                    src={`https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4?updatedAt=${cacheStamp}`}
+                    src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
                     playsInline
-                    preload="none"
+                    preload="metadata"
                     muted={isMuted}
                     onClick={(e) => {
                         e.stopPropagation();

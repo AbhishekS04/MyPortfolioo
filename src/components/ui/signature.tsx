@@ -20,14 +20,8 @@ export function Signature() {
         return () => clearTimeout(timeout);
     }, []);
 
-    const [cacheStamp, setCacheStamp] = useState("1772565852008");
-    useEffect(() => {
-        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
-        return () => clearTimeout(t);
-    }, []);
-
-    // USER: Provide your Cloudinary or video URL here. 
-    const VIDEO_SRC = `https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=${cacheStamp}`;
+    // Stable URL — no dynamic params that change after mount and break mobile .play()
+    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
 
     const handleClick = () => {
         const now = Date.now();
@@ -40,15 +34,17 @@ export function Signature() {
                 setIsTriggered(true);
                 setIsMuted(false);
                 if (videoRef.current) {
-                    videoRef.current.currentTime = 0;
-                    const playPromise = videoRef.current.play();
+                    const vid = videoRef.current;
+                    vid.currentTime = 0;
+                    // Always call load() first on mobile — ensures browser pipeline is ready
+                    vid.load();
+                    const playPromise = vid.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(() => {
-                            if (videoRef.current) {
-                                videoRef.current.muted = true;
-                                setIsMuted(true);
-                                videoRef.current.play().catch(() => {});
-                            }
+                            // Browser blocked unmuted autoplay — fall back to muted
+                            vid.muted = true;
+                            setIsMuted(true);
+                            vid.play().catch(() => {});
                         });
                     }
                 }
@@ -185,7 +181,7 @@ export function Signature() {
                                 <video
                                     ref={videoRef}
                                     playsInline
-                                    preload="none"
+                                    preload="metadata"
                                     muted={isMuted}
                                     onClick={(e) => {
                                         e.stopPropagation();

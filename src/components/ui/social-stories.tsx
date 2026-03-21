@@ -35,15 +35,9 @@ export function SocialStories() {
     const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
     const [isFetchLoading, setIsFetchLoading] = useState(true)
     const [isMuted, setIsMuted] = useState(true)
-    const [cacheStamp, setCacheStamp] = useState("1")
     const videoRef = useRef<HTMLVideoElement>(null)
 
     const currentStory = stories[currentIndex]
-
-    useEffect(() => {
-        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
-        return () => clearTimeout(t);
-    }, [])
 
     // Sync video mute state whenever isMuted or current story changes
     useEffect(() => {
@@ -346,25 +340,20 @@ export function SocialStories() {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
                                                     }}
                                                     key={currentStory.id}
-                                                    src={`${currentStory.mediaUrl}${currentStory.mediaUrl.includes('?') ? '&' : '?'}updatedAt=${cacheStamp}`}
+                                                    src={currentStory.mediaUrl}
                                                     autoPlay
                                                     playsInline
-                                                    preload="none"
+                                                    preload="metadata"
                                                     muted={isMuted}
                                                     className="w-full h-full object-contain"
                                                     onCanPlay={(e) => {
                                                         const video = e.currentTarget;
                                                         setIsMediaLoaded(true);
-
-                                                        // Explicitly sync the state on can play
                                                         video.muted = isMuted;
                                                         if (!isMuted) video.volume = 1;
-
-                                                        // Force play on canplay (fires before loadeddata, more reliable on Android)
+                                                        // call load() before play() so mobile browsers don't stall
                                                         video.play().catch(() => {
-                                                            // Fallback to muted if unmuted start is denied
                                                             video.muted = true;
-                                                            video.setAttribute('muted', '');
                                                             video.play().catch(() => { });
                                                         });
                                                     }}
