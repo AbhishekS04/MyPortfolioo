@@ -35,9 +35,15 @@ export function SocialStories() {
     const [dynamicDuration, setDynamicDuration] = useState<number | null>(null)
     const [isFetchLoading, setIsFetchLoading] = useState(true)
     const [isMuted, setIsMuted] = useState(true)
+    const [cacheStamp, setCacheStamp] = useState("")
     const videoRef = useRef<HTMLVideoElement>(null)
 
     const currentStory = stories[currentIndex]
+
+    useEffect(() => {
+        const t = setTimeout(() => setCacheStamp(String(Date.now())), 0);
+        return () => clearTimeout(t);
+    }, [])
 
 
 
@@ -342,7 +348,7 @@ export function SocialStories() {
                                                         (videoRef as React.MutableRefObject<HTMLVideoElement | null>).current = el;
                                                     }}
                                                     key={currentStory.id}
-                                                    src={currentStory.mediaUrl + "#t=0.001"}
+                                                    src={`${currentStory.mediaUrl}${currentStory.mediaUrl.includes('?') ? '&' : '?'}v=${cacheStamp}`}
                                                     autoPlay
                                                     playsInline
                                                     muted={isMuted}
