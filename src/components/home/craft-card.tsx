@@ -142,7 +142,8 @@ export function CraftCard() {
     return (
         <div 
             onClick={handleCardClick}
-            className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer transition-colors duration-300 hover:bg-[#151515]"
+            className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer select-none transition-colors duration-300 hover:bg-[#151515]"
+            style={{ WebkitTapHighlightColor: 'transparent' }}
         >
             {/* Video Easter Egg - Kept in DOM continually so mobile Safari synchronizes play gesture */}
             <div 
@@ -182,15 +183,20 @@ export function CraftCard() {
                         className="relative z-20 flex flex-col items-center justify-center w-full h-full max-w-2xl mx-auto pointer-events-none"
                     >
                         {/* Sanskrit Block */}
-                        <h3 className="text-white font-medium text-sm md:text-base lg:text-lg leading-[1.6] whitespace-pre-line text-center px-1 md:px-4 font-sans drop-shadow-[0_2px_12px_rgba(255,255,255,0.15)]">
+                        <h3 className="text-white font-medium text-sm md:text-base lg:text-lg leading-[1.7] whitespace-pre-line text-center px-1 md:px-4 font-sans drop-shadow-[0_2px_12px_rgba(255,255,255,0.15)] pb-1">
                             {dailyQuote.sanskrit}
                         </h3>
                         
                         {/* Divider */}
-                        <div className="h-[1px] w-12 bg-white/20 my-3 lg:my-4" />
+                        <motion.div 
+                            initial={{ width: 0, opacity: 0 }}
+                            animate={{ width: "48px", opacity: 1 }}
+                            transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
+                            className="h-[1px] bg-gradient-to-r from-transparent via-[#F97316]/70 to-transparent my-4" 
+                        />
                         
                         {/* English Translation */}
-                        <p className="text-white/80 text-xs md:text-sm lg:text-[0.95rem] text-center leading-[1.6] italic font-serif px-2 md:px-6 max-w-xl line-clamp-4">
+                        <p className="text-white/80 text-xs md:text-sm lg:text-[0.95rem] text-center leading-[1.8] italic font-serif px-2 md:px-6 max-w-xl line-clamp-4 pb-2">
                             &quot;{dailyQuote.english}&quot;
                         </p>
 
