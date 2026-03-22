@@ -148,9 +148,10 @@ export function CraftCard() {
             <div 
                 className={`absolute inset-0 z-[100] w-full h-full bg-black flex items-center justify-center transition-opacity duration-1000 ease-in-out ${isVideoPlaying ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
             >
+                {/* Playing local video from public/ass directory */}
                 <video 
                     ref={videoRef}
-                    src="https://ik.imagekit.io/rwpr7hjrb/dogras.ftw_14050101_222620238.mp4"
+                    src="/ass/craft_card.mp4"
                     playsInline
                     preload="metadata"
                     muted={isMuted}

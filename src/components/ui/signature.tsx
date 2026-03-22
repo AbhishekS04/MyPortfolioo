@@ -20,8 +20,8 @@ export function Signature() {
         return () => clearTimeout(timeout);
     }, []);
 
-    // Stable URL — no dynamic params that change after mount and break mobile .play()
-    const VIDEO_SRC = "https://ik.imagekit.io/rwpr7hjrb/elvisuallv2_14041214_005302718.mp4?updatedAt=1772565852008";
+    // Local asset — bypasses ImageKit bandwidth limits
+    const VIDEO_SRC = "/ass/signature.mp4";
 
     const handleClick = () => {
         const now = Date.now();
