@@ -67,5 +67,8 @@
     "prettier": "^3.8.2",
     "tailwindcss": "^4.1.18",
     "typescript": "^5"
+  },
+  "overrides": {
+    "serialize-javascript": "^7.0.5"
   }
 }
