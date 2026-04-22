@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { Suspense } from "react";
 import { supabase } from "@/lib/supabase";
 import { WorksClient } from "./client";
 
@@ -42,8 +43,9 @@ export default async function WorksPage() {
   }
 
   return (
-    <>
+    // Suspense is required because WorksClient uses useSearchParams()
+    <Suspense fallback={null}>
       <WorksClient projects={projects || []} />
-    </>
+    </Suspense>
   );
 }
