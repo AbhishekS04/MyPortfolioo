@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
-import type { ReactThreeFiber } from "@react-three/fiber";
+import type { ThreeElement } from "@react-three/fiber";
 import {
   shaderMaterial,
   OrthographicCamera,
@@ -166,10 +166,7 @@ extend({ FisheyeShaderMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    fisheyeShaderMaterial: ReactThreeFiber.Object3DNode<
-      THREE.ShaderMaterial,
-      typeof THREE.ShaderMaterial
-    >;
+    fisheyeShaderMaterial: ThreeElement<typeof THREE.ShaderMaterial>;
   }
 }
 

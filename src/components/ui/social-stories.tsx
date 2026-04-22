@@ -164,15 +164,6 @@ export function SocialStories() {
     progressRef.current = 0;
   };
 
-  const isVideoUrl = (url: string) => {
-    if (!url) return false;
-    const cleanUrl = url.split("?")[0];
-    return (
-      /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) ||
-      /\/video\/upload\//i.test(url)
-    );
-  };
-
   const goToNext = useCallback(() => {
     stopAnimation();
     resetTiming();
