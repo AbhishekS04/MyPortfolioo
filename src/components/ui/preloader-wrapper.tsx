@@ -9,104 +9,106 @@ import { Preloader } from "./preloader";
 let globalHasShownPreloader = false;
 
 interface PreloaderContextType {
-    hasShown: boolean;
-    isVisible: boolean;
+  hasShown: boolean;
+  isVisible: boolean;
 }
 
-const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
+const PreloaderContext = createContext<PreloaderContextType | undefined>(
+  undefined,
+);
 
 export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
-    const pathname = usePathname();
+  const pathname = usePathname();
 
-    // Initialize state based on session to prevent flash.
-    // Default to TRUE if not in admin, not shown yet, and on a VALID route.
-    const [isVisible, setIsVisible] = useState(() => {
-        // 0. Check if already shown in this session (global variable)
-        if (globalHasShownPreloader) return false;
+  // Initialize state based on session to prevent flash.
+  // Default to TRUE if not in admin, not shown yet, and on a VALID route.
+  const [isVisible, setIsVisible] = useState(() => {
+    // 0. Check if already shown in this session (global variable)
+    if (globalHasShownPreloader) return false;
 
-        // 1. Check for performance bots or search engines to skip preloader (Boosts SEO/Performance scores)
-        if (typeof window !== "undefined") {
-            const isBot = /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(
-                window.navigator.userAgent
-            );
-            if (isBot) return false;
-        }
+    // 1. Check for performance bots or search engines to skip preloader (Boosts SEO/Performance scores)
+    if (typeof window !== "undefined") {
+      const isBot =
+        /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(
+          window.navigator.userAgent,
+        );
+      if (isBot) return false;
+    }
 
-        const validRoutes = ["/", "/about", "/works", "/contact"];
-        const isDynamicWork = pathname?.startsWith("/works/");
-        const isAdmin = pathname?.startsWith("/admin");
+    const validRoutes = ["/", "/about", "/works", "/contact"];
+    const isDynamicWork = pathname?.startsWith("/works/");
+    const isAdmin = pathname?.startsWith("/admin");
 
-        const isValidRoute = validRoutes.includes(pathname || "") || isDynamicWork || isAdmin;
+    const isValidRoute =
+      validRoutes.includes(pathname || "") || isDynamicWork || isAdmin;
 
-        // Skip preloader for admin or invalid (404) routes
-        if (isAdmin || !isValidRoute) return false;
+    // Skip preloader for admin or invalid (404) routes
+    if (isAdmin || !isValidRoute) return false;
 
-        return true;
-    });
+    return true;
+  });
 
-    useEffect(() => {
-        // Remove static splash screen if it exists
-        const staticSplash = document.getElementById('static-splash');
-        if (staticSplash) {
-            staticSplash.style.opacity = '0';
-            setTimeout(() => {
-                staticSplash.remove();
-            }, 300);
-        }
-    }, []);
+  useEffect(() => {
+    // Remove static splash screen if it exists
+    const staticSplash = document.getElementById("static-splash");
+    if (staticSplash) {
+      staticSplash.style.opacity = "0";
+      setTimeout(() => {
+        staticSplash.remove();
+      }, 300);
+    }
+  }, []);
 
-    useEffect(() => {
-        // Handle overflow lock
-        if (isVisible) {
-            document.body.style.overflow = "hidden";
-        } else {
-            document.body.style.overflow = "";
-        }
-    }, [isVisible]);
+  useEffect(() => {
+    // Handle overflow lock
+    if (isVisible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isVisible]);
 
-    const handleComplete = () => {
-        setIsVisible(false);
-        globalHasShownPreloader = true;
-        document.body.style.overflow = "";
-    };
+  const handleComplete = () => {
+    setIsVisible(false);
+    globalHasShownPreloader = true;
+    document.body.style.overflow = "";
+  };
 
-    return (
-        <PreloaderContext.Provider value={{ hasShown: !isVisible, isVisible }}>
-            <AnimatePresence mode="wait">
-                {isVisible && (
-                    <motion.div
-                        key="global-preloader"
-                        initial={{ y: 0 }}
-                        exit={{
-                            y: "-100%",
-                            transition: {
-                                duration: 1.0,
-                                ease: [0.76, 0, 0.24, 1] // "Quint" easeIn - starts slow, accelerates fast like a shutter
-                            }
-                        }}
-                        className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
-                    >
-                        <Preloader onComplete={handleComplete} />
-                    </motion.div>
-                )}
-            </AnimatePresence>
+  return (
+    <PreloaderContext.Provider value={{ hasShown: !isVisible, isVisible }}>
+      <AnimatePresence mode="wait">
+        {isVisible && (
+          <motion.div
+            key="global-preloader"
+            initial={{ y: 0 }}
+            exit={{
+              y: "-100%",
+              transition: {
+                duration: 1.0,
+                ease: [0.76, 0, 0.24, 1], // "Quint" easeIn - starts slow, accelerates fast like a shutter
+              },
+            }}
+            className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
+          >
+            <Preloader onComplete={handleComplete} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-            {/* 
+      {/* 
                Render children immediately. 
                We REMOVED the opacity toggle so the browser paints the LCP element 
                instantly behind the preloader layer. This fixes the LCP score.
             */}
-            <div className="relative">
-                {children}
-            </div>
-        </PreloaderContext.Provider>
-    );
+      <div className="relative">{children}</div>
+    </PreloaderContext.Provider>
+  );
 }
 
 export const usePreloader = () => {
-    const context = useContext(PreloaderContext);
-    if (context === undefined) {
-        throw new Error("usePreloader must be used within a PreloaderWrapper");
-    }
-    return context;
+  const context = useContext(PreloaderContext);
+  if (context === undefined) {
+    throw new Error("usePreloader must be used within a PreloaderWrapper");
+  }
+  return context;
 };

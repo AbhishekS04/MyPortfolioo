@@ -11,201 +11,217 @@ import { supabase } from "@/lib/supabase";
 
 // Strict type for Supabase response to avoid 'any'
 interface SupabaseProject {
-    id: string;
-    title: string;
-    description: string;
-    tech_stack: string[];
-    image_url: string;
-    slug: string;
-    featured: boolean;
-    display_order: number;
-    is_coming_soon?: boolean;
+  id: string;
+  title: string;
+  description: string;
+  tech_stack: string[];
+  image_url: string;
+  slug: string;
+  featured: boolean;
+  display_order: number;
+  is_coming_soon?: boolean;
 }
 
 function ProjectCard({ project }: { project: Project }) {
-    const isComingSoon = project.is_coming_soon;
+  const isComingSoon = project.is_coming_soon;
 
-    const cardContent = (
-        <div className={`relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 flex flex-col ${!isComingSoon ? "hover:border-white/10 group-hover:bg-[#161616]" : ""}`}>
-            {/* Image Container */}
-            <div className="relative w-full aspect-[16/10] overflow-hidden">
-                <Image
-                    src={project.image}
-                    alt={project.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className={`object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] ${!isComingSoon ? "group-hover:scale-105" : "opacity-60 blur-[2px]"}`}
-                />
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
+  const cardContent = (
+    <div
+      className={`relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 flex flex-col ${!isComingSoon ? "hover:border-white/10 group-hover:bg-[#161616]" : ""}`}
+    >
+      {/* Image Container */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className={`object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] ${!isComingSoon ? "group-hover:scale-105" : "opacity-60 blur-[2px]"}`}
+        />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
 
-                {/* Coming Soon Overlay */}
-                {isComingSoon && (
-                    <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500">
-                        <ComingSoonBadge />
-                    </div>
-                )}
-            </div>
+        {/* Coming Soon Overlay */}
+        {isComingSoon && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/50 backdrop-blur-sm transition-all duration-500">
+            <ComingSoonBadge />
+          </div>
+        )}
+      </div>
 
-            {/* Content */}
-            <div className="p-6 flex flex-col flex-1 justify-between">
-                <div>
-                    <div className="flex items-start justify-between">
-                        <h3 className={`text-xl font-medium transition-colors ${!isComingSoon ? "text-white/90 group-hover:text-white" : "text-white/50"}`}>
-                            {project.title}
-                        </h3>
-                        {!isComingSoon && (
-                            <ArrowUpRight className="w-5 h-5 text-white/30 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
-                        )}
-                    </div>
-                    <p className="mt-2 text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors line-clamp-2">
-                        {project.description}
-                    </p>
-                </div>
-
-                <div className="mt-6 flex flex-wrap gap-1.5">
-                    {project.techStack.map((tech) => (
-                        <span
-                            key={tech}
-                            className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-medium bg-white/5 text-white/40 border border-white/5"
-                        >
-                            {tech}
-                        </span>
-                    ))}
-                </div>
-            </div>
+      {/* Content */}
+      <div className="p-6 flex flex-col flex-1 justify-between">
+        <div>
+          <div className="flex items-start justify-between">
+            <h3
+              className={`text-xl font-medium transition-colors ${!isComingSoon ? "text-white/90 group-hover:text-white" : "text-white/50"}`}
+            >
+              {project.title}
+            </h3>
+            {!isComingSoon && (
+              <ArrowUpRight className="w-5 h-5 text-white/30 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all duration-300" />
+            )}
+          </div>
+          <p className="mt-2 text-white/50 text-sm leading-relaxed group-hover:text-white/70 transition-colors line-clamp-2">
+            {project.description}
+          </p>
         </div>
+
+        <div className="mt-6 flex flex-wrap gap-1.5">
+          {project.techStack.map((tech) => (
+            <span
+              key={tech}
+              className="px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-medium bg-white/5 text-white/40 border border-white/5"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isComingSoon) {
+    return (
+      <div className="group block h-full select-none cursor-default">
+        {cardContent}
+      </div>
     );
+  }
 
-    if (isComingSoon) {
-        return <div className="group block h-full select-none cursor-default">{cardContent}</div>;
-    }
-
-    return <Link href={project.link} className="group block h-full">{cardContent}</Link>;
+  return (
+    <Link href={project.link} className="group block h-full">
+      {cardContent}
+    </Link>
+  );
 }
 
 function ProjectCardSkeleton() {
-    return (
-        <div className="h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden flex flex-col">
-            {/* Image Skeleton */}
-            <div className="relative w-full aspect-[16/10] bg-white/5 animate-pulse" />
+  return (
+    <div className="h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden flex flex-col">
+      {/* Image Skeleton */}
+      <div className="relative w-full aspect-[16/10] bg-white/5 animate-pulse" />
 
-            {/* Content Skeleton */}
-            <div className="p-6 flex flex-col flex-1 justify-between gap-6">
-                <div className="space-y-3">
-                    <div className="flex justify-between items-start">
-                        <div className="h-7 w-1/2 bg-white/5 rounded-md animate-pulse" />
-                        <div className="h-5 w-5 bg-white/5 rounded-md animate-pulse" />
-                    </div>
-                    <div className="space-y-2">
-                        <div className="h-4 w-full bg-white/5 rounded-md animate-pulse" />
-                        <div className="h-4 w-2/3 bg-white/5 rounded-md animate-pulse" />
-                    </div>
-                </div>
-                <div className="flex gap-2">
-                    <div className="h-5 w-16 bg-white/5 rounded-full animate-pulse" />
-                    <div className="h-5 w-12 bg-white/5 rounded-full animate-pulse" />
-                    <div className="h-5 w-20 bg-white/5 rounded-full animate-pulse" />
-                </div>
-            </div>
+      {/* Content Skeleton */}
+      <div className="p-6 flex flex-col flex-1 justify-between gap-6">
+        <div className="space-y-3">
+          <div className="flex justify-between items-start">
+            <div className="h-7 w-1/2 bg-white/5 rounded-md animate-pulse" />
+            <div className="h-5 w-5 bg-white/5 rounded-md animate-pulse" />
+          </div>
+          <div className="space-y-2">
+            <div className="h-4 w-full bg-white/5 rounded-md animate-pulse" />
+            <div className="h-4 w-2/3 bg-white/5 rounded-md animate-pulse" />
+          </div>
         </div>
-    );
+        <div className="flex gap-2">
+          <div className="h-5 w-16 bg-white/5 rounded-full animate-pulse" />
+          <div className="h-5 w-12 bg-white/5 rounded-full animate-pulse" />
+          <div className="h-5 w-20 bg-white/5 rounded-full animate-pulse" />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 interface FeaturedProjectsProps {
-    initialProjects?: Project[];
+  initialProjects?: Project[];
 }
 
-export function FeaturedProjects({ initialProjects = [] }: FeaturedProjectsProps) {
-    const [projects, setProjects] = useState<Project[]>(initialProjects);
-    const [isLoading, setIsLoading] = useState(initialProjects.length === 0);
-    const [hasError, setHasError] = useState(false);
+export function FeaturedProjects({
+  initialProjects = [],
+}: FeaturedProjectsProps) {
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [isLoading, setIsLoading] = useState(initialProjects.length === 0);
+  const [hasError, setHasError] = useState(false);
 
-    useEffect(() => {
-        // Skip client-side fetch if server already provided data
-        if (initialProjects.length > 0) return;
+  useEffect(() => {
+    // Skip client-side fetch if server already provided data
+    if (initialProjects.length > 0) return;
 
-        async function fetchProjects() {
-            try {
-                const { data, error } = await supabase
-                    .from('projects')
-                    .select('*')
-                    .eq('featured', true)
-                    .eq('is_hidden', false)
-                    .order('display_order', { ascending: true });
+    async function fetchProjects() {
+      try {
+        const { data, error } = await supabase
+          .from("projects")
+          .select("*")
+          .eq("featured", true)
+          .eq("is_hidden", false)
+          .order("display_order", { ascending: true });
 
-                if (error) {
-                    console.error('Error fetching projects:', error);
-                    setHasError(true);
-                } else if (data) {
-                    const mappedProjects: Project[] = (data as unknown as SupabaseProject[]).map((item) => ({
-                        id: item.id,
-                        title: item.title,
-                        description: item.description,
-                        techStack: item.tech_stack || [],
-                        image: item.image_url,
-                        is_coming_soon: item.is_coming_soon,
-                        link: `/works/${item.slug}?from=home`,
-                    }));
-                    setProjects(mappedProjects);
-                }
-            } catch (err) {
-                console.error("Unexpected error fetching projects", err);
-                setHasError(true);
-            } finally {
-                setIsLoading(false);
-            }
+        if (error) {
+          console.error("Error fetching projects:", error);
+          setHasError(true);
+        } else if (data) {
+          const mappedProjects: Project[] = (
+            data as unknown as SupabaseProject[]
+          ).map((item) => ({
+            id: item.id,
+            title: item.title,
+            description: item.description,
+            techStack: item.tech_stack || [],
+            image: item.image_url,
+            is_coming_soon: item.is_coming_soon,
+            link: `/works/${item.slug}?from=home`,
+          }));
+          setProjects(mappedProjects);
         }
-
-        fetchProjects();
-    }, [initialProjects]);
-
-    // Error State
-    if (hasError) {
-        return (
-            <section className="py-20 flex justify-center text-white/40">
-                <p>Unable to load contents</p>
-            </section>
-        );
+      } catch (err) {
+        console.error("Unexpected error fetching projects", err);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
-    return (
-        <section id="featured-projects" className="py-20">
-            {/* Section Header */}
-            <div className="flex items-center justify-between mb-12 px-2">
-                <h2 className="text-3xl md:text-4xl font-medium text-white/90">
-                    Selected Works
-                </h2>
-                <Link
-                    href="/works"
-                    className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm md:text-base"
-                >
-                    <span>View All</span>
-                    <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
-            </div>
+    fetchProjects();
+  }, [initialProjects]);
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {isLoading ? (
-                    // Skeleton Loading State
-                    <>
-                        <ProjectCardSkeleton />
-                        <ProjectCardSkeleton />
-                    </>
-                ) : (
-                    // Real Data
-                    projects.map((project, index) => (
-                        <motion.div
-                            key={project.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                        >
-                            <ProjectCard project={project} />
-                        </motion.div>
-                    ))
-                )}
-            </div>
-        </section>
+  // Error State
+  if (hasError) {
+    return (
+      <section className="py-20 flex justify-center text-white/40">
+        <p>Unable to load contents</p>
+      </section>
     );
+  }
+
+  return (
+    <section id="featured-projects" className="py-20">
+      {/* Section Header */}
+      <div className="flex items-center justify-between mb-12 px-2">
+        <h2 className="text-3xl md:text-4xl font-medium text-white/90">
+          Selected Works
+        </h2>
+        <Link
+          href="/works"
+          className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm md:text-base"
+        >
+          <span>View All</span>
+          <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {isLoading ? (
+          // Skeleton Loading State
+          <>
+            <ProjectCardSkeleton />
+            <ProjectCardSkeleton />
+          </>
+        ) : (
+          // Real Data
+          projects.map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <ProjectCard project={project} />
+            </motion.div>
+          ))
+        )}
+      </div>
+    </section>
+  );
 }

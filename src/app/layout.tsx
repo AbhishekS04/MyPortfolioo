@@ -20,7 +20,8 @@ export const metadata: Metadata = {
     default: "Abhishek Singh | Portfolio",
     template: "%s | Abhishek Singh",
   },
-  description: "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
+  description:
+    "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
   applicationName: "Abhishek Singh",
   authors: [{ name: "Abhishek Singh", url: "https://abhisheksingh.tech" }],
   generator: "Next.js",
@@ -64,7 +65,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://abhisheksingh.tech",
     title: "Abhishek Singh | Product Engineer & Portfolio",
-    description: "Personal portfolio of Abhishek Singh, a Product Engineer specializing in building premium web experiences.",
+    description:
+      "Personal portfolio of Abhishek Singh, a Product Engineer specializing in building premium web experiences.",
     siteName: "Abhishek Singh",
     images: [
       {
@@ -78,7 +80,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Abhishek Singh | Portfolio",
-    description: "Product Engineer specializing in React, Next.js, and interaction design.",
+    description:
+      "Product Engineer specializing in React, Next.js, and interaction design.",
     creator: "@_abhishek2304",
     images: ["/og-image.jpg"],
   },
@@ -87,9 +90,7 @@ export const metadata: Metadata = {
       { url: "/favicon.ico" },
       { url: "/removebg.png", type: "image/png" },
     ],
-    apple: [
-      { url: "/removebg.png", sizes: "180x180", type: "image/png" },
-    ],
+    apple: [{ url: "/removebg.png", sizes: "180x180", type: "image/png" }],
   },
   robots: {
     index: true,
@@ -110,43 +111,51 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning style={{ backgroundColor: '#050805' }}>
-      <body className={`${outfit.variable} ${bolivia.variable}`} style={{ backgroundColor: '#050805', color: '#ededed' }}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      style={{ backgroundColor: "#050805" }}
+    >
+      <body
+        className={`${outfit.variable} ${bolivia.variable}`}
+        style={{ backgroundColor: "#050805", color: "#ededed" }}
+      >
         <script type="application/ld+json">
           {JSON.stringify([
             {
               "@context": "https://schema.org",
               "@type": "Person",
-              "name": "Abhishek Singh",
-              "url": "https://abhisheksingh.tech",
-              "image": "https://abhisheksingh.tech/removebg.png",
-              "jobTitle": "Product Engineer",
-              "description": "Product Engineer specializing in React, Next.js, and interaction design.",
-              "sameAs": [
+              name: "Abhishek Singh",
+              url: "https://abhisheksingh.tech",
+              image: "https://abhisheksingh.tech/removebg.png",
+              jobTitle: "Product Engineer",
+              description:
+                "Product Engineer specializing in React, Next.js, and interaction design.",
+              sameAs: [
                 "https://github.com/AbhishekS04",
                 "https://www.linkedin.com/in/abhishek-singh-045312292",
                 "https://instagram.com/abhi3hekk",
-                "https://x.com/_abhishek2304"
+                "https://x.com/_abhishek2304",
               ],
-              "knowsAbout": [
+              knowsAbout: [
                 "React",
                 "Next.js",
                 "TypeScript",
                 "Product Engineering",
                 "Interaction Design",
-                "Full Stack Development"
-              ]
+                "Full Stack Development",
+              ],
             },
             {
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "name": "Abhishek Singh Portfolio",
-              "url": "https://abhisheksingh.tech",
-              "publisher": {
+              name: "Abhishek Singh Portfolio",
+              url: "https://abhisheksingh.tech",
+              publisher: {
                 "@type": "Person",
-                "name": "Abhishek Singh"
-              }
-            }
+                name: "Abhishek Singh",
+              },
+            },
           ])}
         </script>
         {children}

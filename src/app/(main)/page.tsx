@@ -12,7 +12,8 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Abhishek Singh | Portfolio",
-  description: "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
+  description:
+    "Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
 };
 
 export default async function Home() {

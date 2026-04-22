@@ -257,8 +257,10 @@ body {
   --card-foreground: #33ff00;
   --border: #33ff00;
 
-  font-family: 'Courier New', Courier, monospace !important;
-  text-shadow: 0 0 2px rgba(51, 255, 0, 0.4), 0 0 8px rgba(51, 255, 0, 0.2);
+  font-family: "Courier New", Courier, monospace !important;
+  text-shadow:
+    0 0 2px rgba(51, 255, 0, 0.4),
+    0 0 8px rgba(51, 255, 0, 0.2);
   overflow-x: hidden;
 }
 
@@ -274,7 +276,8 @@ body {
 
 .retro-mode img,
 .retro-mode video {
-  filter: grayscale(100%) contrast(1.2) brightness(0.8) sepia(100%) hue-rotate(50deg) saturate(3);
+  filter: grayscale(100%) contrast(1.2) brightness(0.8) sepia(100%)
+    hue-rotate(50deg) saturate(3);
   mix-blend-mode: luminosity;
   opacity: 0.8;
 }
@@ -300,8 +303,15 @@ body {
   inset: 0;
   background:
     linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
-    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 2px, 3px 100%;
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size:
+    100% 2px,
+    3px 100%;
   pointer-events: none;
   z-index: 99999;
 }
@@ -311,7 +321,11 @@ body {
   content: "";
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 60%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(
+    circle at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
   pointer-events: none;
   z-index: 99998;
 }

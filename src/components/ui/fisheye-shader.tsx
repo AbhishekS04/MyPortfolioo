@@ -1,10 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
-import { shaderMaterial, OrthographicCamera, useTexture } from '@react-three/drei';
-import gsap from 'gsap';
+import React, { useEffect, useRef, useState } from "react";
+import * as THREE from "three";
+import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
+import {
+  shaderMaterial,
+  OrthographicCamera,
+  useTexture,
+} from "@react-three/drei";
+import gsap from "gsap";
 
 export interface FisheyeSettings {
   fisheyeStrength: number;
@@ -154,12 +158,12 @@ const FisheyeShaderMaterial = shaderMaterial(
     uAspectRatio: 1,
   },
   vertexShader,
-  fragmentShader
+  fragmentShader,
 );
 
 extend({ FisheyeShaderMaterial });
 
-declare module '@react-three/fiber' {
+declare module "@react-three/fiber" {
   interface ThreeElements {
     fisheyeShaderMaterial: any;
   }
@@ -203,7 +207,9 @@ function Quad({
     materialRef.current.uChromaticAberration = settings.chromaticAberration;
     materialRef.current.uNoiseIntensity = settings.noiseIntensity;
     materialRef.current.uVignetteIntensity = settings.vignetteIntensity;
-    materialRef.current.uShowVignetteMask = settings.showVignetteMask ? 1.0 : 0.0;
+    materialRef.current.uShowVignetteMask = settings.showVignetteMask
+      ? 1.0
+      : 0.0;
   });
 
   return (
@@ -214,8 +220,14 @@ function Quad({
   );
 }
 
-class ErrorBoundary extends React.Component<{ children: React.ReactNode, onError: (error: Error) => void }, { hasError: boolean }> {
-  constructor(props: { children: React.ReactNode, onError: (error: Error) => void }) {
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; onError: (error: Error) => void },
+  { hasError: boolean }
+> {
+  constructor(props: {
+    children: React.ReactNode;
+    onError: (error: Error) => void;
+  }) {
     super(props);
     this.state = { hasError: false };
   }
@@ -236,7 +248,11 @@ class ErrorBoundary extends React.Component<{ children: React.ReactNode, onError
   }
 }
 
-const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) => {
+const FisheyeShader = ({
+  src,
+  className = "",
+  settings,
+}: FisheyeShaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
@@ -255,7 +271,7 @@ const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) =>
     const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     mouseRef.current.set(x, y);
-  }
+  };
 
   useEffect(() => {
     const el = containerRef.current;
@@ -267,8 +283,8 @@ const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) =>
       tweenRef.current = gsap.to(intensityRef, {
         current: 1,
         duration: settings.animationDuration,
-        ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
-        onUpdate: () => { },
+        ease: "cubic-bezier(0.23, 1, 0.32, 1)",
+        onUpdate: () => {},
       });
       setCanvasOpacity(settings.canvasOpacity);
     };
@@ -278,17 +294,17 @@ const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) =>
       tweenRef.current = gsap.to(intensityRef, {
         current: 0,
         duration: settings.animationDuration,
-        ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
+        ease: "cubic-bezier(0.23, 1, 0.32, 1)",
       });
       setCanvasOpacity(0);
       mouseRef.current.set(0, 0);
     };
 
-    el.addEventListener('mouseenter', onEnter);
-    el.addEventListener('mouseleave', onLeave);
+    el.addEventListener("mouseenter", onEnter);
+    el.addEventListener("mouseleave", onLeave);
     return () => {
-      el.removeEventListener('mouseenter', onEnter);
-      el.removeEventListener('mouseleave', onLeave);
+      el.removeEventListener("mouseenter", onEnter);
+      el.removeEventListener("mouseleave", onLeave);
     };
   }, [settings.animationDuration, settings.canvasOpacity, hasError]);
 
@@ -303,15 +319,21 @@ const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) =>
         src={src}
         alt=""
         className="block w-full h-full object-cover select-none pointer-events-none transition-opacity duration-300"
-        style={{ opacity: (canvasOpacity > 0 && !hasError) ? 0 : 1 }}
+        style={{ opacity: canvasOpacity > 0 && !hasError ? 0 : 1 }}
       />
       {!hasError && (
-        <div ref={canvasWrapperRef} className="absolute inset-0 pointer-events-none" style={{ opacity: canvasOpacity, transition: 'opacity 300ms ease' }}>
-          <ErrorBoundary onError={(e) => {
-            console.warn("FisheyeShader texture failed to load:", e);
-            setHasError(true);
-            setCanvasOpacity(0);
-          }}>
+        <div
+          ref={canvasWrapperRef}
+          className="absolute inset-0 pointer-events-none"
+          style={{ opacity: canvasOpacity, transition: "opacity 300ms ease" }}
+        >
+          <ErrorBoundary
+            onError={(e) => {
+              console.warn("FisheyeShader texture failed to load:", e);
+              setHasError(true);
+              setCanvasOpacity(0);
+            }}
+          >
             <Canvas
               orthographic
               gl={{ alpha: true, antialias: true, premultipliedAlpha: false }}
@@ -320,8 +342,18 @@ const FisheyeShader = ({ src, className = '', settings }: FisheyeShaderProps) =>
               className="w-full h-full"
             >
               <React.Suspense fallback={null}>
-                <OrthographicCamera makeDefault position={[0, 0, 1]} near={0} far={1} />
-                <Quad src={src} intensityRef={intensityRef} settings={settings} mouseRef={mouseRef} />
+                <OrthographicCamera
+                  makeDefault
+                  position={[0, 0, 1]}
+                  near={0}
+                  far={1}
+                />
+                <Quad
+                  src={src}
+                  intensityRef={intensityRef}
+                  settings={settings}
+                  mouseRef={mouseRef}
+                />
               </React.Suspense>
             </Canvas>
           </ErrorBoundary>

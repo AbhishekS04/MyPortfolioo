@@ -7,21 +7,19 @@ import { CommandPalette } from "@/components/ui/command-palette";
 import { NavBar } from "@/components/ui/navbar";
 
 export default function MainLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <>
-            <CommandPalette />
-            <Suspense fallback={null}>
-                <NavBar />
-            </Suspense>
-            <PreloaderWrapper>
-                <SmoothScroll>
-                    {children}
-                </SmoothScroll>
-            </PreloaderWrapper>
-        </>
-    );
+  return (
+    <>
+      <CommandPalette />
+      <Suspense fallback={null}>
+        <NavBar />
+      </Suspense>
+      <PreloaderWrapper>
+        <SmoothScroll>{children}</SmoothScroll>
+      </PreloaderWrapper>
+    </>
+  );
 }

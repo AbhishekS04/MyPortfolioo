@@ -6,52 +6,52 @@ import { PenLine } from "lucide-react";
 import DOMPurify from "dompurify";
 
 export function ReadmeViewer({ content }: { content: string }) {
-    const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-    // Sanitize HTML to prevent XSS attacks
-    const sanitizedContent = useMemo(() => {
-        if (typeof window !== "undefined") {
-            return DOMPurify.sanitize(content, {
-                ADD_ATTR: ["target", "rel", "align"],
-            });
-        }
-        return content;
-    }, [content]);
+  // Sanitize HTML to prevent XSS attacks
+  const sanitizedContent = useMemo(() => {
+    if (typeof window !== "undefined") {
+      return DOMPurify.sanitize(content, {
+        ADD_ATTR: ["target", "rel", "align"],
+      });
+    }
+    return content;
+  }, [content]);
 
-    useEffect(() => {
-        if (containerRef.current) {
-            const links = containerRef.current.querySelectorAll('a');
-            links.forEach(link => {
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
-            });
-        }
-    }, [content]);
+  useEffect(() => {
+    if (containerRef.current) {
+      const links = containerRef.current.querySelectorAll("a");
+      links.forEach((link) => {
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      });
+    }
+  }, [content]);
 
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="border border-white/10 rounded-lg overflow-hidden bg-[#0d1117]"
-        >
-            {/* File Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-white/10">
-                <div className="flex items-center gap-2 text-sm font-mono text-white/70">
-                    <span className="font-semibold text-white/90">AbhishekS04</span>
-                    <span className="text-white/40">/</span>
-                    <span>README.md</span>
-                </div>
-                <button className="text-white/40 hover:text-white transition-colors">
-                    <PenLine className="w-4 h-4" />
-                </button>
-            </div>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.4 }}
+      className="border border-white/10 rounded-lg overflow-hidden bg-[#0d1117]"
+    >
+      {/* File Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-[#161b22] border-b border-white/10">
+        <div className="flex items-center gap-2 text-sm font-mono text-white/70">
+          <span className="font-semibold text-white/90">AbhishekS04</span>
+          <span className="text-white/40">/</span>
+          <span>README.md</span>
+        </div>
+        <button className="text-white/40 hover:text-white transition-colors">
+          <PenLine className="w-4 h-4" />
+        </button>
+      </div>
 
-            {/* Content */}
-            <div className="p-8">
-                <article
-                    ref={containerRef}
-                    className="
+      {/* Content */}
+      <div className="p-8">
+        <article
+          ref={containerRef}
+          className="
               prose prose-invert max-w-none
               prose-headings:font-bold prose-headings:text-white
               prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl
@@ -86,10 +86,10 @@ export function ReadmeViewer({ content }: { content: string }) {
               /* Hide GitHub's default anchor links on headers */
               [&_.anchor]:hidden
             "
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-                />
-            </div>
-        </motion.div>
-    );
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+        />
+      </div>
+    </motion.div>
+  );
 }

@@ -23,7 +23,7 @@ Live Demo: [abhisheksingh.tech](https://abhisheksingh.tech)
 <div align="center">
 
 [![Portfolio Preview](https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/01de06eb-0a47-4c5a-b6ca-f8285520e0c0.png)](https://www.abhisheksingh.tech)
-*Click the image to visit the live site*
+_Click the image to visit the live site_
 
 </div>
 
@@ -33,7 +33,7 @@ Live Demo: [abhisheksingh.tech](https://abhisheksingh.tech)
 
 **This repository is for SHOWCASE and REFERENCE purposes only.**
 
-This is a **proprietary portfolio** - the code and design are the exclusive property of Abhishek Singh and are protected under copyright law. 
+This is a **proprietary portfolio** - the code and design are the exclusive property of Abhishek Singh and are protected under copyright law.
 
 ### 🚫 What You CANNOT Do:
 
@@ -80,6 +80,7 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**, this portfolio feat
 ## ✨ Key Features
 
 ### 🎨 **Design & UX**
+
 - **Smooth Scroll Experience** - Lenis-powered buttery smooth scrolling
 - **Advanced Animations** - Framer Motion for stunning, performant animations
 - **3D Interactions** - Interactive tilt effects and perspective transforms
@@ -88,6 +89,7 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**, this portfolio feat
 - **Command Palette** - Quick navigation via keyboard shortcuts (⌘K)
 
 ### 🚀 **Performance**
+
 - **Code Splitting** - Dynamic imports for optimal bundle sizes
 - **Image Optimization** - AVIF/WebP formats with Next.js Image
 - **PWA Support** - Offline capabilities and installable app experience
@@ -95,6 +97,7 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**, this portfolio feat
 - **Lazy Loading** - Below-the-fold content loaded on demand
 
 ### 🎮 **Interactive Features**
+
 - **Gaming Profile** - Cyberpunk-themed gaming stats showcase
 - **GitHub Integration** - Live contribution graphs and repository stats
 - **Dynamic Projects** - Filterable and searchable work portfolio
@@ -102,18 +105,21 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**, this portfolio feat
 - **MFA Security** - Two-factor authentication for admin access
 
 ### 🎁 **Easter Eggs**
-This portfolio contains several hidden interactive features and surprises. Pay attention to details, explore thoroughly, and you might discover something special. *Hint: Sometimes the journey matters as much as the destination.*
+
+This portfolio contains several hidden interactive features and surprises. Pay attention to details, explore thoroughly, and you might discover something special. _Hint: Sometimes the journey matters as much as the destination._
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Core Technologies**
+
 - [Next.js 16.1](https://nextjs.org/) - React framework with App Router
 - [React 19.2](https://react.dev/) - UI library
 - [TypeScript 5](https://www.typescriptlang.org/) - Type safety
 
 ### **Styling & Animation**
+
 - [Tailwind CSS 4.1](https://tailwindcss.com/) - Utility-first CSS framework
 - [Framer Motion 12](https://www.framer.com/motion/) - Production-ready animation library
 - [Radix UI](https://www.radix-ui.com/) - Accessible component primitives
@@ -121,6 +127,7 @@ This portfolio contains several hidden interactive features and surprises. Pay a
 - [21st.dev](https://21st.dev/) - Premium UI components and design inspiration
 
 ### **Backend & Infrastructure**
+
 - [Supabase](https://supabase.com/) - Backend as a Service (Authentication & Database)
 - [OpenAI API](https://openai.com/) - AI-powered text optimization
 - [@ducanh2912/next-pwa](https://github.com/DuCanhGH/next-pwa) - Progressive Web App support
@@ -174,14 +181,18 @@ This portfolio embodies:
 ## 🚀 Key Highlights
 
 ### **Progressive Web App**
+
 Fully PWA-enabled with:
+
 - Installable on mobile and desktop
 - Offline support for cached pages
 - App-like experience with custom splash screens
 - Service worker caching for instant loads
 
 ### **Admin Dashboard**
+
 Secure content management system featuring:
+
 - Supabase authentication with MFA
 - AI-powered text optimization via OpenAI
 - Dynamic content editing for all sections
@@ -189,6 +200,7 @@ Secure content management system featuring:
 - Analytics and ratings dashboard
 
 ### **Performance Optimizations**
+
 - Next.js Image component for automatic optimization
 - Dynamic imports for code splitting
 - Font optimization with `next/font`
@@ -196,6 +208,7 @@ Secure content management system featuring:
 - Edge-ready deployment architecture
 
 ### **Security Features** 🔐
+
 **Top-notch, enterprise-grade security implementation:**
 
 - **Two-Factor Authentication (2FA)** - Multi-factor authentication with TOTP for admin access
@@ -214,6 +227,7 @@ Secure content management system featuring:
 ## 📱 Responsive Design
 
 Fully responsive across all devices:
+
 - 📱 **Mobile** - Optimized touch interactions
 - 💻 **Desktop** - Enhanced with hover effects and keyboard shortcuts
 - 🖥️ **Large Screens** - Maximized content layout
@@ -236,6 +250,7 @@ Experience the full interactive features, smooth animations, and discover the hi
 This project is licensed under a **Proprietary License**. See the [LICENSE](LICENSE) file for complete terms.
 
 ### Summary:
+
 - This code is **NOT open source**
 - Viewing for reference/learning is permitted
 - **Copying, using, or distributing is prohibited** without written permission
@@ -254,11 +269,12 @@ Interested in working together? Let's connect!
 - 📧 Email: [Abhishek23main@gmail.com](mailto:Abhishek23main@gmail.com)
 - 🔗 LinkedIn: [linkedin.com/in/abhishek-singh200423](https://www.linkedin.com/in/abhishek-singh200423/)
 - 🐙 GitHub: [AbhishekS04](https://github.com/AbhishekS04)
-- 🐦 X (Twitter): [@_abhishek2304](https://x.com/_abhishek2304)
+- 🐦 X (Twitter): [@\_abhishek2304](https://x.com/_abhishek2304)
 - 🌐 Portfolio: [abhisheksingh.tech](https://abhisheksingh.tech)
 - 📍 Location: Kolkata, India
 
 ### What I Offer:
+
 - 🎨 Modern web development (React, Next.js, TypeScript)
 - ⚡ Performance optimization & SEO
 - 🎭 Interactive animations & UI/UX design

@@ -19,7 +19,13 @@ export async function getFeaturedProjects(): Promise<Project[]> {
       .order("display_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching featured projects:", error.message, error.code, error.details, error.hint);
+      console.error(
+        "Error fetching featured projects:",
+        error.message,
+        error.code,
+        error.details,
+        error.hint,
+      );
       return [];
     }
 
@@ -50,7 +56,13 @@ export async function getGalleryImages(): Promise<GalleryItem[]> {
       .order("display_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching gallery images:", error.message, error.code, error.details, error.hint);
+      console.error(
+        "Error fetching gallery images:",
+        error.message,
+        error.code,
+        error.details,
+        error.hint,
+      );
       return [];
     }
 

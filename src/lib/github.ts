@@ -52,7 +52,9 @@ export interface GitHubProfile {
   };
 }
 
-export async function getGitHubProfile(username: string): Promise<GitHubProfile | null> {
+export async function getGitHubProfile(
+  username: string,
+): Promise<GitHubProfile | null> {
   const token = process.env.GITHUB_TOKEN;
 
   // If no token, we can't reliably get pinned items via GraphQL.
@@ -60,7 +62,9 @@ export async function getGitHubProfile(username: string): Promise<GitHubProfile 
   if (!token) {
     // Avoid error logs in CI/CD when token is intentionally missing
     if (process.env.NODE_ENV !== "production") {
-      console.warn("GITHUB_TOKEN is missing! GitHub profile data will be unavailable.");
+      console.warn(
+        "GITHUB_TOKEN is missing! GitHub profile data will be unavailable.",
+      );
     }
     return null;
   }
@@ -145,19 +149,24 @@ export async function getGitHubProfile(username: string): Promise<GitHubProfile 
   }
 }
 
-export async function getGitHubReadme(username: string): Promise<string | null> {
+export async function getGitHubReadme(
+  username: string,
+): Promise<string | null> {
   const token = process.env.GITHUB_TOKEN;
   if (!token) return null;
 
   // Fetching the README of the special repository [username]/[username]
   try {
-    const res = await fetch(`https://api.github.com/repos/${username}/${username}/readme`, {
-      headers: {
-        Accept: "application/vnd.github.html", // Get rendered HTML
-        Authorization: `Bearer ${token}`,
+    const res = await fetch(
+      `https://api.github.com/repos/${username}/${username}/readme`,
+      {
+        headers: {
+          Accept: "application/vnd.github.html", // Get rendered HTML
+          Authorization: `Bearer ${token}`,
+        },
+        next: { revalidate: 3600 }, // Cache for 1 hour
       },
-      next: { revalidate: 3600 } // Cache for 1 hour
-    });
+    );
 
     if (!res.ok) return null;
     return await res.text();
@@ -172,25 +181,31 @@ export interface GitHubAchievement {
   imageUrl: string;
 }
 
-export async function getGitHubAchievements(username: string): Promise<GitHubAchievement[]> {
-  // Note: GitHub GraphQL API does NOT expose achievements. 
+export async function getGitHubAchievements(
+  username: string,
+): Promise<GitHubAchievement[]> {
+  // Note: GitHub GraphQL API does NOT expose achievements.
   // We are simulating a fetch for the user's specific known achievements.
   // In a production app, this would require a custom scraper or 3rd party API.
   return [
     {
       name: "Quickdraw",
-      description: "Closed an issue or pull request within 5 minutes of opening.",
-      imageUrl: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png"
+      description:
+        "Closed an issue or pull request within 5 minutes of opening.",
+      imageUrl:
+        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png",
     },
     {
       name: "Pull Shark",
       description: "Opened a pull request that was merged.",
-      imageUrl: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png"
+      imageUrl:
+        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png",
     },
     {
       name: "YOLO",
       description: "Merged a pull request without code review.",
-      imageUrl: "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png"
-    }
+      imageUrl:
+        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png",
+    },
   ];
 }
