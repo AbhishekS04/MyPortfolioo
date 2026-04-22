@@ -1,8 +1,7 @@
 "use client";
 
 import Image, { ImageProps } from "next/image";
-import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { useState, useMemo } from "react";
 
 // List of domains supported by next/image optimization as defined in next.config.ts
 const OPTIMIZED_DOMAINS = [
@@ -28,7 +27,6 @@ export function UniversalImage({
   src,
   alt,
   className,
-  containerClassName,
   fill,
   width,
   height,
@@ -38,8 +36,13 @@ export function UniversalImage({
   fallbackSrc = "/placeholder.svg",
   ...props
 }: UniversalImageProps) {
-  const [imgSrc, setImgSrc] = useState<string>(src || fallbackSrc);
-  // Determine if the URL is optimizable by next/image
+  // errorSrc is only set when the image fails to load
+  const [errorSrc, setErrorSrc] = useState<string | null>(null);
+  // Derive current src: error fallback > prop src > fallbackSrc
+  const imgSrc = useMemo(
+    () => errorSrc ?? src ?? fallbackSrc,
+    [errorSrc, src, fallbackSrc],
+  );
   const isOptimizable = (url: string) => {
     if (!url || typeof url !== "string") return false;
     if (url.startsWith("/")) return true; // Local images are optimizable
@@ -51,11 +54,11 @@ export function UniversalImage({
     }
   };
 
-  useEffect(() => {
-    setImgSrc(src || fallbackSrc);
-  }, [src, fallbackSrc]);
-
   const shouldUseNextImage = isOptimizable(imgSrc);
+
+  const handleError = () => {
+    if (imgSrc !== fallbackSrc) setErrorSrc(fallbackSrc);
+  };
 
   if (shouldUseNextImage) {
     return (
@@ -69,9 +72,7 @@ export function UniversalImage({
         priority={priority}
         quality={quality}
         sizes={sizes}
-        onError={() => {
-          if (imgSrc !== fallbackSrc) setImgSrc(fallbackSrc);
-        }}
+        onError={handleError}
         {...props}
       />
     );
@@ -99,9 +100,7 @@ export function UniversalImage({
       style={style}
       width={!fill ? width : undefined}
       height={!fill ? height : undefined}
-      onError={() => {
-        if (imgSrc !== fallbackSrc) setImgSrc(fallbackSrc);
-      }}
+      onError={handleError}
     />
   );
 }

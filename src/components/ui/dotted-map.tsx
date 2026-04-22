@@ -31,13 +31,17 @@ export function DottedMap({
   className,
   style,
 }: DottedMapProps) {
-  const { points, addMarkers } = createMap({
-    width,
-    height,
-    mapSamples,
-  });
+  const mapData = React.useMemo(
+    () => createMap({ width, height, mapSamples }),
+    [width, height, mapSamples],
+  );
+  const { points, addMarkers } = mapData;
 
-  const processedMarkers = addMarkers(markers);
+  const processedMarkers = React.useMemo(
+    () => addMarkers(markers),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [addMarkers, JSON.stringify(markers)],
+  );
 
   // Compute stagger helpers in a single, simple pass
   const { xStep, yToRowIndex } = React.useMemo(() => {

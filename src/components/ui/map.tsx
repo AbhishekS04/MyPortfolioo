@@ -287,34 +287,36 @@ function MapMarker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  if (
-    marker.getLngLat().lng !== longitude ||
-    marker.getLngLat().lat !== latitude
-  ) {
-    marker.setLngLat([longitude, latitude]);
-  }
-  if (marker.isDraggable() !== draggable) {
-    marker.setDraggable(draggable);
-  }
+  useEffect(() => {
+    if (
+      marker.getLngLat().lng !== longitude ||
+      marker.getLngLat().lat !== latitude
+    ) {
+      marker.setLngLat([longitude, latitude]);
+    }
+    if (marker.isDraggable() !== draggable) {
+      marker.setDraggable(draggable);
+    }
 
-  const currentOffset = marker.getOffset();
-  const newOffset = markerOptions.offset ?? [0, 0];
-  const [newOffsetX, newOffsetY] = Array.isArray(newOffset)
-    ? newOffset
-    : [newOffset.x, newOffset.y];
-  if (currentOffset.x !== newOffsetX || currentOffset.y !== newOffsetY) {
-    marker.setOffset(newOffset);
-  }
+    const currentOffset = marker.getOffset();
+    const newOffset = markerOptions.offset ?? [0, 0];
+    const [newOffsetX, newOffsetY] = Array.isArray(newOffset)
+      ? newOffset
+      : [newOffset.x, newOffset.y];
+    if (currentOffset.x !== newOffsetX || currentOffset.y !== newOffsetY) {
+      marker.setOffset(newOffset);
+    }
 
-  if (marker.getRotation() !== markerOptions.rotation) {
-    marker.setRotation(markerOptions.rotation ?? 0);
-  }
-  if (marker.getRotationAlignment() !== markerOptions.rotationAlignment) {
-    marker.setRotationAlignment(markerOptions.rotationAlignment ?? "auto");
-  }
-  if (marker.getPitchAlignment() !== markerOptions.pitchAlignment) {
-    marker.setPitchAlignment(markerOptions.pitchAlignment ?? "auto");
-  }
+    if (marker.getRotation() !== markerOptions.rotation) {
+      marker.setRotation(markerOptions.rotation ?? 0);
+    }
+    if (marker.getRotationAlignment() !== markerOptions.rotationAlignment) {
+      marker.setRotationAlignment(markerOptions.rotationAlignment ?? "auto");
+    }
+    if (marker.getPitchAlignment() !== markerOptions.pitchAlignment) {
+      marker.setPitchAlignment(markerOptions.pitchAlignment ?? "auto");
+    }
+  });
 
   return (
     <MarkerContext.Provider value={{ marker, map }}>
@@ -391,18 +393,17 @@ function MarkerPopup({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  if (popup.isOpen()) {
+  useEffect(() => {
+    if (!popup.isOpen()) return;
     const prev = prevPopupOptions.current;
-
     if (prev.offset !== popupOptions.offset) {
       popup.setOffset(popupOptions.offset ?? 16);
     }
     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
       popup.setMaxWidth(popupOptions.maxWidth ?? "none");
     }
-
     prevPopupOptions.current = popupOptions;
-  }
+  });
 
   const handleClose = () => popup.remove();
 
@@ -479,18 +480,17 @@ function MarkerTooltip({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  if (tooltip.isOpen()) {
+  useEffect(() => {
+    if (!tooltip.isOpen()) return;
     const prev = prevTooltipOptions.current;
-
     if (prev.offset !== popupOptions.offset) {
       tooltip.setOffset(popupOptions.offset ?? 16);
     }
     if (prev.maxWidth !== popupOptions.maxWidth && popupOptions.maxWidth) {
       tooltip.setMaxWidth(popupOptions.maxWidth ?? "none");
     }
-
     prevTooltipOptions.current = popupOptions;
-  }
+  });
 
   return createPortal(
     <div
@@ -808,16 +808,15 @@ function MapPopup({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
 
-  if (popup.isOpen()) {
+  useEffect(() => {
+    if (!popup.isOpen()) return;
     const prev = popupOptionsRef.current;
-
     if (
       popup.getLngLat().lng !== longitude ||
       popup.getLngLat().lat !== latitude
     ) {
       popup.setLngLat([longitude, latitude]);
     }
-
     if (prev.offset !== popupOptions.offset) {
       popup.setOffset(popupOptions.offset ?? 16);
     }
@@ -825,7 +824,7 @@ function MapPopup({
       popup.setMaxWidth(popupOptions.maxWidth ?? "none");
     }
     popupOptionsRef.current = popupOptions;
-  }
+  });
 
   const handleClose = () => {
     popup.remove();

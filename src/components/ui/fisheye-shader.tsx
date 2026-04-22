@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
+import type { ReactThreeFiber } from "@react-three/fiber";
 import {
   shaderMaterial,
   OrthographicCamera,
@@ -165,7 +166,10 @@ extend({ FisheyeShaderMaterial });
 
 declare module "@react-three/fiber" {
   interface ThreeElements {
-    fisheyeShaderMaterial: any;
+    fisheyeShaderMaterial: ReactThreeFiber.Object3DNode<
+      THREE.ShaderMaterial,
+      typeof THREE.ShaderMaterial
+    >;
   }
 }
 
@@ -184,11 +188,19 @@ function Quad({
   const tStart = useRef<number>(0);
   const { size } = useThree();
 
-  const texture = useTexture(src);
-  texture.wrapS = THREE.ClampToEdgeWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.minFilter = THREE.LinearFilter;
-  texture.magFilter = THREE.LinearFilter;
+  const rawTexture = useTexture(src);
+
+  // Clone so we own this instance and can mutate it safely
+  const texture = useMemo(() => rawTexture.clone(), [rawTexture]);
+
+  // Apply texture settings in an effect — never mutate during render
+  useEffect(() => {
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.needsUpdate = true;
+  }, [texture]);
 
   useFrame(({ clock }) => {
     if (!materialRef.current) return;

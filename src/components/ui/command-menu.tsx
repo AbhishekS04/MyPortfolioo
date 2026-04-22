@@ -434,7 +434,7 @@ const CommandMenuItem = React.forwardRef<
         )}
         onClick={handleSelect}
         onMouseEnter={() => setSelectedIndex(index)}
-        {...(props as any)}
+        {...props}
       >
         {icon && (
           <div

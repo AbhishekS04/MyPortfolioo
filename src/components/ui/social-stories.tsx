@@ -40,6 +40,41 @@ export function SocialStories() {
 
   const currentStory = stories[currentIndex];
 
+  // Hoist helpers above effects that use them
+  function isVideoUrl(url: string) {
+    if (!url) return false;
+    const cleanUrl = url.split("?")[0];
+    return (
+      /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) ||
+      /\/video\/upload\//i.test(url)
+    );
+  }
+
+  async function fetchStories() {
+    setIsFetchLoading(true);
+    try {
+      const { data } = await supabase
+        .from("social_stories")
+        .select("*")
+        .order("display_order", { ascending: true });
+
+      if (data) {
+        setStories(
+          data.map((s) => ({
+            id: s.id,
+            platform: s.platform as SocialPlatform,
+            mediaUrl: s.media_url,
+            linkUrl: s.link_url,
+            caption: s.caption,
+            duration: 5,
+          })),
+        );
+      }
+    } finally {
+      setIsFetchLoading(false);
+    }
+  }
+
   // Sync video mute state whenever isMuted or current story changes
   useEffect(() => {
     const video = videoRef.current;
@@ -91,8 +126,13 @@ export function SocialStories() {
   // Timing refs for high-performance animation
   const startTimeRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number>(Date.now());
+  // Initialize to 0; set to Date.now() in effect to avoid impure render-time call
+  const lastTimeRef = useRef<number>(0);
   const progressRef = useRef(0);
+
+  useEffect(() => {
+    lastTimeRef.current = Date.now();
+  }, []);
 
   // Direct DOM manipulation ref for performance
   const activeProgressBarRef = useRef<HTMLDivElement>(null);
@@ -100,32 +140,8 @@ export function SocialStories() {
   useEffect(() => {
     setMounted(true);
     fetchStories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const fetchStories = async () => {
-    setIsFetchLoading(true);
-    try {
-      const { data } = await supabase
-        .from("social_stories")
-        .select("*")
-        .order("display_order", { ascending: true });
-
-      if (data) {
-        setStories(
-          data.map((s) => ({
-            id: s.id,
-            platform: s.platform as SocialPlatform,
-            mediaUrl: s.media_url,
-            linkUrl: s.link_url,
-            caption: s.caption,
-            duration: 5,
-          })),
-        );
-      }
-    } finally {
-      setIsFetchLoading(false);
-    }
-  };
 
   // Priority: Dynamic (video detected) > DB provided > Default (5s)
   const defaultDuration = 5;
