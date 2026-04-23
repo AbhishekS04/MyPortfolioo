@@ -25,8 +25,18 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-[#0a0a0a] text-white selection:bg-white/20 relative overflow-x-hidden">
-      {/* Visually hidden H1 for SEO — design uses BentoGallery as the visual hero */}
+      {/* Visually hidden elements for SEO & AI LLM Extraction */}
       <h1 className="sr-only">Abhishek Singh — Product Engineer</h1>
+      <div className="sr-only">
+        <p>
+          Abhishek Singh is a Product Engineer and Full Stack Developer
+          specializing in React, Next.js, TypeScript, and modern web
+          architecture. With a strong focus on interaction design, Abhishek
+          builds high-performance web applications and premium digital
+          experiences. His portfolio features extensive work in frontend
+          architecture, UI/UX design, and creative development.
+        </p>
+      </div>
       <ExitMessage />
       <ClipboardSecret />
       <ConsciousnessMode />

@@ -120,44 +120,57 @@ export default function RootLayout({
         className={`${outfit.variable} ${bolivia.variable}`}
         style={{ backgroundColor: "#050805", color: "#ededed" }}
       >
-        <script type="application/ld+json">
-          {JSON.stringify([
-            {
-              "@context": "https://schema.org",
-              "@type": "Person",
-              name: "Abhishek Singh",
-              url: "https://abhisheksingh.tech",
-              image: "https://abhisheksingh.tech/removebg.png",
-              jobTitle: "Product Engineer",
-              description:
-                "Product Engineer specializing in React, Next.js, and interaction design.",
-              sameAs: [
-                "https://github.com/AbhishekS04",
-                "https://www.linkedin.com/in/abhishek-singh-045312292",
-                "https://instagram.com/abhi3hekk",
-                "https://x.com/_abhishek2304",
-              ],
-              knowsAbout: [
-                "React",
-                "Next.js",
-                "TypeScript",
-                "Product Engineering",
-                "Interaction Design",
-                "Full Stack Development",
-              ],
-            },
-            {
-              "@context": "https://schema.org",
-              "@type": "WebSite",
-              name: "Abhishek Singh Portfolio",
-              url: "https://abhisheksingh.tech",
-              publisher: {
-                "@type": "Person",
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": ["Person", "ProfilePage"],
+                mainEntity: {
+                  "@type": "Person",
+                  name: "Abhishek Singh",
+                },
                 name: "Abhishek Singh",
+                url: "https://abhisheksingh.tech",
+                image: "https://abhisheksingh.tech/removebg.png",
+                jobTitle: "Product Engineer",
+                description:
+                  "Abhishek Singh is a Product Engineer specializing in React, Next.js, and high-performance web applications with a focus on interaction design.",
+                sameAs: [
+                  "https://github.com/AbhishekS04",
+                  "https://www.linkedin.com/in/abhishek-singh-045312292",
+                  "https://instagram.com/abhi3hekk",
+                  "https://x.com/_abhishek2304",
+                ],
+                knowsAbout: [
+                  "React",
+                  "Next.js",
+                  "TypeScript",
+                  "Product Engineering",
+                  "Interaction Design",
+                  "Full Stack Development",
+                  "Frontend Architecture",
+                  "UI/UX Design",
+                ],
+                worksFor: {
+                  "@type": "Organization",
+                  name: "Independent",
+                },
               },
-            },
-          ])}
-        </script>
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "Abhishek Singh Portfolio",
+                url: "https://abhisheksingh.tech",
+                publisher: {
+                  "@type": "Person",
+                  name: "Abhishek Singh",
+                },
+              },
+            ]),
+          }}
+        />
         {children}
       </body>
     </html>
