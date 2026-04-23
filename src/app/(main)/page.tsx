@@ -32,8 +32,8 @@ export default async function Home() {
       <ConsciousnessMode />
       <div className="relative z-0">
         {/* --- Hero Section (Eager Load) --- */}
-        {/* Enforces 100vh and absolute centering on Desktop only (lg: 1024px+) */}
-        <div className="lg:h-screen lg:overflow-hidden flex flex-col pt-24 md:pt-28 lg:pt-0 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)] lg:min-h-0">
+        {/* Centers content on Desktop but allows scrolling if screen is too small */}
+        <div className="lg:min-h-screen flex flex-col pt-24 md:pt-28 lg:pt-0 pb-6 px-4 md:px-8 max-w-[1600px] mx-auto min-h-[calc(100vh-80px)]">
           {/* Optical Spacer for Navbar balance on Desktop */}
           <div className="hidden lg:block h-16 shrink-0" />
 

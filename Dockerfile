@@ -1,4 +1,6 @@
-FROM node:20-alpine AS base
+FROM node:22-alpine3.20 AS base
+RUN apk upgrade --no-cache busybox
+RUN apk upgrade --no-cache
 
 # Install dependencies only when needed
 FROM base AS deps

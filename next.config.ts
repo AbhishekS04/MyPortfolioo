@@ -18,6 +18,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  allowedDevOrigins: ["192.168.29.129"],
   images: {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 90],
