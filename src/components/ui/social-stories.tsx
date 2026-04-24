@@ -46,7 +46,8 @@ export function SocialStories() {
     const cleanUrl = url.split("?")[0];
     return (
       /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) ||
-      /\/video\/upload\//i.test(url)
+      /\/video\/upload\//i.test(url) ||
+      /[?&]type=video/.test(url)
     );
   }
 
@@ -138,9 +139,9 @@ export function SocialStories() {
   const activeProgressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
     fetchStories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Priority: Dynamic (video detected) > DB provided > Default (5s)
@@ -289,6 +290,7 @@ export function SocialStories() {
                 src={PROFILE.avatarUrl}
                 alt={PROFILE.name}
                 fill
+                sizes="(max-width: 768px) 40px, 40px"
                 className="object-cover p-[2px] rounded-full" // Slight padding inside border
                 priority
               />
@@ -445,6 +447,7 @@ export function SocialStories() {
                             src={PROFILE.avatarUrl}
                             alt={PROFILE.name}
                             fill
+                            sizes="(max-width: 768px) 32px, 32px"
                             className="object-cover"
                           />
                         </div>

@@ -64,3 +64,8 @@ testsprite_tests
 graphify-out/cache/
 graphify-out/manifest.json
 graphify-out/cost.json
+
+# Temporary scripts & backups
+*.bp
+pinggy_out.txt
+setup_webhook.sh

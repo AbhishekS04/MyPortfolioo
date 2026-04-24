@@ -94,6 +94,7 @@ export default function MinimalPage() {
                     src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
                     alt="Abhishek Singh"
                     fill
+                    sizes="(max-width: 768px) 80px, 80px"
                     className="object-cover"
                   />
                 </div>
