@@ -65,6 +65,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                   src={project.image_url}
                   alt={project.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 {/* Inner Shadow Overlay for depth */}

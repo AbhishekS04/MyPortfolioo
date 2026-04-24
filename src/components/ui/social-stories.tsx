@@ -408,6 +408,7 @@ export function SocialStories() {
                           src={currentStory.mediaUrl}
                           alt={currentStory.caption || "Story"}
                           fill
+                          sizes="(max-width: 768px) 90vw, 380px"
                           className="object-cover"
                           priority
                           onLoad={() => setIsMediaLoaded(true)}
