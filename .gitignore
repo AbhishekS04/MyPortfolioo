@@ -58,3 +58,9 @@ testsprite_tests
 
 
 .agents
+
+# Graphify
+# Keep graph outputs so teammates/agents have the map, skip local-only files
+graphify-out/cache/
+graphify-out/manifest.json
+graphify-out/cost.json
