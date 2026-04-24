@@ -88,53 +88,6 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // 2. Visitor Tracking (Telegram Analytics)
-  if (
-    !request.nextUrl.pathname.startsWith("/api") &&
-    !request.nextUrl.pathname.startsWith("/admin") &&
-    !request.nextUrl.pathname.startsWith("/_next") &&
-    !request.nextUrl.pathname.includes(".")
-  ) {
-    if (!request.cookies.has("visitor_tracked")) {
-      const country =
-        request.headers.get("x-vercel-ip-country") || "Unknown Country";
-      const city = request.headers.get("x-vercel-ip-city") || "Unknown City";
-      const path = request.nextUrl.pathname;
-
-      supabaseResponse.cookies.set("visitor_tracked", "true", {
-        path: "/",
-        maxAge: 60 * 60 * 24, // 24 hours
-        httpOnly: true,
-        sameSite: "lax",
-      });
-
-      const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-      const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-      if (BOT_TOKEN && CHAT_ID) {
-        const message = `🚨 *New Visitor Alert*\n\n🌍 Location: ${city}, ${country}\n📄 Page: ${path}\n🕒 Time: ${new Date().toUTCString()}`;
-
-        try {
-          fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              chat_id: CHAT_ID,
-              text: message,
-              parse_mode: "Markdown",
-            }),
-          }).catch((err) =>
-            console.error("Telegram notification failed:", err),
-          );
-        } catch (error) {
-          console.error("Fetch failed:", error);
-        }
-      }
-    }
-  }
-
   return supabaseResponse;
 }
 
