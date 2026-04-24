@@ -1,0 +1,10 @@
+# Ignore Graphify output
+graphify-out/
+
+# Other common ignores
+node_modules/
+.next/
+out/
+build/
+coverage/
+public/
