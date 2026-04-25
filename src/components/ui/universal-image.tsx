@@ -14,7 +14,12 @@ const OPTIMIZED_DOMAINS = [
   "media.licdn.com",
   "wallpapers.com",
   "rdxqqgntmtzvqsmepmls.supabase.co",
+  "cumdfaxqugcqgcfusaye.supabase.co",
   "ik.imagekit.io",
+  "cloud-snapp.vercel.app",
+  "cloudsnap.vercel.app",
+  "snapp.vercel.app",
+  "cdn.shadcnstudio.com",
 ];
 
 interface UniversalImageProps extends Omit<ImageProps, "src"> {
@@ -54,6 +59,15 @@ export function UniversalImage({
     }
   };
 
+  const isCustomCDN = useMemo(() => {
+    if (!imgSrc || typeof imgSrc !== "string") return false;
+    return (
+      imgSrc.includes("cloud-snapp.vercel.app") ||
+      imgSrc.includes("cloudsnap.vercel.app") ||
+      imgSrc.includes("snapp.vercel.app")
+    );
+  }, [imgSrc]);
+
   const shouldUseNextImage = isOptimizable(imgSrc);
 
   const handleError = () => {
@@ -72,6 +86,7 @@ export function UniversalImage({
         priority={priority}
         quality={quality}
         sizes={sizes}
+        unoptimized={isCustomCDN}
         onError={handleError}
         {...props}
       />
@@ -91,7 +106,7 @@ export function UniversalImage({
       }
     : { ...props.style };
 
-  // eslint-disable-next-line @next/next/no-img-element
+   
   return (
     <img
       src={imgSrc}

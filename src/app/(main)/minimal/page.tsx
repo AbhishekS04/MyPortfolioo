@@ -91,7 +91,8 @@ export default function MinimalPage() {
               <div className="flex items-center gap-5">
                 <div className="w-20 h-20 rounded-full bg-white/10 overflow-hidden relative border border-white/5 shadow-2xl">
                   <Image
-                    src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
+                    // src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
+                    src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
                     alt="Abhishek Singh"
                     fill
                     sizes="(max-width: 768px) 80px, 80px"

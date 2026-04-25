@@ -20,10 +20,11 @@ export interface Story {
   caption?: string;
 }
 
+// "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg",
 const PROFILE = {
   name: "Abhishek Singh",
   avatarUrl:
-    "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg",
+    "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp",
 };
 
 export function SocialStories() {
@@ -293,6 +294,7 @@ export function SocialStories() {
                 sizes="(max-width: 768px) 40px, 40px"
                 className="object-cover p-[2px] rounded-full" // Slight padding inside border
                 priority
+                unoptimized
               />
 
               {/* Loading / Active Pulse Overlay */}
@@ -411,6 +413,15 @@ export function SocialStories() {
                           sizes="(max-width: 768px) 90vw, 380px"
                           className="object-cover"
                           priority
+                          unoptimized={
+                            currentStory.mediaUrl.includes(
+                              "cloud-snapp.vercel.app",
+                            ) ||
+                            currentStory.mediaUrl.includes(
+                              "cloudsnap.vercel.app",
+                            ) ||
+                            currentStory.mediaUrl.includes("snapp.vercel.app")
+                          }
                           onLoad={() => setIsMediaLoaded(true)}
                         />
                       )}
@@ -450,6 +461,7 @@ export function SocialStories() {
                             fill
                             sizes="(max-width: 768px) 32px, 32px"
                             className="object-cover"
+                            unoptimized
                           />
                         </div>
                         <div className="flex flex-col">

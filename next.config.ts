@@ -63,6 +63,26 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "ik.imagekit.io",
       },
+      {
+        protocol: "https",
+        hostname: "cloud-snapp.vercel.app",
+      },
+      {
+        protocol: "https",
+        hostname: "cloudsnap.vercel.app",
+      },
+      {
+        protocol: "https",
+        hostname: "snapp.vercel.app",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.shadcnstudio.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cumdfaxqugcqgcfusaye.supabase.co",
+      },
     ],
   },
   experimental: {
@@ -110,10 +130,10 @@ const nextConfig: NextConfig = {
               "default-src 'self'",
               scriptSrc,
               "style-src 'self' 'unsafe-inline'",
-              "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://res.cloudinary.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh https://ik.imagekit.io",
+              "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://res.cloudinary.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh https://ik.imagekit.io https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app https://cdn.shadcnstudio.com",
               "font-src 'self'",
-              "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com",
-              "media-src 'self' data: blob: https://res.cloudinary.com https://ik.imagekit.io",
+              "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app",
+              "media-src 'self' data: blob: https://res.cloudinary.com https://ik.imagekit.io https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app",
               "worker-src 'self' blob:",
               "object-src 'none'",
               "frame-src 'none'",

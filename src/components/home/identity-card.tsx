@@ -12,10 +12,11 @@ export function IdentityCard() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg"
+          src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
           alt="Abhishek Singh"
           fill
           priority
+          unoptimized
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wAARCAAEAAMEASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAAAAEE/8QAIhAAAQQCAQMFAAAAAAAAAAAAAQACAxEEEiEiMQUTQVFh/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAMD/8QAGhEBAQEAAwEAAAAAAAAAAAAAAQACAxESIf/aAAwDAQACEQMRAD8A0m11N+x5Q+3dY4448v/Z"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
