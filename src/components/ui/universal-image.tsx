@@ -106,7 +106,6 @@ export function UniversalImage({
       }
     : { ...props.style };
 
-   
   return (
     <img
       src={imgSrc}
