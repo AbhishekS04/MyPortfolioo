@@ -61,7 +61,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.23",
     "eslint": "^9",
-    "eslint-config-next": "16.1.1",
+    "eslint-config-next": "16.2.4",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "postcss": "^8.5.6",
