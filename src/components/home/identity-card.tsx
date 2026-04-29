@@ -12,9 +12,8 @@ export function IdentityCard() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          // src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
-          src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif"
-          alt="Abhishek Singh"
+          src="/abhishek-singh-full-stack-developer.avif"
+          alt="Abhishek Singh — Full Stack Developer from Kolkata, India"
           fill
           priority
           unoptimized
@@ -36,7 +35,9 @@ export function IdentityCard() {
           <h2 className="text-3xl font-bold text-white mb-2 leading-tight">
             Abhishek Singh
           </h2>
-          <p className="text-white/80 text-lg font-medium">Product Engineer.</p>
+          <p className="text-white/80 text-lg font-medium">
+            Full Stack Developer.
+          </p>
 
           <div className="mt-6 flex items-center justify-between w-full gap-3 flex-wrap">
             <LocationTag className="flex-1 min-w-[140px] !bg-white/10 !backdrop-blur-md !border-white/10" />

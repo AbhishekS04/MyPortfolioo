@@ -18,8 +18,8 @@ export const ClipboardSecret = () => {
       console.log("📋 Clipboard Detect:", selectedText);
 
       // TRIGGERS
-      // Note: identity-card.tsx has "Product Engineer."
-      const triggers = ["product engineer", "abhishek"];
+      // Note: identity-card.tsx has "Full Stack Developer."
+      const triggers = ["full stack developer", "abhishek"];
 
       const isMatch = triggers.some((trigger) =>
         selectedText.includes(trigger),

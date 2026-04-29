@@ -78,8 +78,58 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
     .eq("project_id", project.id)
     .order("created_at", { ascending: true });
 
+  const projectUrl = `https://abhisheksingh.tech/works/${slug}`;
+
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: project.title,
+    description: project.description,
+    url: projectUrl,
+    author: {
+      "@type": "Person",
+      name: "Abhishek Singh",
+      url: "https://abhisheksingh.tech",
+    },
+    applicationCategory: "WebApplication",
+    operatingSystem: "Web",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://abhisheksingh.tech",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Works",
+        item: "https://abhisheksingh.tech/works",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: project.title,
+        item: projectUrl,
+      },
+    ],
+  };
+
   return (
     <Suspense fallback={null}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <ProjectDetailsView project={project} contributors={contributors || []} />
     </Suspense>
   );

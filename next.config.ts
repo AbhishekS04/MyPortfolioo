@@ -146,6 +146,23 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async rewrites() {
+    return [
+      {
+        // SEO: Map a descriptive URL to the CDN UUID so Google indexes
+        // the portrait under abhisheksingh.tech with keyword-rich naming.
+        source: "/abhishek-singh-full-stack-developer.avif",
+        destination:
+          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+      },
+      {
+        // Legacy: kept for backward compat with cached external links
+        source: "/abhishek-singh-product-engineer.avif",
+        destination:
+          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+      },
+    ];
+  },
 };
 
 export default withBundleAnalyzer(withPWA(nextConfig));

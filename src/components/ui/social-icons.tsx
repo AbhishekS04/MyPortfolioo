@@ -3,10 +3,10 @@
 import { useState } from "react";
 
 const defaultLinks = {
-  github: "https://github.com",
-  x: "https://x.com",
-  linkedin: "https://linkedin.com",
-  dribbble: "https://dribbble.com",
+  github: "https://github.com/AbhishekS04",
+  x: "https://x.com/_abhishek2304",
+  linkedin: "https://www.linkedin.com/in/abhishek-singh-045312292",
+  dribbble: "",
 };
 
 export function SocialIcons({

@@ -24,22 +24,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      // Canonical GitHub profile page — indexed so AI engines associate this profile with Abhishek Singh
+      url: `${baseUrl}/github/AbhishekS04`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
       url: `${baseUrl}/github`,
       lastModified,
       changeFrequency: "weekly",
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/gaming`,
       lastModified,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.5,
     },
     {
       url: `${baseUrl}/minimal`,
       lastModified,
       changeFrequency: "monthly",
-      priority: 0.5,
+      priority: 0.4,
     },
   ];
 }

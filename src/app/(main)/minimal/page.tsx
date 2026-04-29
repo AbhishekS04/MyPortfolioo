@@ -96,8 +96,8 @@ export default function MinimalPage() {
                     //! old clodsnapp urllll
                     // src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
                     //! current clodsnapp url
-                    src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif"
-                    alt="Abhishek Singh"
+                    src="/abhishek-singh-full-stack-developer.avif"
+                    alt="Abhishek Singh — Full Stack Developer"
                     fill
                     sizes="(max-width: 768px) 80px, 80px"
                     className="object-cover"
@@ -115,15 +115,15 @@ export default function MinimalPage() {
 
               <div className="space-y-6 text-lg md:text-xl leading-relaxed text-white/80 font-light">
                 <p>
-                  I am a{" "}
+                  I&apos;m a{" "}
                   <span className="text-white font-medium">
-                    Product Engineer
+                    self-taught developer
                   </span>{" "}
-                  and{" "}
+                  who tries to learn everything — strongest in{" "}
                   <span className="text-white font-medium">
-                    Full Stack Developer
-                  </span>{" "}
-                  based in India.
+                    full stack web development
+                  </span>
+                  .
                 </p>
                 <p className="text-white/60 text-base">
                   I craft digital experiences with a focus on precision, motion,

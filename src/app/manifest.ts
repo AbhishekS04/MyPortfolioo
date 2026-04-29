@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Abhishek Singh | Portfolio",
     short_name: "Abhishek",
-    description: "Product Engineer specializing in premium web experiences.",
+    description: "Full Stack Developer building modern web experiences.",
     start_url: "/",
     display: "standalone",
     background_color: "#050805",
@@ -26,16 +26,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/removebg.png",
         sizes: "180x180",
         type: "image/png",
-      },
-      {
-        src: "/removebg.png",
-        sizes: "144x144",
-        type: "image/png",
-      },
-      {
-        src: "/removebg.png",
-        sizes: "96x96",
-        type: "image/png",
+        purpose: "any",
       },
     ],
   };

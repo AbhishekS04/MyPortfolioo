@@ -48,7 +48,7 @@ export const FEATURED_PROJECTS: Project[] = [
 ];
 
 export const SKILLS = [
-  "Product Engineering",
+  "Full Stack Development",
   "UI Systems & Animations",
   "Next.js & React Architecture",
   "AI-assisted Development",

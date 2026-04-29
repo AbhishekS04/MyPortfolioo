@@ -17,9 +17,34 @@ export async function generateMetadata({
   params: Promise<{ username: string }>;
 }): Promise<Metadata> {
   const { username } = await params;
+  const profileUrl = `https://abhisheksingh.tech/github/${username}`;
   return {
-    title: `${username} - GitHub Profile`,
-    description: `View ${username}'s open source contributions and projects.`,
+    title: `${username} — GitHub Profile`,
+    description: `Explore ${username}'s open-source contributions, pinned repositories, README, and GitHub activity on Abhishek Singh's portfolio.`,
+    openGraph: {
+      title: `${username} — GitHub Profile | Abhishek Singh`,
+      description: `Explore ${username}'s open-source contributions, pinned repositories, and GitHub activity.`,
+      url: profileUrl,
+      siteName: "Abhishek Singh Portfolio",
+      images: [
+        {
+          url: "/og-image.jpg",
+          width: 1200,
+          height: 630,
+          alt: `${username} GitHub Profile`,
+        },
+      ],
+      type: "profile",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${username} — GitHub Profile | Abhishek Singh`,
+      description: `Explore ${username}'s open-source contributions and GitHub activity.`,
+      images: ["/og-image.jpg"],
+    },
+    alternates: {
+      canonical: profileUrl,
+    },
   };
 }
 
@@ -42,8 +67,8 @@ export default async function GitHubPage({
       <div className="min-h-screen bg-[#050805] text-white flex flex-col items-center justify-center p-4">
         <h1 className="text-4xl font-bold mb-4">User Not Found</h1>
         <p className="text-white/50 mb-8 max-w-md text-center">
-          Could not fetch data for "{username}". This might happen if the GitHub
-          API Token is missing or the user does not exist.
+          Could not fetch data for &quot;{username}&quot;. This might happen if
+          the GitHub API Token is missing or the user does not exist.
         </p>
         <Link
           href="/"
