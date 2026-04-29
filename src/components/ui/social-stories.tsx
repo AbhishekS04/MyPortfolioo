@@ -24,7 +24,8 @@ export interface Story {
 const PROFILE = {
   name: "Abhishek Singh",
   avatarUrl:
-    "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp",
+    // "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp",
+    "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
 };
 
 export function SocialStories() {

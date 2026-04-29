@@ -12,7 +12,8 @@ export function IdentityCard() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
+          // src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp"
+          src="https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif"
           alt="Abhishek Singh"
           fill
           priority
