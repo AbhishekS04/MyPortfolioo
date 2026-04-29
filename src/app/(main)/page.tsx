@@ -14,6 +14,26 @@ export const metadata: Metadata = {
   title: "Abhishek Singh | Portfolio",
   description:
     "Abhishek Singh is a self-taught Full Stack Developer and CS student at Adamas University, Kolkata, India (2023–2027). 2+ years of experience building production web apps with React, Next.js, TypeScript, and Supabase.",
+  openGraph: {
+    title: "Abhishek Singh | Full Stack Developer & Portfolio",
+    description:
+      "Personal portfolio of Abhishek Singh — building with React, Next.js, and TypeScript.",
+    url: "https://abhisheksingh.tech",
+    images: [
+      {
+        url: "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+        width: 1200,
+        height: 630,
+        alt: "Abhishek Singh | Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [
+      "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+    ],
+  },
 };
 
 export default async function Home() {
