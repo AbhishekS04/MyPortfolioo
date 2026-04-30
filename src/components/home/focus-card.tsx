@@ -242,15 +242,22 @@ export function FocusCard() {
                 </span>
               </span>
             </div>
-            <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#2496ED] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-20" : "opacity-100"}`}
-            >
+            <div className="flex items-center gap-4 text-white/50 transition-all duration-300 group/item pl-1">
               <div className="flex gap-1.5">
-                <SiDocker className="w-4 h-4 text-[#2496ED]" />
-                <FaAws className="w-4 h-4 text-[#FF9900]" />
+                <SiDocker
+                  className={`w-4 h-4 text-[#2496ED] transition-all duration-300 ${isGolden ? "drop-shadow-[0_0_6px_rgba(36,150,237,0.9)] scale-110" : ""}`}
+                />
+                <FaAws
+                  className={`w-4 h-4 transition-all duration-300 ${isGolden ? "text-[#FF9900] opacity-30" : "text-[#FF9900]"}`}
+                />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">
-                Cloud & Docker
+                Cloud &amp;{" "}
+                <span
+                  className={`transition-all duration-300 ${isGolden ? "text-[#2496ED] drop-shadow-[0_0_6px_rgba(36,150,237,0.9)]" : ""}`}
+                >
+                  Docker
+                </span>
               </span>
             </div>
             <div
