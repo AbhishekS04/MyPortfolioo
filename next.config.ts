@@ -156,6 +156,12 @@ const nextConfig: NextConfig = {
           "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
       },
       {
+        // SEO: Mask the external CDN link for the Open Graph preview image
+        source: "/og-image-portfolio.avif",
+        destination:
+          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+      },
+      {
         // Legacy: kept for backward compat with cached external links
         source: "/abhishek-singh-product-engineer.avif",
         destination:

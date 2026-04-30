@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     url: "https://abhisheksingh.tech",
     images: [
       {
-        url: "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+        url: "/og-image-portfolio.avif",
         width: 1200,
         height: 630,
         alt: "Abhishek Singh | Portfolio",
@@ -30,9 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: [
-      "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
-    ],
+    images: ["/og-image-portfolio.avif"],
   },
 };
 
