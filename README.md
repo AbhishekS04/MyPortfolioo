@@ -6,8 +6,8 @@
 
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-Proprietary-red.svg)
-![Next.js](https://img.shields.io/badge/Next.js-16.1.1-black.svg)
-![React](https://img.shields.io/badge/React-19.2.3-61dafb.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black.svg)
+![React](https://img.shields.io/badge/React-19.2.5-61dafb.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6.svg)
 
 **A modern, progressive web application portfolio with stunning animations and interactive experiences**
@@ -89,8 +89,9 @@ Built with **Next.js 16**, **React 19**, and **TypeScript**, this portfolio feat
 ### 🎮 **Interactive Features**
 
 - **Gaming Profile** - Cyberpunk-themed gaming stats showcase
-- **GitHub Integration** - Live contribution graphs and repository stats
-- **Dynamic Projects** - Filterable and searchable work portfolio
+- **Command Palette** - Quick navigation via keyboard shortcuts (⌘K)
+- **Consciousness Mode** - A hidden, "witnessed" UI state triggered by holding **Shift + Slow Scroll** for 7 seconds.
+- **Social Stories** - Instagram-style highlights fetched dynamically via the **Dedigram API**.
 - **Admin Dashboard** - Full CMS for content management
 - **MFA Security** - Two-factor authentication for admin access
 
@@ -104,14 +105,14 @@ This portfolio contains several hidden interactive features and surprises. Pay a
 
 ### **Core Technologies**
 
-- [Next.js 16.1](https://nextjs.org/) - React framework with App Router
+- [Next.js 16.2](https://nextjs.org/) - React framework with App Router
 - [React 19.2](https://react.dev/) - UI library
 - [TypeScript 5](https://www.typescriptlang.org/) - Type safety
 
 ### **Styling & Animation**
 
 - [Tailwind CSS 4.1](https://tailwindcss.com/) - Utility-first CSS framework
-- [Framer Motion 12](https://www.framer.com/motion/) - Production-ready animation library
+- [Framer Motion 12.2](https://www.framer.com/motion/) - Production-ready animation library
 - [Radix UI](https://www.radix-ui.com/) - Accessible component primitives
 - [Lucide React](https://lucide.dev/) - Beautiful & consistent icon set
 - [21st.dev](https://21st.dev/) - Premium UI components and design inspiration
@@ -128,30 +129,45 @@ This portfolio contains several hidden interactive features and surprises. Pay a
 ## 📂 Project Architecture
 
 ```
-Portfolio Structure:
 ├── src/
-│   ├── app/                    # Next.js App Router (Pages & Routes)
-│   │   ├── page.tsx           # Homepage with Bento Gallery
-│   │   ├── about/             # About page with experience & education
-│   │   ├── works/             # Project portfolio showcase
-│   │   ├── gaming/            # Gaming profile (Cyberpunk design)
-│   │   ├── admin/             # Protected admin dashboard
-│   │   │   ├── login/         # Authentication
-│   │   │   ├── mfa-setup/     # Two-factor authentication
-│   │   │   └── [pages]/       # Content management pages
-│   │   └── api/               # API routes
+│   ├── app/                    # Next.js App Router
+│   │   ├── (main)/             # Main site group (Page transitions & Layout)
+│   │   │   ├── page.tsx        # Homepage with Bento Gallery
+│   │   │   ├── about/          # Experience & Education
+│   │   │   ├── works/          # Project portfolio showcase
+│   │   │   ├── gaming/         # Cyberpunk Gaming profile
+│   │   │   ├── github/         # GitHub Intelligence & Stats
+│   │   │   └── minimal/        # Minimalist view toggle
+│   │   ├── admin/              # Full-featured CMS Dashboard
+│   │   │   ├── login/          # Authentication
+│   │   │   ├── mfa-setup/      # 2FA Security configuration
+│   │   │   ├── projects/       # Project management
+│   │   │   └── [modules]/      # Settings, Stories, Tech, etc.
+│   │   ├── actions/            # Server Actions (Gallery, AI Optimization)
+│   │   └── api/                # API Endpoints (Ratings, Webhooks)
 │   │
 │   ├── components/
-│   │   ├── home/              # Homepage-specific components
-│   │   ├── ui/                # Reusable UI components & Easter eggs
-│   │   ├── admin/             # Admin dashboard components
-│   │   └── github/            # GitHub integration components
+│   │   ├── home/               # Featured, Bento, Identity cards
+│   │   ├── works/              # Project grid, Changelog overlays
+│   │   ├── ui/                 # Atomic design (Shadcn + Custom interactions)
+│   │   ├── admin/              # Dashboard-specific widgets
+│   │   └── github/             # Live API integrations
 │   │
-│   └── lib/                   # Utilities, helpers & configurations
+│   ├── app/
+│   │   └── api/
+│   │       └── telegram/       # Telegram Bot API integration
+│   │           ├── webhook/    # Real-time story publishing logic
+│   │           └── media/      # Telegram file proxy system
+│   │
+│   ├── lib/                    # Shared logic, fonts & static data
+│   ├── utils/                  # Supabase clients & GitHub helpers
+│   ├── fonts/                  # Custom typography assets
+│   └── types/                  # TypeScript interfaces & declarations
 │
-├── public/                     # Static assets (images, fonts, icons)
-├── docs/                       # Documentation
-└── scripts/                    # Build scripts & utilities
+├── public/                     # Static assets (images, icons, manifest)
+├── scripts/                    # Build scripts & maintenance utilities
+├── Dockerfile                  # Multi-stage production container build
+└── docker-compose.yml          # Local/Production service orchestration
 ```
 
 ---
@@ -172,22 +188,29 @@ This portfolio embodies:
 
 ### **Progressive Web App**
 
-Fully PWA-enabled with:
-
 - Installable on mobile and desktop
 - Offline support for cached pages
 - App-like experience with custom splash screens
 - Service worker caching for instant loads
 
+### **Social Stories & Intelligence**
+
+- **Telegram Bot API Integration** - Automated syncing of social media stories directly to the portfolio via a dedicated bot.
+- **Real-time Telegram CMS** - Upload, manage, and delete stories via Telegram DM with instant Supabase injection.
+- **Supabase Data Layer** - Real-time metadata management for story sequences and link attribution.
+- **Hidden Interactions** - Advanced event listeners for intenational discovery (Shift+Scroll logic).
+
+### **Deployment & Orchestration**
+
+- **Docker-Native** - Multi-stage **Node 22-Alpine** builds optimized for minimal image size.
+- **Next.js Standalone** - Decoupled runtime strategy for enterprise-grade production reliability.
+- **Docker Compose** - Unified service orchestration for seamless environment parity.
+
 ### **Admin Dashboard**
 
-Secure content management system featuring:
-
-- Supabase authentication with MFA
-- AI-powered text optimization via OpenAI
-- Dynamic content editing for all sections
-- Real-time preview and publishing
-- Analytics and ratings dashboard
+- **Supabase Auth & MFA** - Multi-factor authentication with TOTP for all admin nodes.
+- **AI-Powered CMS** - Integrated OpenAI optimization for portfolio text and project descriptions.
+- **Real-time Management** - Dynamic content editing with instant Supabase synchronization.
 
 ### **Performance Optimizations**
 
@@ -286,6 +309,7 @@ Special thanks to the amazing open-source community and the teams behind:
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Lenis](https://lenis.studiofreight.com/) - Smooth scrolling magic
 - [21st.dev](https://21st.dev/) - 🌟 **Special shoutout for premium UI components and design inspiration**
+- [Dedigram API](https://cloud-snapp.vercel.app/) - Powering the automated social stories delivery system
 
 ---
 

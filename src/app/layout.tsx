@@ -209,7 +209,7 @@ export default function RootLayout({
                 "@id": "https://abhisheksingh.tech/#profile",
                 url: "https://abhisheksingh.tech",
                 name: "Abhishek Singh — Full Stack Developer Portfolio",
-                dateModified: new Date().toISOString(),
+                dateModified: "2026-05-01T00:00:00.000Z",
                 mainEntity: {
                   "@id": "https://abhisheksingh.tech/#person",
                 },

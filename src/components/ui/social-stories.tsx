@@ -420,8 +420,7 @@ export function SocialStories() {
                             ) ||
                             currentStory.mediaUrl.includes(
                               "cloudsnap.vercel.app",
-                            ) ||
-                            currentStory.mediaUrl.includes("snapp.vercel.app")
+                            )
                           }
                           onLoad={() => setIsMediaLoaded(true)}
                         />

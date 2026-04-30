@@ -6,59 +6,28 @@ import { motion, AnimatePresence } from "framer-motion";
 export const ConsciousnessMode = () => {
   const [isActive, setIsActive] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [isLocked, setIsLocked] = useState(true); // Default locked until checked
+
   const progressRef = useRef(0);
-  const lastScrollY = useRef(0);
-  const lastTime = useRef(0);
+  const isShiftPressedRef = useRef(false);
+  const isActiveRef = useRef(false);
   const inactivityTimer = useRef<NodeJS.Timeout | null>(null);
 
+  // Sync isActiveRef
   useEffect(() => {
-    // Check persistence
-    const witnessed = localStorage.getItem("consciousness_witnessed");
-    if (!witnessed) setIsLocked(false);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = (e: Event) => {
-      if (isActive) return;
-
-      const now = Date.now();
-      const currentScrollY = window.scrollY;
-      const deltaY = Math.abs(currentScrollY - lastScrollY.current);
-      const deltaTime = now - lastTime.current;
-
-      // Update refs
-      lastScrollY.current = currentScrollY;
-      lastTime.current = now;
-
-      // LOGIC:
-      // 1. Shift Key must be held (we check via a separate listener or just window.event if possible, but React safer to track key state)
-      // Actually, we can check keyboard state via a ref tracker.
-    };
-
-    // We need a key tracker
-    // But simpler: We can check MouseEvent modifiers? No, scroll is an Event or WheelEvent.
-    // WheelEvent has shiftKey. But 'scroll' event does not.
-    // Let's listen to 'wheel' for the trigger?
-    // - "scroll" event fires AFTER layout change.
-    // - "wheel" event fires ON input.
-    // User said "Scroll slowly". Wheel is better for detecting "Intent".
+    isActiveRef.current = isActive;
   }, [isActive]);
 
-  // Better Logic:
-  // Track Shift Key State
-  const [isShiftPressed, setIsShiftPressed] = useState(false);
+  // Track Shift Key
   useEffect(() => {
-    if (isLocked) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Shift") setIsShiftPressed(true);
+      if (e.key === "Shift") isShiftPressedRef.current = true;
     };
     const handleKeyUp = (e: KeyboardEvent) => {
       if (e.key === "Shift") {
-        setIsShiftPressed(false);
-        if (!isActive) {
-          setProgress(0); // Reset if let go before completion
+        isShiftPressedRef.current = false;
+        if (!isActiveRef.current) {
           progressRef.current = 0;
+          setProgress(0);
         }
       }
     };
@@ -68,140 +37,131 @@ export const ConsciousnessMode = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [isActive, isLocked]);
+  }, []);
 
-  // Track Scroll
+  // Track Scroll — mounted once, reads refs to avoid stale closures
   useEffect(() => {
-    if (isLocked || !isShiftPressed || isActive) return;
-
-    let animationFrame: number;
-
-    const checkScroll = () => {
-      // We need to detect "Active Scrolling" but "Slow".
-      // Since scroll events are discrete, let's just decay the progress if NO scroll happens.
-    };
-
     const handleWheel = (e: WheelEvent) => {
-      if (isLocked || !isShiftPressed || isActive) return;
+      if (!isShiftPressedRef.current || isActiveRef.current) return;
 
-      // Speed Check
-      // Typical fast scroll is > 50-100 delta.
-      // Slow scroll is < 20.
       const speed = Math.abs(e.deltaY);
 
-      if (speed > 0 && speed < 30) {
-        // Good speed. Increment.
-        // Target: 7 seconds.
-        // Assuming ~60 wheel events per second for continuous smooth scrolling (trackpad), or ~10 for ratcheted mouse.
-        // Let's aim safely for a mix. 0.4 per event is roughly 250 events.
-        // If 60hz -> 4 seconds. If 30hz -> 8 seconds.
-        // Let's try 0.25 to be safe for 7s on smooth trackpads.
-        progressRef.current += 0.25;
+      if (speed > 0 && speed < 200) {
+        // Reward VERY slow scrolls (intent)
+        const increment = speed < 50 ? 5 : 2;
+        progressRef.current = Math.min(100, progressRef.current + increment);
+        setProgress(progressRef.current);
 
-        if (progressRef.current > 100) {
-          progressRef.current = 100;
+        if (progressRef.current >= 100) {
+          isActiveRef.current = true;
           setIsActive(true);
-          localStorage.setItem("consciousness_witnessed", "true");
         }
-        setProgress(progressRef.current);
-      } else if (speed > 50) {
-        // Too fast! Reset punishment.
-        progressRef.current = Math.max(0, progressRef.current - 5);
-        setProgress(progressRef.current);
       }
 
-      // Reset inactivity timer
       if (inactivityTimer.current) clearTimeout(inactivityTimer.current);
       inactivityTimer.current = setTimeout(() => {
-        // Decay if stopped
         const decay = setInterval(() => {
-          progressRef.current -= 2;
-          if (progressRef.current <= 0) {
-            progressRef.current = 0;
-            clearInterval(decay);
-          }
+          progressRef.current = Math.max(0, progressRef.current - 1);
           setProgress(progressRef.current);
-        }, 50);
-      }, 500);
+          if (progressRef.current <= 0) clearInterval(decay);
+        }, 80);
+      }, 800);
     };
 
-    window.addEventListener("wheel", handleWheel);
+    window.addEventListener("wheel", handleWheel, { passive: true });
     return () => window.removeEventListener("wheel", handleWheel);
-  }, [isShiftPressed, isActive, isLocked]);
+  }, []);
 
-  // Auto-dismiss after activation
+  // Auto-dismiss
   useEffect(() => {
-    if (isActive) {
-      const timer = setTimeout(() => {
-        setIsActive(false);
-        setProgress(0);
-        progressRef.current = 0;
-      }, 4500); // Wait for text to fully play out
-      return () => clearTimeout(timer);
-    }
+    if (!isActive) return;
+    const timer = setTimeout(() => {
+      setIsActive(false);
+      isActiveRef.current = false;
+      setProgress(0);
+      progressRef.current = 0;
+    }, 5000);
+    return () => clearTimeout(timer);
   }, [isActive]);
 
   return (
-    <AnimatePresence>
-      {/* PROGRESS FEEDBACK (Subtle) */}
-      {progress > 5 && !isActive && (
-        <motion.div
-          className="fixed bottom-0 left-0 h-1 bg-white/20 z-[9999]"
-          style={{ width: `${progress}%` }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        />
-      )}
-
-      {isActive && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1 }}
-          className="fixed inset-0 z-[1000] pointer-events-none flex items-center justify-center"
-        >
-          {/* BLUR OVERLAY */}
+    <>
+      {/* Progress Bar — independent layer */}
+      <AnimatePresence>
+        {progress > 0 && !isActive && (
           <motion.div
+            key="bar"
+            className="fixed bottom-0 left-0 h-[4px] z-[99997] bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+            style={{ width: `${progress}%` }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Blur overlay — independent layer, z-[99998] */}
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            key="blur"
+            className="fixed inset-0 z-[99998] pointer-events-none"
             initial={{
               backdropFilter: "blur(0px)",
               backgroundColor: "rgba(0,0,0,0)",
             }}
             animate={{
-              backdropFilter: "blur(12px)",
-              backgroundColor: "rgba(0,0,0,0.4)",
+              backdropFilter: "blur(24px)",
+              backgroundColor: "rgba(0,0,0,0.6)",
             }}
             exit={{
               backdropFilter: "blur(0px)",
               backgroundColor: "rgba(0,0,0,0)",
             }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="absolute inset-0"
+            transition={{ duration: 1.5, ease: "circOut" }}
           />
+        )}
+      </AnimatePresence>
 
-          {/* TEXT */}
+      {/* Text — independent layer, z-[99999] — always above everything */}
+      <AnimatePresence>
+        {isActive && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 1.05, filter: "blur(5px)" }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
-            className="relative z-10 text-center px-4"
+            key="text"
+            className="fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
           >
-            <h2 className="text-3xl md:text-5xl font-light tracking-widest text-[#e2e2e2] font-serif italic mb-4">
-              You’re paying attention.
-            </h2>
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
-              className="text-sm uppercase tracking-[0.3em] text-white/50"
-            >
-              I like that.
-            </motion.p>
+            <div className="text-center px-6">
+              <motion.div
+                initial={{ y: 20, opacity: 0, scale: 0.95 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: -10, opacity: 0, scale: 1.02 }}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.2,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                <h2 className="text-4xl md:text-6xl font-light tracking-[0.2em] text-white font-serif italic mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                  You&apos;re paying attention.
+                </h2>
+                <motion.p
+                  className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/50"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, delay: 1.5 }}
+                >
+                  I like that.
+                </motion.p>
+              </motion.div>
+            </div>
           </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        )}
+      </AnimatePresence>
+    </>
   );
 };

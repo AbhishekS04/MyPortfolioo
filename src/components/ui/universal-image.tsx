@@ -10,7 +10,6 @@ const OPTIMIZED_DOMAINS = [
   "github.com",
   "raw.githubusercontent.com",
   "avatars.githubusercontent.com",
-  "res.cloudinary.com",
   "media.licdn.com",
   "wallpapers.com",
   "rdxqqgntmtzvqsmepmls.supabase.co",

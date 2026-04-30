@@ -42,6 +42,9 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                           alt={project.title}
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          unoptimized={project.image_url?.includes(
+                            "res.cloudinary.com",
+                          )}
                           className={`object-cover transition-transform duration-500 ${!project.is_coming_soon ? "group-hover:scale-110 group-hover:opacity-100 opacity-80" : "opacity-60 blur-[2px]"}`}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-80" />

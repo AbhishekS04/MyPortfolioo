@@ -17,10 +17,8 @@ const isVideo = (url: string) => {
   if (!url) return false;
   // Strip query params for extension check
   const cleanUrl = url.split("?")[0];
-  // Check file extension OR Cloudinary video path pattern
-  return (
-    /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url)
-  );
+  // Check file extension
+  return /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl);
 };
 
 const getVideoType = (url: string): string => {

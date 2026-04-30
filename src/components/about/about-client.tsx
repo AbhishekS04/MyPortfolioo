@@ -138,7 +138,7 @@ export function AboutClient({
           <FisheyeShader
             src={
               general.profile_image_url ||
-              "https://res.cloudinary.com/dap0u41dz/image/upload/v1766771167/file_00000000d51472078b7e2f9d883a6674_majhmb.jpg"
+              "/abhishek-singh-full-stack-developer.avif"
             }
             settings={fisheyeSettings}
             className="absolute inset-0 w-full h-full object-cover"
