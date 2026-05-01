@@ -40,8 +40,8 @@ export function IdentityCard() {
           </p>
 
           <div className="mt-6 flex items-center justify-between w-full gap-3 flex-wrap">
-            <LocationTag className="flex-1 min-w-[140px] !bg-white/10 !backdrop-blur-md !border-white/10" />
-            <UserLocation className="flex-1 min-w-[140px] !bg-white/10 !backdrop-blur-md !border-white/10" />
+            <LocationTag className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
+            <UserLocation className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
           </div>
         </motion.div>
       </div>

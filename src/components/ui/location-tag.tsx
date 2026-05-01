@@ -202,7 +202,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className={`text-sm font-medium block ${isRetro ? "font-mono text-amber-500" : "font-sans text-white/90"}`}
+              className={`text-sm font-medium block whitespace-nowrap ${isRetro ? "font-mono text-amber-500" : "font-sans text-white/90"}`}
             >
               {isRetro ? "SYSTEM OVERRIDE" : "Available for hire"}
             </motion.div>
