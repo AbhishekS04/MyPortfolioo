@@ -1,6 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import { createClient } from "@/utils/supabase/client";
 import {
   ArrowLeft,
@@ -10,7 +13,6 @@ import {
   Save,
   X,
   Loader2,
-  Link as LinkIcon,
   Image as ImageIcon,
   CheckCircle,
   Activity,
@@ -36,6 +38,12 @@ type ProjectStatus =
   | "Completed";
 type ProjectType = "Personal" | "Client";
 type MediaMode = "gallery" | "video_first";
+type ActiveTab =
+  | "essentials"
+  | "media"
+  | "content"
+  | "settings"
+  | "contributors";
 
 interface Project {
   id: string;
@@ -63,6 +71,7 @@ interface Project {
   features?: string;
   challenges?: string;
   outcome?: string;
+  case_study_md?: string;
 
   featured: boolean;
   display_order: number;
@@ -78,9 +87,7 @@ export default function AdminProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<
-    "essentials" | "media" | "content" | "settings" | "contributors"
-  >("essentials");
+  const [activeTab, setActiveTab] = useState<ActiveTab>("essentials");
 
   // Form State
   const [formState, setFormState] = useState({
@@ -89,13 +96,9 @@ export default function AdminProjects() {
     galleryInput: "",
   });
 
-  const supabase = createClient();
+  const supabase = useMemo(() => createClient(), []);
 
-  useEffect(() => {
-    loadProjects();
-  }, []);
-
-  const loadProjects = async () => {
+  const loadProjects = useCallback(async () => {
     const { data, error } = await supabase
       .from("projects")
       .select("*")
@@ -108,7 +111,12 @@ export default function AdminProjects() {
 
     if (data) setProjects(data);
     setLoading(false);
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadProjects();
+  }, [loadProjects]);
 
   const handleEdit = (project: Project) => {
     setEditingId(project.id);
@@ -140,6 +148,7 @@ export default function AdminProjects() {
         external_link_label: "Live Demo",
         is_coming_soon: false,
         is_hidden: false,
+        case_study_md: "",
       },
       techInput: "",
       galleryInput: "",
@@ -159,7 +168,7 @@ export default function AdminProjects() {
     if (!formData.title) return alert("Title is required");
 
     // Auto-generate slug if missing
-    let finalSlug = formData.slug || generateSlug(formData.title);
+    const finalSlug = formData.slug || generateSlug(formData.title);
 
     const payload = {
       ...formData,
@@ -419,16 +428,22 @@ export default function AdminProjects() {
 
               {/* Tabs */}
               <div className="flex items-center gap-6 px-8 border-b border-white/5 bg-[#111]">
-                {[
-                  { id: "essentials", label: "Essentials", icon: Layout },
-                  { id: "media", label: "Media & Gallery", icon: ImageIcon },
-                  { id: "content", label: "Case Study", icon: FileText },
-                  { id: "contributors", label: "Contributors", icon: Users },
-                  { id: "settings", label: "Settings", icon: Settings },
-                ].map((tab) => (
+                {(
+                  [
+                    { id: "essentials", label: "Essentials", icon: Layout },
+                    { id: "media", label: "Media & Gallery", icon: ImageIcon },
+                    { id: "content", label: "Case Study", icon: FileText },
+                    { id: "contributors", label: "Contributors", icon: Users },
+                    { id: "settings", label: "Settings", icon: Settings },
+                  ] satisfies {
+                    id: ActiveTab;
+                    label: string;
+                    icon: React.ComponentType<{ className?: string }>;
+                  }[]
+                ).map((tab) => (
                   <button
                     key={tab.id}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => setActiveTab(tab.id)}
                     className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? "border-white text-white" : "border-transparent text-white/40 hover:text-white/60"}`}
                   >
                     <tab.icon className="w-4 h-4" />
@@ -617,136 +632,46 @@ export default function AdminProjects() {
                     </div>
                   )}
 
-                  {/* --- CONTENT TAB --- */}
+                  {/* --- CONTENT TAB (CASE STUDY) --- */}
                   {activeTab === "content" && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
-                      <div className="space-y-2">
+                      <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                            Project Overview
+                            Case Study Markdown
                           </label>
                           <AiTextOptimizer
-                            currentText={formData.overview || ""}
+                            currentText={formData.case_study_md || ""}
                             onOptimized={(val: string) =>
-                              updateFormData({ overview: val })
+                              updateFormData({ case_study_md: val })
                             }
                           />
                         </div>
-                        <textarea
-                          value={formData.overview || ""}
-                          onChange={(e) =>
-                            updateFormData({ overview: e.target.value })
-                          }
-                          rows={4}
-                          className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                          placeholder="Detailed overview of the project context..."
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                              The Problem
-                            </label>
-                            <AiTextOptimizer
-                              currentText={formData.problem_statement || ""}
-                              onOptimized={(val: string) =>
-                                updateFormData({ problem_statement: val })
-                              }
-                            />
-                          </div>
+                        <div className="grid grid-cols-2 gap-4 h-[600px]">
+                          {/* Editor */}
                           <textarea
-                            value={formData.problem_statement || ""}
+                            value={formData.case_study_md || ""}
                             onChange={(e) =>
-                              updateFormData({
-                                problem_statement: e.target.value,
-                              })
+                              updateFormData({ case_study_md: e.target.value })
                             }
-                            rows={4}
-                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                            placeholder="What challenge were you solving?"
+                            className="w-full h-full bg-[#0d0d0d] border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 resize-none focus:outline-none focus:border-white/20"
+                            placeholder="## Overview&#10;&#10;Write your case study...&#10;&#10;## Highlights&#10;- Feature one&#10;- Feature two&#10;&#10;## Tech Stack&#10;The tech stack section is hidden from the main body but shown in tags."
                           />
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                              The Approach / Solution
-                            </label>
-                            <AiTextOptimizer
-                              currentText={formData.approach || ""}
-                              onOptimized={(val: string) =>
-                                updateFormData({ approach: val })
-                              }
-                            />
+                          {/* Preview */}
+                          <div className="h-full overflow-y-auto border border-white/10 rounded-xl p-4 prose prose-invert prose-sm max-w-none">
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              rehypePlugins={[rehypeHighlight]}
+                            >
+                              {formData.case_study_md ||
+                                "_Preview will appear here..._"}
+                            </ReactMarkdown>
                           </div>
-                          <textarea
-                            value={formData.approach || ""}
-                            onChange={(e) =>
-                              updateFormData({ approach: e.target.value })
-                            }
-                            rows={4}
-                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                            placeholder="How did you tackle it?"
-                          />
                         </div>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                          Key Features (List or Text)
-                        </label>
-                        <textarea
-                          value={formData.features || ""}
-                          onChange={(e) =>
-                            updateFormData({ features: e.target.value })
-                          }
-                          rows={4}
-                          className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                          placeholder="• Feature 1&#10;• Feature 2"
-                        />
-                      </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                              Challenges
-                            </label>
-                            <AiTextOptimizer
-                              currentText={formData.challenges || ""}
-                              onOptimized={(val: string) =>
-                                updateFormData({ challenges: val })
-                              }
-                            />
-                          </div>
-                          <textarea
-                            value={formData.challenges || ""}
-                            onChange={(e) =>
-                              updateFormData({ challenges: e.target.value })
-                            }
-                            rows={3}
-                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                          />
-                        </div>
-                        <div className="space-y-2">
-                          <div className="flex items-center justify-between">
-                            <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
-                              Outcome / Results
-                            </label>
-                            <AiTextOptimizer
-                              currentText={formData.outcome || ""}
-                              onOptimized={(val: string) =>
-                                updateFormData({ outcome: val })
-                              }
-                            />
-                          </div>
-                          <textarea
-                            value={formData.outcome || ""}
-                            onChange={(e) =>
-                              updateFormData({ outcome: e.target.value })
-                            }
-                            rows={3}
-                            className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
-                          />
-                        </div>
+                        <p className="text-[10px] text-white/20 italic">
+                          Markdown is supported. Images, lists, and code blocks
+                          will render on the public page.
+                        </p>
                       </div>
                     </div>
                   )}

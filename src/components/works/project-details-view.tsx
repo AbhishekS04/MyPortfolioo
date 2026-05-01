@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, Variants } from "framer-motion";
@@ -12,6 +12,9 @@ import {
   Volume2,
   VolumeX,
 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import { FaGithub, FaTerminal } from "react-icons/fa6";
 import ProjectContributors from "@/components/ui/project-contributors";
 import { ChangelogOverlay } from "./changelog-overlay";
@@ -44,6 +47,7 @@ interface Project {
   github_url?: string;
   features?: string;
   gallery_images?: string[];
+  case_study_md?: string;
 }
 
 interface ProjectDetailsViewProps {
@@ -225,6 +229,115 @@ export function ProjectDetailsView({
     );
   };
 
+  const { filteredMarkdown, headingMap, markdownHighlights } = useMemo(() => {
+    if (!project.case_study_md)
+      return { filteredMarkdown: "", headingMap: {}, markdownHighlights: null };
+
+    const lines = project.case_study_md.split("\n");
+    const filteredLines = [];
+    const map: Record<string, string> = {};
+    const highlights: string[] = [];
+    let skipping = false;
+    let extractingHighlights = false;
+    let h2Count = 0;
+
+    for (const line of lines) {
+      if (line.startsWith("## ")) {
+        const title = line.replace("## ", "").trim();
+        const lowerTitle = title.toLowerCase();
+
+        if (lowerTitle.includes("tech stack")) {
+          skipping = true;
+          extractingHighlights = false;
+        } else if (
+          lowerTitle.includes("highlights") ||
+          lowerTitle.includes("key features")
+        ) {
+          skipping = true;
+          extractingHighlights = true;
+        } else {
+          skipping = false;
+          extractingHighlights = false;
+          h2Count++;
+          map[title] = String(h2Count).padStart(2, "0");
+        }
+      }
+
+      if (
+        extractingHighlights &&
+        (line.trim().startsWith("- ") ||
+          line.trim().startsWith("* ") ||
+          line.trim().startsWith("• "))
+      ) {
+        highlights.push(line.trim().replace(/^[-*•]\s*/, ""));
+      }
+
+      if (!skipping) {
+        filteredLines.push(line);
+      }
+    }
+
+    return {
+      filteredMarkdown: filteredLines.join("\n"),
+      headingMap: map,
+      markdownHighlights: highlights.length > 0 ? highlights : null,
+    };
+  }, [project.case_study_md]);
+
+  const markdownContent = useMemo(() => {
+    if (!filteredMarkdown) return null;
+
+    return (
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight]}
+        components={{
+          h2: ({ children }) => {
+            const text = Array.isArray(children)
+              ? children.join("")
+              : String(children);
+
+            const num = headingMap[text];
+            if (!num) return null;
+
+            return (
+              <div className="flex items-center gap-4 mb-8 mt-24 first:mt-0 opacity-90">
+                <span className="text-xs font-mono text-blue-300">{num}</span>
+                <div className="h-px w-8 bg-blue-500/30" />
+                <h2 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em]">
+                  {children}
+                </h2>
+              </div>
+            );
+          },
+          p: ({ children }) => (
+            <p className="text-white/70 text-base md:text-lg leading-relaxed mb-8">
+              {children}
+            </p>
+          ),
+          ul: ({ children }) => (
+            <ul className="list-disc pl-5 text-white/70 text-sm space-y-3 mb-8">
+              {children}
+            </ul>
+          ),
+          li: ({ children }) => (
+            <li className="text-white/70 pl-1">{children}</li>
+          ),
+          strong: ({ children }) => (
+            <strong className="text-white font-semibold">{children}</strong>
+          ),
+          code: ({ children }) => (
+            <code className="font-mono text-[10px] bg-white/5 px-1.5 py-0.5 rounded border border-white/5 text-blue-200/80">
+              {children}
+            </code>
+          ),
+        }}
+      >
+        {filteredMarkdown}
+      </ReactMarkdown>
+    );
+  }, [filteredMarkdown, headingMap]);
+
   return (
     <main className="relative min-h-screen bg-transparent text-[#e5e5e5] selection:bg-emerald-500/20 selection:text-emerald-100 pb-40 overflow-x-hidden">
       {/* --- Subtle Ambient Glow (Luxury/Fog) - Updated to Green Tones --- */}
@@ -360,54 +473,76 @@ export function ProjectDetailsView({
 
         {/* --- 4. Content Grid --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 mb-32 relative">
-          {/* LEFT: Deep Dive */}
-          <div className="lg:col-span-7 space-y-24 md:space-y-32">
-            {[
-              { title: "Overview", number: "01", content: project.overview },
-              {
-                title: "The Challenge",
-                number: "02",
-                content: project.problem_statement,
-              },
-              { title: "Approach", number: "03", content: project.approach },
-            ].map(
-              (section, idx) =>
-                section.content && (
-                  <motion.section
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.8 }}
-                  >
-                    <div className="flex items-center gap-4 mb-8 opacity-80">
-                      <span className="text-xs font-mono text-blue-300">
-                        {section.number}
-                      </span>
-                      <div className="h-px w-8 bg-blue-500/30" />
-                      <h3 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em]">
-                        {section.title}
-                      </h3>
-                    </div>
-                    <TextBlock text={section.content} />
-                  </motion.section>
-                ),
-            )}
-
-            {project.outcome && (
-              <motion.section
+          {/* LEFT: Deep Dive (Markdown) */}
+          <div className="lg:col-span-7">
+            {project.case_study_md ? (
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="relative py-12 border-t border-white/10"
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.8 }}
+                className="prose prose-invert prose-lg max-w-none"
               >
-                <h3 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em] mb-8">
-                  Outcome
-                </h3>
-                <p className="text-xl md:text-2xl text-white/90 font-light italic leading-relaxed">
-                  &quot;{project.outcome}&quot;
-                </p>
-              </motion.section>
+                {markdownContent}
+              </motion.div>
+            ) : (
+              <div className="space-y-24 md:space-y-32">
+                {[
+                  {
+                    title: "Overview",
+                    number: "01",
+                    content: project.overview,
+                  },
+                  {
+                    title: "The Challenge",
+                    number: "02",
+                    content: project.problem_statement,
+                  },
+                  {
+                    title: "Approach",
+                    number: "03",
+                    content: project.approach,
+                  },
+                ].map(
+                  (section, idx) =>
+                    section.content && (
+                      <motion.section
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.8 }}
+                      >
+                        <div className="flex items-center gap-4 mb-8 opacity-80">
+                          <span className="text-xs font-mono text-blue-300">
+                            {section.number}
+                          </span>
+                          <div className="h-px w-8 bg-blue-500/30" />
+                          <h3 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em]">
+                            {section.title}
+                          </h3>
+                        </div>
+                        <TextBlock text={section.content} />
+                      </motion.section>
+                    ),
+                )}
+
+                {project.outcome && (
+                  <motion.section
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="relative py-12 border-t border-white/10"
+                  >
+                    <h3 className="text-xs font-bold text-blue-200 uppercase tracking-[0.2em] mb-8">
+                      Outcome
+                    </h3>
+                    <p className="text-xl md:text-2xl text-white/90 font-light italic leading-relaxed">
+                      &quot;{project.outcome}&quot;
+                    </p>
+                  </motion.section>
+                )}
+              </div>
             )}
           </div>
 
@@ -463,8 +598,8 @@ export function ProjectDetailsView({
               )}
             </motion.div>
 
-            {/* Features */}
-            {project.features && (
+            {/* Features (Highlights) */}
+            {(markdownHighlights || project.features) && (
               <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
@@ -476,18 +611,37 @@ export function ProjectDetailsView({
                   Highlights
                 </h4>
                 <ul className="px-6 py-6 space-y-3">
-                  {project.features
-                    .split("\n")
-                    .filter(Boolean)
-                    .map((feature: string, i: number) => (
-                      <li
-                        key={i}
-                        className="flex gap-3 text-sm text-neutral-400 leading-relaxed font-light"
-                      >
-                        <span className="text-blue-400/60 mt-1.5">•</span>
-                        <span>{feature.replace(/^•\s*/, "")}</span>
-                      </li>
-                    ))}
+                  {(
+                    markdownHighlights ||
+                    project.features?.split("\n").filter(Boolean) ||
+                    []
+                  ).map((feature: string, i: number) => (
+                    <li
+                      key={i}
+                      className="flex gap-3 text-sm text-neutral-400 leading-relaxed font-light"
+                    >
+                      <span className="text-blue-400/60 mt-1.5">•</span>
+                      <div className="flex-1">
+                        <ReactMarkdown
+                          components={{
+                            p: ({ children }) => <>{children}</>,
+                            strong: ({ children }) => (
+                              <strong className="text-white font-medium">
+                                {children}
+                              </strong>
+                            ),
+                            code: ({ children }) => (
+                              <code className="bg-white/5 px-1 rounded text-xs font-mono">
+                                {children}
+                              </code>
+                            ),
+                          }}
+                        >
+                          {feature.replace(/^•\s*/, "")}
+                        </ReactMarkdown>
+                      </div>
+                    </li>
+                  ))}
                 </ul>
               </motion.div>
             )}
