@@ -400,25 +400,6 @@ export function VerticalImageStack({
           );
         })}
       </div>
-
-      {/* Navigation dots - Optimized */}
-      <div className="absolute right-6 top-1/2 flex -translate-y-1/2 flex-col gap-2 z-20">
-        {displayImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              // Allow instant jump
-              setCurrentIndex(index);
-            }}
-            className={`transition-all duration-300 rounded-full ${
-              index === currentIndex
-                ? "h-8 w-1.5 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)]"
-                : "h-1.5 w-1.5 bg-white/20 hover:bg-white/50"
-            }`}
-            aria-label={`Go to image ${index + 1}`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
