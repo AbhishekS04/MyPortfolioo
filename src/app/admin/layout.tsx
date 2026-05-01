@@ -16,7 +16,7 @@ export default function AdminLayout({
   const [isLoading, setIsLoading] = useState(true);
   const [authorized, setAuthorized] = useState(false);
   const supabase = createClient();
-
+  /*
   // 1. Security: Disable Right Click & Inspector
   useEffect(() => {
     // Disable Right Click
@@ -45,6 +45,7 @@ export default function AdminLayout({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
+  */
 
   // 2. Auth Check
   useEffect(() => {
