@@ -65,7 +65,10 @@ export function FocusCard() {
                 }}
                 className={`w-1.5 h-1.5 rounded-full ${isGolden ? "bg-yellow-500" : "bg-blue-500"}`}
               />
-              <span className="text-xs font-bold uppercase tracking-widest text-white/40">
+              <span
+                className="text-xs font-bold uppercase tracking-widest text-white/40"
+                aria-hidden="true"
+              >
                 Core Stack
               </span>
             </div>
@@ -141,7 +144,10 @@ export function FocusCard() {
                 }}
                 className={`w-1.5 h-1.5 rounded-full ${isGolden ? "bg-yellow-500" : "bg-red-500"}`}
               />
-              <span className="text-xs font-bold uppercase tracking-widest text-white/40">
+              <span
+                className="text-xs font-bold uppercase tracking-widest text-white/40"
+                aria-hidden="true"
+              >
                 Other Stacks
               </span>
             </div>
