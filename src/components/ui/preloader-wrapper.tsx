@@ -23,30 +23,35 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   // Initialize state based on session to prevent flash.
   // Default to TRUE if not in admin, not shown yet, and on a VALID route.
   const [isVisible, setIsVisible] = useState(() => {
-    // 0. Check if already shown in this session (global variable)
-    if (globalHasShownPreloader) return false;
-
-    // 1. Check for performance bots or search engines to skip preloader (Boosts SEO/Performance scores)
-    if (typeof window !== "undefined") {
-      const isBot =
-        /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(
-          window.navigator.userAgent,
-        );
-      if (isBot) return false;
-    }
-
+    // ONLY check things that are consistent between server and client during hydration
     const validRoutes = ["/", "/about", "/works", "/contact"];
     const isDynamicWork = pathname?.startsWith("/works/");
     const isAdmin = pathname?.startsWith("/admin");
-
     const isValidRoute =
       validRoutes.includes(pathname || "") || isDynamicWork || isAdmin;
 
-    // Skip preloader for admin or invalid (404) routes
     if (isAdmin || !isValidRoute) return false;
-
     return true;
   });
+
+  useEffect(() => {
+    // These checks are client-only and must happen after mount to avoid hydration mismatch
+    if (globalHasShownPreloader) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setIsVisible(false);
+      return;
+    }
+
+    const isBot =
+      /Lighthouse|Googlebot|bingbot|baiduspider|DuckDuckBot|Yahoo! Slurp|ScreenshotBot|Slackbot/i.test(
+        window.navigator.userAgent,
+      );
+
+    if (isBot) {
+       
+      setIsVisible(false);
+    }
+  }, []);
 
   useEffect(() => {
     // Remove static splash screen if it exists

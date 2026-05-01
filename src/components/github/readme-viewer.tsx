@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { PenLine } from "lucide-react";
 import DOMPurify from "dompurify";
@@ -9,13 +9,39 @@ export function ReadmeViewer({ content }: { content: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Sanitize HTML to prevent XSS attacks
-  const sanitizedContent = useMemo(() => {
-    if (typeof window !== "undefined") {
-      return DOMPurify.sanitize(content, {
-        ADD_ATTR: ["target", "rel", "align"],
-      });
-    }
-    return content;
+  const [sanitizedContent, setSanitizedContent] = useState(content);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSanitizedContent(
+      DOMPurify.sanitize(content, {
+        USE_PROFILES: { html: true },
+        ALLOWED_TAGS: [
+          "p",
+          "h1",
+          "h2",
+          "h3",
+          "h4",
+          "h5",
+          "h6",
+          "ul",
+          "ol",
+          "li",
+          "strong",
+          "em",
+          "a",
+          "img",
+          "code",
+          "pre",
+          "blockquote",
+          "br",
+          "hr",
+          "span",
+          "div",
+        ],
+        ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "target", "rel"],
+      }),
+    );
   }, [content]);
 
   useEffect(() => {
@@ -86,7 +112,7 @@ export function ReadmeViewer({ content }: { content: string }) {
               /* Hide GitHub's default anchor links on headers */
               [&_.anchor]:hidden
             "
-          // eslint-disable-next-line react/no-danger
+           
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
       </div>
