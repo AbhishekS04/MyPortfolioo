@@ -37,7 +37,10 @@ export function PhilosophyCard() {
       >
         {/* Header Row */}
         <div className="flex items-start justify-between relative z-20">
-          <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50 transition-colors duration-300">
+          <span
+            className="text-xs font-medium uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50 transition-colors duration-300"
+            aria-hidden="true"
+          >
             Curriculum Vitae
           </span>
 
@@ -77,7 +80,10 @@ export function PhilosophyCard() {
           >
             Resume
           </motion.h2>
-          <p className="text-sm text-white/40 leading-relaxed font-light max-w-[90%] group-hover:text-white/60 transition-colors duration-300">
+          <p
+            className="text-sm text-white/40 leading-relaxed font-light max-w-[90%] group-hover:text-white/60 transition-colors duration-300"
+            aria-hidden="true"
+          >
             Selected works, experience, and capabilities.
           </p>
         </div>
