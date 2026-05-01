@@ -48,7 +48,6 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
       );
 
     if (isBot) {
-       
       setIsVisible(false);
     }
   }, []);
