@@ -26,7 +26,7 @@ const PROFILE = {
   avatarUrl:
     // "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp",
     // "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
-    "https://cloud-snapp.vercel.app/api/cdn/mypfp.jpg?fmt=avif",
+    "https://cloud-snapp.vercel.app/api/cdn/mypfp.jpg",
 };
 
 export function SocialStories() {
@@ -293,10 +293,9 @@ export function SocialStories() {
                 src={PROFILE.avatarUrl}
                 alt={PROFILE.name}
                 fill
-                sizes="(max-width: 768px) 40px, 40px"
+                sizes="40px"
                 className="object-cover p-[2px] rounded-full" // Slight padding inside border
                 priority
-                unoptimized
               />
 
               {/* Loading / Active Pulse Overlay */}
@@ -412,17 +411,9 @@ export function SocialStories() {
                           src={currentStory.mediaUrl}
                           alt={currentStory.caption || "Story"}
                           fill
-                          sizes="(max-width: 768px) 90vw, 380px"
+                          sizes="(max-width: 768px) 100vw, 380px"
                           className="object-cover"
                           priority
-                          unoptimized={
-                            currentStory.mediaUrl.includes(
-                              "cloud-snapp.vercel.app",
-                            ) ||
-                            currentStory.mediaUrl.includes(
-                              "cloudsnap.vercel.app",
-                            )
-                          }
                           onLoad={() => setIsMediaLoaded(true)}
                         />
                       )}
@@ -460,9 +451,8 @@ export function SocialStories() {
                             src={PROFILE.avatarUrl}
                             alt={PROFILE.name}
                             fill
-                            sizes="(max-width: 768px) 32px, 32px"
+                            sizes="32px"
                             className="object-cover"
-                            unoptimized
                           />
                         </div>
                         <div className="flex flex-col">
@@ -503,12 +493,12 @@ export function SocialStories() {
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerUp={(e) => e.stopPropagation()}
                             aria-label={isMuted ? "Unmute" : "Mute"}
-                            className="w-8 h-8 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white/90 hover:bg-black/50 transition-colors"
+                            className="w-11 h-11 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white/90 hover:bg-black/50 transition-colors"
                           >
                             {isMuted ? (
-                              <VolumeX className="w-4 h-4" />
+                              <VolumeX className="w-5 h-5" />
                             ) : (
-                              <Volume2 className="w-4 h-4" />
+                              <Volume2 className="w-5 h-5" />
                             )}
                           </button>
                         )}
@@ -520,9 +510,9 @@ export function SocialStories() {
                             setIsOpen(false);
                           }}
                           aria-label="Close Story"
-                          className="w-8 h-8 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
+                          className="w-11 h-11 flex items-center justify-center rounded-full bg-black/20 backdrop-blur-md text-white/80 hover:bg-black/40 hover:text-white transition-colors"
                         >
-                          <X className="w-4 h-4" />
+                          <X className="w-5 h-5" />
                         </button>
                       </div>
                     </div>

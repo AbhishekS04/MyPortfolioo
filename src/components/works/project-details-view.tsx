@@ -348,6 +348,8 @@ export function ProjectDetailsView({
                 <img
                   src={project.image_url}
                   alt={project.title}
+                  loading="eager"
+                  fetchPriority="high"
                   onClick={() => setZoomImage(project.image_url)}
                   className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01] cursor-zoom-in"
                 />

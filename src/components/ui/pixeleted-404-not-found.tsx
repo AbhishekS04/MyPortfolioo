@@ -19,7 +19,7 @@ interface Error404Props {
 }
 
 export function Error404({
-  postcardImage = "https://images.unsplash.com/photo-1485871981521-5b1fd3805eee?q=80&w=2070&auto=format&fit=crop",
+  postcardImage = "https://cloud-snapp.vercel.app/api/cdn/df3cf166-3366-45c3-907f-218183b63d3e.jpg?fmt=avif",
   postcardAlt = "New York City Postcard",
   curvedTextTop = "The General Intelligence",
   curvedTextBottom = "Company of New York",

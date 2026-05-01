@@ -6,7 +6,7 @@ export default function NotFound() {
   return (
     <Error404
       // postcardImage="https://res.cloudinary.com/dap0u41dz/image/upload/v1766866944/Batman_z0yo3k.jpg"
-      postcardImage="https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/df3cf166-3366-45c3-907f-218183b63d3e.jpg"
+      postcardImage="https://cloud-snapp.vercel.app/api/cdn/df3cf166-3366-45c3-907f-218183b63d3e.jpg?fmt=avif"
       postcardAlt="New York City Postcard with Statue of Liberty"
       curvedTextTop="The General Intelligence"
       curvedTextBottom="of New York"
