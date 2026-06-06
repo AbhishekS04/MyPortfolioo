@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 export const ConsciousnessMode = () => {
   const [isActive, setIsActive] = useState(false);
@@ -89,7 +89,7 @@ export const ConsciousnessMode = () => {
       {/* Progress Bar — independent layer */}
       <AnimatePresence>
         {progress > 0 && !isActive && (
-          <motion.div
+          <m.div
             key="bar"
             className="fixed bottom-0 left-0 h-[4px] z-[99997] bg-white shadow-[0_0_15px_rgba(255,255,255,0.5)]"
             style={{ width: `${progress}%` }}
@@ -103,7 +103,7 @@ export const ConsciousnessMode = () => {
       {/* Blur overlay — independent layer, z-[99998] */}
       <AnimatePresence>
         {isActive && (
-          <motion.div
+          <m.div
             key="blur"
             className="fixed inset-0 z-[99998] pointer-events-none"
             initial={{
@@ -126,7 +126,7 @@ export const ConsciousnessMode = () => {
       {/* Text — independent layer, z-[99999] — always above everything */}
       <AnimatePresence>
         {isActive && (
-          <motion.div
+          <m.div
             key="text"
             className="fixed inset-0 z-[99999] pointer-events-none flex items-center justify-center"
             initial={{ opacity: 0 }}
@@ -135,7 +135,7 @@ export const ConsciousnessMode = () => {
             transition={{ duration: 1, ease: "easeOut" }}
           >
             <div className="text-center px-6">
-              <motion.div
+              <m.div
                 initial={{ y: 20, opacity: 0, scale: 0.95 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
                 exit={{ y: -10, opacity: 0, scale: 1.02 }}
@@ -148,7 +148,7 @@ export const ConsciousnessMode = () => {
                 <h2 className="text-4xl md:text-6xl font-light tracking-[0.2em] text-white font-serif italic mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.3)]">
                   You&apos;re paying attention.
                 </h2>
-                <motion.p
+                <m.p
                   className="text-[10px] md:text-xs uppercase tracking-[0.5em] text-white/50"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
@@ -156,10 +156,10 @@ export const ConsciousnessMode = () => {
                   transition={{ duration: 1, delay: 1.5 }}
                 >
                   I like that.
-                </motion.p>
-              </motion.div>
+                </m.p>
+              </m.div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

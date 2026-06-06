@@ -26,7 +26,7 @@ import {
 } from "react-icons/si";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 export function FocusCard() {
   const [isGolden, setIsGolden] = useState(false);
@@ -57,7 +57,7 @@ export function FocusCard() {
           <div className="flex flex-col gap-3">
             {/* Header: Core Stack (Blue Dot) */}
             <div className="flex items-center gap-3 sticky top-0 bg-[#111111]/95 backdrop-blur-sm py-2 z-20">
-              <motion.div
+              <m.div
                 style={{
                   boxShadow: isGolden
                     ? "0 0 2px rgba(234,179,8,0.8)"
@@ -136,7 +136,7 @@ export function FocusCard() {
           <div className="flex flex-col gap-3 mt-2">
             {/* Header: Other Stacks (Red Dot) */}
             <div className="flex items-center gap-3 sticky top-0 bg-[#111111]/95 backdrop-blur-sm py-2 z-20">
-              <motion.div
+              <m.div
                 style={{
                   boxShadow: isGolden
                     ? "0 0 2px rgba(234,179,8,0.8)"
@@ -349,7 +349,7 @@ export function FocusCard() {
 
         {/* Right Area - Large spinning React icon */}
         <div className="flex-shrink-0 pt-4 pr-1 sm:pr-4 absolute right-4 top-12 pointer-events-none z-30">
-          <motion.div
+          <m.div
             animate={{ rotate: isHovering || isGolden ? 360 : 0 }}
             transition={{
               duration: isHovering || isGolden ? 8 : 1.5,
@@ -360,7 +360,7 @@ export function FocusCard() {
             <SiReact
               className={`w-20 h-20 sm:w-28 sm:h-28 rotate-12 transition-all duration-700 ease-in-out ${isGolden ? "text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] opacity-80" : "text-[#61DAFB]/10 opacity-20 sm:opacity-100 group-hover:text-[#61DAFB]/40 group-hover:drop-shadow-[0_0_15px_rgba(97,218,251,0.3)]"}`}
             />
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </div>

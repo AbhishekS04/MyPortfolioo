@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { GitHubProfile } from "@/lib/github";
 
 export function ContributionGraph({ profile }: { profile: GitHubProfile }) {
@@ -14,7 +14,7 @@ export function ContributionGraph({ profile }: { profile: GitHubProfile }) {
   // GitHub weeks are usually Sunday-Saturday.
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.6 }}
@@ -59,6 +59,6 @@ export function ContributionGraph({ profile }: { profile: GitHubProfile }) {
           </div>
         ))}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

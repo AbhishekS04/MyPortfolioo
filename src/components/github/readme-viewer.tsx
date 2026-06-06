@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { PenLine } from "lucide-react";
 import DOMPurify from "dompurify";
 
@@ -55,7 +55,7 @@ export function ReadmeViewer({ content }: { content: string }) {
   }, [content]);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
@@ -115,6 +115,6 @@ export function ReadmeViewer({ content }: { content: string }) {
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
       </div>
-    </motion.div>
+    </m.div>
   );
 }

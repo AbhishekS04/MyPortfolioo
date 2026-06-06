@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, Globe, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/components/ui/toast";
 
 export default function AdminProfile() {
@@ -131,7 +131,7 @@ export default function AdminProfile() {
         </button>
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-12"
@@ -246,7 +246,7 @@ export default function AdminProfile() {
             />
           </div>
         </section>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

@@ -179,6 +179,7 @@ export default function AdminGallery() {
               {isVideo(img.image_url) ? (
                 <video
                   className="w-full h-full object-cover"
+                  aria-label={img.alt_text || "Gallery item video preview"}
                   muted
                   loop
                   playsInline
@@ -220,9 +221,11 @@ export default function AdminGallery() {
 
       {isAdding && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div
+          <button
+            type="button"
+            aria-label="Close modal"
             onClick={() => setIsAdding(false)}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default"
           />
           <div className="relative w-full max-w-md bg-[#161616] border border-white/10 rounded-3xl p-8 shadow-2xl space-y-4">
             <h2 className="text-xl font-medium text-white mb-4">
@@ -233,6 +236,7 @@ export default function AdminGallery() {
               onChange={(e) =>
                 setNewItem({ ...newItem, image_url: e.target.value })
               }
+              aria-label="Image or Video URL"
               className="w-full bg-[#111] border border-white/5 rounded-xl p-3 text-white text-sm"
               placeholder="Image or Video URL (mp4, webm)..."
             />
@@ -241,6 +245,7 @@ export default function AdminGallery() {
                 {isVideo(newItem.image_url) ? (
                   <video
                     className="w-full h-full object-cover"
+                    aria-label="Preview video"
                     muted
                     loop
                     playsInline
@@ -268,6 +273,7 @@ export default function AdminGallery() {
               onChange={(e) =>
                 setNewItem({ ...newItem, alt_text: e.target.value })
               }
+              aria-label="Alt Text"
               className="w-full bg-[#111] border border-white/5 rounded-xl p-3 text-white text-sm"
               placeholder="Alt Text..."
             />

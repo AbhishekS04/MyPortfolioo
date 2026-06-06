@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import * as LucideIcons from "lucide-react";
 import {
@@ -43,7 +43,7 @@ const BentoCard = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <motion.div
+  <m.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
@@ -51,7 +51,7 @@ const BentoCard = ({
     className={`bg-[#111] border border-white/5 rounded-[32px] overflow-hidden ${className}`}
   >
     {children}
-  </motion.div>
+  </m.div>
 );
 
 const Badge = ({ children }: { children: React.ReactNode }) => (
@@ -384,8 +384,9 @@ export function AboutClient({
               </p>
             </div>
           </div>
-          <div
-            className="flex items-center gap-3 md:gap-4 group cursor-pointer"
+          <button
+            type="button"
+            className="flex items-center gap-3 md:gap-4 group cursor-pointer text-left"
             onClick={() =>
               (window.location.href = `mailto:${general.contact_email}`)
             }
@@ -401,7 +402,7 @@ export function AboutClient({
                 {general.contact_email}
               </p>
             </div>
-          </div>
+          </button>
           <div className="flex items-center gap-3 md:gap-4">
             <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white/40">
               <Phone size={16} className="md:w-[18px] md:h-[18px]" />

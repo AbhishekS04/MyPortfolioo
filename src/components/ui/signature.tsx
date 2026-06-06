@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { sacramento } from "@/lib/fonts";
 
@@ -85,13 +85,16 @@ export function Signature() {
 
   return (
     <>
-      <div
+      <button
+        type="button"
+        aria-label="Signature"
         onClick={handleClick}
-        className="absolute right-4 bottom-4 md:right-10 md:bottom-10 opacity-30 select-none transition-opacity z-50 mix-blend-overlay cursor-default"
+        className="absolute right-4 bottom-4 md:right-10 md:bottom-10 opacity-30 select-none transition-opacity z-50 mix-blend-overlay cursor-default bg-transparent border-0 p-0"
         style={{ WebkitTapHighlightColor: "transparent" }}
       >
         {/* Signature */}
         <span
+          aria-hidden="true"
           className={cn(
             sacramento.className,
             "text-4xl md:text-5xl text-white/80",
@@ -99,7 +102,7 @@ export function Signature() {
         >
           Abhishek Singh
         </span>
-      </div>
+      </button>
 
       {mounted &&
         createPortal(
@@ -108,7 +111,7 @@ export function Signature() {
               {isTriggered && (
                 <div className="fixed inset-0 z-[100000] flex items-center justify-center pointer-events-auto">
                   {/* Global Fade Backdrop for richness */}
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{
@@ -120,7 +123,7 @@ export function Signature() {
                   />
 
                   {/* 4 Corners Wipe Panels */}
-                  <motion.div
+                  <m.div
                     initial={{ x: "-100%", y: "-100%" }}
                     animate={{ x: "0%", y: "0%" }}
                     exit={{
@@ -135,7 +138,7 @@ export function Signature() {
                     transition={wipeTransition}
                     className="fixed top-0 left-0 w-1/2 h-1/2 bg-black origin-top-left z-20"
                   />
-                  <motion.div
+                  <m.div
                     initial={{ x: "100%", y: "-100%" }}
                     animate={{ x: "0%", y: "0%" }}
                     exit={{
@@ -150,7 +153,7 @@ export function Signature() {
                     transition={wipeTransition}
                     className="fixed top-0 right-0 w-1/2 h-1/2 bg-black origin-top-right z-20"
                   />
-                  <motion.div
+                  <m.div
                     initial={{ x: "-100%", y: "100%" }}
                     animate={{ x: "0%", y: "0%" }}
                     exit={{
@@ -165,7 +168,7 @@ export function Signature() {
                     transition={wipeTransition}
                     className="fixed bottom-0 left-0 w-1/2 h-1/2 bg-black origin-bottom-left z-20"
                   />
-                  <motion.div
+                  <m.div
                     initial={{ x: "100%", y: "100%" }}
                     animate={{ x: "0%", y: "0%" }}
                     exit={{
@@ -182,7 +185,7 @@ export function Signature() {
                   />
 
                   {/* Restricted Zone Status HUD - Top Positioned */}
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20, transition: { delay: 0.1 } }}
@@ -195,7 +198,7 @@ export function Signature() {
                     <span className="text-white/30 text-[7px] sm:text-[9px] font-mono tracking-[0.2em] sm:tracking-[0.4em] uppercase whitespace-nowrap">
                       Easter Egg Unlocked • Enjoy the Secret
                     </span>
-                  </motion.div>
+                  </m.div>
                 </div>
               )}
             </AnimatePresence>
@@ -241,6 +244,7 @@ export function Signature() {
                       playsInline
                       preload="metadata"
                       muted={isMuted}
+                      aria-label="Signature display video"
                       onClick={(e) => {
                         e.stopPropagation();
                         setIsMuted(!isMuted);

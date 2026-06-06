@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, X, Loader2, Volume2, VolumeX } from "lucide-react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabase";
@@ -270,7 +270,7 @@ export function SocialStories() {
       <div className="w-full h-full relative flex items-center justify-center z-50 group">
         <AnimatePresence>
           {!isOpen && (
-            <motion.div
+            <m.div
               // Removed layoutId to prevent visibility conflics
               key="trigger"
               className={cn(
@@ -300,13 +300,13 @@ export function SocialStories() {
 
               {/* Loading / Active Pulse Overlay */}
               {isFetchLoading && (
-                <motion.div
+                <m.div
                   className="absolute inset-0 bg-white/10"
                   animate={{ opacity: [0, 0.2, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
               )}
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>
@@ -317,7 +317,7 @@ export function SocialStories() {
           {isOpen && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center">
               {/* Backdrop */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -325,7 +325,7 @@ export function SocialStories() {
                 onClick={() => setIsOpen(false)}
               />
 
-              <motion.div
+              <m.div
                 key="card"
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -361,7 +361,7 @@ export function SocialStories() {
 
                   {/* Background Media */}
                   <AnimatePresence mode="wait">
-                    <motion.div
+                    <m.div
                       key={currentStory.id}
                       initial={{ opacity: 0.6, scale: 1.05 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -378,6 +378,7 @@ export function SocialStories() {
                           }}
                           key={currentStory.id}
                           src={currentStory.mediaUrl}
+                          aria-label="Story video"
                           autoPlay
                           playsInline
                           preload="metadata"
@@ -418,7 +419,7 @@ export function SocialStories() {
                         />
                       )}
                       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 pointer-events-none" />
-                    </motion.div>
+                    </m.div>
                   </AnimatePresence>
 
                   {/* Content Overlay */}
@@ -541,7 +542,7 @@ export function SocialStories() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             </div>
           )}
         </AnimatePresence>,

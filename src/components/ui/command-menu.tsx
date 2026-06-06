@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import { motion } from "motion/react";
+import { m } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Kbd } from "@/components/ui/kbd";
@@ -169,7 +169,7 @@ const CommandMenuContent = React.forwardRef<
       <CommandMenuPortal>
         <CommandMenuOverlay />
         <DialogPrimitive.Content asChild ref={ref} {...props}>
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
@@ -219,7 +219,7 @@ const CommandMenuContent = React.forwardRef<
                 </div>
               )}
             </CommandMenuProvider>
-          </motion.div>
+          </m.div>
         </DialogPrimitive.Content>
       </CommandMenuPortal>
     );
@@ -412,7 +412,7 @@ const CommandMenuItem = React.forwardRef<
     if (!matches) return null;
 
     return (
-      <motion.div
+      <m.div
         layout
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -435,7 +435,7 @@ const CommandMenuItem = React.forwardRef<
         onClick={handleSelect}
         onMouseEnter={() => setSelectedIndex(index)}
         {...(props as unknown as React.ComponentPropsWithoutRef<
-          typeof motion.div
+          typeof m.div
         >)}
       >
         {icon && (
@@ -477,7 +477,7 @@ const CommandMenuItem = React.forwardRef<
             ))}
           </div>
         )}
-      </motion.div>
+      </m.div>
     );
   },
 );

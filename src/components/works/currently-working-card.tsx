@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -112,7 +112,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                     {/* Bar Container */}
                     <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden relative">
                       {/* Animated Fill */}
-                      <motion.div
+                      <m.div
                         initial={{ width: 0 }}
                         whileInView={{ width: config.width }}
                         transition={{ duration: 1.5, ease: "easeOut" }}

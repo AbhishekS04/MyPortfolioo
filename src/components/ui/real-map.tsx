@@ -61,14 +61,16 @@ export default function RealMap() {
       >
         <MapMarker longitude={targetLng} latitude={targetLat}>
           <MarkerContent className="flex items-center justify-center w-12 h-12 z-[50]">
-            <div
+            <button
+              type="button"
+              aria-label="View location: Adamas University"
               onClick={handleMarkerClick}
-              className="relative flex items-center justify-center group/marker w-full h-full cursor-pointer pointer-events-auto"
+              className="relative flex items-center justify-center group/marker w-full h-full cursor-pointer pointer-events-auto bg-transparent border-0 p-0"
             >
               <div className="absolute w-12 h-12 bg-orange-500/20 rounded-full animate-ping" />
               <div className="absolute w-6 h-6 bg-orange-500/30 rounded-full animate-pulse" />
               <div className="relative w-3.5 h-3.5 bg-[#F97316] rounded-full border-2 border-white shadow-[0_0_15px_rgba(249,115,22,0.8)] z-10" />
-            </div>
+            </button>
           </MarkerContent>
           <MarkerLabel position="bottom">
             <div className="px-3 py-1.5 rounded-lg bg-black/80 border border-white/10 text-white font-medium text-xs shadow-xl backdrop-blur-md">

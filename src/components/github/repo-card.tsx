@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Star, GitFork, ExternalLink } from "lucide-react";
 import { GitHubRepo } from "@/lib/github";
 import Link from "next/link";
 
 export function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -70,6 +70,6 @@ export function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </m.div>
   );
 }

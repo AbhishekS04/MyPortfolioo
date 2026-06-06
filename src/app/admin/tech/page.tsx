@@ -12,7 +12,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
-import { motion, Reorder } from "framer-motion";
+import { m, Reorder } from "framer-motion";
 import {
   SiCplusplus,
   SiHtml5,
@@ -228,9 +228,11 @@ export default function AdminTech() {
       {/* Add Modal */}
       {isAdding && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div
+          <button
+            type="button"
+            aria-label="Close modal"
             onClick={() => setIsAdding(false)}
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm cursor-default"
           />
           <div className="relative w-full max-w-md bg-[#161616] border border-white/10 rounded-3xl p-8 shadow-2xl">
             <h2 className="text-xl font-medium text-white mb-6">
@@ -239,38 +241,38 @@ export default function AdminTech() {
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs font-medium text-white/40 uppercase tracking-widest block mb-2">
+                <label className="text-xs font-medium text-white/40 uppercase tracking-widest block mb-2 cursor-pointer">
                   Display Name
+                  <input
+                    value={newItem.name}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, name: e.target.value })
+                    }
+                    className="w-full bg-[#111] border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/20 mt-2 block"
+                    placeholder="e.g. React Native"
+                  />
                 </label>
-                <input
-                  value={newItem.name}
-                  onChange={(e) =>
-                    setNewItem({ ...newItem, name: e.target.value })
-                  }
-                  className="w-full bg-[#111] border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/20"
-                  placeholder="e.g. React Native"
-                />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-white/40 uppercase tracking-widest block mb-2">
+                <label className="text-xs font-medium text-white/40 uppercase tracking-widest block mb-2 cursor-pointer">
                   Icon Key
+                  <select
+                    value={newItem.icon_key}
+                    onChange={(e) =>
+                      setNewItem({ ...newItem, icon_key: e.target.value })
+                    }
+                    className="w-full bg-[#111] border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/20 appearance-none mt-2 block"
+                  >
+                    {Object.keys(ICON_MAP)
+                      .sort()
+                      .map((key) => (
+                        <option key={key} value={key}>
+                          {key}
+                        </option>
+                      ))}
+                  </select>
                 </label>
-                <select
-                  value={newItem.icon_key}
-                  onChange={(e) =>
-                    setNewItem({ ...newItem, icon_key: e.target.value })
-                  }
-                  className="w-full bg-[#111] border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/20 appearance-none"
-                >
-                  {Object.keys(ICON_MAP)
-                    .sort()
-                    .map((key) => (
-                      <option key={key} value={key}>
-                        {key}
-                      </option>
-                    ))}
-                </select>
                 <p className="text-[10px] text-white/30 mt-2">
                   Select from supported icon library.
                 </p>

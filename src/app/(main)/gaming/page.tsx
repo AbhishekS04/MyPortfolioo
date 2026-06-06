@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  motion,
+  m,
   AnimatePresence,
   useMotionValue,
   useSpring,
@@ -66,7 +66,7 @@ function CombatPod({ children, onClick, accent }: any) {
   const rotateY = useTransform(mouseX, [-150, 150], [-8, 8]);
 
   return (
-    <motion.div
+    <m.div
       style={{ perspective: 1000 }}
       className="group relative cursor-pointer w-full max-w-[300px] sm:max-w-sm"
       onClick={onClick}
@@ -76,7 +76,7 @@ function CombatPod({ children, onClick, accent }: any) {
         y.set(0);
       }}
     >
-      <motion.div
+      <m.div
         style={{ rotateX, rotateY }}
         className="aspect-[4/5] md:aspect-square relative preserve-3d transition-all duration-500 rounded-[32px] overflow-hidden bg-[#0a0a0a] border border-white/5 flex flex-col"
       >
@@ -84,7 +84,7 @@ function CombatPod({ children, onClick, accent }: any) {
         <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
 
         {/* Floating Glow */}
-        <motion.div
+        <m.div
           className="absolute -inset-[100px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"
           style={{
             background: `radial-gradient(circle at center, ${accent}88 0%, transparent 70%)`,
@@ -100,8 +100,8 @@ function CombatPod({ children, onClick, accent }: any) {
             style={{ backgroundColor: accent, color: accent }}
           />
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -151,7 +151,7 @@ export default function GamingPage() {
         />
 
         {/* Wandering Pulse (Clamped to prevent overflow) */}
-        <motion.div
+        <m.div
           animate={{
             left: ["-5%", "70%", "-5%"],
             top: ["10%", "60%", "10%"],
@@ -206,7 +206,7 @@ export default function GamingPage() {
       {/* --- MAIN INTERFACE (SAFE ZONES) --- */}
       <main className="relative z-10 w-full max-w-5xl flex flex-col items-center pt-28 sm:pt-40 pb-20 px-4 overflow-x-hidden">
         {/* Tech Title */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           className="mb-14 sm:mb-24 text-center space-y-4"
@@ -218,12 +218,12 @@ export default function GamingPage() {
           <h1 className="text-[42px] sm:text-6xl md:text-8xl font-black uppercase italic tracking-tighter leading-tight opacity-95">
             Gaming <br className="sm:hidden" /> Profile
           </h1>
-        </motion.div>
+        </m.div>
 
         {/* Grid of Pods */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 w-full place-items-center">
           {GAMES.map((game, i) => (
-            <motion.div
+            <m.div
               key={game.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -274,7 +274,7 @@ export default function GamingPage() {
                   </div>
                 </div>
               </CombatPod>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </main>
@@ -282,14 +282,14 @@ export default function GamingPage() {
       {/* --- IDENTITY SHEET (MODAL) --- */}
       <AnimatePresence>
         {selectedGame && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedGame(null)}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-4 sm:p-10"
           >
-            <motion.div
+            <m.div
               initial={{ scale: 0.97, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.97, opacity: 0 }}
@@ -374,8 +374,8 @@ export default function GamingPage() {
                 <span>SYSTEM_ID: 0x84_GAMING</span>
                 <span className="text-emerald-500/20">Archive.04</span>
               </div>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
 

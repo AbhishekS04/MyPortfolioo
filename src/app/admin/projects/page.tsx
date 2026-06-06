@@ -27,7 +27,7 @@ import {
   EyeOff,
 } from "lucide-react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
 import { ContributorsManager } from "@/components/admin/contributors-manager";
 
@@ -302,7 +302,7 @@ export default function AdminProjects() {
         {/* List */}
         <div className="grid grid-cols-1 gap-4">
           {projects.map((project) => (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               key={project.id}
@@ -350,12 +350,14 @@ export default function AdminProjects() {
               <div className="flex items-center gap-2 self-end md:self-center">
                 <button
                   onClick={() => handleEdit(project)}
+                  aria-label="Edit project"
                   className="p-2 rounded-lg hover:bg-white/10 text-white/40 hover:text-white transition-colors"
                 >
                   <Edit2 className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleDelete(project.id)}
+                  aria-label="Delete project"
                   className="p-2 rounded-lg hover:bg-red-500/10 text-white/40 hover:text-red-400 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -364,6 +366,7 @@ export default function AdminProjects() {
                   onClick={() => handleToggleHidden(project)}
                   className={`p-2 rounded-lg hover:bg-white/10 transition-colors ${project.is_hidden ? "text-red-400" : "text-white/40 hover:text-white"}`}
                   title={project.is_hidden ? "Unhide Project" : "Hide Project"}
+                  aria-label={project.is_hidden ? "Unhide Project" : "Hide Project"}
                 >
                   {project.is_hidden ? (
                     <EyeOff className="w-4 h-4" />
@@ -372,7 +375,7 @@ export default function AdminProjects() {
                   )}
                 </button>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>
@@ -381,7 +384,7 @@ export default function AdminProjects() {
       <AnimatePresence>
         {editingId && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -389,7 +392,7 @@ export default function AdminProjects() {
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -419,6 +422,7 @@ export default function AdminProjects() {
                   </button>
                   <button
                     onClick={() => setEditingId(null)}
+                    aria-label="Close modal"
                     className="p-2 rounded-full hover:bg-white/10 text-white/40 hover:text-white transition-colors"
                   >
                     <X className="w-5 h-5" />
@@ -473,6 +477,7 @@ export default function AdminProjects() {
                                   : formData.slug,
                               })
                             }
+                            aria-label="Title"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                             placeholder="Project Name"
                           />
@@ -486,6 +491,7 @@ export default function AdminProjects() {
                             onChange={(e) =>
                               updateFormData({ slug: e.target.value })
                             }
+                            aria-label="Slug (URL)"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-sm text-white/60"
                             placeholder="project-name-slug"
                           />
@@ -510,6 +516,7 @@ export default function AdminProjects() {
                             updateFormData({ description: e.target.value })
                           }
                           rows={3}
+                          aria-label="Short Summary (Hero Description)"
                           className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none resize-none"
                           placeholder="A brief 1-2 line description..."
                         />
@@ -522,6 +529,7 @@ export default function AdminProjects() {
                         <input
                           value={techInput}
                           onChange={(e) => setTechInputLocal(e.target.value)}
+                          aria-label="Tech Stack (comma separated)"
                           className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                           placeholder="React, TypeScript, Tailwind..."
                         />
@@ -539,6 +547,7 @@ export default function AdminProjects() {
                                 project_type: e.target.value as ProjectType,
                               })
                             }
+                            aria-label="Project Type"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                           >
                             <option value="Personal">Personal Project</option>
@@ -555,6 +564,7 @@ export default function AdminProjects() {
                               onChange={(e) =>
                                 updateFormData({ client_name: e.target.value })
                               }
+                              aria-label="Client Name"
                               className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                               placeholder="Acme Corp"
                             />
@@ -577,6 +587,7 @@ export default function AdminProjects() {
                           onChange={(e) =>
                             updateFormData({ image_url: e.target.value })
                           }
+                          aria-label="Main Cover Image (Required)"
                           className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                           placeholder="https://..."
                         />
@@ -592,6 +603,7 @@ export default function AdminProjects() {
                             onChange={(e) =>
                               updateFormData({ video_url: e.target.value })
                             }
+                            aria-label="Video URL (Optional)"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                             placeholder="https://... (mp4/webm)"
                           />
@@ -607,6 +619,7 @@ export default function AdminProjects() {
                                 media_mode: e.target.value as MediaMode,
                               })
                             }
+                            aria-label="Media Mode"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                           >
                             <option value="gallery">Gallery Only</option>
@@ -625,6 +638,7 @@ export default function AdminProjects() {
                           value={galleryInput}
                           onChange={(e) => setGalleryInputLocal(e.target.value)}
                           rows={6}
+                          aria-label="Gallery Images"
                           className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs whitespace-pre"
                           placeholder={"https://image1.jpg\nhttps://image2.jpg"}
                         />
@@ -654,6 +668,7 @@ export default function AdminProjects() {
                             onChange={(e) =>
                               updateFormData({ case_study_md: e.target.value })
                             }
+                            aria-label="Case Study Markdown Editor"
                             className="w-full h-full bg-[#0d0d0d] border border-white/10 rounded-xl p-4 text-sm font-mono text-white/80 resize-none focus:outline-none focus:border-white/20"
                             placeholder="## Overview&#10;&#10;Write your case study...&#10;&#10;## Highlights&#10;- Feature one&#10;- Feature two&#10;&#10;## Tech Stack&#10;The tech stack section is hidden from the main body but shown in tags."
                           />
@@ -696,6 +711,7 @@ export default function AdminProjects() {
                                 status: e.target.value as ProjectStatus,
                               })
                             }
+                            aria-label="Project Status"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none appearance-none"
                           >
                             <option value="Not Started">Not Started</option>
@@ -722,6 +738,7 @@ export default function AdminProjects() {
                                 display_order: isNaN(val) ? 0 : val,
                               });
                             }}
+                            aria-label="Display Order"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none"
                           />
                         </div>
@@ -739,6 +756,7 @@ export default function AdminProjects() {
                                 external_link_url: e.target.value,
                               })
                             }
+                            aria-label="External Link URL"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                             placeholder="https://example.com"
                           />
@@ -752,6 +770,7 @@ export default function AdminProjects() {
                             onChange={(e) =>
                               updateFormData({ github_url: e.target.value })
                             }
+                            aria-label="GitHub Repository URL"
                             className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs"
                             placeholder="https://github.com/..."
                           />
@@ -776,6 +795,7 @@ export default function AdminProjects() {
                                 progress_percentage: parseInt(e.target.value),
                               })
                             }
+                            aria-label="Progress Percentage"
                             className="w-full h-2 bg-emerald-500/30 rounded-lg appearance-none cursor-pointer accent-emerald-500"
                           />
                         </div>
@@ -838,7 +858,7 @@ export default function AdminProjects() {
                   )}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         )}
       </AnimatePresence>

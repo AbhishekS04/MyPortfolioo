@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { motion, PanInfo } from "framer-motion";
+import { m, PanInfo } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { UniversalImage } from "@/components/ui/universal-image";
 import { PAPER_SOUND_BASE64 } from "@/components/ui/sound-constants";
@@ -330,7 +330,7 @@ export function VerticalImageStack({
             (currentIndex === displayImages.length - 1 && index === 0);
 
           return (
-            <motion.div
+            <m.div
               key={image.id}
               className="absolute cursor-grab active:cursor-grabbing w-[180px] sm:w-full flex justify-center pointer-events-auto"
               animate={{
@@ -370,6 +370,7 @@ export function VerticalImageStack({
                 {isVideo(image.src) ? (
                   <video
                     src={image.src}
+                    aria-label={image.alt || "Gallery video"}
                     className="w-full h-full object-cover pointer-events-none"
                     autoPlay
                     loop
@@ -396,7 +397,7 @@ export function VerticalImageStack({
                 {/* Bottom gradient overlay */}
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none" />
               </div>
-            </motion.div>
+            </m.div>
           );
         })}
       </div>

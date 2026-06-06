@@ -1,12 +1,11 @@
 "use client";
 
-import {
+import React, {
   useState,
   useRef,
   useEffect,
   useLayoutEffect,
   useCallback,
-  forwardRef,
 } from "react";
 import { cn } from "@/lib/utils";
 import { X, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
@@ -33,7 +32,7 @@ export function AnimatedFolder({
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [sourceRect, setSourceRect] = useState<DOMRect | null>(null);
   const [hiddenCardId, setHiddenCardId] = useState<string | null>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const cardRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const handleProjectClick = (project: Project, index: number) => {
     const cardEl = cardRefs.current[index];
@@ -217,42 +216,40 @@ export function ImageLightbox({
   const [isClosing, setIsClosing] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [internalIndex, setInternalIndex] = useState(currentIndex);
-  const [prevIndex, setPrevIndex] = useState(currentIndex);
   const [isSliding, setIsSliding] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<"left" | "right">(
-    "right",
-  );
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const [prevPropIndex, setPrevPropIndex] = useState(currentIndex);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
+
+  // Sync state with props in render phase (React-approved pattern for prop-to-state adjustment)
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
+    if (isOpen) {
+      setInternalIndex(currentIndex);
+      setIsSliding(false);
+    }
+  } else if (isOpen && currentIndex !== prevPropIndex) {
+    setPrevPropIndex(currentIndex);
+    setInternalIndex(currentIndex);
+    setIsSliding(true);
+  }
+
+  // Handle slide completion timer
+  useEffect(() => {
+    if (isSliding) {
+      const timer = setTimeout(() => {
+        setIsSliding(false);
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [isSliding]);
 
   const totalProjects = projects.length;
   const hasNext = internalIndex < totalProjects - 1;
   const hasPrev = internalIndex > 0;
 
   const currentProject = projects[internalIndex];
-
-  useEffect(() => {
-    if (isOpen && currentIndex !== internalIndex && !isSliding) {
-      const direction = currentIndex > internalIndex ? "left" : "right";
-      setSlideDirection(direction);
-      setPrevIndex(internalIndex);
-      setIsSliding(true);
-
-      const timer = setTimeout(() => {
-        setInternalIndex(currentIndex);
-        setIsSliding(false);
-      }, 400);
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentIndex, isOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
-      setInternalIndex(currentIndex);
-      setPrevIndex(currentIndex);
-      setIsSliding(false);
-    }
-  }, [isOpen]);
 
   const navigateNext = useCallback(() => {
     if (internalIndex >= totalProjects - 1 || isSliding) return;
@@ -361,14 +358,17 @@ export function ImageLightbox({
       className={cn(
         "fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8",
       )}
-      onClick={handleClose}
       style={{
         opacity: isClosing ? 0 : 1,
         transition: "opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)",
       }}
     >
-      <div
-        className="absolute inset-0 bg-background/80 backdrop-blur-xl"
+      {/* Backdrop — separate button so no nesting violations */}
+      <button
+        type="button"
+        aria-label="Close lightbox"
+        className="absolute inset-0 border-0 bg-background/80 backdrop-blur-xl cursor-default p-0"
+        onClick={handleClose}
         style={{
           opacity: animationPhase === "initial" && !isClosing ? 0 : 1,
           transition: "opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)",
@@ -546,6 +546,7 @@ export function ImageLightbox({
                       <button
                         key={idx}
                         onClick={() => handleDotClick(idx)}
+                        aria-label={`Go to project ${idx + 1}`}
                         className={cn(
                           "w-2 h-2 rounded-full transition-all duration-300",
                           idx === internalIndex
@@ -589,47 +590,56 @@ interface ProjectCardProps {
   isSelected: boolean;
 }
 
-export const ProjectCard = forwardRef<HTMLDivElement, ProjectCardProps>(
-  ({ image, title, delay, isVisible, index, onClick, isSelected }, ref) => {
-    const rotations = [-12, 0, 12];
-    const translations = [-55, 0, 55];
+export function ProjectCard({
+  image,
+  title,
+  delay,
+  isVisible,
+  index,
+  onClick,
+  isSelected,
+  ref,
+}: ProjectCardProps & { ref?: React.Ref<HTMLButtonElement> }) {
+  const rotations = [-12, 0, 12];
+  const translations = [-55, 0, 55];
 
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "absolute w-20 h-28 rounded-lg overflow-hidden shadow-xl",
-          "bg-card border border-border",
-          "cursor-pointer hover:ring-2 hover:ring-accent/50",
-          isSelected && "opacity-0",
-        )}
-        style={{
-          transform: isVisible
-            ? `translateY(-90px) translateX(${translations[index]}px) rotate(${rotations[index]}deg) scale(1)`
-            : "translateY(0px) translateX(0px) rotate(0deg) scale(0.5)",
-          opacity: isSelected ? 0 : isVisible ? 1 : 0,
-          transition: `all 600ms cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms`,
-          zIndex: 10 - index,
-          left: "-40px",
-          top: "-56px",
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          onClick();
-        }}
-      >
-        <UniversalImage
-          src={image || "/placeholder.svg"}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-        <p className="absolute bottom-1.5 left-1.5 right-1.5 text-[10px] font-medium text-foreground truncate">
-          {title}
-        </p>
-      </div>
-    );
-  },
-);
+  return (
+    <button
+      type="button"
+      ref={ref}
+      className={cn(
+        "absolute w-20 h-28 rounded-lg overflow-hidden shadow-xl",
+        "bg-card border border-border",
+        "cursor-pointer hover:ring-2 hover:ring-accent/50",
+        "p-0 border-0 text-left",
+        isSelected && "opacity-0",
+      )}
+      style={{
+        transform: isVisible
+          ? `translateY(-90px) translateX(${translations[index]}px) rotate(${rotations[index]}deg) scale(1)`
+          : "translateY(0px) translateX(0px) rotate(0deg) scale(0.5)",
+        opacity: isSelected ? 0 : isVisible ? 1 : 0,
+        transition: `all 600ms cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms`,
+        zIndex: 10 - index,
+        left: "-40px",
+        top: "-56px",
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+    >
+      <UniversalImage
+        src={image || "/placeholder.svg"}
+        alt={title}
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+      <p className="absolute bottom-1.5 left-1.5 right-1.5 text-[10px] font-medium text-foreground truncate">
+        {title}
+      </p>
+    </button>
+  );
+}
 
 ProjectCard.displayName = "ProjectCard";

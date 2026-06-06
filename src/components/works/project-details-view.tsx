@@ -3,7 +3,7 @@
 import { useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, Variants } from "framer-motion";
+import { m, Variants } from "framer-motion";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -111,12 +111,18 @@ function CustomVideoPlayer({
       className="relative w-full h-full group cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={togglePlay}
     >
+      <button
+        type="button"
+        aria-label={isPlaying ? "Pause video" : "Play video"}
+        onClick={togglePlay}
+        className="absolute inset-0 w-full h-full cursor-pointer z-[1] bg-transparent border-0"
+      />
       <video
         ref={videoRef}
         src={videoUrl}
         poster={posterUrl}
+        aria-label="Project demo video"
         className="w-full h-full object-cover"
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => setIsPlaying(false)}
@@ -158,9 +164,18 @@ function CustomVideoPlayer({
           </button>
 
           {/* Progress Bar */}
-          <div
-            className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-1.5 transition-all"
-            onClick={handleSeek}
+          <button
+            type="button"
+            aria-label="Seek video"
+            className="flex-1 h-1 bg-white/20 rounded-full overflow-hidden cursor-pointer hover:h-1.5 transition-all p-0 border-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              if (videoRef.current) {
+                videoRef.current.currentTime = (x / rect.width) * videoRef.current.duration;
+              }
+            }}
           >
             <div
               className="h-full bg-blue-400/80 rounded-full relative"
@@ -168,7 +183,7 @@ function CustomVideoPlayer({
             >
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-blue-200 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] opacity-0 group-hover:opacity-100" />
             </div>
-          </div>
+          </button>
 
           {/* Mute Toggle */}
           <button
@@ -186,6 +201,17 @@ function CustomVideoPlayer({
     </div>
   );
 }
+
+const TextBlock = ({ text }: { text: string }) => {
+  if (!text) return null;
+  return (
+    <div className="space-y-6 text-lg md:text-xl text-[#c0c0c0] leading-relaxed font-light break-words min-w-0">
+      {text.split("\n\n").map((paragraph, i) => (
+        <p key={i}>{paragraph}</p>
+      ))}
+    </div>
+  );
+};
 
 export function ProjectDetailsView({
   project,
@@ -218,16 +244,7 @@ export function ProjectDetailsView({
     },
   };
 
-  const TextBlock = ({ text }: { text: string }) => {
-    if (!text) return null;
-    return (
-      <div className="space-y-6 text-lg md:text-xl text-[#c0c0c0] leading-relaxed font-light break-words min-w-0">
-        {text.split("\n\n").map((paragraph, i) => (
-          <p key={i}>{paragraph}</p>
-        ))}
-      </div>
-    );
-  };
+
 
   const { filteredMarkdown, headingMap, markdownHighlights } = useMemo(() => {
     if (!project.case_study_md)
@@ -347,7 +364,7 @@ export function ProjectDetailsView({
       </div>
 
       {/* --- 1. Top Navigation (Fixed) --- */}
-      <motion.nav
+      <m.nav
         className="fixed top-24 md:top-28 left-6 md:left-10 z-[60] pointer-events-auto"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -372,18 +389,18 @@ export function ProjectDetailsView({
                 : "Back to Works"}
           </span>
         </Link>
-      </motion.nav>
+      </m.nav>
 
       <article className="relative z-10 max-w-[1400px] mx-auto pt-44 md:pt-48 px-6 md:px-12 lg:px-20">
         {/* --- 2. Hero Section --- */}
-        <motion.header
+        <m.header
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
           className="mb-24 md:mb-32 space-y-12"
         >
           {/* Meta Row */}
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="flex flex-wrap items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-white/40"
           >
@@ -398,22 +415,22 @@ export function ProjectDetailsView({
                 <span>{project.client_name}</span>
               </>
             )}
-          </motion.div>
+          </m.div>
 
           {/* Title */}
-          <motion.h1
+          <m.h1
             variants={fadeInUp}
             className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-medium tracking-tighter text-white leading-[0.95] max-w-6xl"
           >
             {project.title}
-          </motion.h1>
+          </m.h1>
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="w-full h-px bg-gradient-to-r from-blue-500/30 via-white/5 to-transparent mt-16 mb-16"
           />
 
-          <motion.div
+          <m.div
             variants={fadeInUp}
             className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24"
           >
@@ -432,11 +449,11 @@ export function ProjectDetailsView({
                 </span>
               ))}
             </div>
-          </motion.div>
-        </motion.header>
+          </m.div>
+        </m.header>
 
         {/* --- 3. Primary Media (Cinematic & Clean) --- */}
-        <motion.section
+        <m.section
           ref={mediaRef}
           initial={{ opacity: 0, scale: 0.98, y: 20 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
@@ -458,25 +475,31 @@ export function ProjectDetailsView({
             ) : (
               <div className="relative w-full">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={project.image_url}
-                  alt={project.title}
-                  loading="eager"
-                  fetchPriority="high"
+                <button
+                  type="button"
+                  aria-label="View full image"
                   onClick={() => setZoomImage(project.image_url)}
-                  className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01] cursor-zoom-in"
-                />
+                  className="block w-full cursor-zoom-in border-0 p-0 bg-transparent"
+                >
+                  <img
+                    src={project.image_url}
+                    alt={project.title}
+                    loading="eager"
+                    fetchPriority="high"
+                    className="w-full h-auto object-cover transition-transform duration-[2s] ease-out group-hover:scale-[1.01]"
+                  />
+                </button>
               </div>
             )}
           </div>
-        </motion.section>
+        </m.section>
 
         {/* --- 4. Content Grid --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 mb-32 relative">
           {/* LEFT: Deep Dive (Markdown) */}
           <div className="lg:col-span-7">
             {project.case_study_md ? (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
@@ -484,7 +507,7 @@ export function ProjectDetailsView({
                 className="prose prose-invert prose-lg max-w-none"
               >
                 {markdownContent}
-              </motion.div>
+              </m.div>
             ) : (
               <div className="space-y-24 md:space-y-32">
                 {[
@@ -506,7 +529,7 @@ export function ProjectDetailsView({
                 ].map(
                   (section, idx) =>
                     section.content && (
-                      <motion.section
+                      <m.section
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -523,12 +546,12 @@ export function ProjectDetailsView({
                           </h3>
                         </div>
                         <TextBlock text={section.content} />
-                      </motion.section>
+                      </m.section>
                     ),
                 )}
 
                 {project.outcome && (
-                  <motion.section
+                  <m.section
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -540,7 +563,7 @@ export function ProjectDetailsView({
                     <p className="text-xl md:text-2xl text-white/90 font-light italic leading-relaxed">
                       &quot;{project.outcome}&quot;
                     </p>
-                  </motion.section>
+                  </m.section>
                 )}
               </div>
             )}
@@ -549,7 +572,7 @@ export function ProjectDetailsView({
           {/* RIGHT: Supporting Info (Sticky) */}
           <aside className="lg:col-span-4 lg:col-start-9 h-fit lg:sticky lg:top-32 space-y-16">
             {/* Links */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -596,11 +619,11 @@ export function ProjectDetailsView({
                   </button>
                 </>
               )}
-            </motion.div>
+            </m.div>
 
             {/* Features (Highlights) */}
             {(markdownHighlights || project.features) && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -643,12 +666,12 @@ export function ProjectDetailsView({
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </m.div>
             )}
 
             {/* Contributors */}
             {contributors && contributors.length > 0 && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -669,7 +692,7 @@ export function ProjectDetailsView({
                     }))}
                   />
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </aside>
         </div>
@@ -677,7 +700,7 @@ export function ProjectDetailsView({
         {/* --- 5. Gallery --- */}
         {project.gallery_images && project.gallery_images.length > 0 && (
           <section className="mb-0">
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -689,11 +712,11 @@ export function ProjectDetailsView({
               <span className="text-xs font-mono text-white/30">
                 0{project.gallery_images.length}
               </span>
-            </motion.div>
+            </m.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 mb-24">
               {project.gallery_images.map((img: string, idx: number) => (
-                <motion.div
+                <m.div
                   key={idx}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -701,15 +724,21 @@ export function ProjectDetailsView({
                   transition={{ duration: 0.8, delay: idx * 0.1 }}
                   className="relative bg-[#111] aspect-[4/3] group overflow-hidden rounded-2xl md:rounded-3xl shadow-lg ring-1 ring-white/5"
                 >
-                  <Image
-                    src={img}
-                    alt={`Gallery ${idx}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
+                  <button
+                    type="button"
+                    aria-label={`View gallery image ${idx + 1}`}
                     onClick={() => setZoomImage(img)}
-                    className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 ease-out cursor-zoom-in"
-                  />
-                </motion.div>
+                    className="absolute inset-0 w-full h-full cursor-zoom-in border-0 p-0 bg-transparent"
+                  >
+                    <Image
+                      src={img}
+                      alt={`Gallery ${idx}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-700 ease-out"
+                    />
+                  </button>
+                </m.div>
               ))}
             </div>
           </section>

@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { createContext, use, useState, useCallback } from "react";
+import { AnimatePresence, m } from "framer-motion";
 import { X, CheckCircle, AlertCircle, Info } from "lucide-react";
 
 type ToastType = "success" | "error" | "info";
@@ -41,7 +41,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       <div className="fixed bottom-6 right-6 z-[100] flex flex-col gap-3 pointer-events-none">
         <AnimatePresence>
           {toasts.map((toast) => (
-            <motion.div
+            <m.div
               key={toast.id}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -71,7 +71,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               >
                 <X className="w-4 h-4" />
               </button>
-            </motion.div>
+            </m.div>
           ))}
         </AnimatePresence>
       </div>
@@ -80,7 +80,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useToast() {
-  const context = useContext(ToastContext);
+  const context = use(ToastContext);
   if (!context) {
     throw new Error("useToast must be used within a ToastProvider");
   }

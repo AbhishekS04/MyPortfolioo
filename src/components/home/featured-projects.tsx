@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
@@ -210,7 +210,7 @@ export function FeaturedProjects({
         ) : (
           // Real Data
           projects.map((project, index) => (
-            <motion.div
+            <m.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -218,7 +218,7 @@ export function FeaturedProjects({
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <ProjectCard project={project} />
-            </motion.div>
+            </m.div>
           ))
         )}
       </div>

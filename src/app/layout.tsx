@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import { bolivia } from "@/lib/fonts";
 import "./globals.css";
+import { FramerProvider } from "@/components/providers/framer-provider";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -240,7 +241,9 @@ export default function RootLayout({
             ]),
           }}
         />
-        {children}
+        <FramerProvider>
+          {children}
+        </FramerProvider>
       </body>
     </html>
   );

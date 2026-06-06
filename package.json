@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
-    "analyze": "ANALYZE=true next build --webpack"
+    "analyze": "ANALYZE=true next build --webpack",
+    "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
@@ -54,6 +55,7 @@
     "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "svg-dotted-map": "^2.1.0",
+    "swr": "^2.4.1",
     "tailwind-merge": "^3.4.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.182.0"
@@ -70,6 +72,7 @@
     "lint-staged": "^16.4.0",
     "postcss": "^8.5.6",
     "prettier": "^3.8.2",
+    "react-doctor": "^0.4.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5"
   },

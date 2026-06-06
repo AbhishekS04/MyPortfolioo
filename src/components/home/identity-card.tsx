@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { LocationTag } from "@/components/ui/location-tag";
 import { UserLocation } from "@/components/ui/user-location";
 
@@ -27,7 +27,7 @@ export function IdentityCard() {
 
       {/* Content */}
       <div className="absolute inset-0 flex flex-col justify-end p-8">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -43,7 +43,7 @@ export function IdentityCard() {
             <LocationTag className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
             <UserLocation className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

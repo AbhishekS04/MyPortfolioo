@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SKILLS, WHY_I_BUILD } from "@/lib/data";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
@@ -54,7 +54,7 @@ export function SkillsInMotion() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Card 1: Skills in Motion */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -80,10 +80,10 @@ export function SkillsInMotion() {
           <div className="mt-8 text-xs text-white/20 uppercase tracking-widest">
             Constantly evolving
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Card 2: Why I Build */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -105,7 +105,7 @@ export function SkillsInMotion() {
               {profile.secondary}
             </p>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { CurrentlyWorkingCard } from "@/components/works/currently-working-card";
 import { ProjectGrid } from "@/components/works/project-grid";
 import Link from "next/link";
@@ -16,7 +16,7 @@ export function WorksClient({ projects }: { projects: Project[] }) {
 
   return (
     <main className="min-h-screen bg-[#050505] pt-32 px-6 md:px-12 pb-20 selection:bg-emerald-500/30 selection:text-emerald-50">
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
@@ -59,7 +59,7 @@ export function WorksClient({ projects }: { projects: Project[] }) {
             <p>No projects found. Use the Admin panel to add your works.</p>
           </div>
         )}
-      </motion.div>
+      </m.div>
     </main>
   );
 }

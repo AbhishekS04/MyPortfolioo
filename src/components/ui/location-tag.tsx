@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 interface LocationTagProps {
   className?: string;
@@ -122,7 +122,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
       {/* Terminal Overlay */}
       <AnimatePresence>
         {showOverlay && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -131,18 +131,18 @@ export function LocationTag({ className = "" }: LocationTagProps) {
           >
             <div className="w-full max-w-4xl space-y-1 text-xs md:text-lg uppercase">
               {terminalLines.map((line, i) => (
-                <motion.div
+                <m.div
                   key={i}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   className="break-all md:break-words whitespace-pre-wrap"
                 >
                   {line}
-                </motion.div>
+                </m.div>
               ))}
 
               {/* Blinking Cursor */}
-              <motion.div
+              <m.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="mt-2"
@@ -156,12 +156,12 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                 >
                   {">"}
                 </span>
-                <motion.div
+                <m.div
                   animate={{ opacity: [0, 1, 0] }}
                   transition={{ duration: 0.8, repeat: Infinity }}
                   className={`inline-block w-2 h-4 md:w-3 md:h-5 ml-2 align-middle ${terminalColor === "green" ? "bg-[#33ff00]" : "bg-gray-300"}`}
                 />
-              </motion.div>
+              </m.div>
             </div>
 
             {/* Scanline Effect */}
@@ -172,7 +172,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
                   "repeating-linear-gradient(0deg, transparent, transparent 2px, #ffffff 4px)",
               }}
             ></div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -196,7 +196,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
 
         <div className="relative overflow-hidden h-5 flex flex-col justify-center">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={isRetro ? "retro" : "standard"}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -205,7 +205,7 @@ export function LocationTag({ className = "" }: LocationTagProps) {
               className={`text-sm font-medium block whitespace-nowrap ${isRetro ? "font-mono text-amber-500" : "font-sans text-white/90"}`}
             >
               {isRetro ? "SYSTEM OVERRIDE" : "Available for hire"}
-            </motion.div>
+            </m.div>
           </AnimatePresence>
         </div>
       </button>

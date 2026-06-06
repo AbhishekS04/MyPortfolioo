@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  motion,
+  m,
   AnimatePresence,
   useMotionValue,
   useTransform,
@@ -31,18 +31,21 @@ export function ImageZoomOverlay({
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const [prevIsOpen, setPrevIsOpen] = useState(isOpen);
 
-  // Reset zoom and pan when opening/closing
-  useEffect(() => {
+  // Sync state with props in render phase (React-approved pattern for prop-to-state adjustment)
+  if (isOpen !== prevIsOpen) {
+    setPrevIsOpen(isOpen);
     if (!isOpen) {
       setScale(1);
       x.set(0);
       y.set(0);
     }
-  }, [isOpen, x, y]);
+  }
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Body scroll lock
   useEffect(() => {
@@ -79,7 +82,7 @@ export function ImageZoomOverlay({
           onWheel={handleWheel}
         >
           {/* Backdrop */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -88,7 +91,7 @@ export function ImageZoomOverlay({
           />
 
           {/* Controls HUD */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -125,10 +128,10 @@ export function ImageZoomOverlay({
             >
               <RotateCcw className="w-4 h-4" />
             </button>
-          </motion.div>
+          </m.div>
 
           {/* Close Button */}
-          <motion.button
+          <m.button
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.5 }}
@@ -136,24 +139,24 @@ export function ImageZoomOverlay({
             className="absolute top-8 right-8 z-[10] p-4 rounded-full bg-white/10 hover:bg-white/20 text-white/80 transition-all border border-white/10"
           >
             <X className="w-6 h-6" />
-          </motion.button>
+          </m.button>
 
           {/* Hint text */}
-          <motion.p
+          <m.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="absolute top-8 left-1/2 -translate-x-1/2 text-[10px] uppercase tracking-[0.3em] text-white/20 font-black"
           >
             Pinch_or_Scroll_to_Explore
-          </motion.p>
+          </m.p>
 
           {/* Image Container */}
-          <motion.div
+          <m.div
             ref={containerRef}
             className="relative w-full h-full flex items-center justify-center p-4 md:p-20"
             style={{ perspective: 1000 }}
           >
-            <motion.img
+            <m.img
               src={imageUrl}
               alt={altText || "Zoomed project image"}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -179,7 +182,7 @@ export function ImageZoomOverlay({
               className={`max-w-full max-h-full object-contain shadow-[0_0_100px_rgba(0,0,0,0.5)] rounded-lg md:rounded-2xl transition-shadow duration-500 ${scale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
               draggable={false}
             />
-          </motion.div>
+          </m.div>
         </div>
       )}
     </AnimatePresence>

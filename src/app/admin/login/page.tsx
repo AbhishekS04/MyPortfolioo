@@ -60,6 +60,7 @@ export default function AdminLogin() {
             <input
               type="email"
               placeholder="Admin Email"
+              aria-label="Admin Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-all"
@@ -70,6 +71,7 @@ export default function AdminLogin() {
             <input
               type="password"
               placeholder="Password"
+              aria-label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder:text-white/20 focus:outline-none focus:border-white/30 transition-all"

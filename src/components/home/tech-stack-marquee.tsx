@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 const TECH_STACK = [
   "C++",
@@ -33,7 +33,7 @@ export function TechStackMarquee() {
 
       {/* Marquee Container */}
       <div className="flex overflow-hidden select-none mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent)">
-        <motion.div
+        <m.div
           animate={{ x: ["0%", "-50%"] }}
           transition={{
             duration: 20,
@@ -50,7 +50,7 @@ export function TechStackMarquee() {
               {tech}
             </span>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </div>
   );

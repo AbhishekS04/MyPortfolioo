@@ -2,7 +2,7 @@
 
 import { useState, useEffect, createContext, useContext } from "react";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { Preloader } from "./preloader";
 
 // Module-level variable to persist across route changes within the same session
@@ -55,12 +55,18 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Remove static splash screen if it exists
     const staticSplash = document.getElementById("static-splash");
+    let timerId: NodeJS.Timeout | undefined;
     if (staticSplash) {
       staticSplash.style.opacity = "0";
-      setTimeout(() => {
+      timerId = setTimeout(() => {
         staticSplash.remove();
       }, 300);
     }
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -82,7 +88,7 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
     <PreloaderContext.Provider value={{ hasShown: !isVisible, isVisible }}>
       <AnimatePresence mode="wait">
         {isVisible && (
-          <motion.div
+          <m.div
             key="global-preloader"
             initial={{ y: 0 }}
             exit={{
@@ -95,7 +101,7 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
             className="fixed inset-0 z-[9999] bg-[#050805] flex items-center justify-center"
           >
             <Preloader onComplete={handleComplete} />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

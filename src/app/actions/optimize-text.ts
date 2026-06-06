@@ -1,6 +1,7 @@
 "use server";
 
 import OpenAI from "openai";
+import { createClient } from "@/utils/supabase/server";
 
 // Initialize OpenAI client with OpenRouter base URL
 const client = new OpenAI({
@@ -16,6 +17,15 @@ const client = new OpenAI({
 const MAX_TEXT_LENGTH = 5000;
 
 export async function optimizeText(currentText: string) {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return { error: "Unauthorized access" };
+  }
+
   if (!process.env.OPENROUTER_API_KEY) {
     return {
       error:

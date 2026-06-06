@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { MapPin, Clock } from "lucide-react";
 
@@ -10,7 +10,7 @@ interface UserLocationProps {
 }
 
 export function UserLocation({ className = "" }: UserLocationProps) {
-  const [location, setLocation] = useState({
+  const [profileLocation, setProfileLocation] = useState({
     city: "Kolkata",
     country: "India",
     timezone: "Asia/Kolkata",
@@ -25,7 +25,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
         .select("location_city, location_country, location_timezone")
         .single();
       if (data) {
-        setLocation({
+        setProfileLocation({
           city: data.location_city || "Kolkata",
           country: data.location_country || "India",
           timezone: data.location_timezone || "Asia/Kolkata",
@@ -44,11 +44,11 @@ export function UserLocation({ className = "" }: UserLocationProps) {
           hour: "numeric",
           minute: "2-digit",
           hour12: true,
-          timeZone: location.timezone,
+          timeZone: profileLocation.timezone,
         });
 
         // Explicitly use "IST" for Indian time for compactness
-        const suffix = location.timezone.includes("Kolkata") ? " IST" : "";
+        const suffix = profileLocation.timezone.includes("Kolkata") ? " IST" : "";
         setCurrentTime(`${time}${suffix}`);
       } catch (e) {
         setCurrentTime("00:00 AM");
@@ -57,7 +57,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
-  }, [location.timezone]);
+  }, [profileLocation.timezone]);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -74,7 +74,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
   };
 
   return (
-    <motion.button
+    <m.button
       onMouseEnter={() => setShowTime(true)}
       onMouseLeave={() => setShowTime(false)}
       onClick={handleMobileClick}
@@ -84,7 +84,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
       <div className="relative flex items-center justify-center w-4 h-4">
         <AnimatePresence mode="popLayout" initial={false}>
           {showTime ? (
-            <motion.div
+            <m.div
               key="clock"
               initial={{ scale: 0.5, opacity: 0, rotate: -180 }}
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -97,9 +97,9 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               className="absolute inset-0 m-auto"
             >
               <Clock className="w-4 h-4 text-white/70" />
-            </motion.div>
+            </m.div>
           ) : (
-            <motion.div
+            <m.div
               key="pin"
               initial={{ scale: 0.5, opacity: 0, rotate: -180 }}
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
@@ -112,7 +112,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               className="absolute inset-0 m-auto"
             >
               <MapPin className="w-4 h-4 text-white/70" />
-            </motion.div>
+            </m.div>
           )}
         </AnimatePresence>
       </div>
@@ -120,7 +120,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
       <div className="relative h-5 flex flex-col justify-center items-start w-full overflow-hidden">
         <AnimatePresence mode="popLayout" initial={false}>
           {showTime ? (
-            <motion.span
+            <m.span
               key="time"
               initial={{ y: 20, opacity: 0, filter: "blur(4px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
@@ -133,9 +133,9 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               className="text-sm font-medium text-white/90 font-sans block whitespace-nowrap absolute left-0"
             >
               {currentTime}
-            </motion.span>
+            </m.span>
           ) : (
-            <motion.span
+            <m.span
               key="location"
               initial={{ y: 20, opacity: 0, filter: "blur(4px)" }}
               animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
@@ -147,11 +147,11 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               }}
               className="text-sm font-medium text-white/90 font-sans block whitespace-nowrap absolute left-0"
             >
-              {location.city}, {location.country}
-            </motion.span>
+              {profileLocation.city}, {profileLocation.country}
+            </m.span>
           )}
         </AnimatePresence>
       </div>
-    </motion.button>
+    </m.button>
   );
 }

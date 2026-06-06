@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  motion,
+  m,
   AnimatePresence,
   Variants,
   useMotionValue,
@@ -93,7 +93,7 @@ export function MobileMenu({
       {isOpen && (
         <>
           {/* Backdrop */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -102,7 +102,7 @@ export function MobileMenu({
           />
 
           {/* Bottom Sheet */}
-          <motion.div
+          <m.div
             style={{ y }}
             variants={menuVariants}
             initial="closed"
@@ -140,7 +140,7 @@ export function MobileMenu({
             <div className="flex flex-col gap-8 items-center justify-center min-h-[200px]">
               {["Home", "Works", "About", isMinimal ? "Main" : "Minimal"].map(
                 (item, i) => (
-                  <motion.div
+                  <m.div
                     key={item}
                     custom={i}
                     variants={linkVariants}
@@ -183,7 +183,7 @@ export function MobileMenu({
                     >
                       {item}
                     </Link>
-                  </motion.div>
+                  </m.div>
                 ),
               )}
             </div>
@@ -192,11 +192,11 @@ export function MobileMenu({
             <div className="h-16" />
 
             {/* Easter Egg Bottom Zone - Static Text with Apple Emoji */}
-            <motion.div
+            <m.div
               style={{ height: barHeight }}
               className="absolute bottom-0 left-0 right-0 flex items-end justify-center overflow-hidden pointer-events-none"
             >
-              <motion.div
+              <m.div
                 style={{
                   opacity: textOpacity,
                   scale: textScale,
@@ -209,9 +209,9 @@ export function MobileMenu({
                 <span className="text-xl" role="img" aria-label="sus">
                   🤨
                 </span>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </m.div>
+            </m.div>
+          </m.div>
         </>
       )}
     </AnimatePresence>

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { X, Loader2 } from "lucide-react";
 import { FaGithub, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ interface ChangelogOverlayProps {
 }
 
 import { createPortal } from "react-dom";
+import useSWR from "swr";
 
 export function ChangelogOverlay({
   isOpen,
@@ -21,15 +22,27 @@ export function ChangelogOverlay({
   githubUrl,
   projectTitle,
 }: ChangelogOverlayProps) {
-  const [commits, setCommits] = useState<GithubCommit[]>([]);
-  const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [mounted, setMounted] = useState(false);
   const itemsPerPage = 3; // Fixed number of items to prevent scrolling
 
+  const { data: commitsData, error } = useSWR(
+    isOpen && githubUrl ? [githubUrl, "commits"] : null,
+    ([url]) => fetchGithubCommits(url)
+  );
+
+  const commits = commitsData || [];
+  const loading = !commitsData && !error && isOpen && !!githubUrl;
+
+  const [prevUrl, setPrevUrl] = useState(githubUrl);
+  if (githubUrl !== prevUrl) {
+    setPrevUrl(githubUrl);
+    setCurrentPage(1);
+  }
+
   // Mount state for portal
   useEffect(() => {
-    setTimeout(() => setMounted(true), 0);
+    setMounted(true);
   }, []);
 
   // Body scroll lock
@@ -56,17 +69,6 @@ export function ChangelogOverlay({
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    if (isOpen && githubUrl) {
-      setTimeout(() => setLoading(true), 0);
-      fetchGithubCommits(githubUrl).then((data) => {
-        setCommits(data);
-        setLoading(false);
-        setCurrentPage(1);
-      });
-    }
-  }, [isOpen, githubUrl]);
-
   if (!mounted) return null;
 
   // Calculate pagination with safety check
@@ -88,7 +90,7 @@ export function ChangelogOverlay({
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden touch-none overscroll-none"
           style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
         >
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -99,7 +101,7 @@ export function ChangelogOverlay({
           {/* Scanline Effect */}
           <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] z-[101] opacity-30" />
 
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -144,7 +146,7 @@ export function ChangelogOverlay({
               ) : currentCommits.length > 0 ? (
                 <div className="space-y-4 h-full">
                   {currentCommits.map((commit, idx) => (
-                    <motion.div
+                    <m.div
                       key={commit.sha}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -184,7 +186,7 @@ export function ChangelogOverlay({
                           #{commit.sha.substring(0, 7)}
                         </div>
                       </div>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               ) : (
@@ -200,6 +202,7 @@ export function ChangelogOverlay({
                 <button
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1 || loading}
+                  aria-label="Previous page"
                   className="p-2.5 rounded-xl bg-white/5 border border-white/5 text-white/40 disabled:opacity-20 hover:text-emerald-400 hover:border-emerald-500/30 transition-all cursor-pointer"
                 >
                   <svg
@@ -227,6 +230,7 @@ export function ChangelogOverlay({
                     setCurrentPage((p) => Math.min(totalPages, p + 1))
                   }
                   disabled={currentPage === totalPages || loading}
+                  aria-label="Next page"
                   className="p-2.5 rounded-xl bg-white/5 border border-white/5 text-white/40 disabled:opacity-20 hover:text-emerald-400 hover:border-emerald-500/30 transition-all cursor-pointer"
                 >
                   <svg
@@ -247,7 +251,7 @@ export function ChangelogOverlay({
                 <span className="hidden sm:inline">LIVE_FEED_SYNC</span>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       )}
     </AnimatePresence>

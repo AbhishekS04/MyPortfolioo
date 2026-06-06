@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import { motion, useAnimationControls, Variants } from "framer-motion";
+import { m, useAnimationControls, Variants } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 
@@ -158,7 +158,7 @@ export default function TextExplode({
   }, [trigger, mode, animateSequence]);
 
   return (
-    <motion.div
+    <m.div
       variants={containerVariants}
       animate={controls}
       onPointerDown={() => {
@@ -179,16 +179,16 @@ export default function TextExplode({
       )}
     >
       {characters.map((char, index) => (
-        <motion.span
+        <m.span
           key={index}
           variants={characterVariants}
           custom={{ index, total: characters.length }}
           className="inline-block whitespace-pre"
         >
           {char === " " ? "\u00A0" : char}
-        </motion.span>
+        </m.span>
       ))}
       <span className="sr-only">{text}</span>
-    </motion.div>
+    </m.div>
   );
 }

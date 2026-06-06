@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 export const ExitMessage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -37,7 +37,7 @@ export const ExitMessage = () => {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
@@ -49,7 +49,7 @@ export const ExitMessage = () => {
               Thanks for spending time here.
             </p>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

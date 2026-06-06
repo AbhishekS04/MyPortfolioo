@@ -16,13 +16,13 @@ import {
   FileText,
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { RatingStatsCard } from "@/components/admin/rating-stats-card";
 
 function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
   return (
     <Link href={href} className="block group">
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay }}
@@ -50,7 +50,7 @@ function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
             <ExternalLink className="w-3 h-3 ml-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
           </div>
         </div>
-      </motion.div>
+      </m.div>
     </Link>
   );
 }
@@ -96,24 +96,24 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-16">
         <div className="space-y-2">
-          <motion.h1
+          <m.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             className="text-4xl md:text-5xl font-medium text-white tracking-tight"
           >
             Command Center
-          </motion.h1>
-          <motion.p
+          </m.h1>
+          <m.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
             className="text-white/40 text-lg"
           >
             Welcome back, Admin. System is operational.
-          </motion.p>
+          </m.p>
         </div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
         >
@@ -124,7 +124,7 @@ export default function AdminDashboard() {
             <LogOut className="w-4 h-4" />
             End Session
           </button>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Dashboard Grid */}
@@ -180,7 +180,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Status Bar */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.8 }}
@@ -199,7 +199,7 @@ export default function AdminDashboard() {
             Secure Mode
           </span>
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

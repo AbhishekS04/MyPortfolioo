@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 
 interface TransitionOverlayProps {
@@ -15,7 +15,7 @@ export function TransitionOverlay({
   return (
     <AnimatePresence>
       {isSwitching && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
           animate={{ opacity: 1, backdropFilter: "blur(20px)" }}
           exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
@@ -23,7 +23,7 @@ export function TransitionOverlay({
           className="fixed inset-0 z-[100] bg-black/60 flex items-center justify-center pointer-events-none"
           style={{ backdropFilter: "blur(10px)" }} // Fallback
         >
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -36,8 +36,8 @@ export function TransitionOverlay({
                 ? "Building this portfolio minimal for you..."
                 : "Making a detailed portfolio for you..."}
             </p>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

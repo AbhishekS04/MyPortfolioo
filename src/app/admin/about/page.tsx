@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/components/ui/toast";
 
 import { Suspense } from "react";
@@ -303,7 +303,7 @@ function AdminAboutContent() {
         </div>
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-12"
@@ -720,36 +720,36 @@ function AdminAboutContent() {
             ))}
           </div>
         </section>
-      </motion.div>
+      </m.div>
     </div>
   );
 }
 
 // UI Helpers
 const Input = ({ label, value, onChange }: any) => (
-  <div className="space-y-1 w-full">
-    <label className="text-[10px] font-medium text-white/40 uppercase tracking-widest">
+  <label className="space-y-1 w-full block">
+    <span className="text-[10px] font-medium text-white/40 uppercase tracking-widest block">
       {label}
-    </label>
+    </span>
     <input
       type="text"
       value={value || ""}
       onChange={(e) => onChange(e.target.value)}
       className="w-full bg-[#161616] border border-white/5 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-white/20 transition-all text-sm"
     />
-  </div>
+  </label>
 );
 
 const TextArea = ({ label, value, onChange }: any) => (
-  <div className="space-y-1 w-full">
-    <label className="text-[10px] font-medium text-white/40 uppercase tracking-widest">
+  <label className="space-y-1 w-full block">
+    <span className="text-[10px] font-medium text-white/40 uppercase tracking-widest block">
       {label}
-    </label>
+    </span>
     <textarea
       value={value || ""}
       onChange={(e) => onChange(e.target.value)}
       rows={4}
       className="w-full bg-[#161616] border border-white/5 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-white/20 transition-all text-sm resize-none"
     />
-  </div>
+  </label>
 );

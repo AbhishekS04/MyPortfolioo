@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, MessageSquare, List } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useToast } from "@/components/ui/toast";
 
 export default function AdminContact() {
@@ -161,7 +161,7 @@ export default function AdminContact() {
         </button>
       </div>
 
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="space-y-12"
@@ -174,16 +174,18 @@ export default function AdminContact() {
           </div>
           <div className="p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px] space-y-6">
             <div className="space-y-2">
-              <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
+              <label htmlFor="contact_heading" className="text-xs font-medium text-white/40 uppercase tracking-widest">
                 Heading Text
               </label>
               <input
+                id="contact_heading"
                 type="text"
                 value={formData.contact_heading}
                 onChange={(e) =>
                   setFormData({ ...formData, contact_heading: e.target.value })
                 }
                 placeholder="Let’s build something meaningful."
+                aria-label="Heading Text"
                 className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
               />
               <p className="text-xs text-white/20">
@@ -235,10 +237,11 @@ export default function AdminContact() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
+                <label htmlFor="availability_status" className="text-xs font-medium text-white/40 uppercase tracking-widest">
                   Status Label
                 </label>
                 <input
+                  id="availability_status"
                   type="text"
                   value={formData.availability_status}
                   onChange={(e) =>
@@ -247,6 +250,7 @@ export default function AdminContact() {
                       availability_status: e.target.value,
                     })
                   }
+                  aria-label="Status Label"
                   className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
                 />
               </div>
@@ -256,15 +260,17 @@ export default function AdminContact() {
 
             {/* Email Input */}
             <div className="space-y-2">
-              <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
+              <label htmlFor="email" className="text-xs font-medium text-white/40 uppercase tracking-widest">
                 Contact Email
               </label>
               <input
+                id="email"
                 type="text"
                 value={formData.email}
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                aria-label="Contact Email"
                 className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
               />
             </div>
@@ -286,6 +292,7 @@ export default function AdminContact() {
                     <span className="text-sm text-white/80">{item}</span>
                     <button
                       onClick={() => removeTag(item)}
+                      aria-label={`Remove ${item}`}
                       className="p-0.5 rounded-full hover:bg-red-500/20 text-white/40 hover:text-red-400 transition-colors"
                     >
                       <svg
@@ -312,6 +319,7 @@ export default function AdminContact() {
                   value={newTag}
                   onChange={(e) => setNewTag(e.target.value)}
                   placeholder="Add new item (e.g. Speaking)..."
+                  aria-label="Add new availability item"
                   className="flex-1 bg-[#161616] border border-white/5 rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
                 />
                 <button
@@ -339,10 +347,11 @@ export default function AdminContact() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px]">
             {Object.keys(formData.social_links).map((key) => (
               <div key={key} className="space-y-2">
-                <label className="text-xs font-medium text-white/40 uppercase tracking-widest capitalize">
+                <label htmlFor={`social_${key}`} className="text-xs font-medium text-white/40 uppercase tracking-widest capitalize">
                   {key}
                 </label>
                 <input
+                  id={`social_${key}`}
                   type="text"
                   value={(formData.social_links as any)[key]}
                   onChange={(e) =>
@@ -355,13 +364,14 @@ export default function AdminContact() {
                     })
                   }
                   placeholder={`https://${key}.com/...`}
+                  aria-label={`${key} link`}
                   className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-white/20 transition-all font-mono text-sm"
                 />
               </div>
             ))}
           </div>
         </section>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

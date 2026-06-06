@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 // import { DottedMap } from "@/components/ui/dotted-map"
 // import dynamic from "next/dynamic"
 
@@ -158,9 +158,10 @@ export function CraftCard() {
   }, []);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={handleCardClick}
-      className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer select-none transition-colors duration-300 hover:bg-[#151515]"
+      className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer select-none transition-colors duration-300 hover:bg-[#151515] text-left"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       {/* Video Easter Egg - Kept in DOM continually so mobile Safari synchronizes play gesture */}
@@ -174,6 +175,7 @@ export function CraftCard() {
           playsInline
           preload="metadata"
           muted={isMuted}
+          aria-label="Craft preview video"
           onClick={(e) => {
             e.stopPropagation();
             setIsMuted(!isMuted);
@@ -195,7 +197,7 @@ export function CraftCard() {
       {/* Quote Block seamlessly fades out when video plays */}
       <AnimatePresence mode="sync">
         {!isVideoPlaying && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -208,7 +210,7 @@ export function CraftCard() {
             </h3>
 
             {/* Divider */}
-            <motion.div
+            <m.div
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: "48px", opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.3, ease: "easeOut" }}
@@ -224,9 +226,9 @@ export function CraftCard() {
             <p className="text-[#F97316] font-mono text-[10px] md:text-xs tracking-[0.05em] opacity-90 mt-3 lg:mt-4 font-semibold">
               — Bhagavad Gita, Ch {dailyQuote.chapter}, V {dailyQuote.verse}
             </p>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </div>
+    </button>
   );
 }

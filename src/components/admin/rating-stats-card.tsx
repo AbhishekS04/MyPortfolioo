@@ -1,24 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import useSWR from "swr";
 import { Star } from "lucide-react";
 
-export function RatingStatsCard() {
-  const [stats, setStats] = useState<any>(null);
-  const [error, setError] = useState(false);
+const fetcher = (url: string) =>
+  fetch(url).then((res) => {
+    if (!res.ok) throw new Error("Failed to fetch ratings");
+    return res.json();
+  });
 
-  useEffect(() => {
-    fetch("/api/ratings")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch ratings");
-        return res.json();
-      })
-      .then((data) => setStats(data))
-      .catch((err) => {
-        console.error("Error fetching ratings:", err);
-        setError(true);
-      });
-  }, []);
+export function RatingStatsCard() {
+  const { data: stats, error } = useSWR("/api/ratings", fetcher);
 
   if (error)
     return (

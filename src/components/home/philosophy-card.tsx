@@ -1,11 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 export function PhilosophyCard() {
   return (
-    <motion.a
+    <m.a
       href="/resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
@@ -14,7 +14,7 @@ export function PhilosophyCard() {
       whileHover="hover"
       animate="initial"
     >
-      <motion.div
+      <m.div
         className="w-full h-full bg-[#1c1c1c] rounded-[32px] p-10 flex flex-col justify-between overflow-hidden border border-white/5 relative z-10"
         variants={{
           initial: {
@@ -45,7 +45,7 @@ export function PhilosophyCard() {
           </span>
 
           <div className="relative w-8 h-8 flex items-center justify-center overflow-hidden">
-            <motion.div
+            <m.div
               variants={{
                 initial: { x: 0, y: 0, opacity: 1 },
                 hover: { x: 20, y: -20, opacity: 0 },
@@ -54,8 +54,8 @@ export function PhilosophyCard() {
               className="absolute"
             >
               <ArrowUpRight className="w-5 h-5 text-white/40" />
-            </motion.div>
-            <motion.div
+            </m.div>
+            <m.div
               variants={{
                 initial: { x: -20, y: 20, opacity: 0 },
                 hover: { x: 0, y: 0, opacity: 1 },
@@ -64,13 +64,13 @@ export function PhilosophyCard() {
               className="absolute"
             >
               <ArrowUpRight className="w-5 h-5 text-white" />
-            </motion.div>
+            </m.div>
           </div>
         </div>
 
         {/* Main Content */}
         <div className="mt-auto space-y-4 relative z-20">
-          <motion.h2
+          <m.h2
             className="text-5xl font-serif font-medium text-white/90 tracking-tight leading-none"
             variants={{
               initial: { x: 0 },
@@ -79,7 +79,7 @@ export function PhilosophyCard() {
             transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
           >
             Resume
-          </motion.h2>
+          </m.h2>
           <p
             className="text-sm text-white/40 leading-relaxed font-light max-w-[90%] group-hover:text-white/60 transition-colors duration-300"
             aria-hidden="true"
@@ -89,7 +89,7 @@ export function PhilosophyCard() {
         </div>
 
         {/* Shine Effect */}
-        <motion.div
+        <m.div
           className="absolute inset-0 z-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent -translate-x-[100%]"
           variants={{
             initial: { x: "-100%" },
@@ -104,7 +104,7 @@ export function PhilosophyCard() {
             },
           }}
         />
-      </motion.div>
-    </motion.a>
+      </m.div>
+    </m.a>
   );
 }
