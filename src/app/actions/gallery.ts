@@ -45,14 +45,15 @@ export async function getFeaturedProjects(): Promise<Project[]> {
           is_coming_soon?: boolean;
           slug?: string;
         }) => ({
-        id: item.id,
-        title: item.title,
-        description: item.description,
-        techStack: item.tech_stack || [],
-        image: item.image_url,
-        is_coming_soon: item.is_coming_soon,
-        link: `/works/${item.slug}?from=home`,
-      }));
+          id: item.id,
+          title: item.title,
+          description: item.description,
+          techStack: item.tech_stack || [],
+          image: item.image_url,
+          is_coming_soon: item.is_coming_soon,
+          link: `/works/${item.slug}?from=home`,
+        }),
+      );
     }
 
     return [];

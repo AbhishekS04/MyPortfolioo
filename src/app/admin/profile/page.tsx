@@ -90,7 +90,11 @@ export default function AdminProfile() {
       if (error) throw error;
       showToast("Profile updated successfully!", "success");
     } catch (error: unknown) {
-      showToast("Error saving: " + (error instanceof Error ? error.message : String(error)), "error");
+      showToast(
+        "Error saving: " +
+          (error instanceof Error ? error.message : String(error)),
+        "error",
+      );
     } finally {
       setSaving(false);
     }

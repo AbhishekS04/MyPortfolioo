@@ -91,7 +91,9 @@ export default function MFASetupPage() {
       } catch (err: unknown) {
         console.error("MFA Setup Error:", err);
         setSetupError(
-          err instanceof Error ? err.message : "Failed to setup MFA. detailed error in console.",
+          err instanceof Error
+            ? err.message
+            : "Failed to setup MFA. detailed error in console.",
         );
       } finally {
         setIsLoading(false);
@@ -119,7 +121,9 @@ export default function MFASetupPage() {
         router.push("/admin");
       }, 2000);
     } catch (err: unknown) {
-      setVerifyError(err instanceof Error ? err.message : "Invalid code. Try again.");
+      setVerifyError(
+        err instanceof Error ? err.message : "Invalid code. Try again.",
+      );
     } finally {
       setIsVerifying(false);
     }
@@ -221,8 +225,8 @@ export default function MFASetupPage() {
                   : JSON.stringify(setupError, null, 2)}
               </pre>
               <p className="text-white/40 text-xs">
-                Ensure &quot;Multi-Factor Authentication&quot; is enabled in your Supabase
-                Project Settings.
+                Ensure &quot;Multi-Factor Authentication&quot; is enabled in
+                your Supabase Project Settings.
               </p>
             </div>
           ) : (

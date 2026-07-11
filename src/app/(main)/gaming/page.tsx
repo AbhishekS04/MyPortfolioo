@@ -111,7 +111,9 @@ function CombatPod({ children, onClick, accent }: CombatPodProps) {
 }
 
 export default function GamingPage() {
-  const [selectedGame, setSelectedGame] = useState<(typeof GAMES)[number] | null>(null);
+  const [selectedGame, setSelectedGame] = useState<
+    (typeof GAMES)[number] | null
+  >(null);
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState("");
 

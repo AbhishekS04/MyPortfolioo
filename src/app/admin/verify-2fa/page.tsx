@@ -50,7 +50,9 @@ export default function MFAVerifyPage() {
       router.push("/admin");
       router.refresh();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Invalid code. Please try again.");
+      setError(
+        err instanceof Error ? err.message : "Invalid code. Please try again.",
+      );
     } finally {
       setIsVerifying(false);
     }
