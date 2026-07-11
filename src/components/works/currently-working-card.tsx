@@ -51,7 +51,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
       <div className="w-full max-w-[1200px]">
         <div className="flex items-center gap-3 mb-6 pl-2">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-bold uppercase tracking-widest text-white/40">
+          <span className="text-xs font-bold uppercase tracking-widest text-white/60">
             Currently Working
           </span>
         </div>
@@ -80,7 +80,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                     <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight group-hover:text-blue-200/90 transition-colors">
                       {project.title}
                     </h2>
-                    <p className="text-lg text-white/50 leading-relaxed max-w-md">
+                    <p className="text-lg text-white/70 leading-relaxed max-w-md">
                       {project.description}
                     </p>
                   </div>
@@ -102,7 +102,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
 
                   {/* Progress Section */}
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center text-xs font-medium uppercase tracking-widest text-white/30">
+                    <div className="flex justify-between items-center text-xs font-medium uppercase tracking-widest text-white/60">
                       <span>Progress</span>
                       <span className={config.animate ? "text-white" : ""}>
                         {project.status}

@@ -144,7 +144,7 @@ export function AboutClient({
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* SEO crawler fallback image for WebGL canvas */}
-          <img
+          <image
             src={
               general.profile_image_url ||
               "/abhishek-singh-full-stack-developer.avif"
@@ -156,7 +156,7 @@ export function AboutClient({
             <h1 className="text-xl md:text-2xl font-bold">
               {general.full_name}
             </h1>
-            <p className="text-white/40 text-sm italic">{general.role_title}</p>
+            <p className="text-white/60 text-sm italic">{general.role_title}</p>
           </div>
         </BentoCard>
 
@@ -229,7 +229,7 @@ export function AboutClient({
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-xl md:text-2xl font-bold">{exp.role}</h3>
-                <p className="text-white/40 text-sm">{exp.company}</p>
+                <p className="text-white/60 text-sm">{exp.company}</p>
               </div>
               <span className="text-[10px] uppercase tracking-widest px-2 py-1 bg-white/5 border border-white/10 rounded-md whitespace-nowrap ml-2">
                 {exp.period}
@@ -311,7 +311,7 @@ export function AboutClient({
               );
             })}
             {education.length === 0 && (
-              <p className="text-xs text-white/40">No education added.</p>
+              <p className="text-xs text-white/60">No education added.</p>
             )}
           </div>
         </BentoCard>
@@ -381,7 +381,7 @@ export function AboutClient({
               <User size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+              <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
                 Age
               </p>
               <p className="text-xs md:text-sm font-medium">
@@ -404,7 +404,7 @@ export function AboutClient({
               <Mail size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+              <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
                 Email
               </p>
               <p className="text-xs md:text-sm font-medium break-all">
@@ -417,7 +417,7 @@ export function AboutClient({
               <Phone size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+              <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
                 Phone
               </p>
               <p className="text-xs md:text-sm font-medium">
@@ -430,7 +430,7 @@ export function AboutClient({
               <MapPin size={16} className="md:w-[18px] md:h-[18px]" />
             </div>
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-white/40 font-bold">
+              <p className="text-[10px] uppercase tracking-widest text-white/60 font-bold">
                 Location
               </p>
               <p className="text-xs md:text-sm font-medium">

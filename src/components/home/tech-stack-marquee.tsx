@@ -21,7 +21,7 @@ export function TechStackMarquee() {
       <div className="absolute left-8 z-10 bg-[#111111] pr-6 hidden md:block">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-green-500/80 animate-pulse" />
-          <span className="text-sm font-medium text-white/40 uppercase tracking-widest">
+          <span className="text-sm font-medium text-white/60 uppercase tracking-widest">
             Technologies
           </span>
         </div>
@@ -45,7 +45,7 @@ export function TechStackMarquee() {
           {[...TECH_STACK, ...TECH_STACK].map((tech, index) => (
             <span
               key={`${tech}-${index}`}
-              className="text-xl md:text-2xl font-medium text-white/50 whitespace-nowrap hover:text-white transition-colors cursor-default"
+              className="text-xl md:text-2xl font-medium text-white/70 whitespace-nowrap hover:text-white transition-colors cursor-default"
             >
               {tech}
             </span>
