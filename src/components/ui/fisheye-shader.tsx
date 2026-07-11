@@ -181,7 +181,7 @@ function Quad({
   settings: FisheyeSettings;
   mouseRef: React.MutableRefObject<THREE.Vector2>;
 }) {
-  const materialRef = useRef<THREE.ShaderMaterial>(null!);
+  const materialRef = useRef<InstanceType<typeof FisheyeShaderMaterial>>(null!);
   const tStart = useRef<number>(0);
   const { size } = useThree();
 

@@ -19,13 +19,9 @@ const eslintConfig = defineConfig([
     "scripts/**",
     // Bundle-analyzer config (uses require())
     "next.config.bundle-analyze.js",
-    // Misc tool/agent dirs
+    // Misc tool/agent dirs (still present)
     ".agent/**",
     ".claude/**",
-    ".junie/**",
-    ".qoder/**",
-    ".trae/**",
-    ".fallow/**",
   ]),
 ]);
 
