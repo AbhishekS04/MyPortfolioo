@@ -16,7 +16,6 @@ import {
   Image as ImageIcon,
   CheckCircle,
   Activity,
-  Github,
   Video,
   FileText,
   Settings,
@@ -26,6 +25,7 @@ import {
   Eye,
   EyeOff,
 } from "lucide-react";
+import { FaGithub } from "react-icons/fa6";
 import Link from "next/link";
 import { m, AnimatePresence } from "framer-motion";
 import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
@@ -765,7 +765,7 @@ export default function AdminProjects() {
                         </div>
                         <div className="space-y-2">
                           <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex items-center gap-2">
-                            <Github className="w-3 h-3" /> GitHub Repo
+                            <FaGithub className="w-3 h-3" /> GitHub Repo
                           </label>
                           <input
                             value={formData.github_url || ""}

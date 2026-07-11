@@ -12,18 +12,8 @@ import {
   CommandMenuSeparator,
   useCommandMenuShortcut,
 } from "@/components/ui/command-menu";
-import {
-  Home,
-  User,
-  Briefcase,
-  Github,
-  Twitter,
-  Linkedin,
-  Mail,
-  FileText,
-  Copy,
-  ArrowRight,
-} from "lucide-react";
+import { Home, User, Briefcase, Mail, FileText, Copy } from "lucide-react";
+import { FaGithub, FaXTwitter, FaLinkedin } from "react-icons/fa6";
 
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false);
@@ -88,7 +78,7 @@ export function CommandPalette() {
               </span>
             </CommandMenuItem>
             <CommandMenuItem
-              icon={<Github className="text-green-400" />}
+              icon={<FaGithub className="text-green-400" />}
               index={3}
               keywords={["github", "code", "source", "repo", "git"]}
               onSelect={() =>
@@ -108,7 +98,7 @@ export function CommandPalette() {
 
           <CommandMenuGroup heading="Connect">
             <CommandMenuItem
-              icon={<Github />}
+              icon={<FaGithub />}
               index={4}
               keywords={["github", "profile", "social"]}
               onSelect={() =>
@@ -120,7 +110,7 @@ export function CommandPalette() {
               GitHub Profile
             </CommandMenuItem>
             <CommandMenuItem
-              icon={<Twitter />}
+              icon={<FaXTwitter />}
               index={5}
               keywords={["twitter", "x", "social", "tweet"]}
               onSelect={() =>
@@ -132,7 +122,7 @@ export function CommandPalette() {
               Twitter / X
             </CommandMenuItem>
             <CommandMenuItem
-              icon={<Linkedin />}
+              icon={<FaLinkedin />}
               index={6}
               keywords={["linkedin", "network", "social", "career"]}
               onSelect={() =>

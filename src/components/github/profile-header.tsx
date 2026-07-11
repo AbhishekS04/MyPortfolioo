@@ -2,14 +2,8 @@
 
 import { m } from "framer-motion";
 import Image from "next/image";
-import {
-  Users,
-  MapPin,
-  Link as LinkIcon,
-  Mail,
-  Building,
-  Twitter,
-} from "lucide-react";
+import { Users, MapPin, Link as LinkIcon, Mail, Building } from "lucide-react";
+import { FaXTwitter } from "react-icons/fa6";
 import { GitHubProfile, GitHubAchievement } from "@/lib/github";
 import Link from "next/link";
 
@@ -121,7 +115,7 @@ export function GitHubProfileHeader({
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-blue-400"
           >
-            <Twitter className="w-4 h-4" />
+            <FaXTwitter className="w-4 h-4" />
             <span>@{profile.twitterUsername}</span>
           </a>
         )}
