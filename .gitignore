@@ -75,3 +75,5 @@ setup_webhook.sh
 
 # Dev leftovers
 need-improvements/
+
+.husky/

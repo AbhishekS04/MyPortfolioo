@@ -144,7 +144,7 @@ export function AboutClient({
             className="absolute inset-0 w-full h-full object-cover"
           />
           {/* SEO crawler fallback image for WebGL canvas */}
-          <image
+          <img
             src={
               general.profile_image_url ||
               "/abhishek-singh-full-stack-developer.avif"
