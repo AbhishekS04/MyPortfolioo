@@ -145,7 +145,10 @@ export function AboutClient({
           />
           {/* SEO crawler fallback image for WebGL canvas */}
           <img
-            src={general.profile_image_url || "/abhishek-singh-full-stack-developer.avif"}
+            src={
+              general.profile_image_url ||
+              "/abhishek-singh-full-stack-developer.avif"
+            }
             alt="Abhishek Singh — Full Stack Developer Profile Portrait"
             className="sr-only"
           />
