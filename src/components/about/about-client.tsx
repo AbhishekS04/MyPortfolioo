@@ -143,6 +143,12 @@ export function AboutClient({
             settings={fisheyeSettings}
             className="absolute inset-0 w-full h-full object-cover"
           />
+          {/* SEO crawler fallback image for WebGL canvas */}
+          <img
+            src={general.profile_image_url || "/abhishek-singh-full-stack-developer.avif"}
+            alt="Abhishek Singh — Full Stack Developer Profile Portrait"
+            className="sr-only"
+          />
           <div className="absolute inset-x-0 bottom-0 p-5 md:p-6 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
             <h1 className="text-xl md:text-2xl font-bold">
               {general.full_name}
