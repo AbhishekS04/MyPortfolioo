@@ -24,7 +24,9 @@ function ScrollArea({
   type = "hover",
   ref,
   ...props
-}: ScrollAreaProps & { ref?: React.Ref<React.ElementRef<typeof ScrollAreaPrimitive.Root>> }) {
+}: ScrollAreaProps & {
+  ref?: React.Ref<React.ElementRef<typeof ScrollAreaPrimitive.Root>>;
+}) {
   return (
     <ScrollAreaPrimitive.Root
       ref={ref}
@@ -67,7 +69,11 @@ function ScrollBar({
   type,
   ref,
   ...props
-}: ScrollBarProps & { ref?: React.Ref<React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>> }) {
+}: ScrollBarProps & {
+  ref?: React.Ref<
+    React.ElementRef<typeof ScrollAreaPrimitive.ScrollAreaScrollbar>
+  >;
+}) {
   return (
     <ScrollAreaPrimitive.ScrollAreaScrollbar
       ref={ref}

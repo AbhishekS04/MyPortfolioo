@@ -48,7 +48,9 @@ export function UserLocation({ className = "" }: UserLocationProps) {
         });
 
         // Explicitly use "IST" for Indian time for compactness
-        const suffix = profileLocation.timezone.includes("Kolkata") ? " IST" : "";
+        const suffix = profileLocation.timezone.includes("Kolkata")
+          ? " IST"
+          : "";
         setCurrentTime(`${time}${suffix}`);
       } catch (e) {
         setCurrentTime("00:00 AM");

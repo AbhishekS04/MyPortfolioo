@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { createClient } from "@/utils/supabase/client";
 import { ArrowLeft, Save, Loader2, MessageSquare, List } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { m } from "framer-motion";
 import { useToast } from "@/components/ui/toast";
 
 export default function AdminContact() {
-  const router = useRouter();
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -31,11 +29,7 @@ export default function AdminContact() {
   const [newTag, setNewTag] = useState("");
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from("profile")
@@ -68,7 +62,12 @@ export default function AdminContact() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase, showToast]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData();
+  }, [fetchData]);
 
   const handleSave = async () => {
     setSaving(true);
@@ -102,8 +101,9 @@ export default function AdminContact() {
 
       if (error) throw error;
       showToast("Contact page updated successfully!", "success");
-    } catch (error: any) {
-      showToast("Error saving: " + error.message, "error");
+    } catch (error) {
+      const err = error as Error;
+      showToast("Error saving: " + err.message, "error");
     } finally {
       setSaving(false);
     }
@@ -174,7 +174,10 @@ export default function AdminContact() {
           </div>
           <div className="p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px] space-y-6">
             <div className="space-y-2">
-              <label htmlFor="contact_heading" className="text-xs font-medium text-white/40 uppercase tracking-widest">
+              <label
+                htmlFor="contact_heading"
+                className="text-xs font-medium text-white/40 uppercase tracking-widest"
+              >
                 Heading Text
               </label>
               <input
@@ -237,7 +240,10 @@ export default function AdminContact() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="availability_status" className="text-xs font-medium text-white/40 uppercase tracking-widest">
+                <label
+                  htmlFor="availability_status"
+                  className="text-xs font-medium text-white/40 uppercase tracking-widest"
+                >
                   Status Label
                 </label>
                 <input
@@ -260,7 +266,10 @@ export default function AdminContact() {
 
             {/* Email Input */}
             <div className="space-y-2">
-              <label htmlFor="email" className="text-xs font-medium text-white/40 uppercase tracking-widest">
+              <label
+                htmlFor="email"
+                className="text-xs font-medium text-white/40 uppercase tracking-widest"
+              >
                 Contact Email
               </label>
               <input
@@ -347,13 +356,20 @@ export default function AdminContact() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 md:p-8 bg-[#111] border border-white/5 rounded-[32px]">
             {Object.keys(formData.social_links).map((key) => (
               <div key={key} className="space-y-2">
-                <label htmlFor={`social_${key}`} className="text-xs font-medium text-white/40 uppercase tracking-widest capitalize">
+                <label
+                  htmlFor={`social_${key}`}
+                  className="text-xs font-medium text-white/40 uppercase tracking-widest capitalize"
+                >
                   {key}
                 </label>
                 <input
                   id={`social_${key}`}
                   type="text"
-                  value={(formData.social_links as any)[key]}
+                  value={
+                    formData.social_links[
+                      key as keyof typeof formData.social_links
+                    ]
+                  }
                   onChange={(e) =>
                     setFormData({
                       ...formData,

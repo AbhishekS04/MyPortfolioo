@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {
   LogOut,
-  LayoutDashboard,
   Layers,
   User,
   Image as ImageIcon,
@@ -13,13 +12,26 @@ import {
   Cpu,
   Zap,
   ExternalLink,
-  FileText,
 } from "lucide-react";
 import Link from "next/link";
 import { m } from "framer-motion";
 import { RatingStatsCard } from "@/components/admin/rating-stats-card";
 
-function AdminCard({ href, icon: Icon, label, description, delay = 0 }: any) {
+interface AdminCardProps {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+  description: string;
+  delay?: number;
+}
+
+function AdminCard({
+  href,
+  icon: Icon,
+  label,
+  description,
+  delay = 0,
+}: AdminCardProps) {
   return (
     <Link href={href} className="block group">
       <m.div
@@ -84,7 +96,7 @@ export default function AdminDashboard() {
       }
     };
     checkSecurity();
-  }, []);
+  }, [router, supabase]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -113,10 +125,7 @@ export default function AdminDashboard() {
           </m.p>
         </div>
 
-        <m.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-        >
+        <m.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
           <button
             onClick={handleLogout}
             className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl transition-all text-sm font-medium border border-red-500/10"

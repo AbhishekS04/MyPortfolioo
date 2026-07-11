@@ -4,7 +4,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { X, Loader2 } from "lucide-react";
 import { FaGithub, FaArrowUpRightFromSquare } from "react-icons/fa6";
 import { useEffect, useState } from "react";
-import { fetchGithubCommits, GithubCommit } from "@/utils/github";
+import { fetchGithubCommits } from "@/utils/github";
 
 interface ChangelogOverlayProps {
   isOpen: boolean;
@@ -28,7 +28,7 @@ export function ChangelogOverlay({
 
   const { data: commitsData, error } = useSWR(
     isOpen && githubUrl ? [githubUrl, "commits"] : null,
-    ([url]) => fetchGithubCommits(url)
+    ([url]) => fetchGithubCommits(url),
   );
 
   const commits = commitsData || [];
@@ -42,6 +42,7 @@ export function ChangelogOverlay({
 
   // Mount state for portal
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

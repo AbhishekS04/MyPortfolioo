@@ -366,7 +366,9 @@ export default function AdminProjects() {
                   onClick={() => handleToggleHidden(project)}
                   className={`p-2 rounded-lg hover:bg-white/10 transition-colors ${project.is_hidden ? "text-red-400" : "text-white/40 hover:text-white"}`}
                   title={project.is_hidden ? "Unhide Project" : "Hide Project"}
-                  aria-label={project.is_hidden ? "Unhide Project" : "Hide Project"}
+                  aria-label={
+                    project.is_hidden ? "Unhide Project" : "Hide Project"
+                  }
                 >
                   {project.is_hidden ? (
                     <EyeOff className="w-4 h-4" />

@@ -173,7 +173,8 @@ function CustomVideoPlayer({
               const rect = e.currentTarget.getBoundingClientRect();
               const x = e.clientX - rect.left;
               if (videoRef.current) {
-                videoRef.current.currentTime = (x / rect.width) * videoRef.current.duration;
+                videoRef.current.currentTime =
+                  (x / rect.width) * videoRef.current.duration;
               }
             }}
           >
@@ -243,8 +244,6 @@ export function ProjectDetailsView({
       },
     },
   };
-
-
 
   const { filteredMarkdown, headingMap, markdownHighlights } = useMemo(() => {
     if (!project.case_study_md)
@@ -474,7 +473,7 @@ export function ProjectDetailsView({
               </div>
             ) : (
               <div className="relative w-full">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                { }
                 <button
                   type="button"
                   aria-label="View full image"

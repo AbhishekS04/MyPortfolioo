@@ -241,9 +241,7 @@ export default function RootLayout({
             ]),
           }}
         />
-        <FramerProvider>
-          {children}
-        </FramerProvider>
+        <FramerProvider>{children}</FramerProvider>
       </body>
     </html>
   );
