@@ -142,7 +142,7 @@ const fragmentShader = `
 
 const FisheyeShaderMaterial = shaderMaterial(
   {
-    uTexture: null,
+    uTexture: null as THREE.Texture | null,
     uTime: 0,
     uFisheyeIntensity: 0,
     uFisheyeStrength: 1.0,

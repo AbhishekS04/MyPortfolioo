@@ -36,7 +36,7 @@ import {
 import { FaJava, FaCss3Alt } from "react-icons/fa";
 
 // Mapping of available icons
-const ICON_MAP: Record<string, React.ElementType> = {
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   cpp: SiCplusplus,
   java: FaJava,
   html: SiHtml5,
