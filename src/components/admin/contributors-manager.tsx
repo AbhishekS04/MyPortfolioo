@@ -25,12 +25,6 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
   });
   const supabase = createClient();
 
-  useEffect(() => {
-    if (projectId && projectId !== "new") {
-      fetchContributors();
-    }
-  }, [projectId]);
-
   const fetchContributors = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -47,6 +41,13 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
     if (data) setContributors(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (projectId && projectId !== "new") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchContributors();
+    }
+  }, [projectId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleAdd = async () => {
     if (!newContributor.name || !newContributor.avatar_url)

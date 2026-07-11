@@ -19,6 +19,7 @@ export function CopyCode({ code }: CopyCodeProps) {
         setShowConfirmation(true);
       }, 400);
 
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setProgress(0);
       const startTime = Date.now();
 

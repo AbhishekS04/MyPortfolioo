@@ -293,6 +293,7 @@ export function ImageLightbox({
 
   useLayoutEffect(() => {
     if (isOpen && sourceRect) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShouldRender(true);
       setAnimationPhase("initial");
       setIsClosing(false);

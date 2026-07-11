@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-explicit-any -- Supabase rows lack generated types; TODO: run supabase gen types */
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/utils/supabase/client";
@@ -37,10 +38,6 @@ function AdminAboutContent() {
   const [skills, setSkills] = useState<any[]>([]);
   const [interests, setInterests] = useState<any[]>([]);
   const supabase = createClient();
-
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const fetchData = async () => {
     try {
@@ -90,6 +87,11 @@ function AdminAboutContent() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSave = async () => {
     setSaving(true);

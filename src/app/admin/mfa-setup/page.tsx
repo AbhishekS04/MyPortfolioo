@@ -88,10 +88,10 @@ export default function MFASetupPage() {
 
         const qrUrl = await QRCode.toDataURL(brandingUri);
         setQrCodeUrl(qrUrl);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("MFA Setup Error:", err);
         setSetupError(
-          err.message || "Failed to setup MFA. detailed error in console.",
+          err instanceof Error ? err.message : "Failed to setup MFA. detailed error in console.",
         );
       } finally {
         setIsLoading(false);
@@ -118,8 +118,8 @@ export default function MFASetupPage() {
       setTimeout(() => {
         router.push("/admin");
       }, 2000);
-    } catch (err: any) {
-      setVerifyError(err.message || "Invalid code. Try again.");
+    } catch (err: unknown) {
+      setVerifyError(err instanceof Error ? err.message : "Invalid code. Try again.");
     } finally {
       setIsVerifying(false);
     }
@@ -221,7 +221,7 @@ export default function MFASetupPage() {
                   : JSON.stringify(setupError, null, 2)}
               </pre>
               <p className="text-white/40 text-xs">
-                Ensure "Multi-Factor Authentication" is enabled in your Supabase
+                Ensure &quot;Multi-Factor Authentication&quot; is enabled in your Supabase
                 Project Settings.
               </p>
             </div>

@@ -36,7 +36,7 @@ import {
 import { FaJava, FaCss3Alt } from "react-icons/fa";
 
 // Mapping of available icons
-const ICON_MAP: Record<string, any> = {
+const ICON_MAP: Record<string, React.ElementType> = {
   cpp: SiCplusplus,
   java: FaJava,
   html: SiHtml5,
@@ -73,10 +73,6 @@ export default function AdminTech() {
   const [newItem, setNewItem] = useState({ name: "", icon_key: "js" });
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
-
   const fetchItems = async () => {
     const { data, error } = await supabase
       .from("tech_stack")
@@ -90,6 +86,11 @@ export default function AdminTech() {
     if (data) setItems(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchItems();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReorder = (newOrder: TechItem[]) => {
     setItems(newOrder);

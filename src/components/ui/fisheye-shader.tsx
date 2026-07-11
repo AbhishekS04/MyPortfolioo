@@ -181,7 +181,7 @@ function Quad({
   settings: FisheyeSettings;
   mouseRef: React.MutableRefObject<THREE.Vector2>;
 }) {
-  const materialRef = useRef<any>(null!);
+  const materialRef = useRef<THREE.ShaderMaterial>(null!);
   const tStart = useRef<number>(0);
   const { size } = useThree();
 
@@ -192,11 +192,13 @@ function Quad({
 
   // Apply texture settings in an effect — never mutate during render
   useEffect(() => {
+    /* eslint-disable react-hooks/immutability -- texture is a clone we own, mutation is intentional */
     texture.wrapS = THREE.ClampToEdgeWrapping;
     texture.wrapT = THREE.ClampToEdgeWrapping;
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
     texture.needsUpdate = true;
+    /* eslint-enable react-hooks/immutability */
   }, [texture]);
 
   useFrame(({ clock }) => {

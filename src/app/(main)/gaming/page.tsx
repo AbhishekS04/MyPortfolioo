@@ -51,7 +51,12 @@ const GAMES = [
 ];
 
 // --- 3D TILT POD COMPONENT --- //
-function CombatPod({ children, onClick, accent }: any) {
+interface CombatPodProps {
+  children: React.ReactNode;
+  onClick: () => void;
+  accent: string;
+}
+function CombatPod({ children, onClick, accent }: CombatPodProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const mouseX = useSpring(x, { stiffness: 400, damping: 60 });
@@ -106,7 +111,7 @@ function CombatPod({ children, onClick, accent }: any) {
 }
 
 export default function GamingPage() {
-  const [selectedGame, setSelectedGame] = useState<any>(null);
+  const [selectedGame, setSelectedGame] = useState<(typeof GAMES)[number] | null>(null);
   const router = useRouter();
   const [currentTime, setCurrentTime] = useState("");
 

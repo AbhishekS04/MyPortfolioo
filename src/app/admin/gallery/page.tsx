@@ -28,10 +28,6 @@ export default function AdminGallery() {
   const [newItem, setNewItem] = useState({ image_url: "", alt_text: "" });
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchImages();
-  }, []);
-
   const fetchImages = async () => {
     setLoading(true);
     const { data, error } = await supabase
@@ -44,6 +40,11 @@ export default function AdminGallery() {
     if (data) setImages(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchImages();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleReorder = (newOrder: GalleryImage[]) => {
     setImages(newOrder);

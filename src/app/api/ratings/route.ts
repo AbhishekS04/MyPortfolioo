@@ -111,7 +111,7 @@ export async function GET(request: Request) {
     const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
     data.forEach((r: { rating: number }) => {
       if (r.rating >= 1 && r.rating <= 5) {
-        // @ts-ignore
+        // @ts-expect-error — counts is indexed by number 1-5
         counts[r.rating]++;
       }
     });

@@ -37,10 +37,11 @@ export function DottedMap({
   );
   const { points, addMarkers } = mapData;
 
+  const markersKey = JSON.stringify(markers);
   const processedMarkers = React.useMemo(
     () => addMarkers(markers),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [addMarkers, JSON.stringify(markers)],
+    [addMarkers, markersKey],
   );
 
   // Compute stagger helpers in a single, simple pass
@@ -73,6 +74,7 @@ export function DottedMap({
   React.useEffect(() => {
     if (typeof window !== "undefined") {
       const purged = localStorage.getItem("mapEgg");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (purged !== "purged") setIsEggActive(true);
     }
   }, []);

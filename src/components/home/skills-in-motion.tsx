@@ -19,7 +19,7 @@ export function SkillsInMotion() {
           .order("display_order", { ascending: true });
 
         if (skillsData && skillsData.length > 0) {
-          setSkills(skillsData.map((s: any) => s.name));
+          setSkills(skillsData.map((s: { name: string }) => s.name));
         }
 
         // Fetch Profile
@@ -99,7 +99,7 @@ export function SkillsInMotion() {
             </h3>
 
             <p className="text-xl md:text-3xl font-medium text-white leading-tight mb-6">
-              "{profile.primary}"
+              &quot;{profile.primary}&quot;
             </p>
             <p className="text-base md:text-lg text-white/50 leading-relaxed max-w-md">
               {profile.secondary}

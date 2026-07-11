@@ -28,10 +28,6 @@ export default function AdminProfile() {
   });
   const supabase = createClient();
 
-  useEffect(() => {
-    loadProfile();
-  }, []);
-
   const loadProfile = async () => {
     try {
       const { data, error } = await supabase
@@ -61,6 +57,11 @@ export default function AdminProfile() {
     }
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    loadProfile();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleSave = async () => {
     setSaving(true);
     try {
@@ -88,8 +89,8 @@ export default function AdminProfile() {
 
       if (error) throw error;
       showToast("Profile updated successfully!", "success");
-    } catch (error: any) {
-      showToast("Error saving: " + error.message, "error");
+    } catch (error: unknown) {
+      showToast("Error saving: " + (error instanceof Error ? error.message : String(error)), "error");
     } finally {
       setSaving(false);
     }
@@ -258,7 +259,14 @@ const InputField = ({
   onChange,
   type = "text",
   placeholder,
-}: any) => (
+}: {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (name: string, value: string) => void;
+  type?: string;
+  placeholder?: string;
+}) => (
   <div className="space-y-2">
     <label
       htmlFor={name}
@@ -277,7 +285,19 @@ const InputField = ({
   </div>
 );
 
-const TextAreaField = ({ label, name, value, onChange, rows = 3 }: any) => (
+const TextAreaField = ({
+  label,
+  name,
+  value,
+  onChange,
+  rows = 3,
+}: {
+  label: string;
+  name: string;
+  value: string;
+  onChange: (name: string, value: string) => void;
+  rows?: number;
+}) => (
   <div className="space-y-2">
     <label
       htmlFor={name}

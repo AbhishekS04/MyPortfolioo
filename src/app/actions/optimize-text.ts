@@ -69,11 +69,13 @@ Keep the tone confident, minimal, and natural.`,
     }
 
     return { optimizedText };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("AI Optimization Error:", error);
     return {
       error:
-        error?.message || "Failed to optimize text. Please check server logs.",
+        error instanceof Error
+          ? error.message
+          : "Failed to optimize text. Please check server logs.",
     };
   }
 }

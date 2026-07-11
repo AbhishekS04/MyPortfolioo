@@ -31,10 +31,6 @@ export default function AdminStories() {
   const [formData, setFormData] = useState<Partial<Story>>({});
   const supabase = createClient();
 
-  useEffect(() => {
-    fetchStories();
-  }, []);
-
   const fetchStories = async () => {
     const { data, error } = await supabase
       .from("social_stories")
@@ -48,6 +44,11 @@ export default function AdminStories() {
     if (data) setStories(data);
     setLoading(false);
   };
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchStories();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleEdit = (story: Story) => {
     setEditingId(story.id);

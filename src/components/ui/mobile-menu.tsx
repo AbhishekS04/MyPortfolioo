@@ -72,9 +72,8 @@ export function MobileMenu({
 
   // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
   // raw drag value -> visual stretch value
-  const stretch = useTransform(y, (v: any) => {
-    const num = typeof v === "string" ? parseFloat(v) : v;
-    const rawY = -(num || 0);
+  const stretch = useTransform(y, (v: number) => {
+    const rawY = -(v || 0);
     if (rawY <= 0) return 0;
 
     // Linear heavy resistance: moves 1px for every 4px of finger drag

@@ -30,7 +30,21 @@ export async function getFeaturedProjects(): Promise<Project[]> {
     }
 
     if (data && data.length > 0) {
-      return data.map((item: any) => ({
+      return data.map(
+        (item: {
+          id: string;
+          title: string;
+          description: string;
+          tech_stack: string[];
+          image_url: string;
+          github_url?: string;
+          live_url?: string;
+          display_order?: number;
+          featured?: boolean;
+          tech_stack_icons?: string;
+          is_coming_soon?: boolean;
+          slug?: string;
+        }) => ({
         id: item.id,
         title: item.title,
         description: item.description,
