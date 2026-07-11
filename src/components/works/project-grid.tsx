@@ -14,7 +14,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
     <div className="w-full flex justify-center">
       <div className="w-full max-w-[1200px]">
         <div className="flex items-center gap-3 mb-8">
-          <span className="text-xs font-bold uppercase tracking-widest text-white/40">
+          <span className="text-xs font-bold uppercase tracking-widest text-white/60">
             All Projects
           </span>
           <div className="h-px flex-1 bg-white/5" />
@@ -69,7 +69,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                         >
                           {project.title}
                         </h3>
-                        <p className="text-white/40 text-sm leading-relaxed mb-6 flex-1 line-clamp-2">
+                        <p className="text-white/60 text-sm leading-relaxed mb-6 flex-1 line-clamp-2">
                           {project.description}
                         </p>
 
@@ -79,7 +79,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                             {project.tech_stack.slice(0, 3).map((t) => (
                               <span
                                 key={t}
-                                className="text-[10px] uppercase font-medium tracking-wider text-white/30 px-2 py-1 bg-white/5 rounded border border-white/5"
+                                className="text-[10px] uppercase font-medium tracking-wider text-white/60 px-2 py-1 bg-white/5 rounded border border-white/5"
                               >
                                 {t}
                               </span>

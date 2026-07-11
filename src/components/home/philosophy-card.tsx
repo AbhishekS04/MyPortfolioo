@@ -38,7 +38,7 @@ export function PhilosophyCard() {
         {/* Header Row */}
         <div className="flex items-start justify-between relative z-20">
           <span
-            className="text-xs font-medium uppercase tracking-[0.2em] text-white/30 group-hover:text-white/50 transition-colors duration-300"
+            className="text-xs font-medium uppercase tracking-[0.2em] text-white/60 group-hover:text-white/85 transition-colors duration-300"
             aria-hidden="true"
           >
             Curriculum Vitae
@@ -53,7 +53,7 @@ export function PhilosophyCard() {
               transition={{ duration: 0.4, ease: "circIn" }}
               className="absolute"
             >
-              <ArrowUpRight className="w-5 h-5 text-white/40" />
+              <ArrowUpRight className="w-5 h-5 text-white/60" />
             </m.div>
             <m.div
               variants={{
@@ -81,7 +81,7 @@ export function PhilosophyCard() {
             Resume
           </m.h2>
           <p
-            className="text-sm text-white/40 leading-relaxed font-light max-w-[90%] group-hover:text-white/60 transition-colors duration-300"
+            className="text-sm text-white/60 leading-relaxed font-light max-w-[90%] group-hover:text-white/80 transition-colors duration-300"
             aria-hidden="true"
           >
             Selected works, experience, and capabilities.

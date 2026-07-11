@@ -13,7 +13,7 @@ export function ContactSection() {
       <div className="flex flex-col items-center justify-center text-center max-w-2xl mx-auto px-4 relative z-10">
         <h2 className="text-4xl md:text-5xl lg:text-6xl font-medium text-white mb-6">
           Let&apos;s build something{" "}
-          <span className="text-white/40">extraordinary.</span>
+          <span className="text-white/70">extraordinary.</span>
         </h2>
 
         <p className="text-white/60 text-lg md:text-xl mb-10 max-w-lg">
