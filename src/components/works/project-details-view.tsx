@@ -473,7 +473,7 @@ export function ProjectDetailsView({
               </div>
             ) : (
               <div className="relative w-full">
-                { }
+                {}
                 <button
                   type="button"
                   aria-label="View full image"
