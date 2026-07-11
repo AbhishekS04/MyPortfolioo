@@ -9,6 +9,7 @@ export function PhilosophyCard() {
       href="/resume.pdf"
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="View Resume (Curriculum Vitae)"
       className="w-full h-full block relative group"
       initial="initial"
       whileHover="hover"

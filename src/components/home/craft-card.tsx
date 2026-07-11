@@ -161,6 +161,7 @@ export function CraftCard() {
     <button
       type="button"
       onClick={handleCardClick}
+      aria-label="Daily Quote from Bhagavad Gita. Click multiple times to play preview video."
       className="relative w-full h-full min-h-[180px] rounded-[32px] overflow-hidden border border-white/5 bg-[#111] flex flex-col items-center justify-center p-4 md:p-6 text-center cursor-pointer select-none transition-colors duration-300 hover:bg-[#151515] text-left"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >

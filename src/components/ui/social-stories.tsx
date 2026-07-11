@@ -270,11 +270,13 @@ export function SocialStories() {
       <div className="w-full h-full relative flex items-center justify-center z-50 group">
         <AnimatePresence>
           {!isOpen && (
-            <m.div
-              // Removed layoutId to prevent visibility conflics
+            <m.button
               key="trigger"
+              role="button"
+              tabIndex={0}
+              aria-label="View developer stories"
               className={cn(
-                "absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300",
+                "absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300 bg-transparent p-0 border-none outline-none",
                 // Gold border integration
                 "border-[1.5px]",
                 isFetchLoading
@@ -284,6 +286,12 @@ export function SocialStories() {
               onClick={() =>
                 !isFetchLoading && stories.length > 0 && setIsOpen(true)
               }
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  if (!isFetchLoading && stories.length > 0) setIsOpen(true);
+                }
+              }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
@@ -306,7 +314,7 @@ export function SocialStories() {
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
               )}
-            </m.div>
+            </m.button>
           )}
         </AnimatePresence>
       </div>
