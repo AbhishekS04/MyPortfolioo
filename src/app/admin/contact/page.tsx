@@ -1,64 +1,64 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useCallback } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Save, Loader2, MessageSquare, List } from "lucide-react";
-import Link from "next/link";
-import { m } from "framer-motion";
-import { useToast } from "@/components/ui/toast";
+import { useEffect, useState, useCallback } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { ArrowLeft, Save, Loader2, MessageSquare, List } from 'lucide-react';
+import Link from 'next/link';
+import { m } from 'framer-motion';
+import { useToast } from '@/components/ui/toast';
 
 export default function AdminContact() {
   const { showToast } = useToast();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    contact_heading: "",
-    email: "",
-    availability_status: "", // Text displayed (e.g. "Available", "Busy")
+    contact_heading: '',
+    email: '',
+    availability_status: '', // Text displayed (e.g. "Available", "Busy")
     is_available: true, // Boolean for Green/Red light
     availability_items: [] as string[],
     social_links: {
-      github: "",
-      x: "",
-      linkedin: "",
-      dribbble: "",
+      github: '',
+      x: '',
+      linkedin: '',
+      dribbble: '',
     },
   });
 
   // Temporary state for the availability tag input
-  const [newTag, setNewTag] = useState("");
+  const [newTag, setNewTag] = useState('');
   const supabase = createClient();
 
   const fetchData = useCallback(async () => {
     try {
       const { data, error } = await supabase
-        .from("profile")
-        .select("*")
+        .from('profile')
+        .select('*')
         .single();
-      if (error && error.code !== "PGRST116") throw error;
+      if (error && error.code !== 'PGRST116') throw error;
       if (data) {
         setFormData({
           contact_heading:
-            data.contact_heading || "Let’s build something meaningful.",
-          email: data.email || "",
-          availability_status: data.availability_status || "Available",
+            data.contact_heading || 'Let’s build something meaningful.',
+          email: data.email || '',
+          availability_status: data.availability_status || 'Available',
           is_available: data.is_available !== false, // Default true if null
           availability_items: data.availability_items || [
-            "Internships",
-            "Freelance",
-            "Consulting",
+            'Internships',
+            'Freelance',
+            'Consulting',
           ],
           social_links: {
-            github: data.social_links?.github || "",
-            x: data.social_links?.x || "",
-            linkedin: data.social_links?.linkedin || "",
-            dribbble: data.social_links?.dribbble || "",
+            github: data.social_links?.github || '',
+            x: data.social_links?.x || '',
+            linkedin: data.social_links?.linkedin || '',
+            dribbble: data.social_links?.dribbble || '',
           },
         });
       }
     } catch (error) {
-      console.error("Error fetching contact info:", error);
-      showToast("Failed to load data", "error");
+      console.error('Error fetching contact info:', error);
+      showToast('Failed to load data', 'error');
     } finally {
       setLoading(false);
     }
@@ -73,8 +73,8 @@ export default function AdminContact() {
     setSaving(true);
     try {
       const { data: existing } = await supabase
-        .from("profile")
-        .select("id")
+        .from('profile')
+        .select('id')
         .single();
 
       const payload = {
@@ -89,21 +89,21 @@ export default function AdminContact() {
       let error;
       if (existing) {
         const { error: err } = await supabase
-          .from("profile")
+          .from('profile')
           .update(payload)
-          .eq("id", existing.id);
+          .eq('id', existing.id);
         error = err;
       } else {
         // Should not happen usually given profile exists, but safe fallback
-        const { error: err } = await supabase.from("profile").insert([payload]);
+        const { error: err } = await supabase.from('profile').insert([payload]);
         error = err;
       }
 
       if (error) throw error;
-      showToast("Contact page updated successfully!", "success");
+      showToast('Contact page updated successfully!', 'success');
     } catch (error) {
       const err = error as Error;
-      showToast("Error saving: " + err.message, "error");
+      showToast('Error saving: ' + err.message, 'error');
     } finally {
       setSaving(false);
     }
@@ -116,7 +116,7 @@ export default function AdminContact() {
         ...formData,
         availability_items: [...formData.availability_items, newTag.trim()],
       });
-      setNewTag("");
+      setNewTag('');
     }
   };
 
@@ -220,21 +220,21 @@ export default function AdminContact() {
                       is_available: !formData.is_available,
                     })
                   }
-                  className={`relative w-full p-4 rounded-xl border border-white/5 flex items-center gap-4 transition-all ${formData.is_available ? "bg-emerald-500/10 hover:bg-emerald-500/20" : "bg-red-500/10 hover:bg-red-500/20"}`}
+                  className={`relative w-full p-4 rounded-xl border border-white/5 flex items-center gap-4 transition-all ${formData.is_available ? 'bg-emerald-500/10 hover:bg-emerald-500/20' : 'bg-red-500/10 hover:bg-red-500/20'}`}
                 >
                   <div
-                    className={`w-12 h-6 rounded-full p-1 transition-colors ${formData.is_available ? "bg-emerald-500" : "bg-neutral-800"}`}
+                    className={`w-12 h-6 rounded-full p-1 transition-colors ${formData.is_available ? 'bg-emerald-500' : 'bg-neutral-800'}`}
                   >
                     <div
-                      className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${formData.is_available ? "translate-x-6" : "translate-x-0"}`}
+                      className={`w-4 h-4 rounded-full bg-white shadow-sm transition-transform ${formData.is_available ? 'translate-x-6' : 'translate-x-0'}`}
                     />
                   </div>
                   <span
-                    className={`text-sm font-medium ${formData.is_available ? "text-emerald-400" : "text-white/40"}`}
+                    className={`text-sm font-medium ${formData.is_available ? 'text-emerald-400' : 'text-white/40'}`}
                   >
                     {formData.is_available
-                      ? "Active (Green Light)"
-                      : "Inactive (Red Light)"}
+                      ? 'Active (Green Light)'
+                      : 'Inactive (Red Light)'}
                   </span>
                 </button>
               </div>

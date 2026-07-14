@@ -1,4 +1,4 @@
-const GITHUB_GRAPHQL_API = "https://api.github.com/graphql";
+const GITHUB_GRAPHQL_API = 'https://api.github.com/graphql';
 
 export interface GitHubRepo {
   name: string;
@@ -61,9 +61,9 @@ export async function getGitHubProfile(
   // Fallback or just return null/error if essential.
   if (!token) {
     // Avoid error logs in CI/CD when token is intentionally missing
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       console.warn(
-        "GITHUB_TOKEN is missing! GitHub profile data will be unavailable.",
+        'GITHUB_TOKEN is missing! GitHub profile data will be unavailable.',
       );
     }
     return null;
@@ -122,10 +122,10 @@ export async function getGitHubProfile(
 
   try {
     const res = await fetch(GITHUB_GRAPHQL_API, {
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ query, variables: { username } }),
       next: { revalidate: 60 }, // ISR: Cache for 60 seconds
@@ -135,7 +135,7 @@ export async function getGitHubProfile(
 
     // Log errors but try to return partial data if user exists
     if (json.errors) {
-      console.error("GitHub API Errors:", JSON.stringify(json.errors, null, 2));
+      console.error('GitHub API Errors:', JSON.stringify(json.errors, null, 2));
     }
 
     if (json.data?.user) {
@@ -144,7 +144,7 @@ export async function getGitHubProfile(
 
     return null;
   } catch (error) {
-    console.error("Failed to fetch GitHub profile:", error);
+    console.error('Failed to fetch GitHub profile:', error);
     return null;
   }
 }
@@ -161,7 +161,7 @@ export async function getGitHubReadme(
       `https://api.github.com/repos/${username}/${username}/readme`,
       {
         headers: {
-          Accept: "application/vnd.github.html", // Get rendered HTML
+          Accept: 'application/vnd.github.html', // Get rendered HTML
           Authorization: `Bearer ${token}`,
         },
         next: { revalidate: 3600 }, // Cache for 1 hour
@@ -189,23 +189,23 @@ export async function getGitHubAchievements(
   // In a production app, this would require a custom scraper or 3rd party API.
   return [
     {
-      name: "Quickdraw",
+      name: 'Quickdraw',
       description:
-        "Closed an issue or pull request within 5 minutes of opening.",
+        'Closed an issue or pull request within 5 minutes of opening.',
       imageUrl:
-        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png",
+        'https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/quickdraw-default.png',
     },
     {
-      name: "Pull Shark",
-      description: "Opened a pull request that was merged.",
+      name: 'Pull Shark',
+      description: 'Opened a pull request that was merged.',
       imageUrl:
-        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png",
+        'https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/pull-shark-default.png',
     },
     {
-      name: "YOLO",
-      description: "Merged a pull request without code review.",
+      name: 'YOLO',
+      description: 'Merged a pull request without code review.',
       imageUrl:
-        "https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png",
+        'https://raw.githubusercontent.com/Schweinepriester/github-profile-achievements/main/images/yolo-default.png',
     },
   ];
 }

@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function GitHubIndexPage() {
-  redirect("/github/AbhishekS04");
+  redirect('/github/AbhishekS04');
 }

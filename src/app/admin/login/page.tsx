@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { Loader2, Lock } from "lucide-react";
+import { useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { Loader2, Lock } from 'lucide-react';
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const router = useRouter();
   const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
 
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -29,10 +29,10 @@ export default function AdminLogin() {
       }
 
       // Force hard navigation to ensure middleware runs fresh
-      window.location.href = "/admin";
+      window.location.href = '/admin';
     } catch (err: unknown) {
-      console.error("Login error:", err);
-      setError("Invalid email or password. Please try again.");
+      console.error('Login error:', err);
+      setError('Invalid email or password. Please try again.');
       setIsLoading(false); // Only stop loading on error, otherwise we navigate
     }
   };
@@ -93,7 +93,7 @@ export default function AdminLogin() {
             {isLoading ? (
               <Loader2 className="w-5 h-5 animate-spin" />
             ) : (
-              "Authenticate"
+              'Authenticate'
             )}
           </button>
         </form>

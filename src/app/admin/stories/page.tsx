@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import {
   ArrowLeft,
   Plus,
@@ -11,9 +11,9 @@ import {
   Loader2,
   Image as ImageIcon,
   Link as LinkIcon,
-} from "lucide-react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+} from 'lucide-react';
+import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Story {
   id: string;
@@ -33,12 +33,12 @@ export default function AdminStories() {
 
   const fetchStories = async () => {
     const { data, error } = await supabase
-      .from("social_stories")
-      .select("*")
-      .order("display_order", { ascending: true });
+      .from('social_stories')
+      .select('*')
+      .order('display_order', { ascending: true });
 
     if (error) {
-      console.error("Error fetching stories:", error.message);
+      console.error('Error fetching stories:', error.message);
     }
 
     if (data) setStories(data);
@@ -56,36 +56,36 @@ export default function AdminStories() {
   };
 
   const handleCreate = () => {
-    setEditingId("new");
+    setEditingId('new');
     setFormData({
-      platform: "instagram",
-      media_url: "",
-      link_url: "",
-      caption: "",
+      platform: 'instagram',
+      media_url: '',
+      link_url: '',
+      caption: '',
       display_order: stories.length + 1,
     });
   };
 
   const handleSave = async () => {
-    if (!formData.media_url) return alert("Image URL required");
+    if (!formData.media_url) return alert('Image URL required');
 
     setLoading(true);
-    if (editingId === "new") {
+    if (editingId === 'new') {
       const { error } = await supabase
-        .from("social_stories")
+        .from('social_stories')
         .insert([formData]);
       if (error) {
-        console.error("Error inserting story:", error.message);
+        console.error('Error inserting story:', error.message);
         setLoading(false);
         return;
       }
     } else {
       const { error } = await supabase
-        .from("social_stories")
+        .from('social_stories')
         .update(formData)
-        .eq("id", editingId);
+        .eq('id', editingId);
       if (error) {
-        console.error("Error updating story:", error.message);
+        console.error('Error updating story:', error.message);
         setLoading(false);
         return;
       }
@@ -95,8 +95,8 @@ export default function AdminStories() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this story?")) return;
-    await supabase.from("social_stories").delete().eq("id", id);
+    if (!confirm('Delete this story?')) return;
+    await supabase.from('social_stories').delete().eq('id', id);
     fetchStories();
   };
 
@@ -135,7 +135,7 @@ export default function AdminStories() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={story.media_url}
-                alt={`${story.platform} story${story.caption ? " – " + story.caption : ""}`}
+                alt={`${story.platform} story${story.caption ? ' – ' + story.caption : ''}`}
                 className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
               />
 
@@ -147,7 +147,7 @@ export default function AdminStories() {
             </div>
             <div className="p-4">
               <p className="text-white/80 text-sm font-medium truncate mb-1">
-                {story.caption || "No caption"}
+                {story.caption || 'No caption'}
               </p>
               <p className="text-white/40 text-xs truncate font-mono mb-4">
                 {story.link_url}
@@ -186,7 +186,7 @@ export default function AdminStories() {
               className="relative w-full max-w-lg bg-[#161616] border border-white/10 rounded-[32px] p-8 shadow-2xl"
             >
               <h2 className="text-xl font-medium text-white mb-6">
-                {editingId === "new" ? "New Story" : "Edit Story"}
+                {editingId === 'new' ? 'New Story' : 'Edit Story'}
               </h2>
 
               <div className="space-y-4">
@@ -227,7 +227,7 @@ export default function AdminStories() {
                         alt="Preview"
                         className="w-full h-full object-cover"
                         onError={(e) =>
-                          (e.currentTarget.style.display = "none")
+                          (e.currentTarget.style.display = 'none')
                         }
                       />
                       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -274,7 +274,7 @@ export default function AdminStories() {
                   {loading ? (
                     <Loader2 className="w-5 h-5 animate-spin mx-auto" />
                   ) : (
-                    "Save Story"
+                    'Save Story'
                   )}
                 </button>
               </div>

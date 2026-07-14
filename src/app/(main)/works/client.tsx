@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import { CurrentlyWorkingCard } from "@/components/works/currently-working-card";
-import { ProjectGrid } from "@/components/works/project-grid";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { m } from 'framer-motion';
+import { CurrentlyWorkingCard } from '@/components/works/currently-working-card';
+import { ProjectGrid } from '@/components/works/project-grid';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
-import { Project } from "@/types/project";
+import { Project } from '@/types/project';
 
 export function WorksClient({ projects }: { projects: Project[] }) {
   const currentlyWorking = projects.find((p) => p.is_currently_working);
   const otherProjects = projects.filter((p) => !p.is_currently_working);
   const searchParams = useSearchParams();
-  const fromMinimal = searchParams.get("from") === "minimal";
+  const fromMinimal = searchParams.get('from') === 'minimal';
 
   return (
     <main className="min-h-screen bg-[#050505] pt-32 px-6 md:px-12 pb-20 selection:bg-emerald-500/30 selection:text-emerald-50">

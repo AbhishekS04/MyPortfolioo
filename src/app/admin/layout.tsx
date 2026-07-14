@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
-import { Loader2 } from "lucide-react";
-import { ToastProvider } from "@/components/ui/toast";
+import { useEffect, useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { createClient } from '@/utils/supabase/client';
+import { Loader2 } from 'lucide-react';
+import { ToastProvider } from '@/components/ui/toast';
 
 export default function AdminLayout({
   children,
@@ -54,10 +54,10 @@ export default function AdminLayout({
         data: { session },
       } = await supabase.auth.getSession();
 
-      if (!session && pathname !== "/admin/login") {
-        router.replace("/admin/login");
-      } else if (session && pathname === "/admin/login") {
-        router.replace("/admin");
+      if (!session && pathname !== '/admin/login') {
+        router.replace('/admin/login');
+      } else if (session && pathname === '/admin/login') {
+        router.replace('/admin');
         setAuthorized(true);
       } else {
         setAuthorized(true);
@@ -70,11 +70,11 @@ export default function AdminLayout({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session && pathname !== "/admin/login") {
-        router.replace("/admin/login");
+      if (!session && pathname !== '/admin/login') {
+        router.replace('/admin/login');
         setAuthorized(false);
-      } else if (session && pathname === "/admin/login") {
-        router.replace("/admin");
+      } else if (session && pathname === '/admin/login') {
+        router.replace('/admin');
         setAuthorized(true);
       }
     });
@@ -91,7 +91,7 @@ export default function AdminLayout({
   }
 
   // Prevent flashing protected content
-  if (!authorized && pathname !== "/admin/login") {
+  if (!authorized && pathname !== '/admin/login') {
     return null;
   }
 

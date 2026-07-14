@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import {
   ArrowLeft,
   Plus,
@@ -10,9 +10,9 @@ import {
   Save,
   X,
   Loader2,
-} from "lucide-react";
-import Link from "next/link";
-import { m, Reorder } from "framer-motion";
+} from 'lucide-react';
+import Link from 'next/link';
+import { m, Reorder } from 'framer-motion';
 import {
   SiCplusplus,
   SiHtml5,
@@ -32,8 +32,8 @@ import {
   SiFigma,
   SiDocker,
   SiGit,
-} from "react-icons/si";
-import { FaJava, FaCss3Alt } from "react-icons/fa";
+} from 'react-icons/si';
+import { FaJava, FaCss3Alt } from 'react-icons/fa';
 
 // Mapping of available icons
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -70,17 +70,17 @@ export default function AdminTech() {
   const [items, setItems] = useState<TechItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
-  const [newItem, setNewItem] = useState({ name: "", icon_key: "js" });
+  const [newItem, setNewItem] = useState({ name: '', icon_key: 'js' });
   const supabase = createClient();
 
   const fetchItems = async () => {
     const { data, error } = await supabase
-      .from("tech_stack")
-      .select("*")
-      .order("display_order", { ascending: true });
+      .from('tech_stack')
+      .select('*')
+      .order('display_order', { ascending: true });
 
     if (error) {
-      console.error("Error fetching tech stack:", error.message);
+      console.error('Error fetching tech stack:', error.message);
     }
 
     if (data) setItems(data);
@@ -106,21 +106,21 @@ export default function AdminTech() {
 
     for (const update of updates) {
       const { error } = await supabase
-        .from("tech_stack")
+        .from('tech_stack')
         .update({ display_order: update.display_order })
-        .eq("id", update.id);
+        .eq('id', update.id);
       if (error) {
-        console.error("Error updating tech order:", error.message);
+        console.error('Error updating tech order:', error.message);
       }
     }
     setLoading(false);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Remove this tech?")) return;
-    const { error } = await supabase.from("tech_stack").delete().eq("id", id);
+    if (!confirm('Remove this tech?')) return;
+    const { error } = await supabase.from('tech_stack').delete().eq('id', id);
     if (error) {
-      console.error("Error deleting tech:", error.message);
+      console.error('Error deleting tech:', error.message);
       return;
     }
     fetchItems();
@@ -129,7 +129,7 @@ export default function AdminTech() {
   const handleAdd = async () => {
     if (!newItem.name) return;
     setLoading(true);
-    const { error } = await supabase.from("tech_stack").insert([
+    const { error } = await supabase.from('tech_stack').insert([
       {
         name: newItem.name,
         icon_key: newItem.icon_key,
@@ -137,11 +137,11 @@ export default function AdminTech() {
       },
     ]);
     if (error) {
-      console.error("Error adding tech:", error.message);
+      console.error('Error adding tech:', error.message);
       setLoading(false);
       return;
     }
-    setNewItem({ name: "", icon_key: "js" });
+    setNewItem({ name: '', icon_key: 'js' });
     setIsAdding(false);
     fetchItems();
   };

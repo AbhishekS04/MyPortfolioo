@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import * as THREE from "three";
-import { Canvas, useFrame, extend, useThree } from "@react-three/fiber";
-import type { ThreeElement } from "@react-three/fiber";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import * as THREE from 'three';
+import { Canvas, useFrame, extend, useThree } from '@react-three/fiber';
+import type { ThreeElement } from '@react-three/fiber';
 import {
   shaderMaterial,
   OrthographicCamera,
   useTexture,
-} from "@react-three/drei";
-import gsap from "gsap";
+} from '@react-three/drei';
+import gsap from 'gsap';
 
 export interface FisheyeSettings {
   fisheyeStrength: number;
@@ -164,7 +164,7 @@ const FisheyeShaderMaterial = shaderMaterial(
 
 extend({ FisheyeShaderMaterial });
 
-declare module "@react-three/fiber" {
+declare module '@react-three/fiber' {
   interface ThreeElements {
     fisheyeShaderMaterial: ThreeElement<typeof THREE.ShaderMaterial>;
   }
@@ -261,7 +261,7 @@ class ErrorBoundary extends React.Component<
 
 const FisheyeShader = ({
   src,
-  className = "",
+  className = '',
   settings,
 }: FisheyeShaderProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -294,7 +294,7 @@ const FisheyeShader = ({
       tweenRef.current = gsap.to(intensityRef, {
         current: 1,
         duration: settings.animationDuration,
-        ease: "cubic-bezier(0.23, 1, 0.32, 1)",
+        ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
         onUpdate: () => {},
       });
       setCanvasOpacity(settings.canvasOpacity);
@@ -305,17 +305,17 @@ const FisheyeShader = ({
       tweenRef.current = gsap.to(intensityRef, {
         current: 0,
         duration: settings.animationDuration,
-        ease: "cubic-bezier(0.23, 1, 0.32, 1)",
+        ease: 'cubic-bezier(0.23, 1, 0.32, 1)',
       });
       setCanvasOpacity(0);
       mouseRef.current.set(0, 0);
     };
 
-    el.addEventListener("mouseenter", onEnter);
-    el.addEventListener("mouseleave", onLeave);
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mouseleave', onLeave);
     return () => {
-      el.removeEventListener("mouseenter", onEnter);
-      el.removeEventListener("mouseleave", onLeave);
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mouseleave', onLeave);
     };
   }, [settings.animationDuration, settings.canvasOpacity, hasError]);
 
@@ -336,11 +336,11 @@ const FisheyeShader = ({
         <div
           ref={canvasWrapperRef}
           className="absolute inset-0 pointer-events-none"
-          style={{ opacity: canvasOpacity, transition: "opacity 300ms ease" }}
+          style={{ opacity: canvasOpacity, transition: 'opacity 300ms ease' }}
         >
           <ErrorBoundary
             onError={(e) => {
-              console.warn("FisheyeShader texture failed to load:", e);
+              console.warn('FisheyeShader texture failed to load:', e);
               setHasError(true);
               setCanvasOpacity(0);
             }}

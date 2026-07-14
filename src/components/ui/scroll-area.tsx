@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
-import { type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { scrollAreaVariants, scrollBarVariants } from "./scroll-area-variants";
+import * as React from 'react';
+import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area';
+import { type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { scrollAreaVariants, scrollBarVariants } from './scroll-area-variants';
 
-export { scrollAreaVariants } from "./scroll-area-variants";
+export { scrollAreaVariants } from './scroll-area-variants';
 
 export interface ScrollAreaProps
   extends
     React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root>,
     VariantProps<typeof scrollAreaVariants> {
   scrollHideDelay?: number;
-  type?: "auto" | "always" | "scroll" | "hover";
+  type?: 'auto' | 'always' | 'scroll' | 'hover';
 }
 
 function ScrollArea({
@@ -21,7 +21,7 @@ function ScrollArea({
   children,
   orientation,
   scrollHideDelay = 600,
-  type = "hover",
+  type = 'hover',
   ref,
   ...props
 }: ScrollAreaProps & {
@@ -41,7 +41,7 @@ function ScrollArea({
         type={type}
         scrollHideDelay={scrollHideDelay}
       />
-      {(orientation === "horizontal" || orientation === "both") && (
+      {(orientation === 'horizontal' || orientation === 'both') && (
         <ScrollBar
           orientation="horizontal"
           type={type}
@@ -59,12 +59,12 @@ interface ScrollBarProps extends React.ComponentPropsWithoutRef<
   typeof ScrollAreaPrimitive.ScrollAreaScrollbar
 > {
   scrollHideDelay?: number;
-  type?: "auto" | "always" | "scroll" | "hover";
+  type?: 'auto' | 'always' | 'scroll' | 'hover';
 }
 
 function ScrollBar({
   className,
-  orientation = "vertical",
+  orientation = 'vertical',
   scrollHideDelay,
   type,
   ref,
@@ -80,7 +80,7 @@ function ScrollBar({
       orientation={orientation}
       className={cn(
         scrollBarVariants({ orientation }),
-        "hover:bg-accent",
+        'hover:bg-accent',
         className,
       )}
       {...props}

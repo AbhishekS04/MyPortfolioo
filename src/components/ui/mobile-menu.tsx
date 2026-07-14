@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   m,
@@ -7,15 +7,15 @@ import {
   useMotionValue,
   useTransform,
   animate,
-} from "framer-motion";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { cn } from "@/lib/utils";
+} from 'framer-motion';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 // import { SocialStories } from "@/components/ui/social-stories";
 // import TextExplode from "./text-explode";
-import { X } from "lucide-react";
+import { X } from 'lucide-react';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -26,14 +26,14 @@ interface MobileMenuProps {
 
 const menuVariants: Variants = {
   closed: {
-    y: "100%",
+    y: '100%',
     transition: {
       duration: 0.5,
       ease: [0.32, 0, 0.67, 0],
     },
   },
   open: {
-    y: "0%",
+    y: '0%',
     transition: {
       duration: 0.6,
       ease: [0.22, 1, 0.36, 1],
@@ -67,7 +67,7 @@ export function MobileMenu({
 
   // Prefetch Home on mount for instant load after animation
   useEffect(() => {
-    router.prefetch("/");
+    router.prefetch('/');
   }, [router]);
 
   // Hard-Resistance Transform: "Stretch very slowly" -> Heavy linear resistance
@@ -116,7 +116,7 @@ export function MobileMenu({
               } else {
                 // Snappy return to simulate rubber band Snap
                 animate(y, 0, {
-                  type: "tween",
+                  type: 'tween',
                   ease: [0.33, 1, 0.68, 1], // easeOutQuart
                   duration: 0.4,
                 });
@@ -137,7 +137,7 @@ export function MobileMenu({
 
             {/* Links - Clean vertical stack */}
             <div className="flex flex-col gap-8 items-center justify-center min-h-[200px]">
-              {["Home", "Works", "About", isMinimal ? "Main" : "Minimal"].map(
+              {['Home', 'Works', 'About', isMinimal ? 'Main' : 'Minimal'].map(
                 (item, i) => (
                   <m.div
                     key={item}
@@ -147,14 +147,14 @@ export function MobileMenu({
                     animate="open"
                   >
                     <Link
-                      href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                      href={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
                       prefetch={true}
                       onClick={(e) => {
                         e.preventDefault();
                         // Handle Switch Item
-                        if (item === "Minimal" || item === "Main") {
+                        if (item === 'Minimal' || item === 'Main') {
                           if (onSwitch) {
-                            const target = item === "Main" ? "/" : "/minimal";
+                            const target = item === 'Main' ? '/' : '/minimal';
                             onSwitch(target);
                           }
                           return;
@@ -162,10 +162,10 @@ export function MobileMenu({
 
                         onClose();
                         const href =
-                          item === "Home" ? "/" : `/${item.toLowerCase()}`;
+                          item === 'Home' ? '/' : `/${item.toLowerCase()}`;
 
                         if (pathname === href) {
-                          window.scrollTo({ top: 0, behavior: "smooth" });
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
                         } else {
                           // Smooth Transition: Close menu (0.4s) -> Then Navigate
                           setTimeout(() => {
@@ -174,10 +174,10 @@ export function MobileMenu({
                         }
                       }}
                       className={cn(
-                        "text-4xl font-medium transition-colors tracking-tight",
-                        item === "Minimal" || item === "Main"
-                          ? "text-white/40 italic font-serif"
-                          : "text-white/90 hover:text-white",
+                        'text-4xl font-medium transition-colors tracking-tight',
+                        item === 'Minimal' || item === 'Main'
+                          ? 'text-white/40 italic font-serif'
+                          : 'text-white/90 hover:text-white',
                       )}
                     >
                       {item}

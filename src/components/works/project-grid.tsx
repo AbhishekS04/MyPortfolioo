@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
-import { Project } from "@/types/project";
+import { m } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { ComingSoonBadge } from '@/components/ui/coming-soon-badge';
+import { Project } from '@/types/project';
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   if (!projects.length) return null;
@@ -33,7 +33,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                 {(() => {
                   const cardContent = (
                     <div
-                      className={`h-full bg-[#111] border border-white/5 rounded-[32px] overflow-hidden flex flex-col transition-all duration-300 ${!project.is_coming_soon ? "group-hover:border-white/10 hover:shadow-2xl hover:shadow-white/5" : ""}`}
+                      className={`h-full bg-[#111] border border-white/5 rounded-[32px] overflow-hidden flex flex-col transition-all duration-300 ${!project.is_coming_soon ? 'group-hover:border-white/10 hover:shadow-2xl hover:shadow-white/5' : ''}`}
                     >
                       {/* Image */}
                       <div className="aspect-[4/3] w-full relative bg-black/50 overflow-hidden">
@@ -44,9 +44,9 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           priority={index === 0}
                           unoptimized={project.image_url?.includes(
-                            "res.cloudinary.com",
+                            'res.cloudinary.com',
                           )}
-                          className={`object-cover transition-transform duration-500 ${!project.is_coming_soon ? "group-hover:scale-110 group-hover:opacity-100 opacity-80" : "opacity-60 blur-[2px]"}`}
+                          className={`object-cover transition-transform duration-500 ${!project.is_coming_soon ? 'group-hover:scale-110 group-hover:opacity-100 opacity-80' : 'opacity-60 blur-[2px]'}`}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#111] via-transparent to-transparent opacity-80" />
 
@@ -65,7 +65,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                       {/* Content */}
                       <div className="p-6 flex flex-col flex-1">
                         <h3
-                          className={`text-xl font-bold mb-2 transition-colors ${project.is_coming_soon ? "text-white/50" : "text-white group-hover:text-blue-200/90"}`}
+                          className={`text-xl font-bold mb-2 transition-colors ${project.is_coming_soon ? 'text-white/50' : 'text-white group-hover:text-blue-200/90'}`}
                         >
                           {project.title}
                         </h3>
@@ -105,7 +105,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
 
                   return (
                     <Link
-                      href={`/works/${project.slug || "#"}`}
+                      href={`/works/${project.slug || '#'}`}
                       className="block h-full"
                     >
                       {cardContent}

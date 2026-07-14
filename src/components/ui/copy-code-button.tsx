@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
 interface CopyCodeProps {
   code: string;
@@ -50,11 +50,11 @@ export function CopyCode({ code }: CopyCodeProps) {
       await navigator.clipboard.writeText(code);
     } catch (err) {
       // Fallback
-      const textArea = document.createElement("textarea");
+      const textArea = document.createElement('textarea');
       textArea.value = code;
       document.body.appendChild(textArea);
       textArea.select();
-      document.execCommand("copy");
+      document.execCommand('copy');
       document.body.removeChild(textArea);
     }
     setCopied(true);
@@ -68,7 +68,7 @@ export function CopyCode({ code }: CopyCodeProps) {
         style={{
           width: `${progress}%`,
           opacity: copied ? 1 : 0,
-          transition: "opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
         }}
       />
 
@@ -77,10 +77,10 @@ export function CopyCode({ code }: CopyCodeProps) {
         className="absolute inset-0 flex items-center justify-between px-8"
         style={{
           opacity: copied ? 0 : 1,
-          filter: copied ? "blur(12px)" : "blur(0px)",
-          transform: copied ? "scale(0.92)" : "scale(1)",
-          transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-          pointerEvents: copied ? "none" : "auto",
+          filter: copied ? 'blur(12px)' : 'blur(0px)',
+          transform: copied ? 'scale(0.92)' : 'scale(1)',
+          transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents: copied ? 'none' : 'auto',
           zIndex: copied ? 0 : 20,
         }}
       >
@@ -100,10 +100,10 @@ export function CopyCode({ code }: CopyCodeProps) {
         className="absolute inset-0 flex items-center justify-center gap-3"
         style={{
           opacity: showConfirmation ? 1 : 0,
-          filter: showConfirmation ? "blur(0px)" : "blur(12px)",
-          transform: showConfirmation ? "scale(1)" : "scale(1.08)",
-          transition: "all 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
-          pointerEvents: "none",
+          filter: showConfirmation ? 'blur(0px)' : 'blur(12px)',
+          transform: showConfirmation ? 'scale(1)' : 'scale(1.08)',
+          transition: 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+          pointerEvents: 'none',
           zIndex: 10,
         }}
       >
@@ -123,7 +123,7 @@ export function CopyCode({ code }: CopyCodeProps) {
                 strokeDasharray: 24,
                 strokeDashoffset: showConfirmation ? 0 : 24,
                 transition:
-                  "stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s",
+                  'stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.3s',
               }}
             />
           </svg>

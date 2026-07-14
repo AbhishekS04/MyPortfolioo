@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useRef, useLayoutEffect, useState } from "react";
-import gsap from "gsap";
+import { useRef, useLayoutEffect, useState } from 'react';
+import gsap from 'gsap';
 
 interface Greeting {
   text: string;
@@ -9,10 +9,10 @@ interface Greeting {
 }
 
 const greetings: Greeting[] = [
-  { text: "Hello", language: "English" },
-  { text: "Bonjour", language: "French" },
-  { text: "নমস্কার", language: "Bengali" },
-  { text: "नमस्ते", language: "Hindi" },
+  { text: 'Hello', language: 'English' },
+  { text: 'Bonjour', language: 'French' },
+  { text: 'নমস্কার', language: 'Bengali' },
+  { text: 'नमस्ते', language: 'Hindi' },
 ];
 
 interface PreloaderProps {
@@ -30,7 +30,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     gsap.set(textRef.current, {
       y: 30,
       opacity: 0,
-      filter: "blur(8px)",
+      filter: 'blur(8px)',
       scale: 0.9,
     });
 
@@ -48,10 +48,10 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     tl.to(textRef.current, {
       y: 0,
       opacity: 1,
-      filter: "blur(0px)",
+      filter: 'blur(0px)',
       scale: 1,
       duration: 0.9,
-      ease: "power3.out",
+      ease: 'power3.out',
     })
       // Hold - Slightly longer for readability
       .to({}, { duration: 0.6 })
@@ -59,10 +59,10 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
       .to(textRef.current, {
         y: -20,
         opacity: 0,
-        filter: "blur(4px)",
+        filter: 'blur(4px)',
         scale: 1.02,
         duration: 0.6,
-        ease: "power3.in",
+        ease: 'power3.in',
       });
 
     return () => {

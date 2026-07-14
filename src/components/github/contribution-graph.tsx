@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import { GitHubProfile } from "@/lib/github";
+import { m } from 'framer-motion';
+import { GitHubProfile } from '@/lib/github';
 
 export function ContributionGraph({ profile }: { profile: GitHubProfile }) {
   const { contributionCalendar } = profile.contributionsCollection;
@@ -46,12 +46,12 @@ export function ContributionGraph({ profile }: { profile: GitHubProfile }) {
                 className="w-[10px] h-[10px] rounded-[2px] transition-all duration-200 hover:scale-125 relative group"
                 style={{
                   backgroundColor:
-                    day.contributionCount === 0 ? "#161b22" : day.color,
+                    day.contributionCount === 0 ? '#161b22' : day.color,
                 }}
               >
                 {/* Tooltip */}
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-[10px] rounded whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none z-50">
-                  {day.contributionCount} contributions on{" "}
+                  {day.contributionCount} contributions on{' '}
                   {new Date(day.date).toLocaleDateString()}
                 </div>
               </div>

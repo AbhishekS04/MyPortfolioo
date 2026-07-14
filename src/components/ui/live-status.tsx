@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 
 interface LiveStatusProps {
   endpoint: string;
@@ -14,7 +14,7 @@ interface LiveStatusProps {
 }
 
 interface StatusPayload {
-  state: "vibing" | "offline";
+  state: 'vibing' | 'offline';
   updated_at: string;
   source: string;
 }
@@ -24,11 +24,11 @@ function getRelativeTime(isoString: string, nowMs = Date.now()) {
   const diffMs = nowMs - date.getTime();
 
   if (Number.isNaN(diffMs) || diffMs < 0) {
-    return "just now";
+    return 'just now';
   }
 
   const diffSecs = Math.floor(diffMs / 1000);
-  if (diffSecs < 10) return "just now";
+  if (diffSecs < 10) return 'just now';
   if (diffSecs < 60) return `${diffSecs}s ago`;
 
   const diffMins = Math.floor(diffSecs / 60);
@@ -44,7 +44,7 @@ function getRelativeTime(isoString: string, nowMs = Date.now()) {
 export function LiveStatus({
   endpoint,
   pollInterval = 20000,
-  className = "",
+  className = '',
   style,
   labels = {},
 }: LiveStatusProps) {
@@ -59,13 +59,13 @@ export function LiveStatus({
     const fetchStatus = async () => {
       try {
         const url = new URL(endpoint);
-        url.searchParams.set("_t", Date.now().toString());
+        url.searchParams.set('_t', Date.now().toString());
 
         const response = await fetch(url.toString(), {
-          cache: "no-store",
+          cache: 'no-store',
           headers: {
-            "Cache-Control": "no-cache",
-            Pragma: "no-cache",
+            'Cache-Control': 'no-cache',
+            Pragma: 'no-cache',
           },
         });
 
@@ -101,7 +101,7 @@ export function LiveStatus({
   }, [endpoint, pollInterval]);
 
   useEffect(() => {
-    if (!status || status.state !== "offline") return;
+    if (!status || status.state !== 'offline') return;
 
     const interval = setInterval(() => {
       setNowTick(Date.now());
@@ -110,57 +110,57 @@ export function LiveStatus({
     return () => clearInterval(interval);
   }, [status]);
 
-  const stateStr = status ? status.state : "offline";
+  const stateStr = status ? status.state : 'offline';
   const relativeTime = useMemo(() => {
-    if (!status || status.state !== "offline") {
-      return "just now";
+    if (!status || status.state !== 'offline') {
+      return 'just now';
     }
 
     return getRelativeTime(status.updated_at, nowTick);
   }, [status, nowTick]);
 
   const displayLabel = useMemo(() => {
-    if (stateStr === "vibing") {
-      return labels.vibing || "Vibing";
+    if (stateStr === 'vibing') {
+      return labels.vibing || 'Vibing';
     }
 
-    const baseOfflineLabel = labels.offline || "Offline";
+    const baseOfflineLabel = labels.offline || 'Offline';
     return `${baseOfflineLabel} · ${relativeTime}`;
   }, [labels, relativeTime, stateStr]);
 
   const containerStyle: React.CSSProperties = {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "6px 12px",
-    borderRadius: "20px",
-    backgroundColor: "#18181b",
-    border: "1px solid #27272a",
-    color: "#e4e4e7",
-    fontSize: "13px",
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '6px 12px',
+    borderRadius: '20px',
+    backgroundColor: '#18181b',
+    border: '1px solid #27272a',
+    color: '#e4e4e7',
+    fontSize: '13px',
     fontWeight: 500,
     boxShadow:
-      "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
-    transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+      '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
     ...style,
   };
 
   const dotStyle: React.CSSProperties = {
-    width: "8px",
-    height: "8px",
-    borderRadius: "9999px",
-    backgroundColor: stateStr === "vibing" ? "#22c55e" : "#71717a",
+    width: '8px',
+    height: '8px',
+    borderRadius: '9999px',
+    backgroundColor: stateStr === 'vibing' ? '#22c55e' : '#71717a',
     boxShadow:
-      stateStr === "vibing"
-        ? "0 0 0 4px rgba(34, 197, 94, 0.15)"
-        : "0 0 0 4px rgba(113, 113, 122, 0.15)",
+      stateStr === 'vibing'
+        ? '0 0 0 4px rgba(34, 197, 94, 0.15)'
+        : '0 0 0 4px rgba(113, 113, 122, 0.15)',
     flexShrink: 0,
   };
 
   return (
     <div className={className} style={containerStyle} aria-live="polite">
       <span style={dotStyle} />
-      <span>{loading ? "Loading..." : displayLabel}</span>
+      <span>{loading ? 'Loading...' : displayLabel}</span>
     </div>
   );
 }

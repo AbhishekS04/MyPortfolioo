@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Save, Loader2, Globe, MapPin, Clock } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { m } from "framer-motion";
-import { useToast } from "@/components/ui/toast";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { ArrowLeft, Save, Loader2, Globe, MapPin, Clock } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { m } from 'framer-motion';
+import { useToast } from '@/components/ui/toast';
 
 export default function AdminProfile() {
   const router = useRouter();
@@ -14,44 +14,44 @@ export default function AdminProfile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    signature_text: "",
-    location_city: "",
-    location_country: "",
-    location_timezone: "",
-    focus_area_title: "",
-    focus_area_text: "",
-    bio_primary: "",
-    bio_secondary: "",
-    email: "",
-    availability_status: "",
-    resume_url: "",
+    signature_text: '',
+    location_city: '',
+    location_country: '',
+    location_timezone: '',
+    focus_area_title: '',
+    focus_area_text: '',
+    bio_primary: '',
+    bio_secondary: '',
+    email: '',
+    availability_status: '',
+    resume_url: '',
   });
   const supabase = createClient();
 
   const loadProfile = async () => {
     try {
       const { data, error } = await supabase
-        .from("profile")
-        .select("*")
+        .from('profile')
+        .select('*')
         .single();
-      if (error && error.code !== "PGRST116") throw error; // PGRST116 is no rows
+      if (error && error.code !== 'PGRST116') throw error; // PGRST116 is no rows
       if (data) {
         setFormData({
-          signature_text: data.signature_text || "",
-          location_city: data.location_city || "",
-          location_country: data.location_country || "",
-          location_timezone: data.location_timezone || "",
-          focus_area_title: data.focus_area_title || "",
-          focus_area_text: data.focus_area_text || "",
-          bio_primary: data.bio_primary || "",
-          bio_secondary: data.bio_secondary || "",
-          email: data.email || "",
-          availability_status: data.availability_status || "Available",
-          resume_url: data.resume_url || "",
+          signature_text: data.signature_text || '',
+          location_city: data.location_city || '',
+          location_country: data.location_country || '',
+          location_timezone: data.location_timezone || '',
+          focus_area_title: data.focus_area_title || '',
+          focus_area_text: data.focus_area_text || '',
+          bio_primary: data.bio_primary || '',
+          bio_secondary: data.bio_secondary || '',
+          email: data.email || '',
+          availability_status: data.availability_status || 'Available',
+          resume_url: data.resume_url || '',
         });
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      console.error('Error fetching profile:', error);
     } finally {
       setLoading(false);
     }
@@ -69,31 +69,31 @@ export default function AdminProfile() {
       // For upsert, we need a conflict. Let's just update the first row we find, or insert if empty.
       // Actually, we should select the ID first.
       const { data: existing } = await supabase
-        .from("profile")
-        .select("id")
+        .from('profile')
+        .select('id')
         .single();
 
       let error;
       if (existing) {
         const { error: err } = await supabase
-          .from("profile")
+          .from('profile')
           .update(formData)
-          .eq("id", existing.id);
+          .eq('id', existing.id);
         error = err;
       } else {
         const { error: err } = await supabase
-          .from("profile")
+          .from('profile')
           .insert([formData]);
         error = err;
       }
 
       if (error) throw error;
-      showToast("Profile updated successfully!", "success");
+      showToast('Profile updated successfully!', 'success');
     } catch (error: unknown) {
       showToast(
-        "Error saving: " +
+        'Error saving: ' +
           (error instanceof Error ? error.message : String(error)),
-        "error",
+        'error',
       );
     } finally {
       setSaving(false);
@@ -261,7 +261,7 @@ const InputField = ({
   name,
   value,
   onChange,
-  type = "text",
+  type = 'text',
   placeholder,
 }: {
   label: string;

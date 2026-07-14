@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useRef, useEffect, useState } from "react";
-import { m } from "framer-motion";
-import { PenLine } from "lucide-react";
-import DOMPurify from "dompurify";
+import { useRef, useEffect, useState } from 'react';
+import { m } from 'framer-motion';
+import { PenLine } from 'lucide-react';
+import DOMPurify from 'dompurify';
 
 export function ReadmeViewer({ content }: { content: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,39 +17,39 @@ export function ReadmeViewer({ content }: { content: string }) {
       DOMPurify.sanitize(content, {
         USE_PROFILES: { html: true },
         ALLOWED_TAGS: [
-          "p",
-          "h1",
-          "h2",
-          "h3",
-          "h4",
-          "h5",
-          "h6",
-          "ul",
-          "ol",
-          "li",
-          "strong",
-          "em",
-          "a",
-          "img",
-          "code",
-          "pre",
-          "blockquote",
-          "br",
-          "hr",
-          "span",
-          "div",
+          'p',
+          'h1',
+          'h2',
+          'h3',
+          'h4',
+          'h5',
+          'h6',
+          'ul',
+          'ol',
+          'li',
+          'strong',
+          'em',
+          'a',
+          'img',
+          'code',
+          'pre',
+          'blockquote',
+          'br',
+          'hr',
+          'span',
+          'div',
         ],
-        ALLOWED_ATTR: ["href", "src", "alt", "title", "class", "target", "rel"],
+        ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel'],
       }),
     );
   }, [content]);
 
   useEffect(() => {
     if (containerRef.current) {
-      const links = containerRef.current.querySelectorAll("a");
+      const links = containerRef.current.querySelectorAll('a');
       links.forEach((link) => {
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
       });
     }
   }, [content]);

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 // Rebuilding layout to standard grid
 
-import { IdentityCard } from "./identity-card";
-import { VerticalImageStack } from "@/components/ui/vertical-image-stack";
-import { FocusCard } from "./focus-card";
-import { PhilosophyCard } from "./philosophy-card";
-import { CraftCard } from "./craft-card";
+import { IdentityCard } from './identity-card';
+import { VerticalImageStack } from '@/components/ui/vertical-image-stack';
+import { FocusCard } from './focus-card';
+import { PhilosophyCard } from './philosophy-card';
+import { CraftCard } from './craft-card';
 
-import { GalleryItem } from "@/app/actions/gallery";
+import { GalleryItem } from '@/app/actions/gallery';
 
 interface BentoGalleryProps {
   galleryImages?: GalleryItem[];

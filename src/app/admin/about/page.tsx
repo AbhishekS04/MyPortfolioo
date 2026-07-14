@@ -1,15 +1,15 @@
-"use client";
+'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any -- Supabase rows lack generated types; TODO: run supabase gen types */
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { ArrowLeft, Save, Loader2, Plus, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { m } from "framer-motion";
-import { useToast } from "@/components/ui/toast";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { ArrowLeft, Save, Loader2, Plus, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { m } from 'framer-motion';
+import { useToast } from '@/components/ui/toast';
 
-import { Suspense } from "react";
+import { Suspense } from 'react';
 
 export default function AdminAboutPage() {
   return (
@@ -42,47 +42,47 @@ function AdminAboutContent() {
   const fetchData = async () => {
     try {
       const [genRes, expRes, eduRes, skiRes, intRes] = await Promise.all([
-        supabase.from("about_general").select("*").single(),
+        supabase.from('about_general').select('*').single(),
         supabase
-          .from("about_experience")
-          .select("*")
-          .order("display_order", { ascending: true }),
+          .from('about_experience')
+          .select('*')
+          .order('display_order', { ascending: true }),
         supabase
-          .from("about_education")
-          .select("*")
-          .order("display_order", { ascending: true }),
+          .from('about_education')
+          .select('*')
+          .order('display_order', { ascending: true }),
         supabase
-          .from("about_skills")
-          .select("*")
-          .order("display_order", { ascending: true }),
+          .from('about_skills')
+          .select('*')
+          .order('display_order', { ascending: true }),
         supabase
-          .from("about_interests")
-          .select("*")
-          .order("display_order", { ascending: true }),
+          .from('about_interests')
+          .select('*')
+          .order('display_order', { ascending: true }),
       ]);
 
       if (genRes.error)
-        console.error("Error fetching about_general:", genRes.error.message);
+        console.error('Error fetching about_general:', genRes.error.message);
       else if (genRes.data) setGeneral(genRes.data);
 
       if (expRes.error)
-        console.error("Error fetching about_experience:", expRes.error.message);
+        console.error('Error fetching about_experience:', expRes.error.message);
       else if (expRes.data) setExperience(expRes.data);
 
       if (eduRes.error)
-        console.error("Error fetching about_education:", eduRes.error.message);
+        console.error('Error fetching about_education:', eduRes.error.message);
       else if (eduRes.data) setEducation(eduRes.data);
 
       if (skiRes.error)
-        console.error("Error fetching about_skills:", skiRes.error.message);
+        console.error('Error fetching about_skills:', skiRes.error.message);
       else if (skiRes.data) setSkills(skiRes.data);
 
       if (intRes.error)
-        console.error("Error fetching about_interests:", intRes.error.message);
+        console.error('Error fetching about_interests:', intRes.error.message);
       else if (intRes.data) setInterests(intRes.data);
     } catch (error) {
-      console.error("Error fetching about data:", error);
-      showToast("Failed to load data", "error");
+      console.error('Error fetching about data:', error);
+      showToast('Failed to load data', 'error');
     } finally {
       setLoading(false);
     }
@@ -112,13 +112,13 @@ function AdminAboutContent() {
 
       if (general.id) {
         const { error } = await supabase
-          .from("about_general")
+          .from('about_general')
           .update(generalPayload)
-          .eq("id", general.id);
+          .eq('id', general.id);
         if (error) throw error;
       } else {
         const { data, error } = await supabase
-          .from("about_general")
+          .from('about_general')
           .insert([generalPayload])
           .select()
           .single();
@@ -135,9 +135,9 @@ function AdminAboutContent() {
           description_points: item.description_points,
           display_order: item.display_order,
         };
-        if (typeof item.id === "string" && item.id.includes("temp")) {
+        if (typeof item.id === 'string' && item.id.includes('temp')) {
           const { data, error } = await supabase
-            .from("about_experience")
+            .from('about_experience')
             .insert([{ ...payload }])
             .select()
             .single();
@@ -150,9 +150,9 @@ function AdminAboutContent() {
           );
         } else {
           const { error } = await supabase
-            .from("about_experience")
+            .from('about_experience')
             .update(payload)
-            .eq("id", item.id);
+            .eq('id', item.id);
           if (error) throw error;
         }
       }
@@ -165,9 +165,9 @@ function AdminAboutContent() {
           year: item.year,
           display_order: item.display_order,
         };
-        if (typeof item.id === "string" && item.id.includes("temp")) {
+        if (typeof item.id === 'string' && item.id.includes('temp')) {
           const { data, error } = await supabase
-            .from("about_education")
+            .from('about_education')
             .insert([{ ...payload }])
             .select()
             .single();
@@ -179,9 +179,9 @@ function AdminAboutContent() {
           );
         } else {
           const { error } = await supabase
-            .from("about_education")
+            .from('about_education')
             .update(payload)
-            .eq("id", item.id);
+            .eq('id', item.id);
           if (error) throw error;
         }
       }
@@ -195,9 +195,9 @@ function AdminAboutContent() {
           color_code: item.color_code,
           display_order: item.display_order,
         };
-        if (typeof item.id === "string" && item.id.includes("temp")) {
+        if (typeof item.id === 'string' && item.id.includes('temp')) {
           const { data, error } = await supabase
-            .from("about_skills")
+            .from('about_skills')
             .insert([{ ...payload }])
             .select()
             .single();
@@ -207,9 +207,9 @@ function AdminAboutContent() {
           );
         } else {
           const { error } = await supabase
-            .from("about_skills")
+            .from('about_skills')
             .update(payload)
-            .eq("id", item.id);
+            .eq('id', item.id);
           if (error) throw error;
         }
       }
@@ -221,9 +221,9 @@ function AdminAboutContent() {
           icon_name: item.icon_name,
           display_order: item.display_order,
         };
-        if (typeof item.id === "string" && item.id.includes("temp")) {
+        if (typeof item.id === 'string' && item.id.includes('temp')) {
           const { data, error } = await supabase
-            .from("about_interests")
+            .from('about_interests')
             .insert([{ ...payload }])
             .select()
             .single();
@@ -235,20 +235,20 @@ function AdminAboutContent() {
           );
         } else {
           const { error } = await supabase
-            .from("about_interests")
+            .from('about_interests')
             .update(payload)
-            .eq("id", item.id);
+            .eq('id', item.id);
           if (error) throw error;
         }
       }
 
-      showToast("About Information updated!", "success");
+      showToast('About Information updated!', 'success');
       // No need to refetch full data if we update IDs in place, but safer to refetch if wanted.
       // However, updating IDs in place (above) prevents UI jump.
       // We can skip fetchData() to avoid overwriting state with stale data if backend is slow.
     } catch (error: any) {
-      console.error("Save error:", error);
-      showToast("Error saving: " + (error.message || "Unknown error"), "error");
+      console.error('Save error:', error);
+      showToast('Error saving: ' + (error.message || 'Unknown error'), 'error');
     } finally {
       setSaving(false);
     }
@@ -261,10 +261,10 @@ function AdminAboutContent() {
     setter: any,
     list: any[],
   ) => {
-    if (!id.includes("temp")) {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+    if (!id.includes('temp')) {
+      const { error } = await supabase.from(table).delete().eq('id', id);
       if (error) {
-        showToast("Error deleting: " + error.message, "error");
+        showToast('Error deleting: ' + error.message, 'error');
         return;
       }
     }
@@ -393,12 +393,12 @@ function AdminAboutContent() {
                       is_available: !general.is_available,
                     })
                   }
-                  className={`w-full p-3 rounded-xl border border-white/5 flex items-center gap-3 transition-colors ${general.is_available ? "bg-emerald-500/10 text-emerald-400" : "bg-red-500/10 text-red-400"}`}
+                  className={`w-full p-3 rounded-xl border border-white/5 flex items-center gap-3 transition-colors ${general.is_available ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}
                 >
                   <div
-                    className={`w-3 h-3 rounded-full ${general.is_available ? "bg-emerald-500" : "bg-red-500"}`}
+                    className={`w-3 h-3 rounded-full ${general.is_available ? 'bg-emerald-500' : 'bg-red-500'}`}
                   />
-                  {general.is_available ? "Available" : "Busy"}
+                  {general.is_available ? 'Available' : 'Busy'}
                 </button>
               </div>
             </div>
@@ -415,9 +415,9 @@ function AdminAboutContent() {
                   ...experience,
                   {
                     id: `temp-${Date.now()}`,
-                    role: "New Role",
-                    company: "Company",
-                    period: "2024",
+                    role: 'New Role',
+                    company: 'Company',
+                    period: '2024',
                     description_points: [],
                     display_order: experience.length,
                   },
@@ -467,7 +467,7 @@ function AdminAboutContent() {
                   <button
                     onClick={() =>
                       handleDelete(
-                        "about_experience",
+                        'about_experience',
                         item.id,
                         setExperience,
                         experience,
@@ -480,10 +480,10 @@ function AdminAboutContent() {
                 </div>
                 <TextArea
                   label="Description Points (One per line)"
-                  value={item.description_points?.join("\n") || ""}
+                  value={item.description_points?.join('\n') || ''}
                   onChange={(v: string) => {
                     const f = [...experience];
-                    f[idx] = { ...f[idx], description_points: v.split("\n") };
+                    f[idx] = { ...f[idx], description_points: v.split('\n') };
                     setExperience(f);
                   }}
                 />
@@ -502,9 +502,9 @@ function AdminAboutContent() {
                   ...education,
                   {
                     id: `temp-${Date.now()}`,
-                    degree: "Degree",
-                    institution: "University",
-                    year: "2024",
+                    degree: 'Degree',
+                    institution: 'University',
+                    year: '2024',
                     display_order: education.length,
                   },
                 ])
@@ -552,7 +552,7 @@ function AdminAboutContent() {
                 <button
                   onClick={() =>
                     handleDelete(
-                      "about_education",
+                      'about_education',
                       item.id,
                       setEducation,
                       education,
@@ -577,10 +577,10 @@ function AdminAboutContent() {
                   ...skills,
                   {
                     id: `temp-${Date.now()}`,
-                    name: "Skill",
-                    icon_name: "Xi",
-                    category: "design",
-                    color_code: "#FFFFFF",
+                    name: 'Skill',
+                    icon_name: 'Xi',
+                    category: 'design',
+                    color_code: '#FFFFFF',
                     display_order: skills.length,
                   },
                 ])
@@ -598,7 +598,7 @@ function AdminAboutContent() {
               >
                 <button
                   onClick={() =>
-                    handleDelete("about_skills", item.id, setSkills, skills)
+                    handleDelete('about_skills', item.id, setSkills, skills)
                   }
                   className="absolute top-2 right-2 p-2 text-white/20 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
@@ -668,8 +668,8 @@ function AdminAboutContent() {
                   ...interests,
                   {
                     id: `temp-${Date.now()}`,
-                    label: "Interest",
-                    icon_name: "Gamepad2",
+                    label: 'Interest',
+                    icon_name: 'Gamepad2',
                     display_order: interests.length,
                   },
                 ])
@@ -708,7 +708,7 @@ function AdminAboutContent() {
                 <button
                   onClick={() =>
                     handleDelete(
-                      "about_interests",
+                      'about_interests',
                       item.id,
                       setInterests,
                       interests,
@@ -735,7 +735,7 @@ const Input = ({ label, value, onChange }: any) => (
     </span>
     <input
       type="text"
-      value={value || ""}
+      value={value || ''}
       onChange={(e) => onChange(e.target.value)}
       className="w-full bg-[#161616] border border-white/5 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-white/20 transition-all text-sm"
     />
@@ -748,7 +748,7 @@ const TextArea = ({ label, value, onChange }: any) => (
       {label}
     </span>
     <textarea
-      value={value || ""}
+      value={value || ''}
       onChange={(e) => onChange(e.target.value)}
       rows={4}
       className="w-full bg-[#161616] border border-white/5 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-white/20 transition-all text-sm resize-none"

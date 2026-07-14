@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { m } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 
 export function PhilosophyCard() {
   return (
@@ -20,14 +20,14 @@ export function PhilosophyCard() {
         variants={{
           initial: {
             y: 0,
-            backgroundColor: "rgba(28, 28, 28, 1)",
-            borderColor: "rgba(255, 255, 255, 0.05)",
+            backgroundColor: 'rgba(28, 28, 28, 1)',
+            borderColor: 'rgba(255, 255, 255, 0.05)',
             scale: 1,
           },
           hover: {
             y: -4,
-            backgroundColor: "rgba(32, 32, 32, 1)",
-            borderColor: "rgba(255, 255, 255, 0.1)",
+            backgroundColor: 'rgba(32, 32, 32, 1)',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
             scale: 1.01, // Subtle scale up
             transition: {
               duration: 0.4,
@@ -51,7 +51,7 @@ export function PhilosophyCard() {
                 initial: { x: 0, y: 0, opacity: 1 },
                 hover: { x: 20, y: -20, opacity: 0 },
               }}
-              transition={{ duration: 0.4, ease: "circIn" }}
+              transition={{ duration: 0.4, ease: 'circIn' }}
               className="absolute"
             >
               <ArrowUpRight className="w-5 h-5 text-white/60" />
@@ -61,7 +61,7 @@ export function PhilosophyCard() {
                 initial: { x: -20, y: 20, opacity: 0 },
                 hover: { x: 0, y: 0, opacity: 1 },
               }}
-              transition={{ duration: 0.4, ease: "circOut", delay: 0.1 }}
+              transition={{ duration: 0.4, ease: 'circOut', delay: 0.1 }}
               className="absolute"
             >
               <ArrowUpRight className="w-5 h-5 text-white" />
@@ -93,12 +93,12 @@ export function PhilosophyCard() {
         <m.div
           className="absolute inset-0 z-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent -translate-x-[100%]"
           variants={{
-            initial: { x: "-100%" },
+            initial: { x: '-100%' },
             hover: {
-              x: "100%",
+              x: '100%',
               transition: {
                 duration: 1,
-                ease: "easeInOut",
+                ease: 'easeInOut',
                 repeat: Infinity,
                 repeatDelay: 1,
               },

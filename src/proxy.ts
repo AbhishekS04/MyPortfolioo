@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@supabase/ssr";
+import { type NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 
 export async function proxy(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -13,7 +13,7 @@ export async function proxy(request: NextRequest) {
 
   if (!supabaseUrl || !supabaseKey) {
     throw new Error(
-      "Missing required Supabase environment variables: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+      'Missing required Supabase environment variables: NEXT_PUBLIC_SUPABASE_URL and/or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY',
     );
   }
 
@@ -43,15 +43,15 @@ export async function proxy(request: NextRequest) {
   } = await supabase.auth.getUser();
 
   // 1. Admin Route Protection
-  if (request.nextUrl.pathname.startsWith("/admin")) {
+  if (request.nextUrl.pathname.startsWith('/admin')) {
     // Allow access to login, verify-2fa, and setup (for initial enrollment)
     const isExempt =
-      request.nextUrl.pathname === "/admin/login" ||
-      request.nextUrl.pathname === "/admin/verify-2fa" ||
-      request.nextUrl.pathname === "/admin/mfa-setup";
+      request.nextUrl.pathname === '/admin/login' ||
+      request.nextUrl.pathname === '/admin/verify-2fa' ||
+      request.nextUrl.pathname === '/admin/mfa-setup';
 
     if (!user && !isExempt) {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      return NextResponse.redirect(new URL('/admin/login', request.url));
     }
 
     if (user && !isExempt) {
@@ -61,27 +61,27 @@ export async function proxy(request: NextRequest) {
 
       if (aalError || !aalData) {
         // If we can't check security, fail safe -> verify
-        return NextResponse.redirect(new URL("/admin/verify-2fa", request.url));
+        return NextResponse.redirect(new URL('/admin/verify-2fa', request.url));
       }
 
       const { currentLevel } = aalData;
 
       // If user is stuck at AAL1 (Password only)
-      if (currentLevel === "aal1") {
+      if (currentLevel === 'aal1') {
         const { data: factors } = await supabase.auth.mfa.listFactors();
         const hasVerifiedFactor = factors?.totp?.some(
-          (f) => f.status === "verified",
+          (f) => f.status === 'verified',
         );
 
         if (hasVerifiedFactor) {
           // Start Verification Flow
           return NextResponse.redirect(
-            new URL("/admin/verify-2fa", request.url),
+            new URL('/admin/verify-2fa', request.url),
           );
         } else {
           // No 2FA setup yet? Redirect to setup.
           return NextResponse.redirect(
-            new URL("/admin/mfa-setup", request.url),
+            new URL('/admin/mfa-setup', request.url),
           );
         }
       }
@@ -100,6 +100,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };

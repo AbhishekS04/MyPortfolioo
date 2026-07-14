@@ -1,4 +1,4 @@
-import { Hourglass } from "lucide-react";
+import { Hourglass } from 'lucide-react';
 
 export const ComingSoonBadge = () => {
   return (

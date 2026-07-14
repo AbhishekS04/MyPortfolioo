@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
+import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import {
   CommandMenu,
   CommandMenuContent,
@@ -11,9 +11,9 @@ import {
   CommandMenuItem,
   CommandMenuSeparator,
   useCommandMenuShortcut,
-} from "@/components/ui/command-menu";
-import { Home, User, Briefcase, Mail, FileText, Copy } from "lucide-react";
-import { FaGithub, FaXTwitter, FaLinkedin } from "react-icons/fa6";
+} from '@/components/ui/command-menu';
+import { Home, User, Briefcase, Mail, FileText, Copy } from 'lucide-react';
+import { FaGithub, FaXTwitter, FaLinkedin } from 'react-icons/fa6';
 
 export function CommandPalette() {
   const [open, setOpen] = React.useState(false);
@@ -37,8 +37,8 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<Home className="text-blue-400" />}
               index={0}
-              keywords={["home", "hq", "index", "return"]}
-              onSelect={() => runCommand(() => router.push("/"))}
+              keywords={['home', 'hq', 'index', 'return']}
+              onSelect={() => runCommand(() => router.push('/'))}
             >
               <span className="font-medium text-white/90">Return to HQ</span>
               <span className="ml-2 text-xs text-white/40 hidden sm:inline-block">
@@ -48,8 +48,8 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<User className="text-purple-400" />}
               index={1}
-              keywords={["about", "bio", "lore", "who", "story"]}
-              onSelect={() => runCommand(() => router.push("/about"))}
+              keywords={['about', 'bio', 'lore', 'who', 'story']}
+              onSelect={() => runCommand(() => router.push('/about'))}
             >
               <span className="font-medium text-white/90">
                 Who is Abhishek?
@@ -62,13 +62,13 @@ export function CommandPalette() {
               icon={<Briefcase className="text-yellow-400" />}
               index={2}
               keywords={[
-                "works",
-                "projects",
-                "portfolio",
-                "archives",
-                "case studies",
+                'works',
+                'projects',
+                'portfolio',
+                'archives',
+                'case studies',
               ]}
-              onSelect={() => runCommand(() => router.push("/works"))}
+              onSelect={() => runCommand(() => router.push('/works'))}
             >
               <span className="font-medium text-white/90">
                 Inspect the Archives
@@ -80,9 +80,9 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<FaGithub className="text-green-400" />}
               index={3}
-              keywords={["github", "code", "source", "repo", "git"]}
+              keywords={['github', 'code', 'source', 'repo', 'git']}
               onSelect={() =>
-                runCommand(() => router.push("/github/AbhishekS04"))
+                runCommand(() => router.push('/github/AbhishekS04'))
               }
             >
               <span className="font-medium text-white/90">
@@ -100,10 +100,10 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<FaGithub />}
               index={4}
-              keywords={["github", "profile", "social"]}
+              keywords={['github', 'profile', 'social']}
               onSelect={() =>
                 runCommand(() =>
-                  window.open("https://github.com/AbhishekS04", "_blank"),
+                  window.open('https://github.com/AbhishekS04', '_blank'),
                 )
               }
             >
@@ -112,10 +112,10 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<FaXTwitter />}
               index={5}
-              keywords={["twitter", "x", "social", "tweet"]}
+              keywords={['twitter', 'x', 'social', 'tweet']}
               onSelect={() =>
                 runCommand(() =>
-                  window.open("https://x.com/_abhishek2304", "_blank"),
+                  window.open('https://x.com/_abhishek2304', '_blank'),
                 )
               }
             >
@@ -124,12 +124,12 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<FaLinkedin />}
               index={6}
-              keywords={["linkedin", "network", "social", "career"]}
+              keywords={['linkedin', 'network', 'social', 'career']}
               onSelect={() =>
                 runCommand(() =>
                   window.open(
-                    "https://www.linkedin.com/in/abhishek-singh200423",
-                    "_blank",
+                    'https://www.linkedin.com/in/abhishek-singh200423',
+                    '_blank',
                   ),
                 )
               }
@@ -145,10 +145,10 @@ export function CommandPalette() {
               icon={<Copy />}
               index={7}
               shortcut="cmd+c"
-              keywords={["copy", "email", "address", "contact"]}
+              keywords={['copy', 'email', 'address', 'contact']}
               onSelect={() =>
                 runCommand(() => {
-                  navigator.clipboard.writeText("your.email@example.com");
+                  navigator.clipboard.writeText('your.email@example.com');
                 })
               }
             >
@@ -158,9 +158,9 @@ export function CommandPalette() {
               icon={<FileText />}
               index={8}
               shortcut="cmd+r"
-              keywords={["resume", "cv", "pdf", "dossier", "download"]}
+              keywords={['resume', 'cv', 'pdf', 'dossier', 'download']}
               onSelect={() =>
-                runCommand(() => window.open("/resume.pdf", "_blank"))
+                runCommand(() => window.open('/resume.pdf', '_blank'))
               }
             >
               Download Dossier (Resume)
@@ -168,11 +168,11 @@ export function CommandPalette() {
             <CommandMenuItem
               icon={<Mail />}
               index={9}
-              keywords={["send", "mail", "contact", "message", "write"]}
+              keywords={['send', 'mail', 'contact', 'message', 'write']}
               onSelect={() =>
                 runCommand(
                   () =>
-                    (window.location.href = "mailto:your.email@example.com"),
+                    (window.location.href = 'mailto:your.email@example.com'),
                 )
               }
             >

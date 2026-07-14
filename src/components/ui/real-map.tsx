@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useRef } from "react";
+import { useRef } from 'react';
 import {
   Map,
   MapMarker,
   MarkerContent,
   MapRef,
   MarkerLabel,
-} from "@/components/ui/map";
-import { Navigation } from "lucide-react";
+} from '@/components/ui/map';
+import { Navigation } from 'lucide-react';
 
 export default function RealMap() {
   const mapRef = useRef<MapRef>(null);
@@ -33,7 +33,7 @@ export default function RealMap() {
   const handleMarkerClick = () => {
     const mapWindow = window.open(
       `https://www.google.com/maps/search/?api=1&query=${targetLat},${targetLng}`,
-      "_blank",
+      '_blank',
     );
     if (mapWindow) {
       mapWindow.opener = null;
@@ -46,12 +46,12 @@ export default function RealMap() {
         ref={mapRef}
         center={[0, 20]} // World View
         zoom={1.2}
-        projection={{ type: "globe" }}
+        projection={{ type: 'globe' }}
         styles={{
           // Force dark style for consistency with the card design
           light:
-            "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
-          dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+            'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+          dark: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
         }}
         attributionControl={false}
         scrollZoom={true} // Enable gesture / scroll zoom

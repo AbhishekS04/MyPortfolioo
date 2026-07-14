@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useRef } from "react";
-import { m, useAnimationControls, Variants } from "framer-motion";
+import { useCallback, useEffect, useRef } from 'react';
+import { m, useAnimationControls, Variants } from 'framer-motion';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const containerVariants: Variants = {
   initial: {
@@ -12,12 +12,12 @@ const containerVariants: Variants = {
     transition: {
       duration: 0.5,
     },
-    letterSpacing: "0px",
+    letterSpacing: '0px',
   },
   shrink: {
     // Scale might need to be adjust according to font size for better effect
     scale: 0.8,
-    letterSpacing: "-10%",
+    letterSpacing: '-10%',
   },
   jitter: {
     x: [0, -3, 3, -3, 3, 0],
@@ -25,20 +25,20 @@ const containerVariants: Variants = {
     transition: {
       duration: 0.5,
       times: [0, 0.2, 0.4, 0.6, 0.8, 1],
-      ease: "easeInOut",
+      ease: 'easeInOut',
     },
   },
   explode: {
     scale: [0.7, 0.9, 1],
     opacity: [1, 0.7, 0],
-    letterSpacing: "0px",
+    letterSpacing: '0px',
     transition: {
       times: [0, 0.9, 1],
     },
   },
   end: {
     scale: 1,
-    letterSpacing: "0px",
+    letterSpacing: '0px',
     translateY: 50,
   },
 };
@@ -80,7 +80,7 @@ const characterVariants: Variants = {
     transition: {
       duration: 0.5,
       times: [0, 0.33, 0.66, 1],
-      ease: "easeInOut",
+      ease: 'easeInOut',
     },
   }),
   shrink: {
@@ -102,14 +102,14 @@ const splitText = (text: string) => String(text).split(/(?:)/u);
 
 export default function TextExplode({
   text,
-  mode = "loop",
+  mode = 'loop',
   className,
   trigger = false,
   onComplete,
 }: {
   text: string;
   className?: string;
-  mode?: "loop" | "hover" | "manual";
+  mode?: 'loop' | 'hover' | 'manual';
   trigger?: boolean;
   onComplete?: () => void;
 }) {
@@ -118,23 +118,23 @@ export default function TextExplode({
   const isPlaying = useRef(false);
 
   const animateSequence = useCallback(async () => {
-    await controls.start("shrink", {
+    await controls.start('shrink', {
       duration: 0.8,
-      ease: "easeOut",
+      ease: 'easeOut',
     });
     // Removed jitter for a cleaner feel
-    await controls.start("explode", {
+    await controls.start('explode', {
       duration: 0.6,
-      ease: "easeOut",
+      ease: 'easeOut',
     });
-    await controls.start("end");
-    await controls.start("initial", {
+    await controls.start('end');
+    await controls.start('initial', {
       delay: 0.2,
       duration: 0.6,
-      ease: "easeOut",
+      ease: 'easeOut',
     });
 
-    if (mode === "loop") {
+    if (mode === 'loop') {
       // eslint-disable-next-line react-hooks/immutability
       requestAnimationFrame(() => animateSequence());
     } else {
@@ -144,7 +144,7 @@ export default function TextExplode({
   }, [mode, controls, onComplete]);
 
   useEffect(() => {
-    if (!characters.length || mode === "hover" || mode === "manual") {
+    if (!characters.length || mode === 'hover' || mode === 'manual') {
       return;
     }
 
@@ -152,7 +152,7 @@ export default function TextExplode({
   }, [characters.length, mode, animateSequence]);
 
   useEffect(() => {
-    if (mode === "manual" && trigger && !isPlaying.current) {
+    if (mode === 'manual' && trigger && !isPlaying.current) {
       isPlaying.current = true;
       animateSequence();
     }
@@ -163,19 +163,19 @@ export default function TextExplode({
       variants={containerVariants}
       animate={controls}
       onPointerDown={() => {
-        if (mode === "hover" && !isPlaying.current) {
+        if (mode === 'hover' && !isPlaying.current) {
           isPlaying.current = true;
           animateSequence();
         }
       }}
       onMouseEnter={() => {
-        if (mode === "hover" && !isPlaying.current) {
+        if (mode === 'hover' && !isPlaying.current) {
           isPlaying.current = true;
           animateSequence();
         }
       }}
       className={cn(
-        "flex items-center justify-center text-3xl tracking-normal text-foreground",
+        'flex items-center justify-center text-3xl tracking-normal text-foreground',
         className,
       )}
     >
@@ -186,7 +186,7 @@ export default function TextExplode({
           custom={{ index, total: characters.length }}
           className="inline-block whitespace-pre"
         >
-          {char === " " ? "\u00A0" : char}
+          {char === ' ' ? '\u00A0' : char}
         </m.span>
       ))}
       <span className="sr-only">{text}</span>

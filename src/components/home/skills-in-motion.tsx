@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import { SKILLS, WHY_I_BUILD } from "@/lib/data";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { m } from 'framer-motion';
+import { SKILLS, WHY_I_BUILD } from '@/lib/data';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export function SkillsInMotion() {
   const [skills, setSkills] = useState<string[]>(SKILLS);
@@ -14,9 +14,9 @@ export function SkillsInMotion() {
       try {
         // Fetch Skills
         const { data: skillsData } = await supabase
-          .from("skills")
-          .select("name")
-          .order("display_order", { ascending: true });
+          .from('skills')
+          .select('name')
+          .order('display_order', { ascending: true });
 
         if (skillsData && skillsData.length > 0) {
           setSkills(skillsData.map((s: { name: string }) => s.name));
@@ -24,19 +24,19 @@ export function SkillsInMotion() {
 
         // Fetch Profile
         const { data: profileData } = await supabase
-          .from("profile")
-          .select("bio_primary, bio_secondary")
+          .from('profile')
+          .select('bio_primary, bio_secondary')
           .limit(1)
           .single();
 
         if (profileData) {
           setProfile({
             primary: profileData.bio_primary,
-            secondary: profileData.bio_secondary || "",
+            secondary: profileData.bio_secondary || '',
           });
         }
       } catch (error) {
-        console.error("Error fetching skills/profile:", error);
+        console.error('Error fetching skills/profile:', error);
       }
     }
 
@@ -57,7 +57,7 @@ export function SkillsInMotion() {
         <m.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6 }}
           className="bg-[#111111] border border-white/5 rounded-[32px] p-8 md:p-10 flex flex-col justify-between min-h-[300px]"
         >
@@ -86,7 +86,7 @@ export function SkillsInMotion() {
         <m.div
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-[#111111] border border-white/5 rounded-[32px] p-8 md:p-10 flex flex-col justify-center relative overflow-hidden group min-h-[300px]"
         >

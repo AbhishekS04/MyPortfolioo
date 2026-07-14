@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 const defaultLinks = {
-  github: "https://github.com/AbhishekS04",
-  x: "https://x.com/_abhishek2304",
-  linkedin: "https://www.linkedin.com/in/abhishek-singh-045312292",
-  dribbble: "",
+  github: 'https://github.com/AbhishekS04',
+  x: 'https://x.com/_abhishek2304',
+  linkedin: 'https://www.linkedin.com/in/abhishek-singh-045312292',
+  dribbble: '',
 };
 
 export function SocialIcons({
@@ -20,7 +20,7 @@ export function SocialIcons({
 
   const socialItems = [
     {
-      name: "GitHub",
+      name: 'GitHub',
       href: activeLinks.github,
       show: !!activeLinks.github,
       icon: (
@@ -30,7 +30,7 @@ export function SocialIcons({
       ),
     },
     {
-      name: "X",
+      name: 'X',
       href: activeLinks.x,
       show: !!activeLinks.x,
       icon: (
@@ -40,7 +40,7 @@ export function SocialIcons({
       ),
     },
     {
-      name: "LinkedIn",
+      name: 'LinkedIn',
       href: activeLinks.linkedin,
       show: !!activeLinks.linkedin,
       icon: (
@@ -50,7 +50,7 @@ export function SocialIcons({
       ),
     },
     {
-      name: "Dribbble",
+      name: 'Dribbble',
       href: activeLinks.dribbble,
       show: !!activeLinks.dribbble,
       icon: (
@@ -79,16 +79,16 @@ export function SocialIcons({
           <span
             className={`absolute inset-1 rounded-lg bg-white/[0.08] transition-all duration-300 ease-out ${
               hoveredIndex === index
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-90"
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-90'
             }`}
           />
 
           <span
             className={`relative z-10 transition-all duration-300 ease-out ${
               hoveredIndex === index
-                ? "text-white scale-110"
-                : "text-neutral-500"
+                ? 'text-white scale-110'
+                : 'text-neutral-500'
             }`}
           >
             {social.icon}
@@ -96,15 +96,15 @@ export function SocialIcons({
 
           <span
             className={`absolute bottom-1.5 left-1/2 -translate-x-1/2 h-[2px] rounded-full bg-white transition-all duration-300 ease-out ${
-              hoveredIndex === index ? "w-3 opacity-100" : "w-0 opacity-0"
+              hoveredIndex === index ? 'w-3 opacity-100' : 'w-0 opacity-0'
             }`}
           />
 
           <span
             className={`absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-lg bg-white text-neutral-950 text-[11px] font-medium whitespace-nowrap transition-all duration-300 ease-out ${
               hoveredIndex === index
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-1 pointer-events-none"
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 translate-y-1 pointer-events-none'
             }`}
           >
             {social.name}

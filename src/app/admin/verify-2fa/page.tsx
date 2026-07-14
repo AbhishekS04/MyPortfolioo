@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { Loader2, ShieldCheck, AlertCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { Loader2, ShieldCheck, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
+} from '@/components/ui/input-otp';
 
 export default function MFAVerifyPage() {
-  const [verifyCode, setVerifyCode] = useState("");
-  const [error, setError] = useState("");
+  const [verifyCode, setVerifyCode] = useState('');
+  const [error, setError] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const router = useRouter();
   const supabase = createClient();
@@ -21,7 +21,7 @@ export default function MFAVerifyPage() {
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsVerifying(true);
-    setError("");
+    setError('');
 
     try {
       // 1. Get Assurance Level
@@ -30,10 +30,10 @@ export default function MFAVerifyPage() {
       if (listError) throw listError;
 
       const totpFactor = arrayFactors.totp.find(
-        (factor) => factor.status === "verified",
+        (factor) => factor.status === 'verified',
       );
       if (!totpFactor) {
-        setError("No MFA factor found. Please contact support.");
+        setError('No MFA factor found. Please contact support.');
         return;
       }
 
@@ -47,11 +47,11 @@ export default function MFAVerifyPage() {
       if (challengeError) throw challengeError;
 
       // Success, redirect to admin
-      router.push("/admin");
+      router.push('/admin');
       router.refresh();
     } catch (err: unknown) {
       setError(
-        err instanceof Error ? err.message : "Invalid code. Please try again.",
+        err instanceof Error ? err.message : 'Invalid code. Please try again.',
       );
     } finally {
       setIsVerifying(false);
@@ -109,7 +109,7 @@ export default function MFAVerifyPage() {
             {isVerifying ? (
               <Loader2 className="animate-spin" />
             ) : (
-              "Verify Identity"
+              'Verify Identity'
             )}
           </Button>
         </form>
@@ -118,7 +118,7 @@ export default function MFAVerifyPage() {
           <button
             onClick={async () => {
               await supabase.auth.signOut();
-              router.push("/admin/login");
+              router.push('/admin/login');
             }}
             className="text-xs text-white/20 hover:text-white/60 transition-colors"
           >

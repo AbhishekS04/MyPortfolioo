@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   m,
@@ -6,8 +6,8 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-} from "framer-motion";
-import { useRouter } from "next/navigation";
+} from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import {
   ArrowLeft,
   Smartphone,
@@ -21,32 +21,32 @@ import {
   Binary,
   Wifi,
   Terminal,
-} from "lucide-react";
-import { useState, useRef, MouseEvent, useEffect } from "react";
+} from 'lucide-react';
+import { useState, useRef, MouseEvent, useEffect } from 'react';
 
 // --- CYBER-SPEC DATA --- //
 const GAMES = [
   {
-    id: "bgmi",
-    name: "BGMI",
-    fullname: "BATTLEGROUNDS MOBILE INDIA",
-    ign: "AbhiOp",
-    kd: "5.2",
-    rank: "Conqueror Grade",
+    id: 'bgmi',
+    name: 'BGMI',
+    fullname: 'BATTLEGROUNDS MOBILE INDIA',
+    ign: 'AbhiOp',
+    kd: '5.2',
+    rank: 'Conqueror Grade',
     icon: Smartphone,
-    accent: "#10b981", // Emerald
-    unit: "01",
+    accent: '#10b981', // Emerald
+    unit: '01',
   },
   {
-    id: "codm",
-    name: "CODM",
-    fullname: "Call of Duty: Mobile",
-    ign: "Ghost_04",
-    kd: "3.8",
-    rank: "Legendary Series",
+    id: 'codm',
+    name: 'CODM',
+    fullname: 'Call of Duty: Mobile',
+    ign: 'Ghost_04',
+    kd: '3.8',
+    rank: 'Legendary Series',
     icon: Crosshair,
-    accent: "#f59e0b", // Amber
-    unit: "02",
+    accent: '#f59e0b', // Amber
+    unit: '02',
   },
 ];
 
@@ -115,17 +115,17 @@ export default function GamingPage() {
     (typeof GAMES)[number] | null
   >(null);
   const router = useRouter();
-  const [currentTime, setCurrentTime] = useState("");
+  const [currentTime, setCurrentTime] = useState('');
 
   useEffect(() => {
     const update = () => {
       const now = new Date();
       setCurrentTime(
-        now.toLocaleTimeString("en-US", {
+        now.toLocaleTimeString('en-US', {
           hour12: false,
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
         }),
       );
     };
@@ -143,8 +143,8 @@ export default function GamingPage() {
           className="absolute inset-0 opacity-[0.06]"
           style={{
             backgroundImage:
-              "linear-gradient(#444 1px, transparent 1px), linear-gradient(90deg, #444 1px, transparent 1px)",
-            backgroundSize: "64px 64px",
+              'linear-gradient(#444 1px, transparent 1px), linear-gradient(90deg, #444 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
           }}
         />
 
@@ -153,17 +153,17 @@ export default function GamingPage() {
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at center, transparent 0%, #050505 90%)",
+              'radial-gradient(circle at center, transparent 0%, #050505 90%)',
           }}
         />
 
         {/* Wandering Pulse (Clamped to prevent overflow) */}
         <m.div
           animate={{
-            left: ["-5%", "70%", "-5%"],
-            top: ["10%", "60%", "10%"],
+            left: ['-5%', '70%', '-5%'],
+            top: ['10%', '60%', '10%'],
           }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
           className="absolute w-[500px] h-[500px] blur-[150px] opacity-[0.04] bg-emerald-500 rounded-full"
         />
       </div>
@@ -352,7 +352,7 @@ export default function GamingPage() {
                 <div className="grid grid-cols-2 gap-10 sm:gap-14 pt-12 border-t border-white/5">
                   <div className="space-y-3">
                     <p className="text-[10px] uppercase font-black text-white/20 tracking-[0.3em] flex items-center gap-2">
-                      <Zap size={14} className="text-emerald-500/50" />{" "}
+                      <Zap size={14} className="text-emerald-500/50" />{' '}
                       Performance
                     </p>
                     <div className="flex items-baseline gap-2">
@@ -366,7 +366,7 @@ export default function GamingPage() {
                   </div>
                   <div className="space-y-3">
                     <p className="text-[10px] uppercase font-black text-white/20 tracking-[0.3em] flex items-center gap-2">
-                      <Trophy size={14} className="text-emerald-500/50" />{" "}
+                      <Trophy size={14} className="text-emerald-500/50" />{' '}
                       Rank_Class
                     </p>
                     <p className="text-2xl sm:text-3xl font-black text-white/80 uppercase italic tracking-tight">

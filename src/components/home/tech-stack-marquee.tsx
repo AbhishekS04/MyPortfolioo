@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
+import { m } from 'framer-motion';
 
 const TECH_STACK = [
-  "C++",
-  "Java",
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Bootstrap",
+  'C++',
+  'Java',
+  'HTML',
+  'CSS',
+  'JavaScript',
+  'TypeScript',
+  'React',
+  'Next.js',
+  'Bootstrap',
 ];
 
 export function TechStackMarquee() {
@@ -34,10 +34,10 @@ export function TechStackMarquee() {
       {/* Marquee Container */}
       <div className="flex overflow-hidden select-none mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent)">
         <m.div
-          animate={{ x: ["0%", "-50%"] }}
+          animate={{ x: ['0%', '-50%'] }}
           transition={{
             duration: 20,
-            ease: "linear",
+            ease: 'linear',
             repeat: Infinity,
           }}
           className="flex gap-12 flex-shrink-0 items-center pr-12 pl-12 md:pl-48" // Added padding-left for label on desktop

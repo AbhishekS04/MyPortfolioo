@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import { Star, GitFork, ExternalLink } from "lucide-react";
-import { GitHubRepo } from "@/lib/github";
-import Link from "next/link";
+import { m } from 'framer-motion';
+import { Star, GitFork, ExternalLink } from 'lucide-react';
+import { GitHubRepo } from '@/lib/github';
+import Link from 'next/link';
 
 export function RepoCard({ repo, index }: { repo: GitHubRepo; index: number }) {
   return (

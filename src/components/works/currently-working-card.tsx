@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { Project } from "@/types/project";
+import { m } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { Project } from '@/types/project';
 
 interface StatusConfigItem {
   width: string;
@@ -15,36 +15,36 @@ interface StatusConfigItem {
 }
 
 const statusConfig: Record<string, StatusConfigItem> = {
-  "Not Started": {
-    width: "5%",
-    color: "bg-white/10",
-    glow: "shadow-none",
+  'Not Started': {
+    width: '5%',
+    color: 'bg-white/10',
+    glow: 'shadow-none',
     animate: false,
   },
-  "In Progress": {
-    width: "45%",
-    color: "bg-yellow-500",
-    glow: "shadow-[0_0_15px_rgba(234,179,8,0.4)]",
+  'In Progress': {
+    width: '45%',
+    color: 'bg-yellow-500',
+    glow: 'shadow-[0_0_15px_rgba(234,179,8,0.4)]',
     animate: true,
     pulseDuration: 3,
   },
-  "Near Completion": {
-    width: "85%",
-    color: "bg-emerald-400",
-    glow: "shadow-[0_0_20px_rgba(52,211,153,0.5)]",
+  'Near Completion': {
+    width: '85%',
+    color: 'bg-emerald-400',
+    glow: 'shadow-[0_0_20px_rgba(52,211,153,0.5)]',
     animate: true,
     pulseDuration: 1.5,
   },
   Completed: {
-    width: "100%",
-    color: "bg-blue-500",
-    glow: "shadow-none",
+    width: '100%',
+    color: 'bg-blue-500',
+    glow: 'shadow-none',
     animate: false,
   },
 };
 
 export function CurrentlyWorkingCard({ project }: { project: Project }) {
-  const config = statusConfig[project.status] || statusConfig["Not Started"];
+  const config = statusConfig[project.status] || statusConfig['Not Started'];
 
   return (
     <div className="w-full flex justify-center">
@@ -104,7 +104,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-xs font-medium uppercase tracking-widest text-white/60">
                       <span>Progress</span>
-                      <span className={config.animate ? "text-white" : ""}>
+                      <span className={config.animate ? 'text-white' : ''}>
                         {project.status}
                       </span>
                     </div>
@@ -115,7 +115,7 @@ export function CurrentlyWorkingCard({ project }: { project: Project }) {
                       <m.div
                         initial={{ width: 0 }}
                         whileInView={{ width: config.width }}
-                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        transition={{ duration: 1.5, ease: 'easeOut' }}
                         className={`h-full rounded-full ${config.color} ${config.glow}`}
                         viewport={{ once: true }}
                       />

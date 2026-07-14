@@ -1,36 +1,36 @@
-import { Metadata } from "next";
-import { BentoGallery } from "@/components/home/bento-gallery";
-import { getGalleryImages, getFeaturedProjects } from "@/app/actions/gallery";
-import { LazyHomeContent } from "@/components/home/lazy-home-content";
+import { Metadata } from 'next';
+import { BentoGallery } from '@/components/home/bento-gallery';
+import { getGalleryImages, getFeaturedProjects } from '@/app/actions/gallery';
+import { LazyHomeContent } from '@/components/home/lazy-home-content';
 
-import { ConsciousnessMode } from "@/components/ui/consciousness-mode";
-import { ClipboardSecret } from "@/components/ui/clipboard-secret";
-import { ExitMessage } from "@/components/ui/exit-message";
+import { ConsciousnessMode } from '@/components/ui/consciousness-mode';
+import { ClipboardSecret } from '@/components/ui/clipboard-secret';
+import { ExitMessage } from '@/components/ui/exit-message';
 
 // Revalidate every 60 seconds so admin panel updates appear without a full rebuild
 export const revalidate = 60;
 
 export const metadata: Metadata = {
-  title: "Abhishek Singh | Portfolio",
+  title: 'Abhishek Singh | Portfolio',
   description:
-    "Abhishek Singh is a self-taught Full Stack Developer and CS student at Adamas University, Kolkata, India (2023–2027). 2+ years of experience building production web apps with React, Next.js, TypeScript, and Supabase.",
+    'Abhishek Singh is a self-taught Full Stack Developer and CS student at Adamas University, Kolkata, India (2023–2027). 2+ years of experience building production web apps with React, Next.js, TypeScript, and Supabase.',
   openGraph: {
-    title: "Abhishek Singh | Full Stack Developer & Portfolio",
+    title: 'Abhishek Singh | Full Stack Developer & Portfolio',
     description:
-      "Personal portfolio of Abhishek Singh — building with React, Next.js, and TypeScript.",
-    url: "https://abhisheksingh.tech",
+      'Personal portfolio of Abhishek Singh — building with React, Next.js, and TypeScript.',
+    url: 'https://abhisheksingh.tech',
     images: [
       {
-        url: "/og-image-portfolio.avif",
+        url: '/og-image-portfolio.avif',
         width: 1200,
         height: 630,
-        alt: "Abhishek Singh | Portfolio",
+        alt: 'Abhishek Singh | Portfolio',
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
-    images: ["/og-image-portfolio.avif"],
+    card: 'summary_large_image',
+    images: ['/og-image-portfolio.avif'],
   },
 };
 

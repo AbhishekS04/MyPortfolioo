@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
-import { m, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { sacramento } from "@/lib/fonts";
+import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { m, AnimatePresence } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { sacramento } from '@/lib/fonts';
 
 export function Signature() {
   const clickCountRef = useRef(0);
@@ -21,7 +21,7 @@ export function Signature() {
   }, []);
 
   // Local asset — bypasses ImageKit bandwidth limits
-  const VIDEO_SRC = "/ass/signature.mp4";
+  const VIDEO_SRC = '/ass/signature.mp4';
 
   const handleClick = () => {
     const now = Date.now();
@@ -64,16 +64,16 @@ export function Signature() {
 
   useEffect(() => {
     if (isTriggered) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
       if (videoRef.current) {
         videoRef.current.pause();
         videoRef.current.currentTime = 0;
       }
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isTriggered]);
 
@@ -90,14 +90,14 @@ export function Signature() {
         aria-label="Signature"
         onClick={handleClick}
         className="absolute right-4 bottom-4 md:right-10 md:bottom-10 opacity-30 select-none transition-opacity z-50 mix-blend-overlay cursor-default bg-transparent border-0 p-0"
-        style={{ WebkitTapHighlightColor: "transparent" }}
+        style={{ WebkitTapHighlightColor: 'transparent' }}
       >
         {/* Signature */}
         <span
           aria-hidden="true"
           className={cn(
             sacramento.className,
-            "text-4xl md:text-5xl text-white/80",
+            'text-4xl md:text-5xl text-white/80',
           )}
         >
           Abhishek Singh
@@ -124,11 +124,11 @@ export function Signature() {
 
                   {/* 4 Corners Wipe Panels */}
                   <m.div
-                    initial={{ x: "-100%", y: "-100%" }}
-                    animate={{ x: "0%", y: "0%" }}
+                    initial={{ x: '-100%', y: '-100%' }}
+                    animate={{ x: '0%', y: '0%' }}
                     exit={{
-                      x: "-100%",
-                      y: "-100%",
+                      x: '-100%',
+                      y: '-100%',
                       transition: {
                         delay: 0.8,
                         duration: 1.4,
@@ -139,11 +139,11 @@ export function Signature() {
                     className="fixed top-0 left-0 w-1/2 h-1/2 bg-black origin-top-left z-20"
                   />
                   <m.div
-                    initial={{ x: "100%", y: "-100%" }}
-                    animate={{ x: "0%", y: "0%" }}
+                    initial={{ x: '100%', y: '-100%' }}
+                    animate={{ x: '0%', y: '0%' }}
                     exit={{
-                      x: "100%",
-                      y: "-100%",
+                      x: '100%',
+                      y: '-100%',
                       transition: {
                         delay: 0.8,
                         duration: 1.4,
@@ -154,11 +154,11 @@ export function Signature() {
                     className="fixed top-0 right-0 w-1/2 h-1/2 bg-black origin-top-right z-20"
                   />
                   <m.div
-                    initial={{ x: "-100%", y: "100%" }}
-                    animate={{ x: "0%", y: "0%" }}
+                    initial={{ x: '-100%', y: '100%' }}
+                    animate={{ x: '0%', y: '0%' }}
                     exit={{
-                      x: "-100%",
-                      y: "100%",
+                      x: '-100%',
+                      y: '100%',
                       transition: {
                         delay: 0.8,
                         duration: 1.4,
@@ -169,11 +169,11 @@ export function Signature() {
                     className="fixed bottom-0 left-0 w-1/2 h-1/2 bg-black origin-bottom-left z-20"
                   />
                   <m.div
-                    initial={{ x: "100%", y: "100%" }}
-                    animate={{ x: "0%", y: "0%" }}
+                    initial={{ x: '100%', y: '100%' }}
+                    animate={{ x: '0%', y: '0%' }}
                     exit={{
-                      x: "100%",
-                      y: "100%",
+                      x: '100%',
+                      y: '100%',
                       transition: {
                         delay: 0.8,
                         duration: 1.4,
@@ -205,14 +205,14 @@ export function Signature() {
 
             {/* Dynamic Video Content Kept in DOM continually for iOS auto-play synchronization */}
             <div
-              className={`fixed inset-0 z-[100001] flex items-center justify-center transition-all duration-[1200ms] pointer-events-none ${isTriggered ? "opacity-100 blur-none scale-100" : "opacity-0 blur-[10px] scale-90"}`}
+              className={`fixed inset-0 z-[100001] flex items-center justify-center transition-all duration-[1200ms] pointer-events-none ${isTriggered ? 'opacity-100 blur-none scale-100' : 'opacity-0 blur-[10px] scale-90'}`}
               style={{
-                transitionDelay: isTriggered ? "900ms" : "0ms",
-                transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+                transitionDelay: isTriggered ? '900ms' : '0ms',
+                transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
               }}
             >
               <div
-                className={`relative flex items-center justify-center w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[65vw] xl:w-[55vw] max-w-5xl aspect-video p-2 sm:p-4 ${isTriggered ? "pointer-events-auto" : "pointer-events-none"}`}
+                className={`relative flex items-center justify-center w-[95vw] sm:w-[85vw] md:w-[75vw] lg:w-[65vw] xl:w-[55vw] max-w-5xl aspect-video p-2 sm:p-4 ${isTriggered ? 'pointer-events-auto' : 'pointer-events-none'}`}
               >
                 <div className="relative w-full h-full rounded-[24px] sm:rounded-[32px] overflow-hidden shadow-[0_0_150px_rgba(0,0,0,1)] bg-black/40 ring-1 ring-white/10 group flex items-center justify-center">
                   {videoFailed ? (

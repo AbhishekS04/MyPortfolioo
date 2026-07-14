@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, {
   useState,
@@ -6,10 +6,10 @@ import React, {
   useEffect,
   useLayoutEffect,
   useCallback,
-} from "react";
-import { cn } from "@/lib/utils";
-import { X, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
-import { UniversalImage } from "@/components/ui/universal-image";
+} from 'react';
+import { cn } from '@/lib/utils';
+import { X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { UniversalImage } from '@/components/ui/universal-image';
 
 interface Project {
   id: string;
@@ -61,20 +61,20 @@ export function AnimatedFolder({
     <>
       <div
         className={cn(
-          "relative flex flex-col items-center justify-center",
-          "p-8 rounded-2xl cursor-pointer",
-          "bg-card border border-border",
-          "transition-all duration-500 ease-out",
-          "hover:shadow-2xl hover:shadow-accent/10",
-          "hover:border-accent/30",
-          "group",
+          'relative flex flex-col items-center justify-center',
+          'p-8 rounded-2xl cursor-pointer',
+          'bg-card border border-border',
+          'transition-all duration-500 ease-out',
+          'hover:shadow-2xl hover:shadow-accent/10',
+          'hover:border-accent/30',
+          'group',
           className,
         )}
         style={{
-          minWidth: "100%",
-          minHeight: "auto",
-          padding: "1rem",
-          perspective: "1000px",
+          minWidth: '100%',
+          minHeight: 'auto',
+          padding: '1rem',
+          perspective: '1000px',
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -84,22 +84,22 @@ export function AnimatedFolder({
           className="absolute inset-0 rounded-2xl transition-opacity duration-500"
           style={{
             background:
-              "radial-gradient(circle at 50% 70%, var(--accent) 0%, transparent 70%)",
+              'radial-gradient(circle at 50% 70%, var(--accent) 0%, transparent 70%)',
             opacity: isHovered ? 0.08 : 0,
           }}
         />
 
         <div
           className="relative flex items-center justify-center mb-4"
-          style={{ height: "160px", width: "200px" }}
+          style={{ height: '160px', width: '200px' }}
         >
           {/* Folder back layer - z-index 10 */}
           <div
             className="absolute w-32 h-24 bg-folder-back rounded-lg shadow-md"
             style={{
-              transformOrigin: "bottom center",
-              transform: isHovered ? "rotateX(-15deg)" : "rotateX(0deg)",
-              transition: "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+              transformOrigin: 'bottom center',
+              transform: isHovered ? 'rotateX(-15deg)' : 'rotateX(0deg)',
+              transition: 'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
               zIndex: 10,
             }}
           />
@@ -108,13 +108,13 @@ export function AnimatedFolder({
           <div
             className="absolute w-12 h-4 bg-folder-tab rounded-t-md"
             style={{
-              top: "calc(50% - 48px - 12px)",
-              left: "calc(50% - 64px + 16px)",
-              transformOrigin: "bottom center",
+              top: 'calc(50% - 48px - 12px)',
+              left: 'calc(50% - 64px + 16px)',
+              transformOrigin: 'bottom center',
               transform: isHovered
-                ? "rotateX(-25deg) translateY(-2px)"
-                : "rotateX(0deg)",
-              transition: "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                ? 'rotateX(-25deg) translateY(-2px)'
+                : 'rotateX(0deg)',
+              transition: 'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
               zIndex: 10,
             }}
           />
@@ -123,9 +123,9 @@ export function AnimatedFolder({
           <div
             className="absolute"
             style={{
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               zIndex: 20,
             }}
           >
@@ -150,12 +150,12 @@ export function AnimatedFolder({
           <div
             className="absolute w-32 h-24 bg-folder-front rounded-lg shadow-lg"
             style={{
-              top: "calc(50% - 48px + 4px)",
-              transformOrigin: "bottom center",
+              top: 'calc(50% - 48px + 4px)',
+              transformOrigin: 'bottom center',
               transform: isHovered
-                ? "rotateX(25deg) translateY(8px)"
-                : "rotateX(0deg)",
-              transition: "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                ? 'rotateX(25deg) translateY(8px)'
+                : 'rotateX(0deg)',
+              transition: 'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
               zIndex: 30,
             }}
           />
@@ -164,14 +164,14 @@ export function AnimatedFolder({
           <div
             className="absolute w-32 h-24 rounded-lg overflow-hidden pointer-events-none"
             style={{
-              top: "calc(50% - 48px + 4px)",
+              top: 'calc(50% - 48px + 4px)',
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%)",
-              transformOrigin: "bottom center",
+                'linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%)',
+              transformOrigin: 'bottom center',
               transform: isHovered
-                ? "rotateX(25deg) translateY(8px)"
-                : "rotateX(0deg)",
-              transition: "transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)",
+                ? 'rotateX(25deg) translateY(8px)'
+                : 'rotateX(0deg)',
+              transition: 'transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1)',
               zIndex: 31,
             }}
           />
@@ -211,8 +211,8 @@ export function ImageLightbox({
   onNavigate,
 }: ImageLightboxProps) {
   const [animationPhase, setAnimationPhase] = useState<
-    "initial" | "animating" | "complete"
-  >("initial");
+    'initial' | 'animating' | 'complete'
+  >('initial');
   const [isClosing, setIsClosing] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
   const [internalIndex, setInternalIndex] = useState(currentIndex);
@@ -267,7 +267,7 @@ export function ImageLightbox({
     setTimeout(() => {
       setIsClosing(false);
       setShouldRender(false);
-      setAnimationPhase("initial");
+      setAnimationPhase('initial');
       onCloseComplete?.();
     }, 400);
   }, [onClose, onCloseComplete]);
@@ -275,19 +275,19 @@ export function ImageLightbox({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isOpen) return;
-      if (e.key === "Escape") handleClose();
-      if (e.key === "ArrowRight") navigateNext();
-      if (e.key === "ArrowLeft") navigatePrev();
+      if (e.key === 'Escape') handleClose();
+      if (e.key === 'ArrowRight') navigateNext();
+      if (e.key === 'ArrowLeft') navigatePrev();
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
     };
   }, [isOpen, handleClose, navigateNext, navigatePrev]);
 
@@ -295,15 +295,15 @@ export function ImageLightbox({
     if (isOpen && sourceRect) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setShouldRender(true);
-      setAnimationPhase("initial");
+      setAnimationPhase('initial');
       setIsClosing(false);
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
-          setAnimationPhase("animating");
+          setAnimationPhase('animating');
         });
       });
       const timer = setTimeout(() => {
-        setAnimationPhase("complete");
+        setAnimationPhase('complete');
       }, 500);
       return () => clearTimeout(timer);
     }
@@ -344,24 +344,24 @@ export function ImageLightbox({
 
   const getFinalStyles = (): React.CSSProperties => {
     return {
-      transform: "translate(0, 0) scale(1)",
+      transform: 'translate(0, 0) scale(1)',
       opacity: 1,
     };
   };
 
   const currentStyles =
-    animationPhase === "initial" && !isClosing
+    animationPhase === 'initial' && !isClosing
       ? getInitialStyles()
       : getFinalStyles();
 
   return (
     <div
       className={cn(
-        "fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8",
+        'fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8',
       )}
       style={{
         opacity: isClosing ? 0 : 1,
-        transition: "opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+        transition: 'opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       {/* Backdrop — separate button so no nesting violations */}
@@ -371,8 +371,8 @@ export function ImageLightbox({
         className="absolute inset-0 border-0 bg-background/80 backdrop-blur-xl cursor-default p-0"
         onClick={handleClose}
         style={{
-          opacity: animationPhase === "initial" && !isClosing ? 0 : 1,
-          transition: "opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)",
+          opacity: animationPhase === 'initial' && !isClosing ? 0 : 1,
+          transition: 'opacity 400ms cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       />
 
@@ -383,20 +383,20 @@ export function ImageLightbox({
           handleClose();
         }}
         className={cn(
-          "absolute top-5 right-5 z-50",
-          "w-10 h-10 flex items-center justify-center",
-          "rounded-full bg-muted/50 backdrop-blur-md",
-          "border border-border",
-          "text-muted-foreground hover:text-foreground hover:bg-muted",
-          "transition-all duration-300 ease-out hover:scale-105 active:scale-95",
+          'absolute top-5 right-5 z-50',
+          'w-10 h-10 flex items-center justify-center',
+          'rounded-full bg-muted/50 backdrop-blur-md',
+          'border border-border',
+          'text-muted-foreground hover:text-foreground hover:bg-muted',
+          'transition-all duration-300 ease-out hover:scale-105 active:scale-95',
         )}
         style={{
-          opacity: animationPhase === "complete" && !isClosing ? 1 : 0,
+          opacity: animationPhase === 'complete' && !isClosing ? 1 : 0,
           transform:
-            animationPhase === "complete" && !isClosing
-              ? "translateY(0)"
-              : "translateY(-10px)",
-          transition: "opacity 300ms ease-out, transform 300ms ease-out",
+            animationPhase === 'complete' && !isClosing
+              ? 'translateY(0)'
+              : 'translateY(-10px)',
+          transition: 'opacity 300ms ease-out, transform 300ms ease-out',
         }}
       >
         <X className="w-4 h-4" strokeWidth={2.5} />
@@ -409,23 +409,23 @@ export function ImageLightbox({
         }}
         disabled={!hasPrev || isSliding}
         className={cn(
-          "absolute left-4 md:left-8 z-50",
-          "w-12 h-12 flex items-center justify-center",
-          "rounded-full bg-muted/50 backdrop-blur-md",
-          "border border-border",
-          "text-muted-foreground hover:text-foreground hover:bg-muted",
-          "transition-all duration-300 ease-out hover:scale-110 active:scale-95",
-          "disabled:opacity-0 disabled:pointer-events-none",
+          'absolute left-4 md:left-8 z-50',
+          'w-12 h-12 flex items-center justify-center',
+          'rounded-full bg-muted/50 backdrop-blur-md',
+          'border border-border',
+          'text-muted-foreground hover:text-foreground hover:bg-muted',
+          'transition-all duration-300 ease-out hover:scale-110 active:scale-95',
+          'disabled:opacity-0 disabled:pointer-events-none',
         )}
         style={{
           opacity:
-            animationPhase === "complete" && !isClosing && hasPrev ? 1 : 0,
+            animationPhase === 'complete' && !isClosing && hasPrev ? 1 : 0,
           transform:
-            animationPhase === "complete" && !isClosing
-              ? "translateX(0)"
-              : "translateX(-20px)",
+            animationPhase === 'complete' && !isClosing
+              ? 'translateX(0)'
+              : 'translateX(-20px)',
           transition:
-            "opacity 300ms ease-out 150ms, transform 300ms ease-out 150ms",
+            'opacity 300ms ease-out 150ms, transform 300ms ease-out 150ms',
         }}
       >
         <ChevronLeft className="w-5 h-5" strokeWidth={2.5} />
@@ -438,23 +438,23 @@ export function ImageLightbox({
         }}
         disabled={!hasNext || isSliding}
         className={cn(
-          "absolute right-4 md:right-8 z-50",
-          "w-12 h-12 flex items-center justify-center",
-          "rounded-full bg-muted/50 backdrop-blur-md",
-          "border border-border",
-          "text-muted-foreground hover:text-foreground hover:bg-muted",
-          "transition-all duration-300 ease-out hover:scale-110 active:scale-95",
-          "disabled:opacity-0 disabled:pointer-events-none",
+          'absolute right-4 md:right-8 z-50',
+          'w-12 h-12 flex items-center justify-center',
+          'rounded-full bg-muted/50 backdrop-blur-md',
+          'border border-border',
+          'text-muted-foreground hover:text-foreground hover:bg-muted',
+          'transition-all duration-300 ease-out hover:scale-110 active:scale-95',
+          'disabled:opacity-0 disabled:pointer-events-none',
         )}
         style={{
           opacity:
-            animationPhase === "complete" && !isClosing && hasNext ? 1 : 0,
+            animationPhase === 'complete' && !isClosing && hasNext ? 1 : 0,
           transform:
-            animationPhase === "complete" && !isClosing
-              ? "translateX(0)"
-              : "translateX(20px)",
+            animationPhase === 'complete' && !isClosing
+              ? 'translateX(0)'
+              : 'translateX(20px)',
           transition:
-            "opacity 300ms ease-out 150ms, transform 300ms ease-out 150ms",
+            'opacity 300ms ease-out 150ms, transform 300ms ease-out 150ms',
         }}
       >
         <ChevronRight className="w-5 h-5" strokeWidth={2.5} />
@@ -467,27 +467,27 @@ export function ImageLightbox({
         style={{
           ...currentStyles,
           transform: isClosing
-            ? "translate(0, 0) scale(0.95)"
+            ? 'translate(0, 0) scale(0.95)'
             : currentStyles.transform,
           transition:
-            animationPhase === "initial" && !isClosing
-              ? "none"
-              : "transform 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease-out",
-          transformOrigin: "center center",
+            animationPhase === 'initial' && !isClosing
+              ? 'none'
+              : 'transform 400ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease-out',
+          transformOrigin: 'center center',
         }}
       >
         <div
           className={cn(
-            "relative overflow-hidden",
-            "rounded-2xl",
-            "bg-card",
-            "ring-1 ring-border",
-            "shadow-2xl",
+            'relative overflow-hidden',
+            'rounded-2xl',
+            'bg-card',
+            'ring-1 ring-border',
+            'shadow-2xl',
           )}
           style={{
             borderRadius:
-              animationPhase === "initial" && !isClosing ? "8px" : "16px",
-            transition: "border-radius 500ms cubic-bezier(0.16, 1, 0.3, 1)",
+              animationPhase === 'initial' && !isClosing ? '8px' : '16px',
+            transition: 'border-radius 500ms cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <div className="relative overflow-hidden">
@@ -496,17 +496,17 @@ export function ImageLightbox({
               style={{
                 transform: `translateX(-${internalIndex * 100}%)`,
                 transition: isSliding
-                  ? "transform 400ms cubic-bezier(0.32, 0.72, 0, 1)"
-                  : "none",
+                  ? 'transform 400ms cubic-bezier(0.32, 0.72, 0, 1)'
+                  : 'none',
               }}
             >
               {projects.map((project, idx) => (
                 <img
                   key={project.id}
-                  src={project.image || "/placeholder.svg"}
+                  src={project.image || '/placeholder.svg'}
                   alt={project.title}
                   className="w-full h-auto max-h-[85vh] object-contain bg-background flex-shrink-0"
-                  style={{ minWidth: "100%" }}
+                  style={{ minWidth: '100%' }}
                 />
               ))}
             </div>
@@ -516,15 +516,15 @@ export function ImageLightbox({
           </div>
 
           <div
-            className={cn("px-6 py-5", "bg-card", "border-t border-border")}
+            className={cn('px-6 py-5', 'bg-card', 'border-t border-border')}
             style={{
-              opacity: animationPhase === "complete" && !isClosing ? 1 : 0,
+              opacity: animationPhase === 'complete' && !isClosing ? 1 : 0,
               transform:
-                animationPhase === "complete" && !isClosing
-                  ? "translateY(0)"
-                  : "translateY(20px)",
+                animationPhase === 'complete' && !isClosing
+                  ? 'translateY(0)'
+                  : 'translateY(20px)',
               transition:
-                "opacity 300ms ease-out 100ms, transform 300ms ease-out 100ms",
+                'opacity 300ms ease-out 100ms, transform 300ms ease-out 100ms',
             }}
           >
             <div className="flex items-start justify-between gap-4">
@@ -539,7 +539,7 @@ export function ImageLightbox({
                     </kbd>
                     <kbd className="px-1.5 py-0.5 mx-0.5 text-xs font-medium bg-muted text-muted-foreground rounded border border-border">
                       →
-                    </kbd>{" "}
+                    </kbd>{' '}
                     to navigate
                   </p>
                   <div className="flex items-center gap-1.5">
@@ -549,10 +549,10 @@ export function ImageLightbox({
                         onClick={() => handleDotClick(idx)}
                         aria-label={`Go to project ${idx + 1}`}
                         className={cn(
-                          "w-2 h-2 rounded-full transition-all duration-300",
+                          'w-2 h-2 rounded-full transition-all duration-300',
                           idx === internalIndex
-                            ? "bg-foreground scale-110"
-                            : "bg-muted-foreground/40 hover:bg-muted-foreground/60",
+                            ? 'bg-foreground scale-110'
+                            : 'bg-muted-foreground/40 hover:bg-muted-foreground/60',
                         )}
                       />
                     ))}
@@ -562,12 +562,12 @@ export function ImageLightbox({
 
               <button
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2",
-                  "text-sm font-medium text-muted-foreground",
-                  "bg-muted/50 hover:bg-muted",
-                  "rounded-lg border border-border",
-                  "transition-all duration-200 ease-out",
-                  "hover:text-foreground",
+                  'flex items-center gap-2 px-4 py-2',
+                  'text-sm font-medium text-muted-foreground',
+                  'bg-muted/50 hover:bg-muted',
+                  'rounded-lg border border-border',
+                  'transition-all duration-200 ease-out',
+                  'hover:text-foreground',
                 )}
               >
                 <span>View</span>
@@ -609,21 +609,21 @@ export function ProjectCard({
       type="button"
       ref={ref}
       className={cn(
-        "absolute w-20 h-28 rounded-lg overflow-hidden shadow-xl",
-        "bg-card border border-border",
-        "cursor-pointer hover:ring-2 hover:ring-accent/50",
-        "p-0 border-0 text-left",
-        isSelected && "opacity-0",
+        'absolute w-20 h-28 rounded-lg overflow-hidden shadow-xl',
+        'bg-card border border-border',
+        'cursor-pointer hover:ring-2 hover:ring-accent/50',
+        'p-0 border-0 text-left',
+        isSelected && 'opacity-0',
       )}
       style={{
         transform: isVisible
           ? `translateY(-90px) translateX(${translations[index]}px) rotate(${rotations[index]}deg) scale(1)`
-          : "translateY(0px) translateX(0px) rotate(0deg) scale(0.5)",
+          : 'translateY(0px) translateX(0px) rotate(0deg) scale(0.5)',
         opacity: isSelected ? 0 : isVisible ? 1 : 0,
         transition: `all 600ms cubic-bezier(0.34, 1.56, 0.64, 1) ${delay}ms`,
         zIndex: 10 - index,
-        left: "-40px",
-        top: "-56px",
+        left: '-40px',
+        top: '-56px',
       }}
       onClick={(e) => {
         e.stopPropagation();
@@ -631,7 +631,7 @@ export function ProjectCard({
       }}
     >
       <UniversalImage
-        src={image || "/placeholder.svg"}
+        src={image || '/placeholder.svg'}
         alt={title}
         className="w-full h-full object-cover"
       />
@@ -643,4 +643,4 @@ export function ProjectCard({
   );
 }
 
-ProjectCard.displayName = "ProjectCard";
+ProjectCard.displayName = 'ProjectCard';

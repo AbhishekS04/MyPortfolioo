@@ -1,34 +1,34 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef } from "react";
-import { m, AnimatePresence } from "framer-motion";
-import { supabase } from "@/lib/supabase";
-import { MapPin, Clock } from "lucide-react";
+import { useState, useEffect, useRef } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import { MapPin, Clock } from 'lucide-react';
 
 interface UserLocationProps {
   className?: string;
 }
 
-export function UserLocation({ className = "" }: UserLocationProps) {
+export function UserLocation({ className = '' }: UserLocationProps) {
   const [profileLocation, setProfileLocation] = useState({
-    city: "Kolkata",
-    country: "India",
-    timezone: "Asia/Kolkata",
+    city: 'Kolkata',
+    country: 'India',
+    timezone: 'Asia/Kolkata',
   });
   const [showTime, setShowTime] = useState(false);
-  const [currentTime, setCurrentTime] = useState("");
+  const [currentTime, setCurrentTime] = useState('');
 
   useEffect(() => {
     const fetchLocation = async () => {
       const { data } = await supabase
-        .from("profile")
-        .select("location_city, location_country, location_timezone")
+        .from('profile')
+        .select('location_city, location_country, location_timezone')
         .single();
       if (data) {
         setProfileLocation({
-          city: data.location_city || "Kolkata",
-          country: data.location_country || "India",
-          timezone: data.location_timezone || "Asia/Kolkata",
+          city: data.location_city || 'Kolkata',
+          country: data.location_country || 'India',
+          timezone: data.location_timezone || 'Asia/Kolkata',
         });
       }
     };
@@ -40,20 +40,20 @@ export function UserLocation({ className = "" }: UserLocationProps) {
       try {
         const now = new Date();
         // Format: "10:30 PM IST"
-        const time = now.toLocaleTimeString("en-US", {
-          hour: "numeric",
-          minute: "2-digit",
+        const time = now.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
           hour12: true,
           timeZone: profileLocation.timezone,
         });
 
         // Explicitly use "IST" for Indian time for compactness
-        const suffix = profileLocation.timezone.includes("Kolkata")
-          ? " IST"
-          : "";
+        const suffix = profileLocation.timezone.includes('Kolkata')
+          ? ' IST'
+          : '';
         setCurrentTime(`${time}${suffix}`);
       } catch (e) {
-        setCurrentTime("00:00 AM");
+        setCurrentTime('00:00 AM');
       }
     };
     updateTime();
@@ -93,7 +93,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
               exit={{ scale: 0.5, opacity: 0, rotate: 180 }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
                 damping: 20,
               }}
@@ -108,7 +108,7 @@ export function UserLocation({ className = "" }: UserLocationProps) {
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
               exit={{ scale: 0.5, opacity: 0, rotate: 180 }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 300,
                 damping: 20,
               }}
@@ -125,11 +125,11 @@ export function UserLocation({ className = "" }: UserLocationProps) {
           {showTime ? (
             <m.span
               key="time"
-              initial={{ y: 20, opacity: 0, filter: "blur(4px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -20, opacity: 0, filter: "blur(4px)" }}
+              initial={{ y: 20, opacity: 0, filter: 'blur(4px)' }}
+              animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+              exit={{ y: -20, opacity: 0, filter: 'blur(4px)' }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 400,
                 damping: 30,
               }}
@@ -140,11 +140,11 @@ export function UserLocation({ className = "" }: UserLocationProps) {
           ) : (
             <m.span
               key="location"
-              initial={{ y: 20, opacity: 0, filter: "blur(4px)" }}
-              animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-              exit={{ y: -20, opacity: 0, filter: "blur(4px)" }}
+              initial={{ y: 20, opacity: 0, filter: 'blur(4px)' }}
+              animate={{ y: 0, opacity: 1, filter: 'blur(0px)' }}
+              exit={{ y: -20, opacity: 0, filter: 'blur(4px)' }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 400,
                 damping: 30,
               }}

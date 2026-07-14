@@ -2,14 +2,14 @@ import {
   getGitHubProfile,
   getGitHubReadme,
   getGitHubAchievements,
-} from "@/lib/github";
-import { GitHubProfileHeader } from "@/components/github/profile-header";
-import { RepoCard } from "@/components/github/repo-card";
-import { ReadmeViewer } from "@/components/github/readme-viewer";
-import { ContributionGraph } from "@/components/github/contribution-graph";
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { Metadata } from "next";
+} from '@/lib/github';
+import { GitHubProfileHeader } from '@/components/github/profile-header';
+import { RepoCard } from '@/components/github/repo-card';
+import { ReadmeViewer } from '@/components/github/readme-viewer';
+import { ContributionGraph } from '@/components/github/contribution-graph';
+import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
+import { Metadata } from 'next';
 
 export async function generateMetadata({
   params,
@@ -25,22 +25,22 @@ export async function generateMetadata({
       title: `${username} — GitHub Profile | Abhishek Singh`,
       description: `Explore ${username}'s open-source contributions, pinned repositories, and GitHub activity.`,
       url: profileUrl,
-      siteName: "Abhishek Singh Portfolio",
+      siteName: 'Abhishek Singh Portfolio',
       images: [
         {
-          url: "/og-image.jpg",
+          url: '/og-image.jpg',
           width: 1200,
           height: 630,
           alt: `${username} GitHub Profile`,
         },
       ],
-      type: "profile",
+      type: 'profile',
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${username} — GitHub Profile | Abhishek Singh`,
       description: `Explore ${username}'s open-source contributions and GitHub activity.`,
-      images: ["/og-image.jpg"],
+      images: ['/og-image.jpg'],
     },
     alternates: {
       canonical: profileUrl,

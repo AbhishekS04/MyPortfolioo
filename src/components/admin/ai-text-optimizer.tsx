@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Sparkles, RotateCcw, Loader2 } from "lucide-react";
-import { optimizeText } from "@/app/actions/optimize-text";
+import { useState } from 'react';
+import { Sparkles, RotateCcw, Loader2 } from 'lucide-react';
+import { optimizeText } from '@/app/actions/optimize-text';
 
 interface AiTextOptimizerProps {
   currentText: string;
@@ -13,7 +13,7 @@ interface AiTextOptimizerProps {
 export function AiTextOptimizer({
   currentText,
   onOptimized,
-  className = "",
+  className = '',
 }: AiTextOptimizerProps) {
   const [loading, setLoading] = useState(false);
   const [previousText, setPreviousText] = useState<string | null>(null);
@@ -28,13 +28,13 @@ export function AiTextOptimizer({
       const result = await optimizeText(currentText);
 
       if (result.error) {
-        console.error("AI optimize error:", result.error);
+        console.error('AI optimize error:', result.error);
       } else if (result.optimizedText) {
         setPreviousText(currentText); // Save current text for undo only on success
         onOptimized(result.optimizedText);
       }
     } catch (err) {
-      console.error("Unexpected AI optimize error:", err);
+      console.error('Unexpected AI optimize error:', err);
     } finally {
       setLoading(false);
     }
@@ -57,8 +57,8 @@ export function AiTextOptimizer({
           flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all
           ${
             loading
-              ? "bg-white/5 text-white/30 cursor-wait"
-              : "bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 hover:scale-105 active:scale-95 border border-indigo-500/20"
+              ? 'bg-white/5 text-white/30 cursor-wait'
+              : 'bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 hover:scale-105 active:scale-95 border border-indigo-500/20'
           }
         `}
         title="Optimize with AI"
@@ -68,7 +68,7 @@ export function AiTextOptimizer({
         ) : (
           <Sparkles className="w-3 h-3" />
         )}
-        <span>{loading ? "Optimizing..." : "AI Optimize"}</span>
+        <span>{loading ? 'Optimizing...' : 'AI Optimize'}</span>
       </button>
 
       {previousText !== null && !loading && (

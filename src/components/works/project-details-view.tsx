@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useRef, useMemo } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { m, Variants } from "framer-motion";
+import { useState, useRef, useMemo } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { m, Variants } from 'framer-motion';
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -11,15 +11,15 @@ import {
   Pause,
   Volume2,
   VolumeX,
-} from "lucide-react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import { FaGithub, FaTerminal } from "react-icons/fa6";
-import ProjectContributors from "@/components/ui/project-contributors";
-import { ChangelogOverlay } from "./changelog-overlay";
-import { ImageZoomOverlay } from "@/components/ui/image-zoom-overlay";
-import { useSearchParams } from "next/navigation";
+} from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import { FaGithub, FaTerminal } from 'react-icons/fa6';
+import ProjectContributors from '@/components/ui/project-contributors';
+import { ChangelogOverlay } from './changelog-overlay';
+import { ImageZoomOverlay } from '@/components/ui/image-zoom-overlay';
+import { useSearchParams } from 'next/navigation';
 
 interface Contributor {
   name: string;
@@ -114,7 +114,7 @@ function CustomVideoPlayer({
     >
       <button
         type="button"
-        aria-label={isPlaying ? "Pause video" : "Play video"}
+        aria-label={isPlaying ? 'Pause video' : 'Play video'}
         onClick={togglePlay}
         className="absolute inset-0 w-full h-full cursor-pointer z-[1] bg-transparent border-0"
       />
@@ -131,12 +131,12 @@ function CustomVideoPlayer({
 
       {/* Overlay Gradient for contrast */}
       <div
-        className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${showControls ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-black/20 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0'}`}
       />
 
       {/* Center Play Button (Only show when paused or hovered? User said minimal. Usually big play button hides when playing) */}
       <div
-        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${!isPlaying ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"}`}
+        className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${!isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}`}
       >
         <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-2xl transition-transform duration-300 group-hover:scale-110">
           <Play className="w-6 h-6 md:w-8 md:h-8 text-white fill-white translate-x-0.5" />
@@ -145,7 +145,7 @@ function CustomVideoPlayer({
 
       {/* Bottom Controls Bar */}
       <div
-        className={`absolute bottom-0 inset-x-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-all duration-300 ${showControls ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0 pointer-events-none"}`}
+        className={`absolute bottom-0 inset-x-0 p-4 md:p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-all duration-300 ${showControls ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="flex items-center gap-4">
           {/* Tiny Play/Pause for bottom bar */}
@@ -207,7 +207,7 @@ const TextBlock = ({ text }: { text: string }) => {
   if (!text) return null;
   return (
     <div className="space-y-6 text-lg md:text-xl text-[#c0c0c0] leading-relaxed font-light break-words min-w-0">
-      {text.split("\n\n").map((paragraph, i) => (
+      {text.split('\n\n').map((paragraph, i) => (
         <p key={i}>{paragraph}</p>
       ))}
     </div>
@@ -223,7 +223,7 @@ export function ProjectDetailsView({
   const mediaRef = useRef<HTMLDivElement>(null);
   const searchParams = useSearchParams();
 
-  const fromMinimal = searchParams.get("from") === "minimal";
+  const fromMinimal = searchParams.get('from') === 'minimal';
 
   const fadeInUp: Variants = {
     hidden: { opacity: 0, y: 30 },
@@ -247,9 +247,9 @@ export function ProjectDetailsView({
 
   const { filteredMarkdown, headingMap, markdownHighlights } = useMemo(() => {
     if (!project.case_study_md)
-      return { filteredMarkdown: "", headingMap: {}, markdownHighlights: null };
+      return { filteredMarkdown: '', headingMap: {}, markdownHighlights: null };
 
-    const lines = project.case_study_md.split("\n");
+    const lines = project.case_study_md.split('\n');
     const filteredLines = [];
     const map: Record<string, string> = {};
     const highlights: string[] = [];
@@ -258,16 +258,16 @@ export function ProjectDetailsView({
     let h2Count = 0;
 
     for (const line of lines) {
-      if (line.startsWith("## ")) {
-        const title = line.replace("## ", "").trim();
+      if (line.startsWith('## ')) {
+        const title = line.replace('## ', '').trim();
         const lowerTitle = title.toLowerCase();
 
-        if (lowerTitle.includes("tech stack")) {
+        if (lowerTitle.includes('tech stack')) {
           skipping = true;
           extractingHighlights = false;
         } else if (
-          lowerTitle.includes("highlights") ||
-          lowerTitle.includes("key features")
+          lowerTitle.includes('highlights') ||
+          lowerTitle.includes('key features')
         ) {
           skipping = true;
           extractingHighlights = true;
@@ -275,17 +275,17 @@ export function ProjectDetailsView({
           skipping = false;
           extractingHighlights = false;
           h2Count++;
-          map[title] = String(h2Count).padStart(2, "0");
+          map[title] = String(h2Count).padStart(2, '0');
         }
       }
 
       if (
         extractingHighlights &&
-        (line.trim().startsWith("- ") ||
-          line.trim().startsWith("* ") ||
-          line.trim().startsWith("• "))
+        (line.trim().startsWith('- ') ||
+          line.trim().startsWith('* ') ||
+          line.trim().startsWith('• '))
       ) {
-        highlights.push(line.trim().replace(/^[-*•]\s*/, ""));
+        highlights.push(line.trim().replace(/^[-*•]\s*/, ''));
       }
 
       if (!skipping) {
@@ -294,7 +294,7 @@ export function ProjectDetailsView({
     }
 
     return {
-      filteredMarkdown: filteredLines.join("\n"),
+      filteredMarkdown: filteredLines.join('\n'),
       headingMap: map,
       markdownHighlights: highlights.length > 0 ? highlights : null,
     };
@@ -310,7 +310,7 @@ export function ProjectDetailsView({
         components={{
           h2: ({ children }) => {
             const text = Array.isArray(children)
-              ? children.join("")
+              ? children.join('')
               : String(children);
 
             const num = headingMap[text];
@@ -372,20 +372,20 @@ export function ProjectDetailsView({
         <Link
           href={
             fromMinimal
-              ? "/minimal"
-              : searchParams.get("from") === "home"
-                ? "/"
-                : "/works"
+              ? '/minimal'
+              : searchParams.get('from') === 'home'
+                ? '/'
+                : '/works'
           }
           className="group inline-flex items-center gap-3 p-3 md:px-5 md:py-2.5 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-500 hover:border-white/20 shadow-[0_0_20px_rgba(0,0,0,0.3)]"
         >
           <ArrowLeft className="w-4 h-4 text-white/60 group-hover:-translate-x-1 transition-transform duration-300" />
           <span className="hidden md:inline text-sm font-medium text-white/80 tracking-wide group-hover:text-white transition-colors">
             {fromMinimal
-              ? "Back to Minimal"
-              : searchParams.get("from") === "home"
-                ? "Back to Home"
-                : "Back to Works"}
+              ? 'Back to Minimal'
+              : searchParams.get('from') === 'home'
+                ? 'Back to Home'
+                : 'Back to Works'}
           </span>
         </Link>
       </m.nav>
@@ -404,7 +404,7 @@ export function ProjectDetailsView({
             className="flex flex-wrap items-center gap-3 text-xs font-medium tracking-[0.2em] uppercase text-white/40"
           >
             <span className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.1)]">
-              {project.project_type === "Client" ? "Client Work" : "Personal"}
+              {project.project_type === 'Client' ? 'Client Work' : 'Personal'}
             </span>
             <span className="opacity-30">/</span>
             <span>{new Date(project.created_at).getFullYear()}</span>
@@ -456,7 +456,7 @@ export function ProjectDetailsView({
           ref={mediaRef}
           initial={{ opacity: 0, scale: 0.98, y: 20 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10%" }}
+          viewport={{ once: true, margin: '-10%' }}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           className="mb-32 md:mb-48 w-full group relative"
         >
@@ -464,7 +464,7 @@ export function ProjectDetailsView({
           <div className="absolute inset-x-0 -bottom-20 h-40 bg-blue-500/[0.03] blur-[80px] rounded-full pointer-events-none" />
 
           <div className="relative w-full overflow-hidden rounded-3xl bg-[#0a0a0a] shadow-2xl ring-1 ring-white/10">
-            {project.media_mode === "video_first" && project.video_url ? (
+            {project.media_mode === 'video_first' && project.video_url ? (
               <div className="relative w-full aspect-video">
                 <CustomVideoPlayer
                   videoUrl={project.video_url}
@@ -501,7 +501,7 @@ export function ProjectDetailsView({
               <m.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
+                viewport={{ once: true, margin: '-10%' }}
                 transition={{ duration: 0.8 }}
                 className="prose prose-invert prose-lg max-w-none"
               >
@@ -511,18 +511,18 @@ export function ProjectDetailsView({
               <div className="space-y-24 md:space-y-32">
                 {[
                   {
-                    title: "Overview",
-                    number: "01",
+                    title: 'Overview',
+                    number: '01',
                     content: project.overview,
                   },
                   {
-                    title: "The Challenge",
-                    number: "02",
+                    title: 'The Challenge',
+                    number: '02',
                     content: project.problem_statement,
                   },
                   {
-                    title: "Approach",
-                    number: "03",
+                    title: 'Approach',
+                    number: '03',
                     content: project.approach,
                   },
                 ].map(
@@ -532,7 +532,7 @@ export function ProjectDetailsView({
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-10%" }}
+                        viewport={{ once: true, margin: '-10%' }}
                         transition={{ duration: 0.8 }}
                       >
                         <div className="flex items-center gap-4 mb-8 opacity-80">
@@ -580,7 +580,7 @@ export function ProjectDetailsView({
             >
               {(project.external_link_url ||
                 (project.project_url &&
-                  project.project_url.startsWith("http"))) && (
+                  project.project_url.startsWith('http'))) && (
                 <a
                   href={project.external_link_url || project.project_url}
                   target="_blank"
@@ -635,7 +635,7 @@ export function ProjectDetailsView({
                 <ul className="px-6 py-6 space-y-3">
                   {(
                     markdownHighlights ||
-                    project.features?.split("\n").filter(Boolean) ||
+                    project.features?.split('\n').filter(Boolean) ||
                     []
                   ).map((feature: string, i: number) => (
                     <li
@@ -659,7 +659,7 @@ export function ProjectDetailsView({
                             ),
                           }}
                         >
-                          {feature.replace(/^•\s*/, "")}
+                          {feature.replace(/^•\s*/, '')}
                         </ReactMarkdown>
                       </div>
                     </li>
@@ -754,7 +754,7 @@ export function ProjectDetailsView({
       <ImageZoomOverlay
         isOpen={!!zoomImage}
         onClose={() => setZoomImage(null)}
-        imageUrl={zoomImage || ""}
+        imageUrl={zoomImage || ''}
         altText={project.title}
       />
     </main>

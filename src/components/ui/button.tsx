@@ -1,38 +1,38 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { Slot } from '@radix-ui/react-slot';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring shadow-sm",
+          'bg-primary text-primary-foreground hover:bg-primary/90 focus-visible:ring-ring shadow-sm',
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive shadow-sm",
+          'bg-destructive text-destructive-foreground hover:bg-destructive/90 focus-visible:ring-destructive shadow-sm',
         outline:
-          "border border-border text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring shadow-sm",
+          'border border-border text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring shadow-sm',
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:ring-ring",
+          'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus-visible:ring-ring',
         ghost:
-          "text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring",
-        link: "text-secondary-foreground underline-offset-4 hover:underline focus-visible:ring-ring",
+          'text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring',
+        link: 'text-secondary-foreground underline-offset-4 hover:underline focus-visible:ring-ring',
       },
       size: {
-        default: "h-9 px-4 py-2",
-        sm: "h-8 px-3 text-xs",
-        lg: "h-10 px-8",
-        xl: "h-12 px-10 text-base",
-        icon: "h-9 w-9",
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 px-3 text-xs',
+        lg: 'h-10 px-8',
+        xl: 'h-12 px-10 text-base',
+        icon: 'h-9 w-9',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'default',
+      size: 'default',
     },
   },
 );
@@ -63,7 +63,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const Comp = asChild ? Slot : "button";
+    const Comp = asChild ? Slot : 'button';
 
     const content = (
       <>
@@ -108,6 +108,6 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 
-Button.displayName = "Button";
+Button.displayName = 'Button';
 
 export { Button };

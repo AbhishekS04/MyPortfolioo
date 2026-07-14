@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { LazyMotion, domMax } from "framer-motion";
+import { LazyMotion, domMax } from 'framer-motion';
 
 export function FramerProvider({ children }: { children: React.ReactNode }) {
   return (

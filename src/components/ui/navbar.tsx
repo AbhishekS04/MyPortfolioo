@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { SocialStories } from "@/components/ui/social-stories";
-import { bolivia } from "@/lib/fonts";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
-import { MobileMenu } from "./mobile-menu";
-import { TransitionOverlay } from "./transition-overlay";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useEffect, Suspense } from "react";
+import Link from 'next/link';
+import { SocialStories } from '@/components/ui/social-stories';
+import { bolivia } from '@/lib/fonts';
+import { cn } from '@/lib/utils';
+import { useState } from 'react';
+import { MobileMenu } from './mobile-menu';
+import { TransitionOverlay } from './transition-overlay';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useEffect, Suspense } from 'react';
 
 function NavBarInner() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSwitching, setIsSwitching] = useState(false);
   const [transitionTarget, setTransitionTarget] = useState<
-    "Minimal" | "Detailed" | null
+    'Minimal' | 'Detailed' | null
   >(null);
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const fromMinimal = searchParams.get("from") === "minimal";
-  const isMinimal = pathname === "/minimal" || fromMinimal;
+  const fromMinimal = searchParams.get('from') === 'minimal';
+  const isMinimal = pathname === '/minimal' || fromMinimal;
 
   // Reset switch state when pathname changes
   useEffect(() => {
@@ -45,7 +45,7 @@ function NavBarInner() {
     // Determine target mode based on where we are going
     // If target is "/", we are going to Detailed (Main)
     // If target is "/minimal", we are going to Minimal
-    setTransitionTarget(target === "/minimal" ? "Minimal" : "Detailed");
+    setTransitionTarget(target === '/minimal' ? 'Minimal' : 'Detailed');
 
     // Wait for entrance animation
     setTimeout(() => {
@@ -55,11 +55,11 @@ function NavBarInner() {
 
   // Hide Navbar on specific route
   if (
-    pathname?.includes("/pickup/recycle04") ||
-    pathname?.startsWith("/gaming") ||
-    pathname?.includes("/github/abhisheks04") ||
+    pathname?.includes('/pickup/recycle04') ||
+    pathname?.startsWith('/gaming') ||
+    pathname?.includes('/github/abhisheks04') ||
     // pathname?.startsWith("/works/") || // Show navbar on works, letting dynamic state handle it
-    pathname?.startsWith("/admin")
+    pathname?.startsWith('/admin')
   )
     return null;
 
@@ -82,14 +82,14 @@ function NavBarInner() {
       >
         {/* Left: Logo */}
         <Link
-          href={isMinimal ? "/minimal" : "/"}
+          href={isMinimal ? '/minimal' : '/'}
           onClick={(e) => {
-            if (isMinimal && pathname === "/minimal") {
+            if (isMinimal && pathname === '/minimal') {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            } else if (!isMinimal && pathname === "/") {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (!isMinimal && pathname === '/') {
               e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
+              window.scrollTo({ top: 0, behavior: 'smooth' });
             }
           }}
           className="flex items-center group"
@@ -97,7 +97,7 @@ function NavBarInner() {
           <span
             className={cn(
               bolivia.className,
-              "text-3xl md:text-4xl text-white/90 group-hover:text-[#007AFF] transition-colors duration-300 tracking-wide pt-1",
+              'text-3xl md:text-4xl text-white/90 group-hover:text-[#007AFF] transition-colors duration-300 tracking-wide pt-1',
             )}
           >
             Abhishek
@@ -107,24 +107,24 @@ function NavBarInner() {
         {/* Center (Desktop only) */}
         <div className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
           {[
-            { label: "Home", href: isMinimal ? "/minimal" : "/" },
-            { label: "Works", href: "/works", hidden: isMinimal },
-            { label: "About", href: "/about", hidden: isMinimal },
+            { label: 'Home', href: isMinimal ? '/minimal' : '/' },
+            { label: 'Works', href: '/works', hidden: isMinimal },
+            { label: 'About', href: '/about', hidden: isMinimal },
             {
-              label: isMinimal ? "Main" : "Minimal",
-              href: isMinimal ? "/" : "/minimal", // Main goes to root, Minimal goes to /minimal
+              label: isMinimal ? 'Main' : 'Minimal',
+              href: isMinimal ? '/' : '/minimal', // Main goes to root, Minimal goes to /minimal
               isSwitch: true,
             },
           ]
             .filter((link) => !link.hidden)
             .map((link) => {
               const isActive =
-                link.label === "Home"
-                  ? pathname === "/"
-                  : link.label === "Works"
-                    ? pathname?.startsWith("/works")
-                    : link.label === "About"
-                      ? pathname === "/about"
+                link.label === 'Home'
+                  ? pathname === '/'
+                  : link.label === 'Works'
+                    ? pathname?.startsWith('/works')
+                    : link.label === 'About'
+                      ? pathname === '/about'
                       : false;
 
               const isSwitch = link.isSwitch;
@@ -138,25 +138,25 @@ function NavBarInner() {
                     if (link.isSwitch) {
                       e.preventDefault();
                       handleSwitch(link.href);
-                    } else if (link.label === "Home") {
+                    } else if (link.label === 'Home') {
                       // If in Minimal mode, Home should take us to /minimal (or scroll top)
                       // If in Main mode, Home should take us to / (or scroll top)
-                      if (isMinimal && pathname === "/minimal") {
+                      if (isMinimal && pathname === '/minimal') {
                         e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      } else if (!isMinimal && pathname === "/") {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      } else if (!isMinimal && pathname === '/') {
                         e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: "smooth" });
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                       }
                     }
                   }}
                   className={cn(
-                    "text-sm font-medium transition-colors duration-300 uppercase tracking-wider relative",
+                    'text-sm font-medium transition-colors duration-300 uppercase tracking-wider relative',
                     isActive
-                      ? "text-white"
+                      ? 'text-white'
                       : isSwitch
-                        ? "text-white/60 hover:text-[#007AFF]"
-                        : "text-white/60 hover:text-white",
+                        ? 'text-white/60 hover:text-[#007AFF]'
+                        : 'text-white/60 hover:text-white',
                   )}
                 >
                   {link.label}
@@ -242,7 +242,7 @@ function NavBarInner() {
 
       <TransitionOverlay
         isSwitching={isSwitching}
-        targetMode={transitionTarget || (isMinimal ? "Detailed" : "Minimal")}
+        targetMode={transitionTarget || (isMinimal ? 'Detailed' : 'Minimal')}
       />
     </>
   );

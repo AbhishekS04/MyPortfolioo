@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef, useCallback } from "react";
-import { m, PanInfo } from "framer-motion";
-import { supabase } from "@/lib/supabase";
-import { UniversalImage } from "@/components/ui/universal-image";
-import { PAPER_SOUND_BASE64 } from "@/components/ui/sound-constants";
-import { usePreloader } from "@/components/ui/preloader-wrapper";
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { m, PanInfo } from 'framer-motion';
+import { supabase } from '@/lib/supabase';
+import { UniversalImage } from '@/components/ui/universal-image';
+import { PAPER_SOUND_BASE64 } from '@/components/ui/sound-constants';
+import { usePreloader } from '@/components/ui/preloader-wrapper';
 
 interface GalleryItem {
   id: number;
@@ -16,17 +16,17 @@ interface GalleryItem {
 const isVideo = (url: string) => {
   if (!url) return false;
   // Strip query params for extension check
-  const cleanUrl = url.split("?")[0];
+  const cleanUrl = url.split('?')[0];
   // Check file extension
   return /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl);
 };
 
 const getVideoType = (url: string): string => {
-  const cleanUrl = url.split("?")[0].toLowerCase();
-  if (cleanUrl.endsWith(".webm")) return "video/webm";
-  if (cleanUrl.endsWith(".ogg")) return "video/ogg";
-  if (cleanUrl.endsWith(".mov")) return "video/quicktime";
-  return "video/mp4";
+  const cleanUrl = url.split('?')[0].toLowerCase();
+  if (cleanUrl.endsWith('.webm')) return 'video/webm';
+  if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
+  if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
+  return 'video/mp4';
 };
 
 interface VerticalImageStackProps {
@@ -45,9 +45,9 @@ export function VerticalImageStack({
       const preloadImages = displayImages.slice(0, 3);
       preloadImages.forEach((img) => {
         if (isVideo(img.src)) return; // Don't preload videos as images
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "image";
+        const link = document.createElement('link');
+        link.rel = 'preload';
+        link.as = 'image';
         link.href = img.src;
         document.head.appendChild(link);
       });
@@ -118,8 +118,8 @@ export function VerticalImageStack({
     };
 
     // Must be non-passive so e.preventDefault() can stop the page from scrolling
-    container.addEventListener("wheel", onWheel, { passive: false });
-    return () => container.removeEventListener("wheel", onWheel);
+    container.addEventListener('wheel', onWheel, { passive: false });
+    return () => container.removeEventListener('wheel', onWheel);
   }, [handleWheel]);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -130,7 +130,7 @@ export function VerticalImageStack({
 
   // Short, crisp "tick" sound (iPhone-like wheel click)
   const TICK_SOUND =
-    "data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFZYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFZYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcTQyAP/7UAAAABwAAAAAABAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"; // Placeholder - Replacing with real tick logic below
+    'data:audio/mp3;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFZYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFZYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcTQyAP/7UAAAABwAAAAAABAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//7UAAAAABAAAAAABACAAAABHAAAASgAAAAUAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'; // Placeholder - Replacing with real tick logic below
 
   // Real Tick Sound Data (Shortened for brevity but functional placeholder for logic)
   // Actually, I'll use a reliable "pop" sound URL or just a simple beep logic if Base64 is too risky to guess.
@@ -148,8 +148,8 @@ export function VerticalImageStack({
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Unlock Audio Context on first interaction (Click/Touch/Key)
@@ -169,23 +169,23 @@ export function VerticalImageStack({
           .catch((e) => {
             // Fail silently but RESTORE VOLUME so future plays work
             if (audioRef.current) audioRef.current.volume = 0.5;
-            console.log("Audio unlock attempt:", e);
+            console.log('Audio unlock attempt:', e);
           });
       }
       // Remove listeners once unlocked (or attempted)
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
     };
 
-    window.addEventListener("click", unlockAudio);
-    window.addEventListener("touchstart", unlockAudio);
-    window.addEventListener("keydown", unlockAudio);
+    window.addEventListener('click', unlockAudio);
+    window.addEventListener('touchstart', unlockAudio);
+    window.addEventListener('keydown', unlockAudio);
 
     return () => {
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
+      window.removeEventListener('click', unlockAudio);
+      window.removeEventListener('touchstart', unlockAudio);
+      window.removeEventListener('keydown', unlockAudio);
     };
   }, []);
 
@@ -198,7 +198,7 @@ export function VerticalImageStack({
 
     // Haptic Feedback (Vibration)
     // Soft "flip" feel (8ms)
-    if (typeof navigator !== "undefined" && navigator.vibrate) {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(15);
     }
 
@@ -212,8 +212,8 @@ export function VerticalImageStack({
       if (playPromise !== undefined) {
         playPromise.catch((error) => {
           // Suppress "NotAllowedError" if user hasn't interacted yet
-          if (error.name !== "NotAllowedError") {
-            console.error("Audio playback failed:", error);
+          if (error.name !== 'NotAllowedError') {
+            console.error('Audio playback failed:', error);
           }
         });
       }
@@ -238,7 +238,7 @@ export function VerticalImageStack({
         opacity: 1,
         zIndex: 5,
         rotateX: 0,
-        filter: "brightness(1)",
+        filter: 'brightness(1)',
       };
     } else if (diff === -1) {
       return {
@@ -247,7 +247,7 @@ export function VerticalImageStack({
         opacity: 0.4,
         zIndex: 4,
         rotateX: 5,
-        filter: "brightness(0.5)",
+        filter: 'brightness(0.5)',
       };
     } else if (diff === -2) {
       return {
@@ -256,7 +256,7 @@ export function VerticalImageStack({
         opacity: 0.2,
         zIndex: 3,
         rotateX: 10,
-        filter: "brightness(0.3)",
+        filter: 'brightness(0.3)',
       };
     } else if (diff === 1) {
       return {
@@ -265,7 +265,7 @@ export function VerticalImageStack({
         opacity: 0.4,
         zIndex: 4,
         rotateX: -5,
-        filter: "brightness(0.5)",
+        filter: 'brightness(0.5)',
       };
     } else if (diff === 2) {
       return {
@@ -274,7 +274,7 @@ export function VerticalImageStack({
         opacity: 0.2,
         zIndex: 3,
         rotateX: -10,
-        filter: "brightness(0.3)",
+        filter: 'brightness(0.3)',
       };
     } else {
       return {
@@ -283,7 +283,7 @@ export function VerticalImageStack({
         opacity: 0,
         zIndex: 0,
         rotateX: diff > 0 ? -20 : 20,
-        filter: "brightness(0)",
+        filter: 'brightness(0)',
       };
     }
   };
@@ -309,7 +309,7 @@ export function VerticalImageStack({
       {/* Card Stack */}
       <div
         className="relative flex h-[320px] sm:h-[500px] w-full max-w-[320px] items-center justify-center py-10"
-        style={{ perspective: "1000px" }}
+        style={{ perspective: '1000px' }}
       >
         {displayImages.length === 0 && (
           <div className="absolute flex flex-col items-center justify-center z-10 text-white/20">
@@ -342,17 +342,17 @@ export function VerticalImageStack({
                 filter: style.filter,
               }}
               transition={{
-                type: "spring",
+                type: 'spring',
                 stiffness: 120, // Slower, smoother settle
                 damping: 20, // Less bouncy, more controlled
                 mass: 1.2, // "Heavier" feel
               }}
-              drag={isCurrent ? "y" : false}
+              drag={isCurrent ? 'y' : false}
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={0.25} // Resistance for "pulling weight" feel
               onDragEnd={handleDragEnd}
               style={{
-                transformStyle: "preserve-3d",
+                transformStyle: 'preserve-3d',
                 zIndex: style.zIndex,
               }}
             >
@@ -360,8 +360,8 @@ export function VerticalImageStack({
                 className="relative h-[260px] w-[180px] sm:h-[420px] sm:w-[280px] overflow-hidden rounded-3xl bg-[#1a1a1a] ring-1 ring-white/10"
                 style={{
                   boxShadow: isCurrent
-                    ? "0 30px 60px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)"
-                    : "0 10px 20px -10px rgba(0,0,0,0.5)",
+                    ? '0 30px 60px -12px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)'
+                    : '0 10px 20px -10px rgba(0,0,0,0.5)',
                 }}
               >
                 {/* Card inner glow */}
@@ -370,7 +370,7 @@ export function VerticalImageStack({
                 {isVideo(image.src) ? (
                   <video
                     src={image.src}
-                    aria-label={image.alt || "Gallery video"}
+                    aria-label={image.alt || 'Gallery video'}
                     className="w-full h-full object-cover pointer-events-none"
                     autoPlay
                     loop
@@ -378,7 +378,7 @@ export function VerticalImageStack({
                     playsInline
                     preload="auto"
                     onError={(e) =>
-                      console.warn("Video load error:", image.src, e)
+                      console.warn('Video load error:', image.src, e)
                     }
                   />
                 ) : (

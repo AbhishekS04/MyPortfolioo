@@ -1,129 +1,129 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: 'public',
   cacheOnFrontEndNav: true,
   aggressiveFrontEndNavCaching: true,
   reloadOnOnline: true,
-  disable: process.env.NODE_ENV === "development",
+  disable: process.env.NODE_ENV === 'development',
   workboxOptions: {
     disableDevLogs: true,
   },
 });
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
 });
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  allowedDevOrigins: ["192.168.29.129"],
+  output: 'standalone',
+  allowedDevOrigins: ['192.168.29.129'],
   images: {
-    formats: ["image/avif", "image/webp"],
+    formats: ['image/avif', 'image/webp'],
     qualities: [75, 90],
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "images.unsplash.com",
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
       },
       {
-        protocol: "https",
-        hostname: "plus.unsplash.com",
+        protocol: 'https',
+        hostname: 'plus.unsplash.com',
       },
       {
-        protocol: "https",
-        hostname: "github.com",
+        protocol: 'https',
+        hostname: 'github.com',
       },
       {
-        protocol: "https",
-        hostname: "raw.githubusercontent.com",
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
       },
       {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-
-      {
-        protocol: "https",
-        hostname: "media.licdn.com",
-      },
-      {
-        protocol: "https",
-        hostname: "wallpapers.com",
-      },
-      {
-        protocol: "https",
-        hostname: "rdxqqgntmtzvqsmepmls.supabase.co",
-      },
-      {
-        protocol: "https",
-        hostname: "ik.imagekit.io",
-      },
-      {
-        protocol: "https",
-        hostname: "cloud-snapp.vercel.app",
-      },
-      {
-        protocol: "https",
-        hostname: "cloudsnap.vercel.app",
-      },
-      {
-        protocol: "https",
-        hostname: "snapp.vercel.app",
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
       },
 
       {
-        protocol: "https",
-        hostname: "cdn.shadcnstudio.com",
+        protocol: 'https',
+        hostname: 'media.licdn.com',
       },
       {
-        protocol: "https",
-        hostname: "cumdfaxqugcqgcfusaye.supabase.co",
+        protocol: 'https',
+        hostname: 'wallpapers.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rdxqqgntmtzvqsmepmls.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloud-snapp.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cloudsnap.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: 'snapp.vercel.app',
+      },
+
+      {
+        protocol: 'https',
+        hostname: 'cdn.shadcnstudio.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cumdfaxqugcqgcfusaye.supabase.co',
       },
     ],
   },
   experimental: {
     optimizePackageImports: [
-      "lucide-react",
-      "react-icons",
-      "framer-motion",
-      "lodash",
+      'lucide-react',
+      'react-icons',
+      'framer-motion',
+      'lodash',
     ],
   },
   async headers() {
     // unsafe-eval needed in dev for webpack HMR, removed in production
-    const isDev = process.env.NODE_ENV === "development";
+    const isDev = process.env.NODE_ENV === 'development';
     const scriptSrc = isDev
       ? "script-src 'self' 'unsafe-inline' 'unsafe-eval'"
       : "script-src 'self' 'unsafe-inline'";
 
     return [
       {
-        source: "/(.*)",
+        source: '/(.*)',
         headers: [
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            key: 'X-Frame-Options',
+            value: 'DENY',
           },
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
           },
           {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
           },
           {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
           {
-            key: "X-XSS-Protection",
-            value: "0",
+            key: 'X-XSS-Protection',
+            value: '0',
           },
           {
-            key: "Content-Security-Policy",
+            key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
               scriptSrc,
@@ -138,7 +138,7 @@ const nextConfig: NextConfig = {
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
-            ].join("; "),
+            ].join('; '),
           },
         ],
       },
@@ -149,21 +149,21 @@ const nextConfig: NextConfig = {
       {
         // SEO: Map a descriptive URL to the CDN UUID so Google indexes
         // the portrait under abhisheksingh.tech with keyword-rich naming.
-        source: "/abhishek-singh-full-stack-developer.avif",
+        source: '/abhishek-singh-full-stack-developer.avif',
         destination:
-          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+          'https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif',
       },
       {
         // SEO: Mask the external CDN link for the Open Graph preview image
-        source: "/og-image-portfolio.avif",
+        source: '/og-image-portfolio.avif',
         destination:
-          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+          'https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif',
       },
       {
         // Legacy: kept for backward compat with cached external links
-        source: "/abhishek-singh-product-engineer.avif",
+        source: '/abhishek-singh-product-engineer.avif',
         destination:
-          "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
+          'https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif',
       },
     ];
   },

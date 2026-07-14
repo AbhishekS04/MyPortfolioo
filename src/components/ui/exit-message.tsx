@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 
 export const ExitMessage = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,16 +19,16 @@ export const ExitMessage = () => {
       setIsVisible(false);
     };
 
-    document.documentElement.addEventListener("mouseleave", handleMouseLeave);
-    document.documentElement.addEventListener("mouseenter", handleMouseEnter);
+    document.documentElement.addEventListener('mouseleave', handleMouseLeave);
+    document.documentElement.addEventListener('mouseenter', handleMouseEnter);
 
     return () => {
       document.documentElement.removeEventListener(
-        "mouseleave",
+        'mouseleave',
         handleMouseLeave,
       );
       document.documentElement.removeEventListener(
-        "mouseenter",
+        'mouseenter',
         handleMouseEnter,
       );
     };
@@ -41,7 +41,7 @@ export const ExitMessage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
           className="fixed bottom-0 left-0 w-full flex justify-center pb-6 pointer-events-none z-[10000]"
         >
           <div className="bg-black/50 backdrop-blur-md border border-white/5 rounded-full px-6 py-2 shadow-2xl">

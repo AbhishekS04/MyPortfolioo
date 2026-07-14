@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { Loader2, ArrowLeft, CheckCircle2, AlertCircle } from "lucide-react";
-import QRCode from "qrcode";
-import Image from "next/image";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { Loader2, ArrowLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import QRCode from 'qrcode';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
+} from '@/components/ui/input-otp';
 
 export default function MFASetupPage() {
-  const [factorId, setFactorId] = useState<string>("");
-  const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
-  const [secret, setSecret] = useState<string>("");
-  const [verifyCode, setVerifyCode] = useState("");
-  const [setupError, setSetupError] = useState("");
-  const [verifyError, setVerifyError] = useState("");
+  const [factorId, setFactorId] = useState<string>('');
+  const [qrCodeUrl, setQrCodeUrl] = useState<string>('');
+  const [secret, setSecret] = useState<string>('');
+  const [verifyCode, setVerifyCode] = useState('');
+  const [setupError, setSetupError] = useState('');
+  const [verifyError, setVerifyError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [isVerifying, setIsVerifying] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -36,7 +36,7 @@ export default function MFASetupPage() {
           data: { user },
         } = await supabase.auth.getUser();
         if (!user) {
-          router.push("/admin/login");
+          router.push('/admin/login');
           return;
         }
 
@@ -46,9 +46,9 @@ export default function MFASetupPage() {
         if (listError) throw listError;
 
         const totpFactors = factors.totp || [];
-        console.log("Existing factors:", totpFactors);
+        console.log('Existing factors:', totpFactors);
 
-        const verifiedFactor = totpFactors.find((f) => f.status === "verified");
+        const verifiedFactor = totpFactors.find((f) => f.status === 'verified');
 
         if (verifiedFactor) {
           setIsSuccess(true);
@@ -57,20 +57,20 @@ export default function MFASetupPage() {
 
         // 3. Clean up ANY unverified factors (stale setups)
         // We delete anything that is NOT verified to ensure a clean slate for the name "Admin Panel 2FA"
-        const staleFactors = totpFactors.filter((f) => f.status !== "verified");
+        const staleFactors = totpFactors.filter((f) => f.status !== 'verified');
 
         for (const factor of staleFactors) {
           try {
-            console.log("Unenrolling stale factor:", factor.id);
+            console.log('Unenrolling stale factor:', factor.id);
             await supabase.auth.mfa.unenroll({ factorId: factor.id });
           } catch (e) {
-            console.error("Failed to unenroll factor:", factor.id, e);
+            console.error('Failed to unenroll factor:', factor.id, e);
           }
         }
 
         // 4. Enroll new factor
         const { data, error } = await supabase.auth.mfa.enroll({
-          factorType: "totp",
+          factorType: 'totp',
           friendlyName: `Admin Panel 2FA (${new Date().getTime().toString().slice(-4)})`,
         });
 
@@ -80,8 +80,8 @@ export default function MFASetupPage() {
         setSecret(data.totp.secret);
 
         // 5. Generate QR with Custom Branding
-        const customIssuer = "Abhishek Portfolio";
-        const accountName = "Admin"; // Cleaner look
+        const customIssuer = 'Abhishek Portfolio';
+        const accountName = 'Admin'; // Cleaner look
 
         // Reconstruct the URI with custom issuer to ensure professional appearance
         const brandingUri = `otpauth://totp/${encodeURIComponent(customIssuer)}:${encodeURIComponent(accountName)}?secret=${data.totp.secret}&issuer=${encodeURIComponent(customIssuer)}&algorithm=SHA1&digits=6&period=30`;
@@ -89,11 +89,11 @@ export default function MFASetupPage() {
         const qrUrl = await QRCode.toDataURL(brandingUri);
         setQrCodeUrl(qrUrl);
       } catch (err: unknown) {
-        console.error("MFA Setup Error:", err);
+        console.error('MFA Setup Error:', err);
         setSetupError(
           err instanceof Error
             ? err.message
-            : "Failed to setup MFA. detailed error in console.",
+            : 'Failed to setup MFA. detailed error in console.',
         );
       } finally {
         setIsLoading(false);
@@ -106,7 +106,7 @@ export default function MFASetupPage() {
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsVerifying(true);
-    setVerifyError("");
+    setVerifyError('');
 
     try {
       const { data, error } = await supabase.auth.mfa.challengeAndVerify({
@@ -118,11 +118,11 @@ export default function MFASetupPage() {
 
       setIsSuccess(true);
       setTimeout(() => {
-        router.push("/admin");
+        router.push('/admin');
       }, 2000);
     } catch (err: unknown) {
       setVerifyError(
-        err instanceof Error ? err.message : "Invalid code. Try again.",
+        err instanceof Error ? err.message : 'Invalid code. Try again.',
       );
     } finally {
       setIsVerifying(false);
@@ -140,7 +140,7 @@ export default function MFASetupPage() {
   const handleReset = async () => {
     if (
       !confirm(
-        "Are you sure? This will disable 2FA and you will need to scan a new QR code.",
+        'Are you sure? This will disable 2FA and you will need to scan a new QR code.',
       )
     )
       return;
@@ -176,7 +176,7 @@ export default function MFASetupPage() {
           </p>
           <div className="space-y-3">
             <Button
-              onClick={() => router.push("/admin")}
+              onClick={() => router.push('/admin')}
               className="w-full bg-white text-black hover:bg-white/90"
             >
               Continue to Dashboard
@@ -220,7 +220,7 @@ export default function MFASetupPage() {
               <AlertCircle className="mx-auto text-red-500" size={32} />
               <h3 className="text-red-400 font-medium">Setup Failed</h3>
               <pre className="text-left bg-black/50 p-4 rounded text-xs text-red-300 overflow-auto max-w-full whitespace-pre-wrap font-mono">
-                {typeof setupError === "string"
+                {typeof setupError === 'string'
                   ? setupError
                   : JSON.stringify(setupError, null, 2)}
               </pre>
@@ -251,7 +251,7 @@ export default function MFASetupPage() {
                   Manual Entry Key
                 </p>
                 <code className="bg-black/50 px-3 py-1 rounded-lg text-emerald-400 font-mono text-sm block select-all">
-                  {secret || "..."}
+                  {secret || '...'}
                 </code>
               </div>
             </div>
@@ -290,7 +290,7 @@ export default function MFASetupPage() {
               {isVerifying ? (
                 <Loader2 className="animate-spin" />
               ) : (
-                "Verify & Enable"
+                'Verify & Enable'
               )}
             </Button>
           </form>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
 import {
   ArrowLeft,
   Plus,
@@ -9,10 +9,10 @@ import {
   GripVertical,
   Save,
   Loader2,
-} from "lucide-react";
-import Link from "next/link";
-import { Reorder } from "framer-motion";
-import { UniversalImage } from "@/components/ui/universal-image";
+} from 'lucide-react';
+import Link from 'next/link';
+import { Reorder } from 'framer-motion';
+import { UniversalImage } from '@/components/ui/universal-image';
 
 interface GalleryImage {
   id: string;
@@ -25,17 +25,17 @@ export default function AdminGallery() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
-  const [newItem, setNewItem] = useState({ image_url: "", alt_text: "" });
+  const [newItem, setNewItem] = useState({ image_url: '', alt_text: '' });
   const supabase = createClient();
 
   const fetchImages = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from("gallery_images")
-      .select("*")
-      .order("display_order", { ascending: true });
+      .from('gallery_images')
+      .select('*')
+      .order('display_order', { ascending: true });
     if (error) {
-      console.error("Error fetching images:", error.message);
+      console.error('Error fetching images:', error.message);
     }
     if (data) setImages(data);
     setLoading(false);
@@ -60,18 +60,18 @@ export default function AdminGallery() {
     let hasError = false;
     for (const update of updates) {
       const { error } = await supabase
-        .from("gallery_images")
+        .from('gallery_images')
         .update({ display_order: update.display_order })
-        .eq("id", update.id);
+        .eq('id', update.id);
       if (error) {
-        console.error("Error saving order:", error.message);
+        console.error('Error saving order:', error.message);
         hasError = true;
       }
     }
 
     setLoading(false);
     if (hasError) {
-      console.error("Some errors occurred while saving order.");
+      console.error('Some errors occurred while saving order.');
     }
   };
 
@@ -79,30 +79,30 @@ export default function AdminGallery() {
     if (!newItem.image_url) return;
     setLoading(true);
     const { error } = await supabase
-      .from("gallery_images")
+      .from('gallery_images')
       .insert([{ ...newItem, display_order: images.length + 1 }]);
 
     if (error) {
-      console.error("Error adding image:", error.message);
+      console.error('Error adding image:', error.message);
       setLoading(false);
       return;
     }
 
-    setNewItem({ image_url: "", alt_text: "" });
+    setNewItem({ image_url: '', alt_text: '' });
     setIsAdding(false);
     fetchImages();
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete?")) return;
+    if (!confirm('Delete?')) return;
     setLoading(true);
     const { error } = await supabase
-      .from("gallery_images")
+      .from('gallery_images')
       .delete()
-      .eq("id", id);
+      .eq('id', id);
 
     if (error) {
-      console.error("Error deleting image:", error.message);
+      console.error('Error deleting image:', error.message);
       setLoading(false);
       return;
     }
@@ -112,18 +112,18 @@ export default function AdminGallery() {
 
   const isVideo = (url: string) => {
     if (!url) return false;
-    const cleanUrl = url.split("?")[0];
+    const cleanUrl = url.split('?')[0];
     return (
       /\.(mp4|webm|ogg|mov)$/i.test(cleanUrl) || /\/video\/upload\//i.test(url)
     );
   };
 
   const getVideoType = (url: string): string => {
-    const cleanUrl = url.split("?")[0].toLowerCase();
-    if (cleanUrl.endsWith(".webm")) return "video/webm";
-    if (cleanUrl.endsWith(".ogg")) return "video/ogg";
-    if (cleanUrl.endsWith(".mov")) return "video/quicktime";
-    return "video/mp4";
+    const cleanUrl = url.split('?')[0].toLowerCase();
+    if (cleanUrl.endsWith('.webm')) return 'video/webm';
+    if (cleanUrl.endsWith('.ogg')) return 'video/ogg';
+    if (cleanUrl.endsWith('.mov')) return 'video/quicktime';
+    return 'video/mp4';
   };
 
   return (
@@ -145,7 +145,7 @@ export default function AdminGallery() {
             {loading ? (
               <Loader2 className="w-4 h-4 animate-spin inline" />
             ) : (
-              "Save Order"
+              'Save Order'
             )}
           </button>
           <button
@@ -180,7 +180,7 @@ export default function AdminGallery() {
               {isVideo(img.image_url) ? (
                 <video
                   className="w-full h-full object-cover"
-                  aria-label={img.alt_text || "Gallery item video preview"}
+                  aria-label={img.alt_text || 'Gallery item video preview'}
                   muted
                   loop
                   playsInline
@@ -204,7 +204,7 @@ export default function AdminGallery() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">
-                {img.alt_text || "No Alt Text"}
+                {img.alt_text || 'No Alt Text'}
               </p>
               <p className="text-white/30 text-xs font-mono truncate">
                 {img.image_url}
@@ -286,7 +286,7 @@ export default function AdminGallery() {
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin mx-auto" />
               ) : (
-                "Add to Gallery"
+                'Add to Gallery'
               )}
             </button>
           </div>

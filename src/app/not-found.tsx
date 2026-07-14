@@ -1,6 +1,6 @@
-import { Error404 } from "@/components/ui/pixeleted-404-not-found";
+import { Error404 } from '@/components/ui/pixeleted-404-not-found';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default function NotFound() {
   return (

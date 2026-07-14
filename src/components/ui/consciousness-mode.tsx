@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { m, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
 
 export const ConsciousnessMode = () => {
   const [isActive, setIsActive] = useState(false);
@@ -20,10 +20,10 @@ export const ConsciousnessMode = () => {
   // Track Shift Key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Shift") isShiftPressedRef.current = true;
+      if (e.key === 'Shift') isShiftPressedRef.current = true;
     };
     const handleKeyUp = (e: KeyboardEvent) => {
-      if (e.key === "Shift") {
+      if (e.key === 'Shift') {
         isShiftPressedRef.current = false;
         if (!isActiveRef.current) {
           progressRef.current = 0;
@@ -31,11 +31,11 @@ export const ConsciousnessMode = () => {
         }
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("keyup", handleKeyUp);
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      window.removeEventListener("keyup", handleKeyUp);
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
     };
   }, []);
 
@@ -68,8 +68,8 @@ export const ConsciousnessMode = () => {
       }, 800);
     };
 
-    window.addEventListener("wheel", handleWheel, { passive: true });
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    return () => window.removeEventListener('wheel', handleWheel);
   }, []);
 
   // Auto-dismiss
@@ -107,18 +107,18 @@ export const ConsciousnessMode = () => {
             key="blur"
             className="fixed inset-0 z-[99998] pointer-events-none"
             initial={{
-              backdropFilter: "blur(0px)",
-              backgroundColor: "rgba(0,0,0,0)",
+              backdropFilter: 'blur(0px)',
+              backgroundColor: 'rgba(0,0,0,0)',
             }}
             animate={{
-              backdropFilter: "blur(24px)",
-              backgroundColor: "rgba(0,0,0,0.6)",
+              backdropFilter: 'blur(24px)',
+              backgroundColor: 'rgba(0,0,0,0.6)',
             }}
             exit={{
-              backdropFilter: "blur(0px)",
-              backgroundColor: "rgba(0,0,0,0)",
+              backdropFilter: 'blur(0px)',
+              backgroundColor: 'rgba(0,0,0,0)',
             }}
-            transition={{ duration: 1.5, ease: "circOut" }}
+            transition={{ duration: 1.5, ease: 'circOut' }}
           />
         )}
       </AnimatePresence>
@@ -132,7 +132,7 @@ export const ConsciousnessMode = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 1, ease: 'easeOut' }}
           >
             <div className="text-center px-6">
               <m.div

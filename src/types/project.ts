@@ -7,7 +7,7 @@ export interface Project {
   image_url: string;
   project_url: string;
   github_url?: string;
-  status: "Not Started" | "In Progress" | "Near Completion" | "Completed";
+  status: 'Not Started' | 'In Progress' | 'Near Completion' | 'Completed';
   is_currently_working?: boolean;
   created_at?: string;
   display_order?: number;

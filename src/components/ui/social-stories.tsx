@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback, useRef } from "react";
-import { createPortal } from "react-dom";
-import { m, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X, Loader2, Volume2, VolumeX } from "lucide-react";
-import Image from "next/image";
-import { supabase } from "@/lib/supabase";
-import { cn } from "@/lib/utils";
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
+import { m, AnimatePresence } from 'framer-motion';
+import { ArrowUpRight, X, Loader2, Volume2, VolumeX } from 'lucide-react';
+import Image from 'next/image';
+import { supabase } from '@/lib/supabase';
+import { cn } from '@/lib/utils';
 
-export type SocialPlatform = "linkedin" | "instagram";
+export type SocialPlatform = 'linkedin' | 'instagram';
 
 export interface Story {
   id: string;
@@ -22,11 +22,11 @@ export interface Story {
 
 // "https://rdxqqgntmtzvqsmepmls.supabase.co/storage/v1/object/public/assets/original/68e0efce-84a4-42ae-9bd7-a2be6aca73d8.jpg",
 const PROFILE = {
-  name: "Abhishek Singh",
+  name: 'Abhishek Singh',
   avatarUrl:
     // "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?w=2000&fmt=webp",
     // "https://cloud-snapp.vercel.app/api/cdn/c61a41dc-b994-4528-aa43-36a05d3f8f91?fmt=avif",
-    "https://cloud-snapp.vercel.app/api/cdn/mypfp.jpg",
+    'https://cloud-snapp.vercel.app/api/cdn/mypfp.jpg',
 };
 
 export function SocialStories() {
@@ -46,7 +46,7 @@ export function SocialStories() {
   // Hoist helpers above effects that use them
   function isVideoUrl(url: string) {
     if (!url) return false;
-    const cleanUrl = url.split("?")[0];
+    const cleanUrl = url.split('?')[0];
     return (
       /\.(mp4|webm|ogg|mov|m4v)$/i.test(cleanUrl) ||
       /\/video\/upload\//i.test(url) ||
@@ -58,9 +58,9 @@ export function SocialStories() {
     setIsFetchLoading(true);
     try {
       const { data } = await supabase
-        .from("social_stories")
-        .select("*")
-        .order("display_order", { ascending: true });
+        .from('social_stories')
+        .select('*')
+        .order('display_order', { ascending: true });
 
       if (data) {
         setStories(
@@ -86,9 +86,9 @@ export function SocialStories() {
 
     video.muted = isMuted;
     if (isMuted) {
-      video.setAttribute("muted", "");
+      video.setAttribute('muted', '');
     } else {
-      video.removeAttribute("muted");
+      video.removeAttribute('muted');
       video.volume = 1; // Ensure volume is up
     }
   }, [isMuted, currentStory, currentIndex]);
@@ -108,16 +108,16 @@ export function SocialStories() {
         // Sync muted attribute based on state
         video.muted = isMuted;
         if (isMuted) {
-          video.setAttribute("muted", "");
+          video.setAttribute('muted', '');
         } else {
-          video.removeAttribute("muted");
+          video.removeAttribute('muted');
           video.volume = 1;
         }
 
         video.play().catch(() => {
           // Fallback: If autoplay fails (e.g. unmuted blocked), mute and try again
           video.muted = true;
-          video.setAttribute("muted", "");
+          video.setAttribute('muted', '');
           video.load();
           video.play().catch(() => {});
         });
@@ -163,7 +163,7 @@ export function SocialStories() {
     startTimeRef.current = null;
     setIsMediaLoaded(false);
     if (activeProgressBarRef.current) {
-      activeProgressBarRef.current.style.width = "0%";
+      activeProgressBarRef.current.style.width = '0%';
     }
     progressRef.current = 0;
   };
@@ -243,7 +243,7 @@ export function SocialStories() {
   ]);
 
   const handleTap = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest("button")) {
+    if ((e.target as HTMLElement).closest('button')) {
       return;
     }
 
@@ -276,18 +276,18 @@ export function SocialStories() {
               tabIndex={0}
               aria-label="View developer stories"
               className={cn(
-                "absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300 bg-transparent p-0 border-none outline-none",
+                'absolute inset-0 cursor-pointer rounded-full overflow-hidden transition-all duration-300 bg-transparent p-0 border-none outline-none',
                 // Gold border integration
-                "border-[1.5px]",
+                'border-[1.5px]',
                 isFetchLoading
-                  ? "border-white/10 opacity-50 grayscale"
-                  : "border-[#007AFF] hover:border-[#007AFF] opacity-100 grayscale-0 shadow-[0_0_10px_rgba(0,122,255,0.3)]",
+                  ? 'border-white/10 opacity-50 grayscale'
+                  : 'border-[#007AFF] hover:border-[#007AFF] opacity-100 grayscale-0 shadow-[0_0_10px_rgba(0,122,255,0.3)]',
               )}
               onClick={() =>
                 !isFetchLoading && stories.length > 0 && setIsOpen(true)
               }
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
+                if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   if (!isFetchLoading && stories.length > 0) setIsOpen(true);
                 }
@@ -338,7 +338,7 @@ export function SocialStories() {
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
                 className="relative w-[90vw] h-[65vh] md:w-[380px] md:h-[650px] bg-black rounded-[32px] overflow-hidden shadow-2xl z-10"
               >
                 <div
@@ -409,7 +409,7 @@ export function SocialStories() {
                           }}
                           onError={() => {
                             console.warn(
-                              "Story video failed to load:",
+                              'Story video failed to load:',
                               currentStory.mediaUrl,
                             );
                             setIsMediaLoaded(true);
@@ -418,7 +418,7 @@ export function SocialStories() {
                       ) : (
                         <Image
                           src={currentStory.mediaUrl}
-                          alt={currentStory.caption || "Story"}
+                          alt={currentStory.caption || 'Story'}
                           fill
                           sizes="(max-width: 768px) 100vw, 380px"
                           className="object-cover"
@@ -445,7 +445,7 @@ export function SocialStories() {
                             }
                             className="h-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] transition-all duration-100 ease-linear rounded-full"
                             style={{
-                              width: idx < currentIndex ? "100%" : "0%",
+                              width: idx < currentIndex ? '100%' : '0%',
                             }}
                           />
                         </div>
@@ -469,9 +469,9 @@ export function SocialStories() {
                             {PROFILE.name}
                           </span>
                           <span className="text-white/60 text-[10px] leading-none mt-0.5">
-                            {currentStory.platform === "linkedin"
-                              ? "via LinkedIn"
-                              : "via Instagram"}
+                            {currentStory.platform === 'linkedin'
+                              ? 'via LinkedIn'
+                              : 'via Instagram'}
                           </span>
                         </div>
                       </div>
@@ -489,9 +489,9 @@ export function SocialStories() {
                                 videoRef.current.muted = newMuted;
                                 if (!newMuted) {
                                   videoRef.current.volume = 1;
-                                  videoRef.current.removeAttribute("muted");
+                                  videoRef.current.removeAttribute('muted');
                                 } else {
-                                  videoRef.current.setAttribute("muted", "");
+                                  videoRef.current.setAttribute('muted', '');
                                 }
                                 // Ensure we try to play on interaction
                                 if (videoRef.current.paused) {
@@ -501,7 +501,7 @@ export function SocialStories() {
                             }}
                             onPointerDown={(e) => e.stopPropagation()}
                             onPointerUp={(e) => e.stopPropagation()}
-                            aria-label={isMuted ? "Unmute" : "Mute"}
+                            aria-label={isMuted ? 'Unmute' : 'Mute'}
                             className="w-12 h-12 flex items-center justify-center rounded-full bg-black/30 backdrop-blur-md text-white/90 hover:bg-black/50 transition-colors"
                           >
                             {isMuted ? (

@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 export const ClipboardSecret = () => {
   useEffect(() => {
@@ -11,15 +11,15 @@ export const ClipboardSecret = () => {
       // Get text and normalize (remove line breaks, double spaces)
       const selectedText = selection
         .toString()
-        .replace(/\s+/g, " ")
+        .replace(/\s+/g, ' ')
         .trim()
         .toLowerCase();
 
-      console.log("📋 Clipboard Detect:", selectedText);
+      console.log('📋 Clipboard Detect:', selectedText);
 
       // TRIGGERS
       // Note: identity-card.tsx has "Full Stack Developer."
-      const triggers = ["full stack developer", "abhishek"];
+      const triggers = ['full stack developer', 'abhishek'];
 
       const isMatch = triggers.some((trigger) =>
         selectedText.includes(trigger),
@@ -28,17 +28,17 @@ export const ClipboardSecret = () => {
       if (isMatch) {
         e.preventDefault();
         if (e.clipboardData) {
-          const easterEggMessage = "If you found this, we should talk.";
-          e.clipboardData.setData("text/plain", easterEggMessage);
+          const easterEggMessage = 'If you found this, we should talk.';
+          e.clipboardData.setData('text/plain', easterEggMessage);
           // Also try the navigator API as backup (though preventDefault usually handles it)
           // navigator.clipboard.writeText(easterEggMessage).catch(() => {});
-          console.log("🔒 Secret Injected");
+          console.log('🔒 Secret Injected');
         }
       }
     };
 
-    document.addEventListener("copy", handleCopy);
-    return () => document.removeEventListener("copy", handleCopy);
+    document.addEventListener('copy', handleCopy);
+    return () => document.removeEventListener('copy', handleCopy);
   }, []);
 
   return null; // Component is logic only, no visuals

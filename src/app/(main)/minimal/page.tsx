@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 import {
   SiNextdotjs,
@@ -15,7 +15,7 @@ import {
   SiNodedotjs,
   SiFramer,
   SiPostgresql,
-} from "react-icons/si";
+} from 'react-icons/si';
 
 // Types
 interface HelperProject {
@@ -45,30 +45,30 @@ export default function MinimalPage() {
         return;
       }
       // Intercept only Ctrl+S and Ctrl+P to prevent browser save/print dialogs
-      if (e.ctrlKey && ["s", "p"].includes(e.key.toLowerCase())) {
+      if (e.ctrlKey && ['s', 'p'].includes(e.key.toLowerCase())) {
         e.preventDefault();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
     async function fetchProjects() {
       try {
         const { data, error } = await supabase
-          .from("projects")
-          .select("*")
-          .eq("featured", true)
-          .order("display_order", { ascending: true });
+          .from('projects')
+          .select('*')
+          .eq('featured', true)
+          .order('display_order', { ascending: true });
 
         if (error) throw error;
         if (data) {
           setProjects(data as HelperProject[]);
         }
       } catch (err) {
-        console.error("Error fetching projects:", err);
+        console.error('Error fetching projects:', err);
       } finally {
         setIsLoading(false);
       }
@@ -115,11 +115,11 @@ export default function MinimalPage() {
 
               <div className="space-y-6 text-lg md:text-xl leading-relaxed text-white/80 font-light">
                 <p>
-                  I&apos;m a{" "}
+                  I&apos;m a{' '}
                   <span className="text-white font-medium">
                     self-taught developer
-                  </span>{" "}
-                  who tries to learn everything — strongest in{" "}
+                  </span>{' '}
+                  who tries to learn everything — strongest in{' '}
                   <span className="text-white font-medium">
                     full stack web development
                   </span>
@@ -156,7 +156,7 @@ export default function MinimalPage() {
                 >
                   <span className="border-b border-white/20 pb-0.5 hover:border-white transition-colors">
                     Resume
-                  </span>{" "}
+                  </span>{' '}
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
               </div>
@@ -171,14 +171,14 @@ export default function MinimalPage() {
                 </h2>
                 <div className="grid grid-cols-2 gap-x-4 gap-y-3">
                   {[
-                    { name: "Next.js", icon: SiNextdotjs },
-                    { name: "React", icon: SiReact },
-                    { name: "TypeScript", icon: SiTypescript },
-                    { name: "Tailwind", icon: SiTailwindcss },
-                    { name: "Supabase", icon: SiSupabase },
-                    { name: "Node.js", icon: SiNodedotjs },
-                    { name: "Framer", icon: SiFramer },
-                    { name: "PostgreSQL", icon: SiPostgresql },
+                    { name: 'Next.js', icon: SiNextdotjs },
+                    { name: 'React', icon: SiReact },
+                    { name: 'TypeScript', icon: SiTypescript },
+                    { name: 'Tailwind', icon: SiTailwindcss },
+                    { name: 'Supabase', icon: SiSupabase },
+                    { name: 'Node.js', icon: SiNodedotjs },
+                    { name: 'Framer', icon: SiFramer },
+                    { name: 'PostgreSQL', icon: SiPostgresql },
                   ].map((tech) => (
                     <div
                       key={tech.name}

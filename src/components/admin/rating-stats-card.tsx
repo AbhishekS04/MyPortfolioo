@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import useSWR from "swr";
-import { Star } from "lucide-react";
+import useSWR from 'swr';
+import { Star } from 'lucide-react';
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Failed to fetch ratings");
+    if (!res.ok) throw new Error('Failed to fetch ratings');
     return res.json();
   });
 
 export function RatingStatsCard() {
-  const { data: stats, error } = useSWR("/api/ratings", fetcher);
+  const { data: stats, error } = useSWR('/api/ratings', fetcher);
 
   if (error)
     return (
@@ -43,7 +43,7 @@ export function RatingStatsCard() {
             {[1, 2, 3, 4, 5].map((s) => (
               <Star
                 key={s}
-                className={`w-3 h-3 ${s <= Math.round(stats.average) ? "fill-current" : "opacity-30"}`}
+                className={`w-3 h-3 ${s <= Math.round(stats.average) ? 'fill-current' : 'opacity-30'}`}
               />
             ))}
           </div>

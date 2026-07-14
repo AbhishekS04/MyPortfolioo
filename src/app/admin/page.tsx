@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import {
   LogOut,
   Layers,
@@ -12,10 +12,10 @@ import {
   Cpu,
   Zap,
   ExternalLink,
-} from "lucide-react";
-import Link from "next/link";
-import { m } from "framer-motion";
-import { RatingStatsCard } from "@/components/admin/rating-stats-card";
+} from 'lucide-react';
+import Link from 'next/link';
+import { m } from 'framer-motion';
+import { RatingStatsCard } from '@/components/admin/rating-stats-card';
 
 interface AdminCardProps {
   href: string;
@@ -77,21 +77,21 @@ export default function AdminDashboard() {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) {
-        router.replace("/admin/login");
+        router.replace('/admin/login');
         return;
       }
 
       const { data: aal } =
         await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
 
-      if (aal && aal.currentLevel === "aal1") {
+      if (aal && aal.currentLevel === 'aal1') {
         const { data: factors } = await supabase.auth.mfa.listFactors();
-        const hasVerified = factors?.totp?.some((f) => f.status === "verified");
+        const hasVerified = factors?.totp?.some((f) => f.status === 'verified');
 
         if (hasVerified) {
-          router.replace("/admin/verify-2fa");
+          router.replace('/admin/verify-2fa');
         } else {
-          router.replace("/admin/mfa-setup");
+          router.replace('/admin/mfa-setup');
         }
       }
     };
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.replace("/admin/login");
+    router.replace('/admin/login');
   };
 
   return (

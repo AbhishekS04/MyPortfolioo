@@ -1,9 +1,9 @@
-import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { badgeVariants } from "./badge-variants";
+import * as React from 'react';
+import { type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { badgeVariants } from './badge-variants';
 
-export { badgeVariants } from "./badge-variants";
+export { badgeVariants } from './badge-variants';
 
 export interface BadgeProps
   extends

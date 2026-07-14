@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
-import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
-import { Project } from "@/lib/data";
-import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { m } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { ComingSoonBadge } from '@/components/ui/coming-soon-badge';
+import { Project } from '@/lib/data';
+import { useEffect, useState } from 'react';
+import { supabase } from '@/lib/supabase';
 
 // Strict type for Supabase response to avoid 'any'
 interface SupabaseProject {
@@ -27,7 +27,7 @@ function ProjectCard({ project }: { project: Project }) {
 
   const cardContent = (
     <div
-      className={`relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 flex flex-col ${!isComingSoon ? "hover:border-white/10 group-hover:bg-[#161616]" : ""}`}
+      className={`relative h-full bg-[#111111] border border-white/5 rounded-[24px] overflow-hidden transition-colors duration-500 flex flex-col ${!isComingSoon ? 'hover:border-white/10 group-hover:bg-[#161616]' : ''}`}
     >
       {/* Image Container */}
       <div className="relative w-full aspect-[16/10] overflow-hidden">
@@ -36,7 +36,7 @@ function ProjectCard({ project }: { project: Project }) {
           alt={project.title}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          className={`object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] ${!isComingSoon ? "group-hover:scale-105" : "opacity-60 blur-[2px]"}`}
+          className={`object-cover transition-transform duration-700 ease-[0.25,1,0.5,1] ${!isComingSoon ? 'group-hover:scale-105' : 'opacity-60 blur-[2px]'}`}
         />
         <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
 
@@ -53,7 +53,7 @@ function ProjectCard({ project }: { project: Project }) {
         <div>
           <div className="flex items-start justify-between">
             <h3
-              className={`text-xl font-medium transition-colors ${!isComingSoon ? "text-white/90 group-hover:text-white" : "text-white/50"}`}
+              className={`text-xl font-medium transition-colors ${!isComingSoon ? 'text-white/90 group-hover:text-white' : 'text-white/50'}`}
             >
               {project.title}
             </h3>
@@ -141,14 +141,14 @@ export function FeaturedProjects({
     async function fetchProjects() {
       try {
         const { data, error } = await supabase
-          .from("projects")
-          .select("*")
-          .eq("featured", true)
-          .eq("is_hidden", false)
-          .order("display_order", { ascending: true });
+          .from('projects')
+          .select('*')
+          .eq('featured', true)
+          .eq('is_hidden', false)
+          .order('display_order', { ascending: true });
 
         if (error) {
-          console.error("Error fetching projects:", error);
+          console.error('Error fetching projects:', error);
           setHasError(true);
         } else if (data) {
           const mappedProjects: Project[] = (
@@ -165,7 +165,7 @@ export function FeaturedProjects({
           setProjects(mappedProjects);
         }
       } catch (err) {
-        console.error("Unexpected error fetching projects", err);
+        console.error('Unexpected error fetching projects', err);
         setHasError(true);
       } finally {
         setIsLoading(false);
@@ -214,7 +214,7 @@ export function FeaturedProjects({
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <ProjectCard project={project} />

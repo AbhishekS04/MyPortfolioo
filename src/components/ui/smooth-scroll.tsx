@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import { usePreloader } from "./preloader-wrapper";
-import Lenis from "lenis";
+import { useEffect } from 'react';
+import { usePreloader } from './preloader-wrapper';
+import Lenis from 'lenis';
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const { isVisible } = usePreloader();

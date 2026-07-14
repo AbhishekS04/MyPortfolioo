@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { createContext, use, useState, useCallback } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import { X, CheckCircle, AlertCircle, Info } from "lucide-react";
+import { createContext, use, useState, useCallback } from 'react';
+import { AnimatePresence, m } from 'framer-motion';
+import { X, CheckCircle, AlertCircle, Info } from 'lucide-react';
 
-type ToastType = "success" | "error" | "info";
+type ToastType = 'success' | 'error' | 'info';
 
 interface Toast {
   id: string;
@@ -21,7 +21,7 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined);
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const showToast = useCallback((message: string, type: ToastType = "info") => {
+  const showToast = useCallback((message: string, type: ToastType = 'info') => {
     const id = Math.random().toString(36).substring(2, 9);
     setToasts((prev) => [...prev, { id, message, type }]);
 
@@ -50,13 +50,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               className="pointer-events-auto min-w-[300px] bg-[#1a1a1a]/90 backdrop-blur-md border border-white/10 p-4 rounded-xl shadow-2xl flex items-start gap-3"
             >
               <div className="mt-0.5">
-                {toast.type === "success" && (
+                {toast.type === 'success' && (
                   <CheckCircle className="w-5 h-5 text-emerald-500" />
                 )}
-                {toast.type === "error" && (
+                {toast.type === 'error' && (
                   <AlertCircle className="w-5 h-5 text-rose-500" />
                 )}
-                {toast.type === "info" && (
+                {toast.type === 'info' && (
                   <Info className="w-5 h-5 text-blue-500" />
                 )}
               </div>
@@ -82,7 +82,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 export function useToast() {
   const context = use(ToastContext);
   if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
+    throw new Error('useToast must be used within a ToastProvider');
   }
   return context;
 }

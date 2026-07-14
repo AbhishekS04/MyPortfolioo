@@ -1,8 +1,8 @@
-"use client";
-import { useState, useEffect } from "react";
-import { createClient } from "@/utils/supabase/client";
-import { Trash2 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+'use client';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { Trash2 } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface Contributor {
   id: string;
@@ -18,24 +18,24 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
   const [contributors, setContributors] = useState<Contributor[]>([]);
   const [loading, setLoading] = useState(true);
   const [newContributor, setNewContributor] = useState({
-    name: "",
-    role: "",
-    avatar_url: "",
-    social_url: "",
+    name: '',
+    role: '',
+    avatar_url: '',
+    social_url: '',
   });
   const supabase = createClient();
 
   const fetchContributors = async () => {
     setLoading(true);
     const { data, error } = await supabase
-      .from("project_contributors")
-      .select("*")
-      .eq("project_id", projectId)
-      .order("created_at", { ascending: true });
+      .from('project_contributors')
+      .select('*')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: true });
 
     if (error) {
       console.error(error);
-      alert("Error fetching contributors: " + error.message);
+      alert('Error fetching contributors: ' + error.message);
     }
 
     if (data) setContributors(data);
@@ -43,7 +43,7 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
   };
 
   useEffect(() => {
-    if (projectId && projectId !== "new") {
+    if (projectId && projectId !== 'new') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       fetchContributors();
     }
@@ -51,10 +51,10 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
 
   const handleAdd = async () => {
     if (!newContributor.name || !newContributor.avatar_url)
-      return alert("Name and Avatar URL are required");
+      return alert('Name and Avatar URL are required');
 
     const { data, error } = await supabase
-      .from("project_contributors")
+      .from('project_contributors')
       .insert([
         {
           project_id: projectId,
@@ -70,17 +70,17 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
 
     if (data) {
       setContributors([...contributors, data[0]]);
-      setNewContributor({ name: "", role: "", avatar_url: "", social_url: "" });
+      setNewContributor({ name: '', role: '', avatar_url: '', social_url: '' });
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Remove this contributor?")) return;
+    if (!confirm('Remove this contributor?')) return;
 
     const { error } = await supabase
-      .from("project_contributors")
+      .from('project_contributors')
       .delete()
-      .eq("id", id);
+      .eq('id', id);
     if (error) {
       alert(error.message);
     } else {
@@ -88,7 +88,7 @@ export function ContributorsManager({ projectId }: { projectId: string }) {
     }
   };
 
-  if (projectId === "new") {
+  if (projectId === 'new') {
     return (
       <div className="flex items-center justify-center p-12 border border-dashed border-white/10 rounded-xl">
         <p className="text-white/40 text-sm">

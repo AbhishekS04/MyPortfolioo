@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { m } from "framer-motion";
-import Link from "next/link";
-import * as LucideIcons from "lucide-react";
+import { useEffect, useState } from 'react';
+import { m } from 'framer-motion';
+import Link from 'next/link';
+import * as LucideIcons from 'lucide-react';
 import {
   Gamepad2,
   Mail,
@@ -11,12 +11,12 @@ import {
   MapPin,
   User,
   ExternalLink,
-} from "lucide-react";
-import { RatingInteraction } from "@/components/ui/emoji-rating";
-import FisheyeShader from "@/components/ui/fisheye-shader";
-import dynamic from "next/dynamic";
+} from 'lucide-react';
+import { RatingInteraction } from '@/components/ui/emoji-rating';
+import FisheyeShader from '@/components/ui/fisheye-shader';
+import dynamic from 'next/dynamic';
 
-const RealMap = dynamic(() => import("@/components/ui/real-map"), {
+const RealMap = dynamic(() => import('@/components/ui/real-map'), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full bg-[#111] animate-pulse rounded-[32px]" />
@@ -38,7 +38,7 @@ const fisheyeSettings = {
 
 const BentoCard = ({
   children,
-  className = "",
+  className = '',
 }: {
   children: React.ReactNode;
   className?: string;
@@ -138,7 +138,7 @@ export function AboutClient({
           <FisheyeShader
             src={
               general.profile_image_url ||
-              "/abhishek-singh-full-stack-developer.avif"
+              '/abhishek-singh-full-stack-developer.avif'
             }
             settings={fisheyeSettings}
             className="absolute inset-0 w-full h-full object-cover"
@@ -147,7 +147,7 @@ export function AboutClient({
           <img
             src={
               general.profile_image_url ||
-              "/abhishek-singh-full-stack-developer.avif"
+              '/abhishek-singh-full-stack-developer.avif'
             }
             alt="Abhishek Singh — Full Stack Developer Profile Portrait"
             className="sr-only"
@@ -182,7 +182,7 @@ export function AboutClient({
           </span>
           <div className="flex flex-wrap gap-3 md:gap-4">
             {interests.map((item, idx) => {
-              const isGaming = item.label === "Gaming";
+              const isGaming = item.label === 'Gaming';
               const content = (
                 <>
                   {getIcon(item.icon_name)}
@@ -193,8 +193,8 @@ export function AboutClient({
                                 flex items-center gap-2 px-3 md:px-4 py-2 rounded-2xl border transition-all duration-300
                                 ${
                                   isGaming
-                                    ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-400 cursor-pointer hover:bg-emerald-500/10 hover:scale-105"
-                                    : "bg-white/[0.03] border-white/5 text-white/60"
+                                    ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-400 cursor-pointer hover:bg-emerald-500/10 hover:scale-105'
+                                    : 'bg-white/[0.03] border-white/5 text-white/60'
                                 }
                             `;
 
@@ -262,7 +262,7 @@ export function AboutClient({
               return (
                 <div
                   key={edu.id}
-                  className={`group/edu flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4 border-b border-white/[0.03] pb-4 last:border-0 last:pb-0 transition-all duration-300 ${isCurrent ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
+                  className={`group/edu flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4 border-b border-white/[0.03] pb-4 last:border-0 last:pb-0 transition-all duration-300 ${isCurrent ? 'opacity-100' : 'opacity-70 hover:opacity-100'}`}
                 >
                   <div className="space-y-1.5 sm:max-w-[70%]">
                     <div className="flex flex-wrap items-center gap-2">
@@ -388,8 +388,8 @@ export function AboutClient({
                 {general.birthday
                   ? age !== null
                     ? `${age} Years`
-                    : "Loading..."
-                  : "21 Years"}
+                    : 'Loading...'
+                  : '21 Years'}
               </p>
             </div>
           </div>
@@ -421,7 +421,7 @@ export function AboutClient({
                 Phone
               </p>
               <p className="text-xs md:text-sm font-medium">
-                {general.phone_number || "+91 0000000000"}
+                {general.phone_number || '+91 0000000000'}
               </p>
             </div>
           </div>
@@ -434,7 +434,7 @@ export function AboutClient({
                 Location
               </p>
               <p className="text-xs md:text-sm font-medium">
-                {general.location || "Kolkata, India"}
+                {general.location || 'Kolkata, India'}
               </p>
             </div>
           </div>

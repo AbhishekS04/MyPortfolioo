@@ -1,7 +1,7 @@
-import * as React from "react";
-import { createMap } from "svg-dotted-map";
+import * as React from 'react';
+import { createMap } from 'svg-dotted-map';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 interface Marker {
   lat: number;
@@ -25,7 +25,7 @@ export function DottedMap({
   height = 75,
   mapSamples = 5000,
   markers = [],
-  markerColor = "#FF6900",
+  markerColor = '#FF6900',
   dotRadius = 0.2,
   stagger = true,
   className,
@@ -72,10 +72,10 @@ export function DottedMap({
   const [isEggActive, setIsEggActive] = React.useState(false);
 
   React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const purged = localStorage.getItem("mapEgg");
+    if (typeof window !== 'undefined') {
+      const purged = localStorage.getItem('mapEgg');
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      if (purged !== "purged") setIsEggActive(true);
+      if (purged !== 'purged') setIsEggActive(true);
     }
   }, []);
 
@@ -83,14 +83,14 @@ export function DottedMap({
     e.stopPropagation();
     e.preventDefault();
     setIsEggActive(false);
-    localStorage.setItem("mapEgg", "purged");
+    localStorage.setItem('mapEgg', 'purged');
   };
 
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
-      className={cn("text-gray-500 dark:text-gray-500", className)}
-      style={{ width: "100%", height: "100%", ...style }}
+      className={cn('text-gray-500 dark:text-gray-500', className)}
+      style={{ width: '100%', height: '100%', ...style }}
     >
       {points.map((point, index) => {
         const rowIndex = yToRowIndex.get(point.y) ?? 0;
@@ -116,7 +116,7 @@ export function DottedMap({
               r={marker.size ?? dotRadius}
               fill={markerColor}
               className="animate-ping opacity-75"
-              style={{ transformBox: "fill-box", transformOrigin: "center" }}
+              style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
             />
             <circle
               cx={marker.x + offsetX}

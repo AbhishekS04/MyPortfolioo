@@ -1,8 +1,8 @@
-import { supabase } from "@/lib/supabase";
-import { notFound, redirect } from "next/navigation";
-import { Suspense } from "react";
-import { ProjectDetailsView } from "@/components/works/project-details-view";
-import { Metadata } from "next";
+import { supabase } from '@/lib/supabase';
+import { notFound, redirect } from 'next/navigation';
+import { Suspense } from 'react';
+import { ProjectDetailsView } from '@/components/works/project-details-view';
+import { Metadata } from 'next';
 
 interface WorksDetailProps {
   params: Promise<{
@@ -12,9 +12,9 @@ interface WorksDetailProps {
 
 async function getProject(slug: string) {
   const { data } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("slug", slug)
+    .from('projects')
+    .select('*')
+    .eq('slug', slug)
     .single();
 
   return data;
@@ -25,10 +25,10 @@ export async function generateMetadata({
 }: WorksDetailProps): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProject(slug);
-  if (!project) return { title: "Project Not Found" };
+  if (!project) return { title: 'Project Not Found' };
 
   const projectUrl = `https://abhisheksingh.tech/works/${slug}`;
-  const imageUrl = project.main_image_url || "/og-image.jpg";
+  const imageUrl = project.main_image_url || '/og-image.jpg';
 
   return {
     title: `${project.title} | Case Study`,
@@ -37,7 +37,7 @@ export async function generateMetadata({
       title: `${project.title} | Case Study`,
       description: project.description,
       url: projectUrl,
-      siteName: "Abhishek Singh Portfolio",
+      siteName: 'Abhishek Singh Portfolio',
       images: [
         {
           url: imageUrl,
@@ -46,10 +46,10 @@ export async function generateMetadata({
           alt: project.title,
         },
       ],
-      type: "article",
+      type: 'article',
     },
     twitter: {
-      card: "summary_large_image",
+      card: 'summary_large_image',
       title: `${project.title} | Case Study`,
       description: project.description,
       images: [imageUrl],
@@ -69,50 +69,50 @@ export default async function ProjectDetailPage({ params }: WorksDetailProps) {
   }
 
   if (project.is_coming_soon) {
-    redirect("/works");
+    redirect('/works');
   }
 
   const { data: contributors } = await supabase
-    .from("project_contributors")
-    .select("*")
-    .eq("project_id", project.id)
-    .order("created_at", { ascending: true });
+    .from('project_contributors')
+    .select('*')
+    .eq('project_id', project.id)
+    .order('created_at', { ascending: true });
 
   const projectUrl = `https://abhisheksingh.tech/works/${slug}`;
 
   const softwareSchema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
     name: project.title,
     description: project.description,
     url: projectUrl,
     author: {
-      "@type": "Person",
-      name: "Abhishek Singh",
-      url: "https://abhisheksingh.tech",
+      '@type': 'Person',
+      name: 'Abhishek Singh',
+      url: 'https://abhisheksingh.tech',
     },
-    applicationCategory: "WebApplication",
-    operatingSystem: "Web",
+    applicationCategory: 'WebApplication',
+    operatingSystem: 'Web',
   };
 
   const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
     itemListElement: [
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 1,
-        name: "Home",
-        item: "https://abhisheksingh.tech",
+        name: 'Home',
+        item: 'https://abhisheksingh.tech',
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 2,
-        name: "Works",
-        item: "https://abhisheksingh.tech/works",
+        name: 'Works',
+        item: 'https://abhisheksingh.tech/works',
       },
       {
-        "@type": "ListItem",
+        '@type': 'ListItem',
         position: 3,
         name: project.title,
         item: projectUrl,

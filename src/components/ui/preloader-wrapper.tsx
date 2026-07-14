@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useState, useEffect, createContext, useContext } from "react";
-import { usePathname } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
-import { Preloader } from "./preloader";
+import { useState, useEffect, createContext, useContext } from 'react';
+import { usePathname } from 'next/navigation';
+import { m, AnimatePresence } from 'framer-motion';
+import { Preloader } from './preloader';
 
 // Module-level variable to persist across route changes within the same session
 let globalHasShownPreloader = false;
@@ -24,11 +24,11 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   // Default to TRUE if not in admin, not shown yet, and on a VALID route.
   const [isVisible, setIsVisible] = useState(() => {
     // ONLY check things that are consistent between server and client during hydration
-    const validRoutes = ["/", "/about", "/works", "/contact"];
-    const isDynamicWork = pathname?.startsWith("/works/");
-    const isAdmin = pathname?.startsWith("/admin");
+    const validRoutes = ['/', '/about', '/works', '/contact'];
+    const isDynamicWork = pathname?.startsWith('/works/');
+    const isAdmin = pathname?.startsWith('/admin');
     const isValidRoute =
-      validRoutes.includes(pathname || "") || isDynamicWork || isAdmin;
+      validRoutes.includes(pathname || '') || isDynamicWork || isAdmin;
 
     if (isAdmin || !isValidRoute) return false;
     return true;
@@ -54,10 +54,10 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Remove static splash screen if it exists
-    const staticSplash = document.getElementById("static-splash");
+    const staticSplash = document.getElementById('static-splash');
     let timerId: NodeJS.Timeout | undefined;
     if (staticSplash) {
-      staticSplash.style.opacity = "0";
+      staticSplash.style.opacity = '0';
       timerId = setTimeout(() => {
         staticSplash.remove();
       }, 300);
@@ -72,16 +72,16 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Handle overflow lock
     if (isVisible) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
   }, [isVisible]);
 
   const handleComplete = () => {
     setIsVisible(false);
     globalHasShownPreloader = true;
-    document.body.style.overflow = "";
+    document.body.style.overflow = '';
   };
 
   return (
@@ -92,7 +92,7 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
             key="global-preloader"
             initial={{ y: 0 }}
             exit={{
-              y: "-100%",
+              y: '-100%',
               transition: {
                 duration: 1.0,
                 ease: [0.76, 0, 0.24, 1], // "Quint" easeIn - starts slow, accelerates fast like a shutter
@@ -118,7 +118,7 @@ export function PreloaderWrapper({ children }: { children: React.ReactNode }) {
 export const usePreloader = () => {
   const context = useContext(PreloaderContext);
   if (context === undefined) {
-    throw new Error("usePreloader must be used within a PreloaderWrapper");
+    throw new Error('usePreloader must be used within a PreloaderWrapper');
   }
   return context;
 };

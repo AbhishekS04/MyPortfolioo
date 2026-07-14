@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import Image from "next/image";
+import Image from 'next/image';
 
-import { m } from "framer-motion";
-import { LiveStatus } from "@/components/ui/live-status";
-import { UserLocation } from "@/components/ui/user-location";
+import { m } from 'framer-motion';
+import { LiveStatus } from '@/components/ui/live-status';
+import { UserLocation } from '@/components/ui/user-location';
 
 export function IdentityCard() {
   return (

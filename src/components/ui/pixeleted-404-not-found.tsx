@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { Doto } from "next/font/google";
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { Doto } from 'next/font/google';
 
-const doto = Doto({ subsets: ["latin"] });
+const doto = Doto({ subsets: ['latin'] });
 
 interface Error404Props {
   postcardImage?: string;
@@ -19,14 +19,14 @@ interface Error404Props {
 }
 
 export function Error404({
-  postcardImage = "https://cloud-snapp.vercel.app/api/cdn/df3cf166-3366-45c3-907f-218183b63d3e.jpg?fmt=avif",
-  postcardAlt = "New York City Postcard",
-  curvedTextTop = "The General Intelligence",
-  curvedTextBottom = "Company of New York",
+  postcardImage = 'https://cloud-snapp.vercel.app/api/cdn/df3cf166-3366-45c3-907f-218183b63d3e.jpg?fmt=avif',
+  postcardAlt = 'New York City Postcard',
+  curvedTextTop = 'The General Intelligence',
+  curvedTextBottom = 'Company of New York',
   heading = "(404) Looks like the page you're looking for got lost somewhere.",
-  subtext = "But hey — in New York, even the unexpected detours lead somewhere.",
-  backButtonLabel = "Back to Home",
-  backButtonHref = "/",
+  subtext = 'But hey — in New York, even the unexpected detours lead somewhere.',
+  backButtonLabel = 'Back to Home',
+  backButtonHref = '/',
 }: Error404Props) {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-16 bg-[#0a0a0a]">
@@ -45,7 +45,7 @@ export function Error404({
             </defs>
             <text
               className="text-[11px] fill-white/60 font-serif uppercase"
-              style={{ fontWeight: 400, letterSpacing: "0.15em" }}
+              style={{ fontWeight: 400, letterSpacing: '0.15em' }}
             >
               <textPath href="#circlePath" startOffset="0%">
                 {curvedTextTop} • {curvedTextBottom} •

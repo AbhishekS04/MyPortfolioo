@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
 import {
   m,
   AnimatePresence,
   useMotionValue,
   useTransform,
-} from "framer-motion";
-import { X, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
-import { useEffect, useState, useCallback, useRef } from "react";
-import { createPortal } from "react-dom";
+} from 'framer-motion';
+import { X, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ImageZoomOverlayProps {
   isOpen: boolean;
@@ -51,9 +51,9 @@ export function ImageZoomOverlay({
   // Body scroll lock
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       return () => {
-        document.body.style.overflow = "";
+        document.body.style.overflow = '';
       };
     }
   }, [isOpen]);
@@ -159,7 +159,7 @@ export function ImageZoomOverlay({
           >
             <m.img
               src={imageUrl}
-              alt={altText || "Zoomed project image"}
+              alt={altText || 'Zoomed project image'}
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{
                 opacity: 1,
@@ -169,8 +169,8 @@ export function ImageZoomOverlay({
                 rotateX: 0,
                 transition: {
                   opacity: { duration: 0.4 },
-                  scale: { type: "spring", stiffness: 300, damping: 30 },
-                  y: { type: "spring", stiffness: 300, damping: 30 },
+                  scale: { type: 'spring', stiffness: 300, damping: 30 },
+                  y: { type: 'spring', stiffness: 300, damping: 30 },
                 },
               }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
@@ -180,7 +180,7 @@ export function ImageZoomOverlay({
                 x.set(x.get() + info.delta.x);
                 y.set(y.get() + info.delta.y);
               }}
-              className={`max-w-full max-h-full object-contain shadow-[0_0_100px_rgba(0,0,0,0.5)] rounded-lg md:rounded-2xl transition-shadow duration-500 ${scale > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
+              className={`max-w-full max-h-full object-contain shadow-[0_0_100px_rgba(0,0,0,0.5)] rounded-lg md:rounded-2xl transition-shadow duration-500 ${scale > 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-default'}`}
               draggable={false}
             />
           </m.div>

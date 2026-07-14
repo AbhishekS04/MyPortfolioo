@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { kbdVariants } from "./kbd-variants";
+import * as React from 'react';
+import { type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { kbdVariants } from './kbd-variants';
 
-export { kbdVariants } from "./kbd-variants";
+export { kbdVariants } from './kbd-variants';
 
 export interface KbdProps
   extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof kbdVariants> {
@@ -31,7 +31,7 @@ function Kbd({
         ref={ref as React.Ref<HTMLSpanElement>}
         onClick={onClick}
         onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") onClick?.();
+          if (e.key === 'Enter' || e.key === ' ') onClick?.();
         }}
         role="button"
         tabIndex={onClick ? 0 : undefined}
@@ -60,9 +60,9 @@ function Kbd({
       ref={ref}
       onClick={onClick}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") onClick?.();
+        if (e.key === 'Enter' || e.key === ' ') onClick?.();
       }}
-      role={onClick ? "button" : undefined}
+      role={onClick ? 'button' : undefined}
       tabIndex={onClick ? 0 : undefined}
       {...props}
     >
@@ -71,6 +71,6 @@ function Kbd({
   );
 }
 
-Kbd.displayName = "Kbd";
+Kbd.displayName = 'Kbd';
 
 export { Kbd };

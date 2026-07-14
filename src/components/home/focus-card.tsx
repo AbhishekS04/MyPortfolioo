@@ -1,5 +1,5 @@
-"use client";
-import { FaJava, FaAws } from "react-icons/fa";
+'use client';
+import { FaJava, FaAws } from 'react-icons/fa';
 
 import {
   SiReact,
@@ -23,10 +23,10 @@ import {
   SiPostman,
   SiGithub,
   SiServerless,
-} from "react-icons/si";
+} from 'react-icons/si';
 
-import { useState, useEffect } from "react";
-import { m } from "framer-motion";
+import { useState, useEffect } from 'react';
+import { m } from 'framer-motion';
 
 export function FocusCard() {
   const [isGolden, setIsGolden] = useState(false);
@@ -60,10 +60,10 @@ export function FocusCard() {
               <m.div
                 style={{
                   boxShadow: isGolden
-                    ? "0 0 2px rgba(234,179,8,0.8)"
-                    : "0 0 2px rgba(59,130,246,0.8)",
+                    ? '0 0 2px rgba(234,179,8,0.8)'
+                    : '0 0 2px rgba(59,130,246,0.8)',
                 }}
-                className={`w-1.5 h-1.5 rounded-full ${isGolden ? "bg-yellow-500" : "bg-blue-500"}`}
+                className={`w-1.5 h-1.5 rounded-full ${isGolden ? 'bg-yellow-500' : 'bg-blue-500'}`}
               />
               <span
                 className="text-xs font-bold uppercase tracking-widest text-white/40"
@@ -74,44 +74,44 @@ export function FocusCard() {
             </div>
 
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#61DAFB] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#61DAFB] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <SiNextdotjs
-                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#61DAFB] drop-shadow-[0_0_5px_rgba(97,218,251,0.5)]" : "text-[#61DAFB]"}`}
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#61DAFB] drop-shadow-[0_0_5px_rgba(97,218,251,0.5)]' : 'text-[#61DAFB]'}`}
               />
               <span
-                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? "text-[#61DAFB] drop-shadow-[0_0_5px_rgba(97,218,251,0.5)]" : ""}`}
+                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? 'text-[#61DAFB] drop-shadow-[0_0_5px_rgba(97,218,251,0.5)]' : ''}`}
               >
                 Next.js & React
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#3178C6] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#3178C6] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <div className="flex gap-2">
                 <SiNodedotjs
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#339933] drop-shadow-[0_0_5px_rgba(51,153,51,0.5)]" : "text-[#339933]"}`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#339933] drop-shadow-[0_0_5px_rgba(51,153,51,0.5)]' : 'text-[#339933]'}`}
                 />
                 <SiTypescript
-                  className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#3178C6] drop-shadow-[0_0_5px_rgba(49,120,198,0.5)]" : "text-[#3178C6]"}`}
+                  className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#3178C6] drop-shadow-[0_0_5px_rgba(49,120,198,0.5)]' : 'text-[#3178C6]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide leading-tight uppercase font-mono">
                 <span
                   className={
                     isGolden
-                      ? "text-[#339933] drop-shadow-[0_0_5px_rgba(51,153,51,0.5)]"
-                      : ""
+                      ? 'text-[#339933] drop-shadow-[0_0_5px_rgba(51,153,51,0.5)]'
+                      : ''
                   }
                 >
                   Node.js
                 </span>
-                <span className={isGolden ? "text-white/50" : ""}> & </span>
+                <span className={isGolden ? 'text-white/50' : ''}> & </span>
                 <span
                   className={
                     isGolden
-                      ? "text-[#3178C6] drop-shadow-[0_0_5px_rgba(49,120,198,0.5)]"
-                      : ""
+                      ? 'text-[#3178C6] drop-shadow-[0_0_5px_rgba(49,120,198,0.5)]'
+                      : ''
                   }
                 >
                   TS
@@ -119,13 +119,13 @@ export function FocusCard() {
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#06B6D4] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#06B6D4] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <SiTailwindcss
-                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#06B6D4] drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]" : "text-[#06B6D4]"}`}
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#06B6D4] drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]' : 'text-[#06B6D4]'}`}
               />
               <span
-                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? "text-[#06B6D4] drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]" : ""}`}
+                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? 'text-[#06B6D4] drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]' : ''}`}
               >
                 Tailwind CSS
               </span>
@@ -139,10 +139,10 @@ export function FocusCard() {
               <m.div
                 style={{
                   boxShadow: isGolden
-                    ? "0 0 2px rgba(234,179,8,0.8)"
-                    : "0 0 2px rgba(239,68,68,0.8)",
+                    ? '0 0 2px rgba(234,179,8,0.8)'
+                    : '0 0 2px rgba(239,68,68,0.8)',
                 }}
-                className={`w-1.5 h-1.5 rounded-full ${isGolden ? "bg-yellow-500" : "bg-red-500"}`}
+                className={`w-1.5 h-1.5 rounded-full ${isGolden ? 'bg-yellow-500' : 'bg-red-500'}`}
               />
               <span
                 className="text-xs font-bold uppercase tracking-widest text-white/40"
@@ -153,47 +153,47 @@ export function FocusCard() {
             </div>
 
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#4169E1] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#4169E1] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <div className="flex gap-1.5">
                 <SiPostgresql
-                  className={`w-4 h-4 ${isGolden ? "text-[#4169E1] opacity-40" : "text-[#4169E1]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#4169E1] opacity-40' : 'text-[#4169E1]'}`}
                 />
                 <SiPostgresql
-                  className={`w-4 h-4 ${isGolden ? "text-[#00E599] scale-125 drop-shadow-[0_0_5px_rgba(0,229,153,0.5)]" : "text-[#00E599]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#00E599] scale-125 drop-shadow-[0_0_5px_rgba(0,229,153,0.5)]' : 'text-[#00E599]'}`}
                 />
                 <SiMongodb
-                  className={`w-4 h-4 ${isGolden ? "text-[#47A248] opacity-40" : "text-[#47A248]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#47A248] opacity-40' : 'text-[#47A248]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide leading-tight uppercase font-mono">
-                <span className={isGolden ? "opacity-40" : ""}>SQL, </span>
+                <span className={isGolden ? 'opacity-40' : ''}>SQL, </span>
                 <span
                   className={
                     isGolden
-                      ? "text-[#00E599] drop-shadow-[0_0_5px_rgba(0,229,153,0.5)]"
-                      : ""
+                      ? 'text-[#00E599] drop-shadow-[0_0_5px_rgba(0,229,153,0.5)]'
+                      : ''
                   }
                 >
                   Neon
                 </span>
-                <span className={isGolden ? "opacity-40" : ""}> & NoSQL</span>
+                <span className={isGolden ? 'opacity-40' : ''}> & NoSQL</span>
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#FFD43B] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#FFD43B] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <SiPython
-                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#3776AB] drop-shadow-[0_0_5px_rgba(55,118,171,0.5)]" : "text-[#3776AB]"}`}
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#3776AB] drop-shadow-[0_0_5px_rgba(55,118,171,0.5)]' : 'text-[#3776AB]'}`}
               />
               <span
-                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? "text-[#3776AB] drop-shadow-[0_0_5px_rgba(55,118,171,0.5)]" : ""}`}
+                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? 'text-[#3776AB] drop-shadow-[0_0_5px_rgba(55,118,171,0.5)]' : ''}`}
               >
                 Python
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#DEA584] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-20" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#DEA584] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-20' : 'opacity-100'}`}
             >
               <div className="flex gap-1.5">
                 <SiGo className="w-4 h-4 text-[#00ADD8]" />
@@ -204,44 +204,44 @@ export function FocusCard() {
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#ED8B00] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#ED8B00] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <FaJava
-                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? "text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]" : "text-[#ED8B00]"}`}
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${isGolden ? 'text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]' : 'text-[#ED8B00]'}`}
               />
               <span
-                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? "text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]" : ""}`}
+                className={`text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono ${isGolden ? 'text-[#ED8B00] drop-shadow-[0_0_5px_rgba(237,139,0,0.5)]' : ''}`}
               >
                 Java
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#00599C] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#00599C] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <div className="flex gap-1.5">
                 <SiC
-                  className={`w-4 h-4 ${isGolden ? "text-[#A8B9CC] drop-shadow-[0_0_4px_rgba(168,185,204,0.5)]" : "text-[#A8B9CC]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#A8B9CC] drop-shadow-[0_0_4px_rgba(168,185,204,0.5)]' : 'text-[#A8B9CC]'}`}
                 />
                 <SiCplusplus
-                  className={`w-4 h-4 ${isGolden ? "text-[#00599C] drop-shadow-[0_0_4px_rgba(0,89,156,0.5)]" : "text-[#00599C]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#00599C] drop-shadow-[0_0_4px_rgba(0,89,156,0.5)]' : 'text-[#00599C]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">
                 <span
                   className={
                     isGolden
-                      ? "text-[#A8B9CC] drop-shadow-[0_0_4px_rgba(168,185,204,0.5)]"
-                      : ""
+                      ? 'text-[#A8B9CC] drop-shadow-[0_0_4px_rgba(168,185,204,0.5)]'
+                      : ''
                   }
                 >
                   C
                 </span>
-                <span className={isGolden ? "text-white/50" : ""}> / </span>
+                <span className={isGolden ? 'text-white/50' : ''}> / </span>
                 <span
                   className={
                     isGolden
-                      ? "text-[#00599C] drop-shadow-[0_0_4px_rgba(0,89,156,0.5)]"
-                      : ""
+                      ? 'text-[#00599C] drop-shadow-[0_0_4px_rgba(0,89,156,0.5)]'
+                      : ''
                   }
                 >
                   C++
@@ -251,48 +251,48 @@ export function FocusCard() {
             <div className="flex items-center gap-4 text-white/50 transition-all duration-300 group/item pl-1">
               <div className="flex gap-1.5">
                 <SiDocker
-                  className={`w-4 h-4 text-[#2496ED] transition-all duration-300 ${isGolden ? "drop-shadow-[0_0_6px_rgba(36,150,237,0.9)] scale-110" : ""}`}
+                  className={`w-4 h-4 text-[#2496ED] transition-all duration-300 ${isGolden ? 'drop-shadow-[0_0_6px_rgba(36,150,237,0.9)] scale-110' : ''}`}
                 />
                 <FaAws
-                  className={`w-4 h-4 transition-all duration-300 ${isGolden ? "text-[#FF9900] opacity-30" : "text-[#FF9900]"}`}
+                  className={`w-4 h-4 transition-all duration-300 ${isGolden ? 'text-[#FF9900] opacity-30' : 'text-[#FF9900]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">
-                Cloud &amp;{" "}
+                Cloud &amp;{' '}
                 <span
-                  className={`transition-all duration-300 ${isGolden ? "text-[#2496ED] drop-shadow-[0_0_6px_rgba(36,150,237,0.9)]" : ""}`}
+                  className={`transition-all duration-300 ${isGolden ? 'text-[#2496ED] drop-shadow-[0_0_6px_rgba(36,150,237,0.9)]' : ''}`}
                 >
                   Docker
                 </span>
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#3ECF8E] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#3ECF8E] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <div className="flex gap-1.5">
                 <SiSupabase
-                  className={`w-4 h-4 ${isGolden ? "text-[#3ECF8E] drop-shadow-[0_0_5px_rgba(62,207,142,0.5)]" : "text-[#3ECF8E]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#3ECF8E] drop-shadow-[0_0_5px_rgba(62,207,142,0.5)]' : 'text-[#3ECF8E]'}`}
                 />
                 <SiServerless
-                  className={`w-4 h-4 ${isGolden ? "text-[#F5AC1F] drop-shadow-[0_0_5px_rgba(245,172,31,0.5)]" : "text-[#F5AC1F]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#F5AC1F] drop-shadow-[0_0_5px_rgba(245,172,31,0.5)]' : 'text-[#F5AC1F]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide uppercase font-mono">
                 <span
                   className={
                     isGolden
-                      ? "text-[#3ECF8E] drop-shadow-[0_0_5px_rgba(62,207,142,0.5)]"
-                      : ""
+                      ? 'text-[#3ECF8E] drop-shadow-[0_0_5px_rgba(62,207,142,0.5)]'
+                      : ''
                   }
                 >
                   Supabase
                 </span>
-                <span className={isGolden ? "text-white/50" : ""}> & </span>
+                <span className={isGolden ? 'text-white/50' : ''}> & </span>
                 <span
                   className={
                     isGolden
-                      ? "text-[#F5AC1F] drop-shadow-[0_0_5px_rgba(245,172,31,0.5)]"
-                      : ""
+                      ? 'text-[#F5AC1F] drop-shadow-[0_0_5px_rgba(245,172,31,0.5)]'
+                      : ''
                   }
                 >
                   Convex
@@ -300,44 +300,44 @@ export function FocusCard() {
               </span>
             </div>
             <div
-              className={`flex items-center gap-4 text-white/50 hover:text-[#F05032] transition-all duration-300 group/item pl-1 ${isGolden ? "opacity-100" : "opacity-100"}`}
+              className={`flex items-center gap-4 text-white/50 hover:text-[#F05032] transition-all duration-300 group/item pl-1 ${isGolden ? 'opacity-100' : 'opacity-100'}`}
             >
               <div className="flex gap-1.5">
                 <SiGit
-                  className={`w-4 h-4 ${isGolden ? "text-[#F05032] drop-shadow-[0_0_5px_rgba(240,80,50,0.5)]" : "text-[#F05032]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#F05032] drop-shadow-[0_0_5px_rgba(240,80,50,0.5)]' : 'text-[#F05032]'}`}
                 />
                 <SiGithub
-                  className={`w-4 h-4 ${isGolden ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" : "text-white"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]' : 'text-white'}`}
                 />
                 <SiPostman
-                  className={`w-4 h-4 ${isGolden ? "text-[#FF6C37] opacity-40" : "text-[#FF6C37]"}`}
+                  className={`w-4 h-4 ${isGolden ? 'text-[#FF6C37] opacity-40' : 'text-[#FF6C37]'}`}
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold tracking-wide leading-tight uppercase font-mono">
                 <span
                   className={
                     isGolden
-                      ? "text-[#F05032] drop-shadow-[0_0_5px_rgba(240,80,50,0.5)]"
-                      : ""
+                      ? 'text-[#F05032] drop-shadow-[0_0_5px_rgba(240,80,50,0.5)]'
+                      : ''
                   }
                 >
-                  Git,{" "}
+                  Git,{' '}
                 </span>
                 <span
                   className={
                     isGolden
-                      ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]"
-                      : ""
+                      ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]'
+                      : ''
                   }
                 >
-                  GitHub{" "}
+                  GitHub{' '}
                 </span>
-                <span className={isGolden ? "text-[#777]" : ""}>& </span>
+                <span className={isGolden ? 'text-[#777]' : ''}>& </span>
                 <span
                   className={
                     isGolden
-                      ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]"
-                      : ""
+                      ? 'text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]'
+                      : ''
                   }
                 >
                   APIs
@@ -354,11 +354,11 @@ export function FocusCard() {
             transition={{
               duration: isHovering || isGolden ? 8 : 1.5,
               repeat: isHovering || isGolden ? Infinity : 0,
-              ease: isHovering || isGolden ? "linear" : "easeOut",
+              ease: isHovering || isGolden ? 'linear' : 'easeOut',
             }}
           >
             <SiReact
-              className={`w-20 h-20 sm:w-28 sm:h-28 rotate-12 transition-all duration-700 ease-in-out ${isGolden ? "text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] opacity-80" : "text-[#61DAFB]/10 opacity-20 sm:opacity-100 group-hover:text-[#61DAFB]/40 group-hover:drop-shadow-[0_0_15px_rgba(97,218,251,0.3)]"}`}
+              className={`w-20 h-20 sm:w-28 sm:h-28 rotate-12 transition-all duration-700 ease-in-out ${isGolden ? 'text-[#FFD700] drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] opacity-80' : 'text-[#61DAFB]/10 opacity-20 sm:opacity-100 group-hover:text-[#61DAFB]/40 group-hover:drop-shadow-[0_0_15px_rgba(97,218,251,0.3)]'}`}
             />
           </m.div>
         </div>

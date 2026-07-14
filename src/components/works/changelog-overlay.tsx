@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { m, AnimatePresence } from "framer-motion";
-import { X, Loader2 } from "lucide-react";
-import { FaGithub, FaArrowUpRightFromSquare } from "react-icons/fa6";
-import { useEffect, useState } from "react";
-import { fetchGithubCommits } from "@/utils/github";
+import { m, AnimatePresence } from 'framer-motion';
+import { X, Loader2 } from 'lucide-react';
+import { FaGithub, FaArrowUpRightFromSquare } from 'react-icons/fa6';
+import { useEffect, useState } from 'react';
+import { fetchGithubCommits } from '@/utils/github';
 
 interface ChangelogOverlayProps {
   isOpen: boolean;
@@ -13,8 +13,8 @@ interface ChangelogOverlayProps {
   projectTitle: string;
 }
 
-import { createPortal } from "react-dom";
-import useSWR from "swr";
+import { createPortal } from 'react-dom';
+import useSWR from 'swr';
 
 export function ChangelogOverlay({
   isOpen,
@@ -27,7 +27,7 @@ export function ChangelogOverlay({
   const itemsPerPage = 3; // Fixed number of items to prevent scrolling
 
   const { data: commitsData, error } = useSWR(
-    isOpen && githubUrl ? [githubUrl, "commits"] : null,
+    isOpen && githubUrl ? [githubUrl, 'commits'] : null,
     ([url]) => fetchGithubCommits(url),
   );
 
@@ -49,24 +49,24 @@ export function ChangelogOverlay({
   // Body scroll lock
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
       const preventDefault = (e: TouchEvent) => {
         // Only prevent if we are touch-moving on the backdrop or non-scrollable parts
         // But since we want NO scroll at all, we'll be strict.
         e.preventDefault();
       };
-      document.addEventListener("touchmove", preventDefault, {
+      document.addEventListener('touchmove', preventDefault, {
         passive: false,
       });
       return () => {
-        document.body.style.overflow = "";
-        document.removeEventListener("touchmove", preventDefault);
+        document.body.style.overflow = '';
+        document.removeEventListener('touchmove', preventDefault);
       };
     } else {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = '';
     };
   }, [isOpen]);
 
@@ -89,7 +89,7 @@ export function ChangelogOverlay({
       {isOpen && (
         <div
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden touch-none overscroll-none"
-          style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}
         >
           <m.div
             initial={{ opacity: 0 }}
@@ -156,7 +156,7 @@ export function ChangelogOverlay({
                     >
                       <div className="flex justify-between items-start gap-4 mb-4 relative z-10">
                         <p className="text-sm sm:text-base text-white/90 font-medium leading-normal flex-1 tracking-tight line-clamp-2">
-                          {commit.commit.message.split("\n")[0]}
+                          {commit.commit.message.split('\n')[0]}
                         </p>
                         <a
                           href={commit.html_url}
@@ -171,15 +171,15 @@ export function ChangelogOverlay({
                       <div className="flex items-center justify-between text-[9px] uppercase font-black tracking-[0.15em] relative z-10 text-white/30">
                         <div className="flex items-center gap-2">
                           <span className="text-emerald-400">
-                            {commit.author?.login || "System"}
+                            {commit.author?.login || 'System'}
                           </span>
                           <span className="opacity-20">•</span>
                           <span>
                             {new Date(
                               commit.commit.author.date,
                             ).toLocaleDateString(undefined, {
-                              month: "short",
-                              day: "numeric",
+                              month: 'short',
+                              day: 'numeric',
                             })}
                           </span>
                         </div>
@@ -220,10 +220,10 @@ export function ChangelogOverlay({
 
                 <span className="text-white/40">
                   <span className="text-emerald-500">
-                    {currentPage.toString().padStart(2, "0")}
+                    {currentPage.toString().padStart(2, '0')}
                   </span>
                   <span className="mx-2 opacity-20">/</span>
-                  {totalPages.toString().padStart(2, "0")}
+                  {totalPages.toString().padStart(2, '0')}
                 </span>
 
                 <button

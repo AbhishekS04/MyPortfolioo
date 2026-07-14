@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
-import { createClient } from "@/utils/supabase/client";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import { createClient } from '@/utils/supabase/client';
 import {
   ArrowLeft,
   Plus,
@@ -24,26 +24,26 @@ import {
   Clock,
   Eye,
   EyeOff,
-} from "lucide-react";
-import { FaGithub } from "react-icons/fa6";
-import Link from "next/link";
-import { m, AnimatePresence } from "framer-motion";
-import { AiTextOptimizer } from "@/components/admin/ai-text-optimizer";
-import { ContributorsManager } from "@/components/admin/contributors-manager";
+} from 'lucide-react';
+import { FaGithub } from 'react-icons/fa6';
+import Link from 'next/link';
+import { m, AnimatePresence } from 'framer-motion';
+import { AiTextOptimizer } from '@/components/admin/ai-text-optimizer';
+import { ContributorsManager } from '@/components/admin/contributors-manager';
 
 type ProjectStatus =
-  | "Not Started"
-  | "In Progress"
-  | "Near Completion"
-  | "Completed";
-type ProjectType = "Personal" | "Client";
-type MediaMode = "gallery" | "video_first";
+  | 'Not Started'
+  | 'In Progress'
+  | 'Near Completion'
+  | 'Completed';
+type ProjectType = 'Personal' | 'Client';
+type MediaMode = 'gallery' | 'video_first';
 type ActiveTab =
-  | "essentials"
-  | "media"
-  | "content"
-  | "settings"
-  | "contributors";
+  | 'essentials'
+  | 'media'
+  | 'content'
+  | 'settings'
+  | 'contributors';
 
 interface Project {
   id: string;
@@ -87,26 +87,26 @@ export default function AdminProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<ActiveTab>("essentials");
+  const [activeTab, setActiveTab] = useState<ActiveTab>('essentials');
 
   // Form State
   const [formState, setFormState] = useState({
     formData: {} as Partial<Project>,
-    techInput: "",
-    galleryInput: "",
+    techInput: '',
+    galleryInput: '',
   });
 
   const supabase = useMemo(() => createClient(), []);
 
   const loadProjects = useCallback(async () => {
     const { data, error } = await supabase
-      .from("projects")
-      .select("*")
-      .order("display_order", { ascending: true });
+      .from('projects')
+      .select('*')
+      .order('display_order', { ascending: true });
 
     if (error) {
-      console.error("Error fetching projects:", error);
-      alert("Error fetching projects: " + error.message);
+      console.error('Error fetching projects:', error);
+      alert('Error fetching projects: ' + error.message);
     }
 
     if (data) setProjects(data);
@@ -122,50 +122,50 @@ export default function AdminProjects() {
     setEditingId(project.id);
     setFormState({
       formData: project,
-      techInput: project.tech_stack?.join(", ") || "",
-      galleryInput: project.gallery_images?.join("\n") || "",
+      techInput: project.tech_stack?.join(', ') || '',
+      galleryInput: project.gallery_images?.join('\n') || '',
     });
-    setActiveTab("essentials");
+    setActiveTab('essentials');
   };
 
   const handleCreate = () => {
-    setEditingId("new");
+    setEditingId('new');
     setFormState({
       formData: {
-        title: "",
-        slug: "",
-        description: "",
-        image_url: "",
-        project_url: "",
+        title: '',
+        slug: '',
+        description: '',
+        image_url: '',
+        project_url: '',
         featured: false,
         display_order: projects.length + 1,
-        status: "Not Started",
+        status: 'Not Started',
         is_currently_working: false,
         progress_percentage: 0,
-        project_type: "Personal",
-        media_mode: "gallery",
+        project_type: 'Personal',
+        media_mode: 'gallery',
         gallery_images: [],
-        external_link_label: "Live Demo",
+        external_link_label: 'Live Demo',
         is_coming_soon: false,
         is_hidden: false,
-        case_study_md: "",
+        case_study_md: '',
       },
-      techInput: "",
-      galleryInput: "",
+      techInput: '',
+      galleryInput: '',
     });
-    setActiveTab("essentials");
+    setActiveTab('essentials');
   };
 
   const generateSlug = (title: string) => {
     return title
       .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/(^-|-$)+/g, "");
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)+/g, '');
   };
 
   const handleSave = async () => {
     const { formData, techInput, galleryInput } = formState;
-    if (!formData.title) return alert("Title is required");
+    if (!formData.title) return alert('Title is required');
 
     // Auto-generate slug if missing
     const finalSlug = formData.slug || generateSlug(formData.title);
@@ -174,11 +174,11 @@ export default function AdminProjects() {
       ...formData,
       slug: finalSlug,
       tech_stack: techInput
-        .split(",")
+        .split(',')
         .map((t) => t.trim())
         .filter(Boolean),
       gallery_images: galleryInput
-        .split("\n")
+        .split('\n')
         .map((s) => s.trim())
         .filter(Boolean),
     };
@@ -188,29 +188,29 @@ export default function AdminProjects() {
     // Logic: If 'is_currently_working' is true, set false for others
     if (payload.is_currently_working) {
       const { error: updateError } = await supabase
-        .from("projects")
+        .from('projects')
         .update({ is_currently_working: false })
-        .neq("id", "00000000-0000-0000-0000-000000000000");
+        .neq('id', '00000000-0000-0000-0000-000000000000');
       if (updateError)
-        console.error("Error resetting currently working status:", updateError);
+        console.error('Error resetting currently working status:', updateError);
     }
 
-    if (editingId === "new") {
-      const { error } = await supabase.from("projects").insert([payload]);
+    if (editingId === 'new') {
+      const { error } = await supabase.from('projects').insert([payload]);
       if (error) {
-        console.error("Error creating project:", error);
-        alert("Error creating project: " + error.message);
+        console.error('Error creating project:', error);
+        alert('Error creating project: ' + error.message);
         setLoading(false);
         return;
       }
     } else {
       const { error } = await supabase
-        .from("projects")
+        .from('projects')
         .update(payload)
-        .eq("id", editingId);
+        .eq('id', editingId);
       if (error) {
-        console.error("Error updating project:", error);
-        alert("Error updating project: " + error.message);
+        console.error('Error updating project:', error);
+        alert('Error updating project: ' + error.message);
         setLoading(false);
         return;
       }
@@ -221,12 +221,12 @@ export default function AdminProjects() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this project?")) return;
-    const { error } = await supabase.from("projects").delete().eq("id", id);
+    if (!confirm('Are you sure you want to delete this project?')) return;
+    const { error } = await supabase.from('projects').delete().eq('id', id);
 
     if (error) {
-      console.error("Error deleting project:", error);
-      alert("Error deleting project: " + error.message);
+      console.error('Error deleting project:', error);
+      alert('Error deleting project: ' + error.message);
       return;
     }
 
@@ -244,13 +244,13 @@ export default function AdminProjects() {
     );
 
     const { error } = await supabase
-      .from("projects")
+      .from('projects')
       .update({ is_hidden: newHiddenStatus })
-      .eq("id", project.id);
+      .eq('id', project.id);
 
     if (error) {
-      console.error("Error updating project hidden status:", error);
-      alert("Error updating project: " + error.message);
+      console.error('Error updating project hidden status:', error);
+      alert('Error updating project: ' + error.message);
       loadProjects(); // Revert on error
       return;
     }
@@ -306,7 +306,7 @@ export default function AdminProjects() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               key={project.id}
-              className={`bg-[#111] border rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6 group hover:bg-[#161616] transition-colors ${project.is_currently_working ? "border-emerald-500/30" : "border-white/5"}`}
+              className={`bg-[#111] border rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center gap-6 group hover:bg-[#161616] transition-colors ${project.is_currently_working ? 'border-emerald-500/30' : 'border-white/5'}`}
             >
               {/* Image Preview */}
               <div className="w-full md:w-32 h-32 md:h-20 rounded-lg bg-black/50 relative overflow-hidden flex-shrink-0 border border-white/5">
@@ -332,7 +332,7 @@ export default function AdminProjects() {
                     </span>
                   )}
                   <span
-                    className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider border ${project.status === "Completed" ? "bg-white/10 text-white/60 border-white/10" : "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"}`}
+                    className={`px-2 py-0.5 rounded-full text-[10px] font-medium uppercase tracking-wider border ${project.status === 'Completed' ? 'bg-white/10 text-white/60 border-white/10' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'}`}
                   >
                     {project.status}
                   </span>
@@ -364,10 +364,10 @@ export default function AdminProjects() {
                 </button>
                 <button
                   onClick={() => handleToggleHidden(project)}
-                  className={`p-2 rounded-lg hover:bg-white/10 transition-colors ${project.is_hidden ? "text-red-400" : "text-white/40 hover:text-white"}`}
-                  title={project.is_hidden ? "Unhide Project" : "Hide Project"}
+                  className={`p-2 rounded-lg hover:bg-white/10 transition-colors ${project.is_hidden ? 'text-red-400' : 'text-white/40 hover:text-white'}`}
+                  title={project.is_hidden ? 'Unhide Project' : 'Hide Project'}
                   aria-label={
-                    project.is_hidden ? "Unhide Project" : "Hide Project"
+                    project.is_hidden ? 'Unhide Project' : 'Hide Project'
                   }
                 >
                   {project.is_hidden ? (
@@ -404,7 +404,7 @@ export default function AdminProjects() {
               <div className="flex items-center justify-between p-8 pb-4 border-b border-white/5 bg-[#111]">
                 <div>
                   <h2 className="text-2xl font-medium text-white">
-                    {editingId === "new" ? "Create Project" : "Edit Project"}
+                    {editingId === 'new' ? 'Create Project' : 'Edit Project'}
                   </h2>
                   <p className="text-white/40 text-sm mt-1">
                     Manage project details and case study content.
@@ -436,11 +436,11 @@ export default function AdminProjects() {
               <div className="flex items-center gap-6 px-8 border-b border-white/5 bg-[#111]">
                 {(
                   [
-                    { id: "essentials", label: "Essentials", icon: Layout },
-                    { id: "media", label: "Media & Gallery", icon: ImageIcon },
-                    { id: "content", label: "Case Study", icon: FileText },
-                    { id: "contributors", label: "Contributors", icon: Users },
-                    { id: "settings", label: "Settings", icon: Settings },
+                    { id: 'essentials', label: 'Essentials', icon: Layout },
+                    { id: 'media', label: 'Media & Gallery', icon: ImageIcon },
+                    { id: 'content', label: 'Case Study', icon: FileText },
+                    { id: 'contributors', label: 'Contributors', icon: Users },
+                    { id: 'settings', label: 'Settings', icon: Settings },
                   ] satisfies {
                     id: ActiveTab;
                     label: string;
@@ -450,7 +450,7 @@ export default function AdminProjects() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? "border-white text-white" : "border-transparent text-white/40 hover:text-white/60"}`}
+                    className={`flex items-center gap-2 py-4 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? 'border-white text-white' : 'border-transparent text-white/40 hover:text-white/60'}`}
                   >
                     <tab.icon className="w-4 h-4" />
                     {tab.label}
@@ -462,7 +462,7 @@ export default function AdminProjects() {
               <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
                 <div className="space-y-8">
                   {/* --- ESSENTIALS TAB --- */}
-                  {activeTab === "essentials" && (
+                  {activeTab === 'essentials' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
@@ -470,7 +470,7 @@ export default function AdminProjects() {
                             Title
                           </label>
                           <input
-                            value={formData.title || ""}
+                            value={formData.title || ''}
                             onChange={(e) =>
                               updateFormData({
                                 title: e.target.value,
@@ -489,7 +489,7 @@ export default function AdminProjects() {
                             Slug (URL)
                           </label>
                           <input
-                            value={formData.slug || ""}
+                            value={formData.slug || ''}
                             onChange={(e) =>
                               updateFormData({ slug: e.target.value })
                             }
@@ -506,14 +506,14 @@ export default function AdminProjects() {
                             Short Summary (Hero Description)
                           </label>
                           <AiTextOptimizer
-                            currentText={formData.description || ""}
+                            currentText={formData.description || ''}
                             onOptimized={(val: string) =>
                               updateFormData({ description: val })
                             }
                           />
                         </div>
                         <textarea
-                          value={formData.description || ""}
+                          value={formData.description || ''}
                           onChange={(e) =>
                             updateFormData({ description: e.target.value })
                           }
@@ -543,7 +543,7 @@ export default function AdminProjects() {
                             Project Type
                           </label>
                           <select
-                            value={formData.project_type || "Personal"}
+                            value={formData.project_type || 'Personal'}
                             onChange={(e) =>
                               updateFormData({
                                 project_type: e.target.value as ProjectType,
@@ -556,13 +556,13 @@ export default function AdminProjects() {
                             <option value="Client">Client Project</option>
                           </select>
                         </div>
-                        {formData.project_type === "Client" && (
+                        {formData.project_type === 'Client' && (
                           <div className="space-y-2">
                             <label className="text-xs font-medium text-white/40 uppercase tracking-widest">
                               Client Name
                             </label>
                             <input
-                              value={formData.client_name || ""}
+                              value={formData.client_name || ''}
                               onChange={(e) =>
                                 updateFormData({ client_name: e.target.value })
                               }
@@ -577,7 +577,7 @@ export default function AdminProjects() {
                   )}
 
                   {/* --- MEDIA TAB --- */}
-                  {activeTab === "media" && (
+                  {activeTab === 'media' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                       <div className="space-y-2">
                         <label className="text-xs font-medium text-white/40 uppercase tracking-widest flex items-center gap-2">
@@ -585,7 +585,7 @@ export default function AdminProjects() {
                           (Required)
                         </label>
                         <input
-                          value={formData.image_url || ""}
+                          value={formData.image_url || ''}
                           onChange={(e) =>
                             updateFormData({ image_url: e.target.value })
                           }
@@ -601,7 +601,7 @@ export default function AdminProjects() {
                             <Video className="w-3 h-3" /> Video URL (Optional)
                           </label>
                           <input
-                            value={formData.video_url || ""}
+                            value={formData.video_url || ''}
                             onChange={(e) =>
                               updateFormData({ video_url: e.target.value })
                             }
@@ -615,7 +615,7 @@ export default function AdminProjects() {
                             Media Mode
                           </label>
                           <select
-                            value={formData.media_mode || "gallery"}
+                            value={formData.media_mode || 'gallery'}
                             onChange={(e) =>
                               updateFormData({
                                 media_mode: e.target.value as MediaMode,
@@ -642,14 +642,14 @@ export default function AdminProjects() {
                           rows={6}
                           aria-label="Gallery Images"
                           className="w-full bg-[#161616] border border-white/5 rounded-xl px-4 py-3 text-white focus:border-white/20 focus:outline-none font-mono text-xs whitespace-pre"
-                          placeholder={"https://image1.jpg\nhttps://image2.jpg"}
+                          placeholder={'https://image1.jpg\nhttps://image2.jpg'}
                         />
                       </div>
                     </div>
                   )}
 
                   {/* --- CONTENT TAB (CASE STUDY) --- */}
-                  {activeTab === "content" && (
+                  {activeTab === 'content' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
@@ -657,7 +657,7 @@ export default function AdminProjects() {
                             Case Study Markdown
                           </label>
                           <AiTextOptimizer
-                            currentText={formData.case_study_md || ""}
+                            currentText={formData.case_study_md || ''}
                             onOptimized={(val: string) =>
                               updateFormData({ case_study_md: val })
                             }
@@ -666,7 +666,7 @@ export default function AdminProjects() {
                         <div className="grid grid-cols-2 gap-4 h-[600px]">
                           {/* Editor */}
                           <textarea
-                            value={formData.case_study_md || ""}
+                            value={formData.case_study_md || ''}
                             onChange={(e) =>
                               updateFormData({ case_study_md: e.target.value })
                             }
@@ -681,7 +681,7 @@ export default function AdminProjects() {
                               rehypePlugins={[rehypeHighlight]}
                             >
                               {formData.case_study_md ||
-                                "_Preview will appear here..._"}
+                                '_Preview will appear here..._'}
                             </ReactMarkdown>
                           </div>
                         </div>
@@ -694,12 +694,12 @@ export default function AdminProjects() {
                   )}
 
                   {/* --- CONTRIBUTORS TAB --- */}
-                  {activeTab === "contributors" && (
+                  {activeTab === 'contributors' && (
                     <ContributorsManager projectId={editingId!} />
                   )}
 
                   {/* --- SETTINGS TAB --- */}
-                  {activeTab === "settings" && (
+                  {activeTab === 'settings' && (
                     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
@@ -707,7 +707,7 @@ export default function AdminProjects() {
                             Project Status
                           </label>
                           <select
-                            value={formData.status || "Not Started"}
+                            value={formData.status || 'Not Started'}
                             onChange={(e) =>
                               updateFormData({
                                 status: e.target.value as ProjectStatus,
@@ -730,10 +730,10 @@ export default function AdminProjects() {
                           </label>
                           <input
                             type="number"
-                            value={formData.display_order ?? ""}
+                            value={formData.display_order ?? ''}
                             onChange={(e) => {
                               const val =
-                                e.target.value === ""
+                                e.target.value === ''
                                   ? 0
                                   : parseInt(e.target.value);
                               updateFormData({
@@ -752,7 +752,7 @@ export default function AdminProjects() {
                             External Link (Demo)
                           </label>
                           <input
-                            value={formData.external_link_url || ""}
+                            value={formData.external_link_url || ''}
                             onChange={(e) =>
                               updateFormData({
                                 external_link_url: e.target.value,
@@ -768,7 +768,7 @@ export default function AdminProjects() {
                             <FaGithub className="w-3 h-3" /> GitHub Repo
                           </label>
                           <input
-                            value={formData.github_url || ""}
+                            value={formData.github_url || ''}
                             onChange={(e) =>
                               updateFormData({ github_url: e.target.value })
                             }
@@ -783,7 +783,7 @@ export default function AdminProjects() {
                         <div className="space-y-2 p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
                           <label className="text-xs font-medium text-emerald-400 uppercase tracking-widest flex justify-between mb-2">
                             <span>
-                              Manual Progress Override:{" "}
+                              Manual Progress Override:{' '}
                               {formData.progress_percentage ?? 0}%
                             </span>
                           </label>
@@ -812,14 +812,14 @@ export default function AdminProjects() {
                           }
                           className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${
                             formData.is_coming_soon
-                              ? "bg-purple-500/10 border-purple-500/50 text-purple-400"
-                              : "bg-white/5 border-white/10 text-white/40 hover:text-white"
+                              ? 'bg-purple-500/10 border-purple-500/50 text-purple-400'
+                              : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
                           }`}
                         >
                           <Clock className="w-4 h-4" />
                           {formData.is_coming_soon
-                            ? "Status: Coming Soon"
-                            : "Mark as Coming Soon"}
+                            ? 'Status: Coming Soon'
+                            : 'Mark as Coming Soon'}
                         </button>
                         <button
                           onClick={() =>
@@ -830,13 +830,13 @@ export default function AdminProjects() {
                           }
                           className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${
                             formData.is_currently_working
-                              ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-400"
-                              : "bg-white/5 border-white/10 text-white/40 hover:text-white"
+                              ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400'
+                              : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
                           }`}
                         >
                           <Activity className="w-4 h-4" />
                           {formData.is_currently_working
-                            ? "Status: Currently Working on This"
+                            ? 'Status: Currently Working on This'
                             : "Set as 'Currently Working'"}
                         </button>
 
@@ -846,14 +846,14 @@ export default function AdminProjects() {
                           }
                           className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium flex items-center justify-center gap-2 ${
                             formData.featured
-                              ? "bg-blue-500/10 border-blue-500/50 text-blue-400"
-                              : "bg-white/5 border-white/10 text-white/40 hover:text-white"
+                              ? 'bg-blue-500/10 border-blue-500/50 text-blue-400'
+                              : 'bg-white/5 border-white/10 text-white/40 hover:text-white'
                           }`}
                         >
                           <CheckCircle className="w-4 h-4" />
                           {formData.featured
-                            ? "Status: Featured in All Projects"
-                            : "Mark as Featured"}
+                            ? 'Status: Featured in All Projects'
+                            : 'Mark as Featured'}
                         </button>
                       </div>
                     </div>

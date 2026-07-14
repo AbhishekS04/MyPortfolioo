@@ -1,7 +1,7 @@
-"use server";
+'use server';
 
-import { supabase } from "@/lib/supabase";
-import { Project } from "@/lib/data";
+import { supabase } from '@/lib/supabase';
+import { Project } from '@/lib/data';
 
 export interface GalleryItem {
   id: number;
@@ -12,15 +12,15 @@ export interface GalleryItem {
 export async function getFeaturedProjects(): Promise<Project[]> {
   try {
     const { data, error } = await supabase
-      .from("projects")
-      .select("*")
-      .eq("featured", true)
-      .eq("is_hidden", false)
-      .order("display_order", { ascending: true });
+      .from('projects')
+      .select('*')
+      .eq('featured', true)
+      .eq('is_hidden', false)
+      .order('display_order', { ascending: true });
 
     if (error) {
       console.error(
-        "Error fetching featured projects:",
+        'Error fetching featured projects:',
         error.message,
         error.code,
         error.details,
@@ -58,7 +58,7 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 
     return [];
   } catch (err) {
-    console.error("Unexpected error fetching featured projects:", err);
+    console.error('Unexpected error fetching featured projects:', err);
     return [];
   }
 }
@@ -66,13 +66,13 @@ export async function getFeaturedProjects(): Promise<Project[]> {
 export async function getGalleryImages(): Promise<GalleryItem[]> {
   try {
     const { data, error } = await supabase
-      .from("gallery_images")
-      .select("*")
-      .order("display_order", { ascending: true });
+      .from('gallery_images')
+      .select('*')
+      .order('display_order', { ascending: true });
 
     if (error) {
       console.error(
-        "Error fetching gallery images:",
+        'Error fetching gallery images:',
         error.message,
         error.code,
         error.details,
@@ -85,13 +85,13 @@ export async function getGalleryImages(): Promise<GalleryItem[]> {
       return data.map((item, i) => ({
         id: i + 1,
         src: item.image_url,
-        alt: item.alt_text || "Gallery Image",
+        alt: item.alt_text || 'Gallery Image',
       }));
     }
 
     return [];
   } catch (err) {
-    console.error("Unexpected error fetching gallery images:", err);
+    console.error('Unexpected error fetching gallery images:', err);
     return [];
   }
 }

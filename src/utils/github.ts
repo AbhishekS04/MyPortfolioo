@@ -18,20 +18,20 @@ export async function fetchGithubCommits(
   githubUrl: string,
 ): Promise<GithubCommit[]> {
   try {
-    console.log("Fetching commits for:", githubUrl);
+    console.log('Fetching commits for:', githubUrl);
 
     // Improved Regex: Handles trailing slashes and common subpaths
     const match = githubUrl.match(/github\.com\/([^/]+)\/([^/?#]+)/);
     if (!match) {
-      console.error("Invalid GitHub URL format:", githubUrl);
+      console.error('Invalid GitHub URL format:', githubUrl);
       return [];
     }
 
     const [, owner, repo] = match;
-    const cleanRepo = repo.replace(/\.git$/, "");
+    const cleanRepo = repo.replace(/\.git$/, '');
 
     const apiUrl = `https://api.github.com/repos/${owner}/${cleanRepo}/commits?per_page=100`;
-    console.log("GitHub API Call:", apiUrl);
+    console.log('GitHub API Call:', apiUrl);
 
     const response = await fetch(apiUrl);
 
@@ -44,11 +44,11 @@ export async function fetchGithubCommits(
 
       if (response.status === 404) {
         console.warn(
-          "Hint: The repository might be private or the URL is incorrect.",
+          'Hint: The repository might be private or the URL is incorrect.',
         );
       } else if (response.status === 403) {
         console.warn(
-          "Hint: You might have hit the GitHub API rate limit (60 requests/hr for unauthorized).",
+          'Hint: You might have hit the GitHub API rate limit (60 requests/hr for unauthorized).',
         );
       }
 
@@ -58,14 +58,14 @@ export async function fetchGithubCommits(
     const data = await response.json();
 
     if (!Array.isArray(data)) {
-      console.error("GitHub API returned non-array data:", data);
+      console.error('GitHub API returned non-array data:', data);
       return [];
     }
 
     console.log(`Successfully fetched ${data.length} commits.`);
     return data;
   } catch (error) {
-    console.error("Network error fetching commits:", error);
+    console.error('Network error fetching commits:', error);
     return [];
   }
 }

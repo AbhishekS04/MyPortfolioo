@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import Image, { ImageProps } from "next/image";
-import { useState, useMemo } from "react";
+import Image, { ImageProps } from 'next/image';
+import { useState, useMemo } from 'react';
 
 // List of domains supported by next/image optimization as defined in next.config.ts
 const OPTIMIZED_DOMAINS = [
-  "images.unsplash.com",
-  "plus.unsplash.com",
-  "github.com",
-  "raw.githubusercontent.com",
-  "avatars.githubusercontent.com",
-  "media.licdn.com",
-  "wallpapers.com",
-  "rdxqqgntmtzvqsmepmls.supabase.co",
-  "cumdfaxqugcqgcfusaye.supabase.co",
-  "ik.imagekit.io",
-  "cloud-snapp.vercel.app",
-  "cloudsnap.vercel.app",
-  "snapp.vercel.app",
-  "cdn.shadcnstudio.com",
+  'images.unsplash.com',
+  'plus.unsplash.com',
+  'github.com',
+  'raw.githubusercontent.com',
+  'avatars.githubusercontent.com',
+  'media.licdn.com',
+  'wallpapers.com',
+  'rdxqqgntmtzvqsmepmls.supabase.co',
+  'cumdfaxqugcqgcfusaye.supabase.co',
+  'ik.imagekit.io',
+  'cloud-snapp.vercel.app',
+  'cloudsnap.vercel.app',
+  'snapp.vercel.app',
+  'cdn.shadcnstudio.com',
 ];
 
-interface UniversalImageProps extends Omit<ImageProps, "src"> {
+interface UniversalImageProps extends Omit<ImageProps, 'src'> {
   src: string | null | undefined;
   fallbackSrc?: string;
   containerClassName?: string;
@@ -36,8 +36,8 @@ export function UniversalImage({
   height,
   priority,
   quality,
-  sizes = fill ? "100vw" : undefined,
-  fallbackSrc = "/placeholder.svg",
+  sizes = fill ? '100vw' : undefined,
+  fallbackSrc = '/placeholder.svg',
   ...props
 }: UniversalImageProps) {
   // errorSrc is only set when the image fails to load
@@ -48,8 +48,8 @@ export function UniversalImage({
     [errorSrc, src, fallbackSrc],
   );
   const isOptimizable = (url: string) => {
-    if (!url || typeof url !== "string") return false;
-    if (url.startsWith("/")) return true; // Local images are optimizable
+    if (!url || typeof url !== 'string') return false;
+    if (url.startsWith('/')) return true; // Local images are optimizable
     try {
       const hostname = new URL(url).hostname;
       return OPTIMIZED_DOMAINS.includes(hostname);
@@ -59,11 +59,11 @@ export function UniversalImage({
   };
 
   const isCustomCDN = useMemo(() => {
-    if (!imgSrc || typeof imgSrc !== "string") return false;
+    if (!imgSrc || typeof imgSrc !== 'string') return false;
     return (
-      imgSrc.includes("cloud-snapp.vercel.app") ||
-      imgSrc.includes("cloudsnap.vercel.app") ||
-      imgSrc.includes("snapp.vercel.app")
+      imgSrc.includes('cloud-snapp.vercel.app') ||
+      imgSrc.includes('cloudsnap.vercel.app') ||
+      imgSrc.includes('snapp.vercel.app')
     );
   }, [imgSrc]);
 
@@ -96,11 +96,11 @@ export function UniversalImage({
   // We need to simulate some 'fill' behavior if fill prop is true
   const style: React.CSSProperties = fill
     ? {
-        position: "absolute",
-        height: "100%",
-        width: "100%",
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
         inset: 0,
-        objectFit: "cover",
+        objectFit: 'cover',
         ...props.style,
       }
     : { ...props.style };

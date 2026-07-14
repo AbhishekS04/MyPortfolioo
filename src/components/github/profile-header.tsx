@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { m } from "framer-motion";
-import Image from "next/image";
-import { Users, MapPin, Link as LinkIcon, Mail, Building } from "lucide-react";
-import { FaXTwitter } from "react-icons/fa6";
-import { GitHubProfile, GitHubAchievement } from "@/lib/github";
-import Link from "next/link";
+import { m } from 'framer-motion';
+import Image from 'next/image';
+import { Users, MapPin, Link as LinkIcon, Mail, Building } from 'lucide-react';
+import { FaXTwitter } from 'react-icons/fa6';
+import { GitHubProfile, GitHubAchievement } from '@/lib/github';
+import Link from 'next/link';
 
 export function GitHubProfileHeader({
   profile,
@@ -62,14 +62,14 @@ export function GitHubProfileHeader({
           <Users className="w-4 h-4" />
           <span className="text-white font-bold">
             {profile.followers.totalCount}
-          </span>{" "}
+          </span>{' '}
           followers
         </div>
         <span>•</span>
         <div className="hover:text-blue-400 transition-colors cursor-pointer">
           <span className="text-white font-bold">
             {profile.following.totalCount}
-          </span>{" "}
+          </span>{' '}
           following
         </div>
       </div>
