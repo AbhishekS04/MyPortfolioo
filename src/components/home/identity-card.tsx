@@ -5,6 +5,7 @@ import Image from "next/image";
 import { m } from "framer-motion";
 import { LocationTag } from "@/components/ui/location-tag";
 import { UserLocation } from "@/components/ui/user-location";
+import { LiveStatus } from "abhishek-live-status-badge";
 
 export function IdentityCard() {
   return (
@@ -39,7 +40,11 @@ export function IdentityCard() {
           </p>
 
           <div className="mt-6 flex items-center justify-between w-full gap-3 flex-wrap">
-            <LocationTag className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
+            {/* <LocationTag className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" /> */}
+            <LiveStatus
+              endpoint="https://live-status-worker.abhisheksingh.workers.dev/status"
+              className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10"
+            />
             <UserLocation className="flex-1 min-w-[160px] !bg-white/10 !backdrop-blur-md !border-white/10" />
           </div>
         </m.div>

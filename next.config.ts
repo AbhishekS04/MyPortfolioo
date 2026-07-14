@@ -130,7 +130,7 @@ const nextConfig: NextConfig = {
               "style-src 'self' 'unsafe-inline'",
               "img-src 'self' data: blob: https://images.unsplash.com https://plus.unsplash.com https://github.com https://raw.githubusercontent.com https://avatars.githubusercontent.com https://media.licdn.com https://wallpapers.com https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://emojicdn.elk.sh https://ik.imagekit.io https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app https://cdn.shadcnstudio.com",
               "font-src 'self'",
-              "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app",
+              "connect-src 'self' https://rdxqqgntmtzvqsmepmls.supabase.co https://cumdfaxqugcqgcfusaye.supabase.co https://basemaps.cartocdn.com https://*.basemaps.cartocdn.com https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app https://live-status-worker.abhisheksingh.workers.dev",
               "media-src 'self' data: blob: https://ik.imagekit.io https://cloud-snapp.vercel.app https://cloudsnap.vercel.app https://snapp.vercel.app",
               "worker-src 'self' blob:",
               "object-src 'none'",
