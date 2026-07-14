@@ -135,7 +135,7 @@ export default function TextExplode({
     });
 
     if (mode === "loop") {
-      // eslint-disable-next-line @typescript-eslint/no-use-before-define, react-hooks/immutability
+      // eslint-disable-next-line react-hooks/immutability
       requestAnimationFrame(() => animateSequence());
     } else {
       isPlaying.current = false;

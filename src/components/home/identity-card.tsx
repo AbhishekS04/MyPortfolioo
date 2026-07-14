@@ -3,9 +3,8 @@
 import Image from "next/image";
 
 import { m } from "framer-motion";
-import { LocationTag } from "@/components/ui/location-tag";
+import { LiveStatus } from "@/components/ui/live-status";
 import { UserLocation } from "@/components/ui/user-location";
-import { LiveStatus } from "abhishek-live-status-badge";
 
 export function IdentityCard() {
   return (
