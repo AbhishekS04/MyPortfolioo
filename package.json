@@ -72,7 +72,7 @@
     "husky": "^9.1.7",
     "postcss": "^8.5.10",
     "prettier": "^3.8.2",
-    "react-doctor": "^0.4.0",
+    "react-doctor": "^0.7.8",
     "tailwindcss": "^4.1.18",
     "typescript": "^6"
   },
